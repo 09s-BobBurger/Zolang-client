@@ -1,6 +1,9 @@
 import MuiRadio from '@mui/material/Radio';
 import { styled } from '@mui/material/styles';
 
+/*
+Custom Radio
+*/
 const Radio = styled(MuiRadio) (({theme}) => ({
     color: 'white', // 클릭되기 전의 색을 하얀색으로 설정합니다.
     '&:hover': {

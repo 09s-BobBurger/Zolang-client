@@ -1,6 +1,9 @@
 import React from 'react';
 import TextField from "./TextField.jsx";
 
+/*
+Label과 TextField가 포함된 박스
+*/
 const InputBox = ({ name, setter }) => {
     const onChangeInput = (e) => {
         setter(e.target.value)

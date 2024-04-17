@@ -1,6 +1,9 @@
 import MuiAccordion from '@mui/material/Accordion';
 import { styled } from '@mui/material/styles';
 
+/*
+Custom Accordion
+*/
 const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({

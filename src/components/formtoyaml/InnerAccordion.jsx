@@ -1,6 +1,9 @@
 import MuiAccordion from '@mui/material/Accordion';
 import { styled } from '@mui/material/styles';
 
+/*
+Accordion 내부에서 보여줄 Accordion
+*/
 const InnerAccordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({

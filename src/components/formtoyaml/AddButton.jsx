@@ -1,6 +1,9 @@
 import {Button as MuiButton} from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+/*
+Custom Button
+*/
 const Button = styled((props) => (
     <MuiButton
         variant="outlined"

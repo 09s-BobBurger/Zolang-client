@@ -1,7 +1,9 @@
 import MuiTextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 
-
+/*
+Custom TextField
+*/
 const TextField = styled(MuiTextField) ({
     '& .MuiInputBase-input': {
         color: 'white', // 텍스트 필드의 입력 텍스트 색상을 변경합니다.

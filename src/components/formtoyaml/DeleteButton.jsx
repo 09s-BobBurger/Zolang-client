@@ -8,6 +8,9 @@ const StyledDeleteButton = styled(IconButton) ({
         border: 'none'
     }
 })
+/*
+Custom 삭제 Button
+*/
 const DeleteButton = (props) => {
     return (
         <StyledDeleteButton aria-label="delete" {...props}><Close /></StyledDeleteButton>
