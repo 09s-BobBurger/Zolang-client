@@ -46,26 +46,26 @@ spec:
 
     function generateYaml() {
         return `apiVersion: apps/v1
-    kind: Deployment
-    metadata: 
-      name: ${deploymentName}
-      labels:
-        ${labels.map(label => `${label.name}: ${label.value}`).join('\n        ')}
+kind: Deployment
+  metadata: 
+    name: ${deploymentName}
+    labels:
+      ${labels.map(label => `${label.name}: ${label.value}`).join('\n        ')}
+spec: 
+  selector: 
+    matchLabels: 
+      ${labels.map(label => `${label.name}: ${label.value}`).join('\n          ')}
+    replicas: ${replicas}
+    template:
+      metadata: 
+        labels:
+        ${labels.map(label => `${label.name}: ${label.value}`).join('\n            ')}
     spec: 
-      selector: 
-        matchLabels: 
-          ${labels.map(label => `${label.name}: ${label.value}`).join('\n          ')}
-      replicas: ${replicas}
-      template:
-        metadata: 
-          labels: 
-            ${labels.map(label => `${label.name}: ${label.value}`).join('\n            ')}
-        spec: 
-          containers: 
-            ${containers.map(container => `- name: ${container.name}
-              image: ${container.image}
-              ports: 
-                - containerPort: ${container.containerPort}`).join('\n            ')}
+      containers: 
+        ${containers.map(container => `- name: ${container.name}
+          image: ${container.image}
+          ports: 
+            - containerPort: ${container.containerPort}`).join('\n            ')}
     `;
     }    
 
@@ -111,7 +111,7 @@ spec:
     };
 
     return (
-        <div style={{ width: "40vw" }}>
+        <div>
             <Accordion style={{margin:"0"}} expanded>
                 <AccordionSummary
                     expandIcon={<ArrowDownwardIcon />}

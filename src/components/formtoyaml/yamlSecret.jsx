@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -44,48 +44,46 @@ data:
 
     return (
         <div>
-            <div>
-                <Accordion style={{ margin: "0" }}>
-                    <AccordionSummary
-                        expandIcon={<ArrowDownwardIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
-                        <Typography variant="h5">metadata</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <TextField
-                            variant="standard"
-                            label="Secret Name"
-                            value={secretName}
-                            onChange={(e) => setSecretName(e.target.value)}
-                        />
-                    </AccordionDetails>
-                </Accordion>
-                <Accordion style={{ margin: "0" }}>
-                    <AccordionSummary
-                        expandIcon={<ArrowDownwardIcon />}
-                        aria-controls="panel3-content"
-                        id="panel3-header"
-                    >
-                        <Typography variant="h5">data</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <TextField
-                            label="Username"
-                            variant="standard"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                        <TextField
-                            label="Password"
-                            variant="standard"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </AccordionDetails>
-                </Accordion>
-            </div>
+            <Accordion style={{ margin: "0" }} expanded>
+                <AccordionSummary
+                    expandIcon={<ArrowDownwardIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                >
+                    <Typography variant="h5">metadata</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <TextField
+                        variant="standard"
+                        label="Secret Name"
+                        value={secretName}
+                        onChange={(e) => setSecretName(e.target.value)}
+                    />
+                </AccordionDetails>
+            </Accordion>
+            <Accordion style={{ margin: "0" }}>
+                <AccordionSummary
+                    expandIcon={<ArrowDownwardIcon />}
+                    aria-controls="panel3-content"
+                    id="panel3-header"
+                >
+                    <Typography variant="h5">data</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <TextField
+                        label="Username"
+                        variant="standard"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <TextField
+                        label="Password"
+                        variant="standard"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </AccordionDetails>
+            </Accordion>
         </div>
     );
 }

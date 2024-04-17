@@ -1,4 +1,4 @@
-import React, { useState,  useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -32,7 +32,11 @@ spec:
     const [reclaimPolicy, setReclaimPolicy] = useState("Delete");
     const [yamlText, setYamlText] = useState(initialYaml);
 
-    const accessModeOptions = ["ReadWriteOnce", "ReadOnlyMany", "ReadWriteMany"];
+    const accessModeOptions = [
+        "ReadWriteOnce",
+        "ReadOnlyMany",
+        "ReadWriteMany",
+    ];
     const reclaimPolicyOptions = ["Retain", "Delete", "Recycle", "Restore"];
 
     useEffect(() => {
@@ -53,17 +57,17 @@ spec:
   nfs:
     path: ${path}
     server: ${server}`;
-    }  
+    }
 
     function updateYamlText() {
         const newYamlText = generateYaml();
         setYamlText(newYamlText);
         onDataChange(newYamlText); // 상위 컴포넌트로 텍스트 전달
-    }  
+    }
 
     return (
-        <div style={{ width: "40vw" }}>
-            <Accordion style={{margin:"0"}}  expanded>
+        <div>
+            <Accordion style={{ margin: "0" }} expanded>
                 <AccordionSummary
                     expandIcon={<ArrowDownwardIcon />}
                     aria-controls="panel1-content"
@@ -80,7 +84,7 @@ spec:
                     />
                 </AccordionDetails>
             </Accordion>
-            <Accordion style={{margin:"0"}}>
+            <Accordion style={{ margin: "0" }}>
                 <AccordionSummary
                     expandIcon={<ArrowDownwardIcon />}
                     aria-controls="panel3-content"
@@ -95,7 +99,8 @@ spec:
                         value={storage}
                         onChange={(e) => setStorage(e.target.value)}
                     />
-                    <br/><br/>
+                    <br />
+                    <br />
                     <Typography variant="h6">Access Modes</Typography>
                     <Select
                         label="Access Mode"
@@ -104,11 +109,18 @@ spec:
                         onChange={(e) => setAccessMode(e.target.value)}
                     >
                         {accessModeOptions.map((option, index) => (
-                            <MenuItem key={index} value={option}>{option}</MenuItem>
+                            <MenuItem key={index} value={option}>
+                                {option}
+                            </MenuItem>
                         ))}
                     </Select>
-                    <Typography color="gray">NFS can support multiple read/write clients, but a specific NFS PV might be exported on the server as read-only.</Typography>
-                    <br/><br/>
+                    <Typography color="gray">
+                        NFS can support multiple read/write clients, but a
+                        specific NFS PV might be exported on the server as
+                        read-only.
+                    </Typography>
+                    <br />
+                    <br />
                     <Typography variant="h6">ReclaimPolicy</Typography>
                     <Select
                         label="Reclaim Policy"
@@ -117,11 +129,18 @@ spec:
                         onChange={(e) => setReclaimPolicy(e.target.value)}
                     >
                         {reclaimPolicyOptions.map((option, index) => (
-                            <MenuItem key={index} value={option}>{option}</MenuItem>
+                            <MenuItem key={index} value={option}>
+                                {option}
+                            </MenuItem>
                         ))}
                     </Select>
-                    <Typography color="gray">When a user is done with their volume, they can delete the PVC objects from the API that allows reclamation of the resource.</Typography>
-                    <br/><br/>
+                    <Typography color="gray">
+                        When a user is done with their volume, they can delete
+                        the PVC objects from the API that allows reclamation of
+                        the resource.
+                    </Typography>
+                    <br />
+                    <br />
                     <TextField
                         label="NFS Path"
                         variant="standard"

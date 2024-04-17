@@ -1,10 +1,8 @@
 import React from 'react';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-const ContentCopy = () => {
+const ContentCopy = ({ onClick }) => {
     return (
-        <>
-            <ContentCopyIcon style={{color: "white"}} />
-        </>
+        <ContentCopyIcon onClick={onClick} style={{color: "white", position:"fixed", right:"0"}} />
     );
 };
 
