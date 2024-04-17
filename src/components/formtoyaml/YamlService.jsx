@@ -12,6 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import DeleteButton from "./DeleteButton.jsx";
 import InputBox from "./InputBox.jsx";
+import '../../styles/FORMTOYAML.css';
 
 const YamlService = ({ onDataChange }) => {
     const [metadataName, setMetadataName] = useState("");
@@ -73,7 +74,7 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                     <Typography>metadata</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <div className="detail-container" style={{ padding: '0 16px'}}>
+                    <div className="detail-container">
                         <InputBox name="name" setter={setMetadataName}/>
                         <p>labels</p>
                         <div className="labels">
@@ -114,7 +115,7 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                             <Typography>type</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <div className="detail-container" style={{ padding: '0 16px'}}>
+                            <div className="detail-container">
                                 <FormControl onChange={(e) => setType(e.target.value)}>
                                     <RadioGroup
                                         aria-labelledby="demo-radio-buttons-group-label"
@@ -133,7 +134,7 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                             <Typography>selector</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <div className="detail-container" style={{ padding: '0 16px'}}>
+                            <div className="detail-container">
                                 <div className="labels">
                                     {matchLabels.map((label, index) => {
                                         return (
@@ -170,7 +171,7 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                             <Typography>ports</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <div className="detail-container" style={{ padding: '0 16px'}}>
+                            <div className="detail-container">
                                 <InputBox name="name" setter={setPortName} />
                                 <InputBox name="port" setter={setPort}/>
                                 <InputBox name="targetPort" setter={setTargetPort}/>
