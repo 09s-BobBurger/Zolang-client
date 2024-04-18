@@ -1,6 +1,7 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Main from "./pages/Main.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 import FormToYaml from "./pages/FormToYaml.jsx";
 import Configure from "./pages/cd/Configure.jsx";
 import CDDashboard from "./pages/cd/Dashboard.jsx";
@@ -14,6 +15,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/formToYaml" element={<FormToYaml />} />
           <Route path="/cd/configure" element={<Configure />} />
           <Route path="/cd/dashboard" element={<CDDashboard />} />
