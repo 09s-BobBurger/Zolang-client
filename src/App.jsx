@@ -9,10 +9,17 @@ import RepoList from "./pages/cd/RepoList.jsx";
 import ClusterList from "./pages/monitoring/ClusterList.jsx";
 import MonitoringDashboard from "./pages/monitoring/Dashboard.jsx";
 import Token from "./pages/monitoring/Token.jsx";
+import Nav from "./components/Nav.jsx";
+import {useState} from "react";
+import Header from "./components/Header.jsx";
 function App() {
+
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
     <>
       <Router>
+        <Header open={navOpen} setOpen={setNavOpen}/>
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -24,6 +31,7 @@ function App() {
           <Route path="/monitoring/dashboard" element={<MonitoringDashboard />} />
           <Route path="/monitoring/token" element={<Token />} />
         </Routes>
+        <Nav open={navOpen}/>
       </Router>
     </>
   )
