@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import YamlResult from "../components/formtoyaml/yamlResult";
 
-const FormToYaml = () => {
+function FormToYaml(props) {
     return (
-        <div>
-          FormToYaml
+        <div style={{ position: "fixed", top: "0" }}>
+            <YamlResult />
         </div>
     );
-};
+}
 
 export default FormToYaml;

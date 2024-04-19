@@ -13,6 +13,7 @@ const Accordion = styled((props) => (
     // border: `1px solid ${theme.palette.divider}`,
     '&:not(:last-child)': {
         borderBottom: '1px solid #ABAFBD',
+        borderTop: '1px solid #ABAFBD',
     },
     '&::before': {
         display: 'none',

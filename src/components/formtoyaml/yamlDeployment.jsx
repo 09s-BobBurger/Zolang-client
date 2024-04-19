@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
+import AddButton from './AddButton.jsx'
+import DeleteButton from "./DeleteButton.jsx";
+import Accordion from './Accordion.jsx';
+import AccordionDetails from './AccordionDetails.jsx'
+import AccordionSummary from "./AccordionSummary.jsx";
+import TextField from './TextField.jsx';
+import '../../styles/FORMTOYAML.css';
 
 function YamlDeployment({ onDataChange }) {
     const initialYaml = `apiVersion: apps/v1
 kind: Deployment
   metadata: 
-    name: octopus-deployment
+    name: zolang
     labels:
       app: web
 spec: 
@@ -23,8 +24,7 @@ spec:
     template:
       metadata: 
         labels: 
-         app: web
-          octopusexport: OctopusExport             
+          app: web         
       spec: 
         containers: 
           name: nginx
@@ -32,7 +32,7 @@ spec:
           ports: 
             containerPort: 80`;
 
-    const [deploymentName, setDeploymentName] = useState("octopus-deployment");
+    const [deploymentName, setDeploymentName] = useState("zolang");
     const [labels, setLabels] = useState([{ name: "app", value: "web" }]);
     const [replicas, setReplicas] = useState(3);
     const [containers, setContainers] = useState([
@@ -59,7 +59,7 @@ spec:
     template:
       metadata: 
         labels:
-        ${labels.map(label => `${label.name}: ${label.value}`).join('\n            ')}
+          ${labels.map(label => `${label.name}: ${label.value}`).join('\n            ')}
     spec: 
       containers: 
         ${containers.map(container => `- name: ${container.name}
@@ -112,13 +112,9 @@ spec:
 
     return (
         <div>
-            <Accordion style={{margin:"0"}} expanded>
-                <AccordionSummary
-                    expandIcon={<ArrowDownwardIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                >
-                    <Typography variant="h5">metadata</Typography>
+            <Accordion>
+                <AccordionSummary>
+                    <Typography variant="h6">Deployment</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div>
@@ -133,15 +129,14 @@ spec:
                     <div>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <div style={{ flex: 6 }}>
-                                <Typography variant="h6">Labels</Typography>
+                                <Typography variant="subtitle1">Labels</Typography>
                             </div>
                             <div style={{ flex: 6, textAlign: "right" }}>
-                                <Button
+                                <AddButton
                                     onClick={handleAddLabel}
-                                    variant="outlined"
                                 >
                                     Add Label
-                                </Button>
+                                </AddButton>
                             </div>
                         </div>
                         <Typography color="gray">
@@ -178,25 +173,19 @@ spec:
                                         )
                                     }
                                 />
-                                <Button
+                                <DeleteButton
                                     onClick={() => handleDeleteLabel(index)}
-                                    color="error"
                                 >
-                                    <DeleteIcon />
-                                </Button>
+                                </DeleteButton>
                             </div>
                         ))}
                         <br />
                     </div>
                 </AccordionDetails>
             </Accordion>
-            <Accordion style={{margin:"0"}}>
-                <AccordionSummary
-                    expandIcon={<ArrowDownwardIcon />}
-                    aria-controls="panel3-content"
-                    id="panel3-header"
-                >
-                    <Typography variant="h5">spec</Typography>
+            <Accordion>
+                <AccordionSummary>
+                    <Typography variant="h6">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -214,15 +203,15 @@ spec:
                     <br />
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <div style={{ flex: 6 }}>
-                            <Typography variant="h6">containers</Typography>
+                            <Typography variant="subtitle1">Containers</Typography>
                         </div>
                         <div style={{ flex: 6, textAlign: "right" }}>
-                            <Button
+                            <AddButton
                                 onClick={handleAddContainer}
                                 variant="outlined"
                             >
                                 Add Container
-                            </Button>
+                            </AddButton>
                         </div>
                     </div>
                     <Typography color="gray">
@@ -271,12 +260,10 @@ spec:
                                     )
                                 }
                             />
-                            <Button
+                            <DeleteButton
                                 onClick={() => handleDeleteContainer(index)}
-                                color="error"
                             >
-                                <DeleteIcon />
-                            </Button>
+                            </DeleteButton>
                         </div>
                     ))}
                     <br />

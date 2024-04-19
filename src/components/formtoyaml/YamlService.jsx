@@ -45,7 +45,7 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
     `
     useEffect(() => {
         console.log(yaml);
-        // onDataChange(yaml);
+        onDataChange(yaml);
     }, [yaml])
 
     useEffect(() => {
@@ -68,10 +68,10 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
     }
 
     return (
-        <div style={{width: '600px'}}>
+        <div>
             <Accordion>
                 <AccordionSummary>
-                    <Typography>metadata</Typography>
+                    <Typography variant="h6">Service</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
@@ -107,12 +107,12 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
             </Accordion>
             <Accordion>
                 <AccordionSummary>
-                    <Typography>spec</Typography>
+                    <Typography variant="h6">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <InnerAccordion>
                         <AccordionSummary>
-                            <Typography>type</Typography>
+                        <Typography variant="subtitle1">Type</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <div className="detail-container">
@@ -131,7 +131,7 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                     </InnerAccordion>
                     <InnerAccordion>
                         <AccordionSummary>
-                            <Typography>selector</Typography>
+                        <Typography variant="subtitle1">Selector</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <div className="detail-container">
@@ -168,7 +168,7 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                     </InnerAccordion>
                     <InnerAccordion>
                         <AccordionSummary>
-                            <Typography>ports</Typography>
+                        <Typography variant="subtitle1">Ports</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <div className="detail-container">

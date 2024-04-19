@@ -14,7 +14,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import StorageInputBox from "./StorageInputBox.jsx";
 import '../../styles/FORMTOYAML.css';
 
-const YamlPv = () => {
+const YamlPv = ({ onDataChange }) => {
     const [metadataName, setMetadataName] = useState("");
     const [labels, setLabels] = useState([]);
     const [storageClassName, setStorageClassName] = useState("");
@@ -41,7 +41,7 @@ const YamlPv = () => {
 
     useEffect(() => {
         console.log(yaml);
-        // onDataChange(yaml);
+        onDataChange(yaml);
     }, [yaml])
 
     const onClickAddLabel = () => {
@@ -52,10 +52,10 @@ const YamlPv = () => {
     }
 
     return (
-        <div style={{width: "600px"}}>
+        <div>
             <Accordion>
                 <AccordionSummary>
-                    <Typography>metadata</Typography>
+                    <Typography variant="h6">PersistentVolume</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
@@ -91,7 +91,7 @@ const YamlPv = () => {
             </Accordion>
             <Accordion>
                 <AccordionSummary>
-                    <Typography>spec</Typography>
+                    <Typography variant="h6">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
