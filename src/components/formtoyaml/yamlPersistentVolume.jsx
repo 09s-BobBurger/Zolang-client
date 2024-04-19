@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import Button from "@mui/material/Button";
+import Accordion from './Accordion.jsx';
+import AccordionDetails from './AccordionDetails.jsx'
+import AccordionSummary from "./AccordionSummary.jsx";
+import TextField from './TextField.jsx';
+import '../../styles/FORMTOYAML.css';
 
 function YamlPersistentVolume({ onDataChange }) {
     const initialYaml = `apiVersion: v1
@@ -67,13 +67,9 @@ spec:
 
     return (
         <div>
-            <Accordion style={{ margin: "0" }} expanded>
-                <AccordionSummary
-                    expandIcon={<ArrowDownwardIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                >
-                    <Typography variant="h5">metadata</Typography>
+            <Accordion>
+                <AccordionSummary>
+                    <Typography variant="h6">PersistentVolume</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -84,13 +80,9 @@ spec:
                     />
                 </AccordionDetails>
             </Accordion>
-            <Accordion style={{ margin: "0" }}>
-                <AccordionSummary
-                    expandIcon={<ArrowDownwardIcon />}
-                    aria-controls="panel3-content"
-                    id="panel3-header"
-                >
-                    <Typography variant="h5">spec</Typography>
+            <Accordion>
+                <AccordionSummary>
+                    <Typography variant="h6">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -101,7 +93,7 @@ spec:
                     />
                     <br />
                     <br />
-                    <Typography variant="h6">Access Modes</Typography>
+                    <Typography variant="subtitle1">Access Modes</Typography>
                     <Select
                         label="Access Mode"
                         variant="standard"
@@ -121,7 +113,7 @@ spec:
                     </Typography>
                     <br />
                     <br />
-                    <Typography variant="h6">ReclaimPolicy</Typography>
+                    <Typography variant="subtitle1">ReclaimPolicy</Typography>
                     <Select
                         label="Reclaim Policy"
                         variant="standard"

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import Accordion from './Accordion.jsx';
+import AccordionDetails from './AccordionDetails.jsx'
+import AccordionSummary from "./AccordionSummary.jsx";
+import TextField from './TextField.jsx';
+import '../../styles/FORMTOYAML.css';
+
 
 function YamlSecret({ onDataChange }) {
     const initialYaml = `apiVersion: v1
@@ -44,13 +46,9 @@ data:
 
     return (
         <div>
-            <Accordion style={{ margin: "0" }} expanded>
-                <AccordionSummary
-                    expandIcon={<ArrowDownwardIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                >
-                    <Typography variant="h5">metadata</Typography>
+            <Accordion>
+                <AccordionSummary>
+                    <Typography variant="h6">Secret</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -61,13 +59,9 @@ data:
                     />
                 </AccordionDetails>
             </Accordion>
-            <Accordion style={{ margin: "0" }}>
-                <AccordionSummary
-                    expandIcon={<ArrowDownwardIcon />}
-                    aria-controls="panel3-content"
-                    id="panel3-header"
-                >
-                    <Typography variant="h5">data</Typography>
+            <Accordion>
+                <AccordionSummary>
+                    <Typography variant="h6">Data</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField

@@ -11,7 +11,8 @@ const Button = styled((props) => (
         {...props}
     />
 )) ({
-    color:'#019CF6',
+    color:'#797D8B',
+    borderColor: '#797D8B',
     borderWidth: '2px',
     margin: '20px 0',
 })

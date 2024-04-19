@@ -19,6 +19,7 @@ const AccordionSummary = styled((props) => (
     // },
     fontSize: '800',
     fontWeight: 'bold',
+    paddingRight: "35px",
 }));
 
 export default AccordionSummary;
