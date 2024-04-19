@@ -3,7 +3,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import {styled} from "@mui/material/styles";
 import Logout from "./icon/Logout.jsx";
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Drawer = styled(MuiDrawer)({
     zIndex: '4',
@@ -55,6 +55,9 @@ const MenuContainer = styled(`div`) ({
         padding: '16px',
         fontWeight: '600',
         borderRadius: '8px'
+    },
+    '& li:hover': {
+        cursor: 'pointer',
     }
 });
 
@@ -91,6 +94,7 @@ const Nav = ({open}) => {
     const [menuIdx, setMenuIdx] = useState();
     const location = useLocation().pathname === "/" ?
         useLocation().pathname : useLocation().pathname.toString().split("/")[1];
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (location === "dashboard") setMenuIdx(0);
@@ -99,7 +103,17 @@ const Nav = ({open}) => {
         else if (location === "monitoring") setMenuIdx(3);
     }, [location])
 
-
+    const onClickMenu = (idx) => {
+        if (idx === 0) {
+            navigate("/dashboard");
+        } else if (idx === 1) {
+            navigate("/FormToYaml");
+        } else if (idx === 2) {
+            navigate("/cd/repoList");
+        } else if (idx === 3) {
+            navigate("/monitoring/clusterList");
+        }
+    }
 
     return (
         <Drawer open={open}>
@@ -114,7 +128,8 @@ const Nav = ({open}) => {
                 <MenuContainer>
                     <ul>
                         {menus.map((menu, idx) =>
-                            <li key={idx} style={ menuIdx === idx ? {backgroundColor: "#2E3240", color: "white"} : {}}>
+                            <li key={idx} style={ menuIdx === idx ? {backgroundColor: "#2E3240", color: "white"} : {}}
+                            onClick={() => onClickMenu(idx)}>
                                 {menu}
                             </li> )}
                     </ul>
