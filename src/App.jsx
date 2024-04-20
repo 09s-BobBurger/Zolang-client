@@ -12,14 +12,14 @@ import Token from "./pages/monitoring/Token.jsx";
 import Nav from "./components/Nav.jsx";
 import {useState} from "react";
 import Header from "./components/Header.jsx";
-function App() {
 
+function App() {
   const [navOpen, setNavOpen] = useState(false);
 
   return (
     <>
       <Router>
-        <Header open={navOpen} setOpen={setNavOpen}/>
+        <Header open={navOpen} setOpen={setNavOpen} currentPage={window.location.pathname} />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -37,4 +37,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

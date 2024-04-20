@@ -14,7 +14,7 @@ const Button = styled((props) => (
     color:'#797D8B',
     borderColor: '#797D8B',
     borderWidth: '2px',
-    margin: '20px 0',
+    margin: '10px 0',
 })
 
 export default Button;
