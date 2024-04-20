@@ -172,9 +172,11 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                         </AccordionSummary>
                         <AccordionDetails>
                             <div className="detail-container">
-                                <InputBox name="name" setter={setPortName} />
-                                <InputBox name="port" setter={setPort}/>
-                                <InputBox name="targetPort" setter={setTargetPort}/>
+                                <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                                    <TextField onChange={(e) => {setPortName(e.target.value);}} id="standard-basic" variant="standard" placeholder="name"/>
+                                    <TextField onChange={(e) => {setPort(e.target.value);}} id="standard-basic" variant="standard" placeholder="port"/>
+                                    <TextField onChange={(e) => {setTargetPort(e.target.value);}} id="standard-basic" variant="standard" placeholder="targetPort"/>
+                                </div>
                                 {type === "NodePort" && <InputBox name="nodePort" setter={setNodePort}/>}
                                 <p>protocol</p>
                                 <FormControl onChange={(e) => setProtocol(e.target.value)}>
