@@ -6,7 +6,7 @@ import Logout from "./icon/Logout.jsx";
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Drawer = styled(MuiDrawer)({
-    zIndex: '4',
+    zIndex: '15',
     '& .MuiPaper-root': {
         boxSizing: 'border-box',
         width: '300px',
