@@ -131,17 +131,11 @@ const YamlPvc = ({ onDataChange }) => {
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
-                        <p>resources</p>
-                        <div className="detail-container">
-                            <p>requests</p>
-                            <div className="detail-container">
-                                <StorageInputBox
-                                    name="storage"
-                                    setter={setStorage}
-                                    max={0.5}
-                                />
-                            </div>
-                        </div>
+                        <StorageInputBox
+                            name="storage"
+                            setter={setStorage}
+                            max={0.5}
+                        />
                         <Typography variant="subtitle1">
                             Access Modes
                         </Typography>
