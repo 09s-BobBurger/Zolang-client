@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
 
 const AppBar = styled(MuiAppBar)({
-    zIndex: '5',
+    zIndex: '20',
     '&.MuiPaper-root': {
         backgroundColor: '#222634',
         padding: '20px 32px',
