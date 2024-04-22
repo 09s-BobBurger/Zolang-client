@@ -12,10 +12,10 @@ import '../../styles/FORMTOYAML.css';
 function YamlDeployment({ onDataChange }) {
     const initialYaml = `apiVersion: apps/v1
 kind: Deployment
-  metadata: 
-    name: zolang
-    labels:
-      app: web
+metadata: 
+  name: zolang
+  labels:
+    app: web
 spec: 
   selector: 
     matchLabels: 
@@ -47,10 +47,10 @@ spec:
     function generateYaml() {
         return `apiVersion: apps/v1
 kind: Deployment
-  metadata: 
-    name: ${deploymentName}
-    labels:
-      ${labels.map(label => `${label.name}: ${label.value}`).join('\n        ')}
+metadata: 
+  name: ${deploymentName}
+  labels:
+    ${labels.map(label => `${label.name}: ${label.value}`).join('\n        ')}
 spec: 
   selector: 
     matchLabels: 

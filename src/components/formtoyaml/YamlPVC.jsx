@@ -20,22 +20,20 @@ const YamlPvc = ({ onDataChange }) => {
     const [storage, setStorage] = useState("");
     const [accessModes, setAccessModes] = useState("ReadWriteOnce");
 
-    const yaml = `
-    apiVersion: v1
-    kind: PersistentVolumeClaim 
-    metadata:
-        name: ${metadataName}
-      labels:
-    ${labels
-        .filter((i) => i.name !== "" && i.value !== "")
-        .map((i) => "    " + i.name + ": " + i.value)
-        .join("\n")}
-    spec:
-      resources: 
-        requests:
-          storage: ${storage}
-      accessModes:
-        - ${accessModes}
+    const yaml = `apiVersion: v1
+kind: PersistentVolumeClaim 
+metadata:
+  name: ${metadataName}
+  labels:${labels
+    .filter((i) => i.name !== "" && i.value !== "")
+    .map((i) => "\n    " + i.name + ": " + i.value)
+    .join("")}
+spec:
+  resources: 
+    requests:
+      storage: ${storage}
+  accessModes:
+    - ${accessModes}
     `;
 
     useEffect(() => {

@@ -25,26 +25,21 @@ const YamlService = ({ onDataChange }) => {
     const [nodePort, setNodePort] = useState(null);
     const [protocol, setProtocol] = useState("TCP");
 
-    const yaml = `
-apiVersion: v1
+    const yaml = `apiVersion: v1
 kind: service
 metadata:
   name: ${metadataName}
-  labels:
-${labels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.name + ": " + i.value).join("\n")}
+  labels:${labels.filter(i => i.name !== "" && i.value !== "").map(i => "\n    " + i.name + ": " + i.value).join("")}
 spec:
   type: ${type}
-  selector:
-${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.name + ": " + i.value).join("\n")}
+  selector:${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "\n    " + i.name + ": " + i.value).join("")}
   ports:
-    -
-      name: ${portName}
+    - name: ${portName}
       port: ${port}
       targetPort: ${targetPort} ${nodePort !== null ? "\n      nodePort: " + nodePort : ""}
       protocol: ${protocol}
     `
     useEffect(() => {
-        console.log(yaml);
         onDataChange(yaml);
     }, [yaml])
 
@@ -152,11 +147,11 @@ ${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.n
                                                     onChange={
                                                         (e) => {
                                                             setMatchLabels(matchLabels.map((item, idx) =>
-                                                                idx === index ? {...item, 'name': e.target.value} : item
+                                                                idx === index ? {...item, 'value': e.target.value} : item
                                                             ));
                                                         }
                                                     }
-                                                    id="standard-basic" variant="standard" label="value" placeholder="name"/>
+                                                    id="standard-basic" variant="standard" label="value" placeholder="value"/>
                                                 <DeleteButton onClick={() => onClickDeleteMatchLabel(index)}/>
                                             </div>
                                         )
