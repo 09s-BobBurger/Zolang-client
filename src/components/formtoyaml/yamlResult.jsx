@@ -29,7 +29,7 @@ function YamlResult(props) {
             setIsLoggedIn(true); 
         }, 2000);
     }, []);
-    const HeightValue = isLoggedIn ? "calc(100vh - (67+60)px" : "calc(100vh - 60px)";
+    const HeightValue = isLoggedIn ? "calc(100vh - 127px)" : "calc(100vh - 60px)";
 
     const handleAddResource = (resourceType) => {
         setResourceComponents([...resourceComponents, { type: resourceType }]);

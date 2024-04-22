@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Button from "@mui/material/Button";
 
 const Main = () => {
+    const navigate = useNavigate();
     return (
         <div style={{}}>
             <div
@@ -36,7 +38,7 @@ const Main = () => {
             </div>
             <div
                 style={{
-                    background: "#C2C2C2",
+                    background: "#e9e9e9",
                     height: "50vh",
                     width: "100vw",
                     textAlign: "center",
@@ -60,25 +62,26 @@ const Main = () => {
                     <br />
                     <Button
                         style={{
-                            width: "100px",
                             color: "#ffffff",
                             background: "#019CF6",
                             width: "50vw",
                             margin: "12px",
+                        }}
+                        onClick={() => {
+                            navigate('/formToYaml');
                         }}
                     >
                         Go To Yaml Generator
                     </Button>
                     <Button
                         style={{
-                            width: "100px",
                             color: "#ffffff",
                             background: "#797D8B",
                             width: "50vw",
                         }}
                         startIcon={<GitHubIcon />}
                     >
-                        PUSH
+                        Login
                     </Button>
                 </div>
             </div>

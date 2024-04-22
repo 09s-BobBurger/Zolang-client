@@ -22,22 +22,20 @@ const YamlPv = ({ onDataChange }) => {
     const [accessModes, setAccessModes] = useState("ReadWriteOnce");
     const [path, setPath] = useState("");
 
-    const yaml = `
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: ${metadataName}
-      labels:
-    ${labels.filter(i => i.name !== "" && i.value !== "").map(i => "    " + i.name + ": " + i.value).join("\n")}
-    spec:
-      storageClassName: ${storageClassName}
-      capacity:
-        storage: ${storage}
-      accessModes:
-        - ${accessModes}
-      hostPath:
-        path: ${path}
-    `
+    const yaml = `apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ${metadataName}
+  labels:${labels.filter(i => i.name !== "" && i.value !== "").map(i => "\n    " + i.name + ": " + i.value).join("")}
+spec:
+  storageClassName: ${storageClassName}
+  capacity:
+    storage: ${storage}
+  accessModes:
+    - ${accessModes}
+  hostPath:
+    path: ${path}
+`
 
     useEffect(() => {
         console.log(yaml);
