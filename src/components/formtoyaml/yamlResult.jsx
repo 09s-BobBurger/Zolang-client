@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import YamlDeployment from "./YamlDeployment";
 import YamlPersistentVolume from "./YamlPersistentVolume";
 import YamlSecret from "./YamlSecret";
@@ -22,7 +22,14 @@ function YamlResult(props) {
     const [editedData, setEditedData] = useState("");
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [addResourceType, setAddResourceType] = useState("");
-    const textAreaRef = useRef(null);
+    
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoggedIn(true); 
+        }, 2000);
+    }, []);
+    const HeightValue = isLoggedIn ? "calc(100vh - (67+60)px" : "calc(100vh - 60px)";
 
     const handleAddResource = (resourceType) => {
         setResourceComponents([...resourceComponents, { type: resourceType }]);
@@ -92,14 +99,14 @@ function YamlResult(props) {
                                     handleDataChange(newData, index)
                                 }
                             />
-                             <DeleteButton
+                            <DeleteButton
                                 onClick={() => handleRemoveComponent(index)}
                                 style={{
                                     position: "absolute",
                                     top: "0",
                                     right: "0",
                                     zIndex: "5",
-                                    paddingTop: "15px"
+                                    paddingTop: "15px",
                                 }}
                             >
                                 Remove
@@ -121,7 +128,7 @@ function YamlResult(props) {
                                     top: "0",
                                     right: "0",
                                     zIndex: "5",
-                                    paddingTop: "15px"
+                                    paddingTop: "15px",
                                 }}
                             >
                                 Remove
@@ -136,14 +143,14 @@ function YamlResult(props) {
                                     handleDataChange(newData, index)
                                 }
                             />
-                             <DeleteButton
+                            <DeleteButton
                                 onClick={() => handleRemoveComponent(index)}
                                 style={{
                                     position: "absolute",
                                     top: "0",
                                     right: "0",
                                     zIndex: "5",
-                                    paddingTop: "15px"
+                                    paddingTop: "15px",
                                 }}
                             >
                                 Remove
@@ -158,14 +165,14 @@ function YamlResult(props) {
                                     handleDataChange(newData, index)
                                 }
                             />
-                             <DeleteButton
+                            <DeleteButton
                                 onClick={() => handleRemoveComponent(index)}
                                 style={{
                                     position: "absolute",
                                     top: "0",
                                     right: "0",
                                     zIndex: "5",
-                                    paddingTop: "15px"
+                                    paddingTop: "15px",
                                 }}
                             >
                                 Remove
@@ -180,14 +187,14 @@ function YamlResult(props) {
                                     handleDataChange(newData, index)
                                 }
                             />
-                             <DeleteButton
+                            <DeleteButton
                                 onClick={() => handleRemoveComponent(index)}
                                 style={{
                                     position: "absolute",
                                     top: "0",
                                     right: "0",
                                     zIndex: "5",
-                                    paddingTop: "15px"
+                                    paddingTop: "15px",
                                 }}
                             >
                                 Remove
@@ -202,14 +209,14 @@ function YamlResult(props) {
                                     handleDataChange(newData, index)
                                 }
                             />
-                             <DeleteButton
+                            <DeleteButton
                                 onClick={() => handleRemoveComponent(index)}
                                 style={{
                                     position: "absolute",
                                     top: "0",
                                     right: "0",
                                     zIndex: "5",
-                                    paddingTop: "15px"
+                                    paddingTop: "15px",
                                 }}
                             >
                                 Remove
@@ -227,7 +234,7 @@ function YamlResult(props) {
             style={{
                 display: "flex",
                 alignItems: "flexStart",
-                height: "100vh",
+                height: HeightValue,
                 background: "#2E3240",
             }}
         >
@@ -246,7 +253,11 @@ function YamlResult(props) {
                         <div style={{ display: "flex" }}>
                             <div style={{ flex: 6 }}>
                                 <select
-                                    style={{height: "28px", padding: "2px", margin:"3px"}}
+                                    style={{
+                                        height: "28px",
+                                        padding: "2px",
+                                        margin: "3px",
+                                    }}
                                     value={addResourceType}
                                     onChange={(e) =>
                                         setAddResourceType(e.target.value)
@@ -306,8 +317,8 @@ function YamlResult(props) {
                     style={{
                         position: "absolute",
                         top: "10px",
-                        right: "10px",
-                        zIndex: "999",
+                        right: "20px",
+                        zIndex: "5",
                     }}
                 >
                     <EditCopyButton onClick={handleEdit}>
