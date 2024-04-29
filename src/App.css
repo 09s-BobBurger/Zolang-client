@@ -5,3 +5,17 @@
   font-style: normal;
 
 }
+::-webkit-scrollbar {
+  height: 4px;
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #5b6070;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-track {
+  background-color: #222634; /* 스크롤바 트랙(배경)의 색상 */
+}
+::-webkit-scrollbar-corner {
+  background-color: transparent; /* 스크롤바 코너의 색상 */
+}
