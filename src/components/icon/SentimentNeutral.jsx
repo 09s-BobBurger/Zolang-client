@@ -5,6 +5,7 @@ function SentimentNeutral(props) {
         <>
             <SentimentNeutralIcon
                 style={{ color: "FFC978" }}
+                fontSize="large"
             ></SentimentNeutralIcon>
         </>
     );
