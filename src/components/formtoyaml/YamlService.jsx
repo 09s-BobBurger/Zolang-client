@@ -66,7 +66,7 @@ spec:
         <div>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Service</Typography>
+                    <Typography variant="subtitle">Service</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
@@ -102,7 +102,7 @@ spec:
             </Accordion>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Spec</Typography>
+                    <Typography variant="subtitle" >Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <InnerAccordion>

@@ -48,7 +48,7 @@ data:
         <div>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Secret</Typography>
+                    <Typography variant="subtitle">Secret</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -61,7 +61,7 @@ data:
             </Accordion>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Data</Typography>
+                    <Typography variant="subtitle">Data</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -70,6 +70,7 @@ data:
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
+                    <div style={{ height: "10px" }}></div>
                     <TextField
                         label="Password"
                         variant="standard"

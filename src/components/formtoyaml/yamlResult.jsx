@@ -15,6 +15,8 @@ import Edit from "../icon/Edit.jsx";
 import ContentCopy from "../icon/ContentCopy.jsx";
 import AddButton from "./AddButton.jsx";
 import DeleteButton from "./DeleteButton.jsx";
+import { CodeBlock, hybrid } from "react-code-blocks";
+import "../../styles/FORMTOYAML.css";
 
 function YamlResult(props) {
     const [data, setData] = useState([]);
@@ -228,7 +230,7 @@ function YamlResult(props) {
             }
         });
     };
-
+    const resultYaml = data.map((item) => item.trim()).join("\n---\n");
     return (
         <div
             style={{
@@ -237,6 +239,7 @@ function YamlResult(props) {
                 height: HeightValue,
                 background: "#2E3240",
             }}
+            className="yamlResult"
         >
             <div style={{ width: "50vw", flex: 6, overflowY: "auto" }}>
                 <Accordion style={{ margin: "0" }} expanded>
@@ -244,10 +247,10 @@ function YamlResult(props) {
                         aria-controls="panel1-content"
                         id="panel1-header"
                     >
-                        <Typography variant="h5">Resource Type</Typography>
+                        <Typography variant="h6">Resource Type</Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography variant="h6">
+                    <AccordionDetails style={{padding: 0, paddingLeft: "16px", paddingRight: "16px"}}>
+                        <Typography variant="subtitle">
                             Select a resource type:
                         </Typography>
                         <div style={{ display: "flex" }}>
@@ -294,11 +297,12 @@ function YamlResult(props) {
                                 </AddButton>
                             </div>
                         </div>
-                        <br />
-                        <Typography color="gray">
+                        <br/>
+                        <Typography color="gray" >
                             Select whether to deploy a Service, Deployment, PV,
                             PVC or Secret
                         </Typography>
+                        <br/>
                     </AccordionDetails>
                 </Accordion>
                 {renderResourceComponent()}
@@ -331,9 +335,17 @@ function YamlResult(props) {
                         &nbsp;Copy
                     </EditCopyButton>
                 </div>
-                <pre style={{ fontSize: "18px", paddingLeft: "10px" }}>
+                <CodeBlock
+                    language="yaml"
+                    text={resultYaml}
+                    wrapLines={true}
+                    showLineNumbers={false}
+                    theme={hybrid}
+                    codeBlock
+                />
+                {/* <pre className="code-block" style={{ fontSize: "18px", paddingLeft: "10px" }}>
                     {data.map((item) => item.trim()).join("\n---\n")}
-                </pre>
+                </pre> */}
             </div>
             {showEditPopup && (
                 <div

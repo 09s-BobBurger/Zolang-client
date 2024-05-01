@@ -1,5 +1,5 @@
 import React from "react";
-import { CopyBlock,ocean	 } from "react-code-blocks";
+import { CopyBlock,anOldHope	 } from "react-code-blocks";
 
 function tokenDescribe(props) {
     const describe = `Name:           mysecretname
@@ -60,7 +60,7 @@ token:          ...`;
                 <CopyBlock
                     language="yaml"
                     text={describe}
-                    theme={ocean}
+                    theme={anOldHope}
                     wrapLines={true}
                     showLineNumbers={false}
                     codeBlock

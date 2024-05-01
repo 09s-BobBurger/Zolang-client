@@ -52,7 +52,7 @@ spec:
         <div>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">PersistentVolumeClaim</Typography>
+                    <Typography variant="subtitle">PersistentVolumeClaim</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
@@ -125,7 +125,7 @@ spec:
             </Accordion>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Spec</Typography>
+                    <Typography variant="subtitle">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">

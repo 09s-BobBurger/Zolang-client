@@ -114,7 +114,7 @@ spec:
         <div>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Deployment</Typography>
+                    <Typography variant="subtitle">Deployment</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <div>
@@ -185,7 +185,7 @@ spec:
             </Accordion>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Spec</Typography>
+                    <Typography variant="subtitle">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
