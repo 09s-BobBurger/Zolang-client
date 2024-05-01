@@ -1,9 +1,10 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import TagFaces from "../icon/TagFaces";
-import MoodBad from "../icon/MoodBad"; 
+import MoodBad from "../icon/MoodBad";
 import SentimentNeutral from "../icon/SentimentNeutral";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -13,22 +14,41 @@ const theme = createTheme({
             fontSize: "0.65rem",
         },
         body2: {
-            fontSize: "08 rem",
+            fontSize: "0.8rem",
         },
     },
 });
 
-export default function RepositoryCard({ name, time, age, status }) {
+export default function RepositoryCard({ name }) {
+    const [data, setData] = useState({});
+
+    useEffect(() => {
+        axios
+            .get("#")
+            .then((response) => {
+                // setData(response.data);
+                setData({
+                    name: {name},
+                    time: "9.3s",
+                    age: "2 months",
+                    status: "good",
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching data:", error);
+            });
+    }, []);
+
     const renderStatusIcon = () => {
-        if (status === "good") {
+        if (data.status === "good") {
             return <TagFaces />;
-        } else if (status === "bad") {
+        } else if (data.status === "bad") {
             return <MoodBad />;
-        } else if (status === "well") {
+        } else if (data.status === "well") {
             return <SentimentNeutral />;
         }
     };
-    
+
     return (
         <ThemeProvider theme={theme}>
             <Card
@@ -67,10 +87,10 @@ export default function RepositoryCard({ name, time, age, status }) {
                                         Time
                                     </Typography>
                                     <Typography variant="body2">
-                                        {time}
+                                        {data.time}
                                     </Typography>
                                 </div>
-                                <div >
+                                <div>
                                     <Typography
                                         variant="caption"
                                         color="#ABAFBD"
@@ -78,7 +98,7 @@ export default function RepositoryCard({ name, time, age, status }) {
                                         Age
                                     </Typography>
                                     <Typography variant="body2">
-                                        {age}
+                                        {data.age}
                                     </Typography>
                                 </div>
                             </div>
