@@ -5,7 +5,7 @@ import Overview from "../../components/monitoring/Overview.jsx";
 
 const Dashboard = () => {
     const location = useLocation();
-    const clusterName = location.state?.data.item;
+    const clusterName = location.state?.data;
 
     const [currentMenu, setCurrentMenu] = useState('Overview');
 
