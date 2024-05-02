@@ -16,7 +16,7 @@ const Dashboard = () => {
     ]
 
     return (
-        <div className='dashboard-page'>
+        <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "calc(100vh-67px)", overflow: "auto"}}>
             <MonitoringNav items={navItems} currentMenu={currentMenu} setCurrentMenu={setCurrentMenu}/>
             <div className='monitoring-content'>
                 <p className="title">{currentMenu}</p>

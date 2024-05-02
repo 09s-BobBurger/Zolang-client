@@ -1306,6 +1306,7 @@ __metadata:
     "@types/react": "npm:^18.2.66"
     "@types/react-dom": "npm:^18.2.22"
     "@vitejs/plugin-react-swc": "npm:^3.5.0"
+    apexcharts: "npm:^3.49.0"
     axios: "npm:^1.6.8"
     eslint: "npm:^8.57.0"
     eslint-plugin-react: "npm:^7.34.1"
@@ -4007,7 +4008,7 @@ __metadata:
   checksum: 10c0/fd6d5488eeafe421641f3f0cd6b0daa18675811cc9e0a2719a04a7a363f5a4a55b22df3bdfd1c9d737432b97ec9ea3d740557b3f78468b247a349c763c40cd3d
   languageName: node
   linkType: hard
-  
+
 "react-code-blocks@npm:^0.1.6":
   version: 0.1.6
   resolution: "react-code-blocks@npm:0.1.6"
