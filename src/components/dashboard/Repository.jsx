@@ -27,68 +27,63 @@ function Repository() {
     return (
         <div
             style={{
-                padding: "5px",
+                padding: "20px 25px 10px",
                 outline: "1px solid #ABAFBD",
                 borderRadius: "10px",
                 background: "#2E3240",
                 justifyContent: "center",
+                position: "relative",
             }}
         >
             <div
                 style={{
                     color: "#ffffff",
-                    padding: "10px",
-                    paddingTop: "0px",
-                    paddingBottom: "0px",
-                    paddingLeft: "15px",
                     justifyContent: "space-between",
                     display: "flex",
+                    borderBottom: "1px solid #474B59",
+                    paddingBottom: "12px"
                 }}
             >
                 <span
                     style={{
-                        paddingTop: "10px",
                         fontSize: "24px",
                         fontWeight: "bold",
                     }}
                 >
                     Repository
                 </span>
-                <div
-                    style={{
-                        paddingTop: "10px",
-                    }}
-                >
-                    <NewButton> + New </NewButton>
+                <div style={{marginTop: "7px"}}>
+                    <Link to="/cd/repoList" style={{ textDecoration: "none" }}>
+                        <button className="new-cluster-button">+ new</button>
+                    </Link>
                 </div>
             </div>
-            <hr
+            <div
                 style={{
-                    width: "98%",
-                    border: 0,
-                    height: "1px",
-                    backgroundColor: "#474B59",
-                    marginBottom: "15px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "20px",
+                    alignItems: "center",
+                    paddingTop: "10px"
                 }}
-            />
-            <div style={{ position: "relative" }}>
+            >
                 {repositories.map((repository, index) => (
                     <RepositoryCard key={index} name={repository} />
                 ))}
                 <div style={{ padding: "15px" }}>
-                <Link to="/cd/dashboard" style={{ textDecoration: "none" }}>
-                    <span
-                        style={{
-                            color: "#ABAFBD",
-                            fontSize: "14px",
-                            position: "absolute",
-                            right: "15px",
-                            bottom: "1px",
-                            margin: "5px",
-                        }}
-                    >
-                        더보기 <ArrowForwardIos />
-                    </span>
+                    <Link to="/cd/dashboard" style={{ textDecoration: "none" }}>
+                        <span
+                            style={{
+                                color: "#ABAFBD",
+                                fontSize: "14px",
+                                position: "absolute",
+                                right: "15px",
+                                bottom: "10px",
+                                margin: "5px",
+                            }}
+                        >
+                            더보기 <ArrowForwardIos />
+                        </span>
                     </Link>
                 </div>
             </div>
