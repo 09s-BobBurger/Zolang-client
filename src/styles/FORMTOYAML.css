@@ -2,4 +2,18 @@
 
 .detail-container {
     padding-left: 16px;
+    padding-bottom: 16px;
+}
+
+.yamlResult > div > span > code {
+    font-size: 1.2rem !important;
+    line-height: 1.8 !important;
+}
+
+.yamlResult > div > span {
+    background: #222634 !important;
+}
+
+.yamlResult > div > span > code > span.token.token.atrule {
+    color: #bbff7f !important;
 }
