@@ -62,9 +62,9 @@ function Repository() {
                 style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "20px",
+                    gap: "19px",
                     alignItems: "center",
-                    paddingTop: "10px"
+                    paddingTop: "11px"
                 }}
             >
                 {repositories.map((repository, index) => (

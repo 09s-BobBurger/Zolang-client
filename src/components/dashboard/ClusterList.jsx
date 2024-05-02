@@ -38,7 +38,7 @@ const ClusterList = () => {
             </div>
             <div className="cluster-list"
                 style={{
-                    marginBottom: '10px', marginTop: "19px"
+                    marginBottom: '10px', marginTop: "17px"
                 }}
             >
                 <ul>

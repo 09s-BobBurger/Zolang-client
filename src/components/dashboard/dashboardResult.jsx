@@ -11,7 +11,7 @@ function dashboardResult(props) {
                     <Repository />
                 </div>
                 <div style={{ display: "flex", width: "60vw", flexDirection: "column", gap: "30px"}}>
-                    <div style={{ margin: "15px", height: "35%" }}>
+                    <div style={{ margin: "15px", height: "35%"}}>
                         <Total />
                     </div>
                     <div style={{ margin: "15px", height: "40%"}}>
