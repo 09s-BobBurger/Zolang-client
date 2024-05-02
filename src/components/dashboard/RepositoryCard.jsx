@@ -56,7 +56,6 @@ export default function RepositoryCard({ name }) {
                     width: 240,
                     height: 114,
                     padding: "5px",
-                    margin: "10px",
                     marginTop: 0,
                 }}
                 style={{
