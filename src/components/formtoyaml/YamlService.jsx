@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import DeleteButton from "./DeleteButton.jsx";
 import InputBox from "./InputBox.jsx";
 import '../../styles/FORMTOYAML.css';
+import RadioLabel from "./RadioLabel.jsx";
 
 const YamlService = ({ onDataChange }) => {
     const [metadataName, setMetadataName] = useState("");
@@ -71,7 +72,18 @@ spec:
                 <AccordionDetails>
                     <div className="detail-container">
                         <InputBox name="name" setter={setMetadataName}/>
-                        <p>labels</p>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <div style={{ flex: 6 }}>
+                                <Typography variant="subtitle1">Labels</Typography>
+                            </div>
+                            <div style={{ flex: 6, textAlign: "right" }}>
+                                <AddButton
+                                    onClick={onClickAddLabel}
+                                >
+                                    Add Label
+                                </AddButton>
+                            </div>
+                        </div>
                         <div className="labels">
                             {labels.map((label, index) => {
                                 return (
@@ -96,7 +108,6 @@ spec:
                                 )
                             })}
                         </div>
-                        <AddButton onClick={onClickAddLabel} >Add Labels</AddButton>
                     </div>
                 </AccordionDetails>
             </Accordion>
@@ -117,50 +128,54 @@ spec:
                                         defaultValue={type}
                                         name="radio-buttons-group"
                                     >
-                                        <FormControlLabel value="ClusterIP" control={<Radio />} label="ClusterIP" />
-                                        <FormControlLabel value="NodePort" control={<Radio />} label="NodePort" />
+                                        <RadioLabel value="ClusterIP" control={<Radio />} label="ClusterIP" />
+                                        <RadioLabel value="NodePort" control={<Radio />} label="NodePort" />
                                     </RadioGroup>
                                 </FormControl>
                             </div>
                         </AccordionDetails>
                     </InnerAccordion>
-                    <InnerAccordion>
-                        <AccordionSummary>
-                        <Typography variant="subtitle1">Selector</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <div className="detail-container">
-                                <div className="labels">
-                                    {matchLabels.map((label, index) => {
-                                        return (
-                                            <div key={index} style={{ display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-                                                <TextField
-                                                    onChange={
-                                                        (e) => {
-                                                            setMatchLabels(matchLabels.map((item, idx) =>
-                                                                idx === index ? {...item, 'name': e.target.value} : item
-                                                            ));
-                                                        }
-                                                    }
-                                                    id="standard-basic" variant="standard" label="name" placeholder="name"/>
-                                                <TextField
-                                                    onChange={
-                                                        (e) => {
-                                                            setMatchLabels(matchLabels.map((item, idx) =>
-                                                                idx === index ? {...item, 'value': e.target.value} : item
-                                                            ));
-                                                        }
-                                                    }
-                                                    id="standard-basic" variant="standard" label="value" placeholder="value"/>
-                                                <DeleteButton onClick={() => onClickDeleteMatchLabel(index)}/>
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                                <AddButton onClick={onClickAddMatchLabel}>Add Labels</AddButton>
+                    <div className='detail-container'>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <div style={{ flex: 6 }}>
+                                <Typography variant="subtitle1">Selector</Typography>
                             </div>
-                        </AccordionDetails>
-                    </InnerAccordion>
+                            <div style={{ flex: 6, textAlign: "right" }}>
+                                <AddButton
+                                    onClick={onClickAddMatchLabel}
+                                >
+                                    Add Label
+                                </AddButton>
+                            </div>
+                        </div>
+                        <div className="labels">
+                            {matchLabels.map((label, index) => {
+                                return (
+                                    <div key={index} style={{ display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
+                                        <TextField
+                                            onChange={
+                                                (e) => {
+                                                    setMatchLabels(matchLabels.map((item, idx) =>
+                                                        idx === index ? {...item, 'name': e.target.value} : item
+                                                    ));
+                                                }
+                                            }
+                                            id="standard-basic" variant="standard" label="name" placeholder="name"/>
+                                        <TextField
+                                            onChange={
+                                                (e) => {
+                                                    setMatchLabels(matchLabels.map((item, idx) =>
+                                                        idx === index ? {...item, 'value': e.target.value} : item
+                                                    ));
+                                                }
+                                            }
+                                            id="standard-basic" variant="standard" label="value" placeholder="value"/>
+                                        <DeleteButton onClick={() => onClickDeleteMatchLabel(index)}/>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
                     <InnerAccordion>
                         <AccordionSummary>
                         <Typography variant="subtitle1">Ports</Typography>
@@ -180,9 +195,9 @@ spec:
                                         defaultValue={protocol}
                                         name="radio-buttons-group"
                                     >
-                                        <FormControlLabel value="SCTP" control={<Radio />} label="SCTP" />
-                                        <FormControlLabel value="TCP" control={<Radio />} label="TCP" />
-                                        <FormControlLabel value="UDP" control={<Radio />} label="UDP" />
+                                        <RadioLabel value="SCTP" control={<Radio />} label="SCTP" />
+                                        <RadioLabel value="TCP" control={<Radio />} label="TCP" />
+                                        <RadioLabel value="UDP" control={<Radio />} label="UDP" />
                                     </RadioGroup>
                                 </FormControl>
                             </div>

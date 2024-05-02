@@ -10,7 +10,7 @@ import {Typography} from "@mui/material";
 import Radio from "./Radio.jsx";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import RadioLabel from "./RadioLabel.jsx";
 import StorageInputBox from "./StorageInputBox.jsx";
 import '../../styles/FORMTOYAML.css';
 
@@ -58,7 +58,18 @@ spec:
                 <AccordionDetails>
                     <div className="detail-container">
                         <InputBox name="name" setter={setMetadataName}/>
-                        <p>labels</p>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <div style={{ flex: 6 }}>
+                                <Typography variant="subtitle1">Labels</Typography>
+                            </div>
+                            <div style={{ flex: 6, textAlign: "right" }}>
+                                <AddButton
+                                    onClick={onClickAddLabel}
+                                >
+                                    Add Label
+                                </AddButton>
+                            </div>
+                        </div>
                         <div className="labels">
                             {labels.map((label, index) => {
                                 return (
@@ -83,7 +94,6 @@ spec:
                                 )
                             })}
                         </div>
-                        <AddButton onClick={onClickAddLabel} >Add Labels</AddButton>
                     </div>
                 </AccordionDetails>
             </Accordion>
@@ -94,22 +104,23 @@ spec:
                 <AccordionDetails>
                     <div className="detail-container">
                         <InputBox name="storageClassName" setter={setStorageClassName}/>
-                        <p>capacity</p>
+                        <Typography>capacity</Typography>
                         <div className="detail-container">
                             <StorageInputBox name="storage" setter={setStorage} max={1}/>
                         </div>
-                        <p>accessModes</p>
+                        <Typography>accessModes</Typography>
                         <FormControl onChange={(e) => setAccessModes(e.target.value)}>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 defaultValue={accessModes}
-                                name="radio-buttons-group">
-                                <FormControlLabel value="ReadWriteOnce" control={<Radio />} label="ReadWriteOnce" />
-                                <FormControlLabel value="ReadOnlyMany" control={<Radio />} label="ReadOnlyMany" />
-                                <FormControlLabel value="ReadWriteMany" control={<Radio />} label="ReadWriteMany" />
+                                name="radio-buttons-group"
+                            >
+                                <RadioLabel  value="ReadWriteOnce" control={<Radio />} label="ReadWriteOnce" />
+                                <RadioLabel value="ReadOnlyMany" control={<Radio />} label="ReadOnlyMany" />
+                                <RadioLabel value="ReadWriteMany" control={<Radio />} label="ReadWriteMany" />
                             </RadioGroup>
                         </FormControl>
-                        <p>hostPath</p>
+                        <Typography>hostPath</Typography>
                         <div className="detail-container">
                             <InputBox name="path" setter={setPath}/>
                         </div>

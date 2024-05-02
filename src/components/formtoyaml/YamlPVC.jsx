@@ -10,7 +10,7 @@ import Radio from "./Radio.jsx";
 import { Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import RadioLabel from "./RadioLabel.jsx";
 import "../../styles/FORMTOYAML.css";
 import StorageInputBox from "./StorageInputBox.jsx";
 
@@ -57,7 +57,18 @@ spec:
                 <AccordionDetails>
                     <div className="detail-container">
                         <InputBox name="name" setter={setMetadataName} />
-                        <p>labels</p>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <div style={{ flex: 6 }}>
+                                <Typography variant="subtitle1">Labels</Typography>
+                            </div>
+                            <div style={{ flex: 6, textAlign: "right" }}>
+                                <AddButton
+                                    onClick={onClickAddLabel}
+                                >
+                                    Add Label
+                                </AddButton>
+                            </div>
+                        </div>
                         <div className="labels">
                             {labels.map((label, index) => {
                                 return (
@@ -108,18 +119,10 @@ spec:
                                             label="value"
                                             placeholder="value"
                                         />
-                                        <DeleteButton
-                                            onClick={() =>
-                                                onClickDeleteLabel(index)
-                                            }
-                                        />
                                     </div>
                                 );
                             })}
                         </div>
-                        <AddButton onClick={onClickAddLabel}>
-                            Add Labels
-                        </AddButton>
                     </div>
                 </AccordionDetails>
             </Accordion>
@@ -145,17 +148,17 @@ spec:
                                 defaultValue="ReadWriteOnce"
                                 name="radio-buttons-group"
                             >
-                                <FormControlLabel
+                                <RadioLabel
                                     value="ReadWriteOnce"
                                     control={<Radio />}
                                     label="ReadWriteOnce"
                                 />
-                                <FormControlLabel
+                                <RadioLabel
                                     value="ReadOnlyMany"
                                     control={<Radio />}
                                     label="ReadOnlyMany"
                                 />
-                                <FormControlLabel
+                                <RadioLabel
                                     value="ReadWriteMany"
                                     control={<Radio />}
                                     label="ReadWriteMany"
