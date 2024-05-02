@@ -30,8 +30,8 @@ function total(props) {
     return (
         <div
             style={{
-                outline: "1px solid #ABAFBD",
                 padding: "5px",
+                outline: "1px solid #ABAFBD",
                 borderRadius: "10px",
                 background: "#2E3240",
             }}
