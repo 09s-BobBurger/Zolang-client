@@ -1,5 +1,5 @@
 import React from "react";
-import { CopyBlock,ocean	 } from "react-code-blocks";
+import { CopyBlock,anOldHope} from "react-code-blocks";
 
 function token(props) {
     const secret = `apiVersion: v1
@@ -42,7 +42,7 @@ metadata:
                 <CopyBlock
                     language="yaml"
                     text={secret}
-                    theme={ocean}
+                    theme={anOldHope}
                     wrapLines={true}
                     showLineNumbers={false}
                     codeBlock

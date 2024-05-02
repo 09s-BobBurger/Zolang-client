@@ -3,11 +3,11 @@ import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import Accordion from './Accordion.jsx';
-import AccordionDetails from './AccordionDetails.jsx'
+import Accordion from "./Accordion.jsx";
+import AccordionDetails from "./AccordionDetails.jsx";
 import AccordionSummary from "./AccordionSummary.jsx";
-import TextField from './TextField.jsx';
-import '../../styles/FORMTOYAML.css';
+import TextField from "./TextField.jsx";
+import "../../styles/FORMTOYAML.css";
 
 function YamlPersistentVolume({ onDataChange }) {
     const initialYaml = `apiVersion: v1
@@ -69,7 +69,7 @@ spec:
         <div>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">PersistentVolume</Typography>
+                    <Typography variant="subtitle">PersistentVolume</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -82,7 +82,7 @@ spec:
             </Accordion>
             <Accordion>
                 <AccordionSummary>
-                    <Typography variant="h6">Spec</Typography>
+                    <Typography variant="subtitle">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <TextField
@@ -91,13 +91,13 @@ spec:
                         value={storage}
                         onChange={(e) => setStorage(e.target.value)}
                     />
-                    <br />
-                    <br />
+                    <div style={{ height: "10px" }}></div>
                     <Typography variant="subtitle1">Access Modes</Typography>
                     <Select
                         label="Access Mode"
                         variant="standard"
                         value={accessMode}
+                        sx={{ color: "#ffffff", fontSize: "14px" }}
                         onChange={(e) => setAccessMode(e.target.value)}
                     >
                         {accessModeOptions.map((option, index) => (
@@ -106,18 +106,19 @@ spec:
                             </MenuItem>
                         ))}
                     </Select>
+                    <div style={{ height: "10px" }}></div>
                     <Typography color="gray">
                         NFS can support multiple read/write clients, but a
                         specific NFS PV might be exported on the server as
                         read-only.
                     </Typography>
                     <br />
-                    <br />
                     <Typography variant="subtitle1">ReclaimPolicy</Typography>
                     <Select
                         label="Reclaim Policy"
                         variant="standard"
                         value={reclaimPolicy}
+                        sx={{ color: "#ffffff", fontSize: "14px" }}
                         onChange={(e) => setReclaimPolicy(e.target.value)}
                     >
                         {reclaimPolicyOptions.map((option, index) => (
@@ -126,12 +127,12 @@ spec:
                             </MenuItem>
                         ))}
                     </Select>
+                    <div style={{ height: "10px" }}></div>
                     <Typography color="gray">
                         When a user is done with their volume, they can delete
                         the PVC objects from the API that allows reclamation of
                         the resource.
                     </Typography>
-                    <br />
                     <br />
                     <TextField
                         label="NFS Path"
@@ -139,6 +140,7 @@ spec:
                         value={path}
                         onChange={(e) => setPath(e.target.value)}
                     />
+                    <div style={{ height: "10px" }}></div>
                     <TextField
                         label="NFS Server"
                         variant="standard"
