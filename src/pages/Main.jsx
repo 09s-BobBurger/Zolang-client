@@ -1,10 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Button from "@mui/material/Button";
+import {Cookies} from 'react-cookie';
+import loginUtil from '../util/login.js';
 
 const Main = () => {
     const navigate = useNavigate();
+    const cookies = new Cookies().cookies;
+    const onClickLogin = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+    }
+
+    useEffect(() => {
+        if (loginUtil.checkLogin()) {
+            navigate('/dashboard');
+        }
+    }, []);
+
     return (
         <div style={{}}>
             <div
@@ -79,6 +92,7 @@ const Main = () => {
                             background: "#797D8B",
                             width: "50vw",
                         }}
+                        onClick={onClickLogin}
                         startIcon={<GitHubIcon />}
                     >
                         Login
