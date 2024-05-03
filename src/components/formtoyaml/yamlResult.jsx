@@ -17,6 +17,7 @@ import AddButton from "./AddButton.jsx";
 import DeleteButton from "./DeleteButton.jsx";
 import { CodeBlock, hybrid } from "react-code-blocks";
 import "../../styles/FORMTOYAML.css";
+import loginUtil from '../../util/login.js'
 
 function YamlResult(props) {
     const [data, setData] = useState([]);
@@ -24,14 +25,8 @@ function YamlResult(props) {
     const [editedData, setEditedData] = useState("");
     const [showEditPopup, setShowEditPopup] = useState(false);
     const [addResourceType, setAddResourceType] = useState("");
-    
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    useEffect(() => {
-        setTimeout(() => {
-            setIsLoggedIn(true); 
-        }, 2000);
-    }, []);
-    const HeightValue = isLoggedIn ? "calc(100vh - 127px)" : "calc(100vh - 60px)";
+
+    const HeightValue = loginUtil.checkLogin() ? "calc(100vh - 127px)" : "calc(100vh - 60px)";
 
     const handleAddResource = (resourceType) => {
         setResourceComponents([...resourceComponents, { type: resourceType }]);

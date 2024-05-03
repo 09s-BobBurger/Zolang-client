@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import {styled} from "@mui/material/styles";
 import Logout from "./icon/Logout.jsx";
 import { useLocation, useNavigate } from 'react-router-dom';
+import loginUtil from '../util/login.js';
 
 const Drawer = styled(MuiDrawer)({
     zIndex: '15',
@@ -134,7 +135,10 @@ const Nav = ({open}) => {
                             </li> )}
                     </ul>
                 </MenuContainer>
-                <LogoutButton variant="outlined"><Logout />Logout</LogoutButton>
+                <LogoutButton
+                    variant="outlined"
+                    onClick={() => {loginUtil.logout()}}
+                ><Logout />Logout</LogoutButton>
             </div>
         </Drawer>
     );
