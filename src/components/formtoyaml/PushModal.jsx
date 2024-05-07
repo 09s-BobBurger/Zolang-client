@@ -19,14 +19,14 @@ const Box = styled(MuiBox) ({
     p: '4px',
     zIndex: '100',
     borderRadius: '8px',
-    padding: '40px 40px',
+    padding: '40px 40px 20px 40px',
     "& span": {
         textAlign: 'center',
 
     }
 });
 
-const PushModal = () => {
+const PushModal = ({isOpen, setIsOpen}) => {
     const [repository, setRepository] = useState("");
     const [branch, setBranch] = useState("");
     const [commitMessage, setCommitMessage] = useState("");
@@ -51,7 +51,7 @@ const PushModal = () => {
     }
 
     return (
-        <Modal open={true}
+        <Modal open={isOpen}
                aria-labelledby="modal-modal-title"
                aria-describedby="modal-modal-description">
             <Box outline="none">
@@ -78,10 +78,17 @@ const PushModal = () => {
                     onChange={onChangeCommitMessage}
                     style={{margin: '10px 0'}}
                 />
-                <Button
-                    variant="outlined"
-                    style={{margin: '10px auto 0 auto', display: 'block'}}
-                >Push</Button>
+                <div style={{display: 'flex', justifyContent: 'flex-end', gap: '20px', margin: '20px 0'}}>
+                    <Button
+                        variant="contained"
+                        style={{width: '90px'}}
+                    >Push</Button>
+                    <Button
+                        variant="outlined"
+                        style={{width: '90px'}}
+                        onClick={() => {setIsOpen(false)}}
+                    >cancel</Button>
+                </div>
             </Box>
         </Modal>
     );
