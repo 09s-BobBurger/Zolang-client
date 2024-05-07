@@ -9,15 +9,17 @@ const Dashboard = () => {
 
     const [currentMenu, setCurrentMenu] = useState('Overview');
 
-    const navItems = [
+    const category = [
         {name : 'Overview'},
         {name : 'Nodes'},
-        {name : 'Workloads', innerMenu: ['Pods', 'Deployments', 'DaemonSets']}
+        {name : 'Workloads', subCategory: ['Pods', 'Deployments', 'DaemonSets', 'StatefulSets', 'ReplicaSets', 'Jobs', 'CronJobs']},
+        {name : 'Network', subCategory: ['Services', 'Endpoints', 'Ingresses', 'Network Policies']},
+        {name : 'Storage', subCategory: ['Persistent Volume Claims', 'Persistent Volumes', 'Storage Classes']},
     ]
 
     return (
         <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "calc(100vh-67px)", overflow: "auto"}}>
-            <MonitoringNav items={navItems} currentMenu={currentMenu} setCurrentMenu={setCurrentMenu}/>
+            <MonitoringNav items={category} currentMenu={currentMenu} setCurrentMenu={setCurrentMenu}/>
             <div className='monitoring-content'>
                 <p className="title">{currentMenu}</p>
                 {currentMenu === 'Overview' &&
