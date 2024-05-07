@@ -46,12 +46,12 @@ const LoginModal = ({isOpen, setIsOpen}) => {
             <Box outline="none">
                 <span style={messageStyle}>
                     로그인이 필요한 서비스 입니다.</span>
-                <div style={{display: 'flex', justifyContent: 'center', gap: '20px', margin: '20px 0'}}>
-                    {/*<Button*/}
-                    {/*    variant="contained"*/}
-                    {/*    style={{width: '90px'}}*/}
-                    {/*    onClick={onClickLogin}*/}
-                    {/*>Login</Button>*/}
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', margin: '20px 0'}}>
+                    <Button
+                        variant="contained"
+                        style={{width: '130px'}}
+                        onClick={() => {navigate('/')}}
+                    >Go To Login</Button>
                     <Button
                         variant="outlined"
                         style={{width: '90px'}}
