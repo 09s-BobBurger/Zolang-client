@@ -63,7 +63,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     },
 }));
 
-function Nodes(props) {
+function InnerNodes(props) {
     return (
         <div
             style={{
@@ -169,4 +169,4 @@ function Nodes(props) {
     );
 }
 
-export default Nodes;
+export default InnerNodes;
