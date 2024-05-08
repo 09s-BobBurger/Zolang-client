@@ -1,6 +1,6 @@
 import React from "react";
 import Chart from "./Chart.jsx";
-import Nodes from "./Nodes.jsx";
+import InnerNodes from "./InnerNodes.jsx";
 import Pods from "./Pods.jsx";
 
 const Overview = () => {
@@ -36,7 +36,7 @@ const Overview = () => {
             <Pods />
             </div>
             <div style={{flex: "1"}}> 
-            <Nodes />
+            <InnerNodes />
             </div>
         </div>
     );

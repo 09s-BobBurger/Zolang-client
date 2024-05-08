@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useLocation} from "react-router-dom";
 import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
 import Overview from "../../components/monitoring/Overview.jsx";
+import Nodes from '../../components/monitoring/nodes/Nodes.jsx';
 
 const Dashboard = () => {
     const location = useLocation();
@@ -22,6 +23,9 @@ const Dashboard = () => {
                 <p className="title">{currentMenu}</p>
                 {currentMenu === 'Overview' &&
                     <Overview />
+                }
+                {currentMenu === 'Nodes' &&
+                    <Nodes />
                 }
             </div>
         </div>
