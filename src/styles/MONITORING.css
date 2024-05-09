@@ -1,3 +1,51 @@
+/* node detail card */
+.node-detail-card {
+    color: #ffffff;
+    padding: 10px;
+}
+.node-detail-card > * {
+    margin-bottom: 10px;
+}
+
+.node-detail-card > .MuiBox-root {
+    width: fit-content !important;
+}
+
+.node-detail-card > div > .MuiBox-root {
+    width: fit-content !important;
+    margin-right: 10px;
+}
+
+.node-detail-card > div > table > thead > tr > th:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.node-detail-card > div > table > thead > tr > th:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.node-detail-card > div > table > thead > tr > th {
+    color: #ffffff;
+    border-bottom: 0;
+    background: #767676;
+}
+
+.node-detail-card > div > table > tbody > tr > th {
+    color: #dde1ef !important;
+    border-bottom-color: #606472 !important;
+    width: 50px;
+}
+
+.node-detail-card > div > table > tbody > tr > td {
+    color: #dde1ef !important;
+    border-bottom-color: #606472 !important;
+}
+
+.node-detail-card > div > table > tbody > tr > td {
+    color: #ffffff !important;
+    width: 50px;
+}
+
 /* Nodes */
 
 .moni-dashboard-nodes{
