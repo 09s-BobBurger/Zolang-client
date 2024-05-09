@@ -5,13 +5,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
-import Paper from "@mui/material/Paper";
 import "../../styles/MONITORING.css";
 import LinearProgress, {
     linearProgressClasses,
 } from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
 import Status from "../icon/Status";
+import {useNavigate} from "react-router-dom";
 
 function createData(name, roles, version, age, cpu, memory, disk, status) {
     return { name, roles, version, age, cpu, memory, disk, status };
@@ -64,6 +64,17 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 function InnerNodes(props) {
+    const navigate = useNavigate();
+
+    const onClickMore = () => {
+        navigate("/monitoring/dashboard");
+    }
+
+    // 후에 클러스터에 대한 정보를 전달할 수 있도록 변경할 것 - 현재는 이름만 전달
+    const onClickCluster = (item) => {
+        navigate("/monitoring/dashboard", { state: { data: item}});
+    }
+
     return (
         <div
             style={{
@@ -133,6 +144,7 @@ function InnerNodes(props) {
                                             border: 0,
                                         },
                                     }}
+                                    onClick={onClickMore}
                                 >
                                     <TableCell component="th" scope="row" style={{width: "130px"}}>
                                         {row.name}

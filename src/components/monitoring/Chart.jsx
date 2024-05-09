@@ -61,7 +61,6 @@ const Chart = ({ title, values, fullValue }) => {
             position: 'bottom',
             horizontalAlign: 'left',
             formatter: function(seriesName, opts) {
-                console.log(opts);
                 if (opts.seriesIndex < series.length) return `
                     <div class="legend-item-label">${seriesName}</div>
                     <div class="legend-item-value">${values[opts.seriesIndex].value}</div>
