@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/MONITORING.css';
-import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
-import ClusterState from "../../components/dashboard/ClusterState.jsx";
+import loginUtil from '../../util/login.js';
+import axios from 'axios';
 
 const ClusterList = () => {
     const navigate = useNavigate();
+    const [clusters, setClusters] = useState([]);
 
     const onClickNew = () => {
         navigate("/monitoring/token");
@@ -16,13 +17,39 @@ const ClusterList = () => {
         navigate("/monitoring/dashboard", { state: { data: item}});
     }
 
-    // testData
-    const clusterNames = [
-        { name: 'bell-k8s-test-context', IP: '123.3.36.382', version: 'v1.30.0', state: 1},
-        { name: 'dkos-test-pg1-context', IP: 'local', version: 'v1.30.0', state: 2},
-        { name: 'kubernetes-admin@cluster.local', IP: '123.3.36.382', version: 'v1.30.0', state: 3},
-        { name: 'kubernetes-admin@cluster.local', IP: '123.3.36.382', version: 'v1.30.0', state: 3},
-    ]
+    useEffect(() => {
+        axios
+            .get(
+                "/api/v1/cluster",
+                {
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                    }
+                }
+            )
+            .then((res) => {
+                let clustersList = res.data.data;
+                for (let i = 0; i < clustersList.length; i++) {
+                    axios
+                        .get(
+                            `/api/v1/cluster/${clustersList[i].clusterId}/status`
+                        )
+                        .then((res) => {
+                            clustersList[i].status = res.data.data;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                }
+                setClusters(clustersList);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+
+
+    }, [])
 
     return (
         <div className="cluster-list-page">
@@ -37,12 +64,14 @@ const ClusterList = () => {
                         <span>IP</span>
                         <span>Version</span>
                     </li>
-                    {clusterNames.map((item) => {
-                        return <li onClick={() => onClickCluster(item.name)}>
-                            <span>{item.name}</span>
-                            <span>{item.IP}</span>
+                    {clusters.map((item) => {
+                        return <li onClick={() => onClickCluster(item)}>
+                            <span>{item.clusterName}</span>
+                            <span>{item.domainUrl}</span>
                             <span>{item.version}</span>
-                            <span><ClusterState state={item.state} /></span>
+                            <span>{item.status ?
+                                <img src="../clusterStateTrue.svg" alt="good"/> : <img src="../clusterStateFalse.svg" alt="bad"/>}
+                            </span>
                         </li>
                     })}
                 </ul>
