@@ -12,7 +12,9 @@ import Token from "./pages/monitoring/Token.jsx";
 import Nav from "./components/Nav.jsx";
 import {useEffect, useState} from "react";
 import Header from "./components/Header.jsx";
-import loginUtil from './util/login.js'
+import loginUtil from './util/login.js';
+import { Provider } from "react-redux";
+import store from "./redux/config/configStore.js";
 
 function App() {
   const [navOpen, setNavOpen] = useState(false);
@@ -28,7 +30,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <Provider store={store}>
       <Router>
         {isLogin && <Header open={navOpen} setOpen={setNavOpen} currentPage={window.location.pathname}/>}
         <Routes>
@@ -44,7 +46,7 @@ function App() {
         </Routes>
         <Nav open={navOpen}/>
       </Router>
-    </>
+    </Provider>
   )
 }
 
