@@ -145,7 +145,7 @@ function FormToYamlFooter(props) {
             </div>
             <Button
                 variant="outlined"
-                style={{ opacity: isExpanded ? 1 : 0, pointerEvents: isExpanded ? 'auto' : 'none', width: "100px", overflow: 'hidden', background: 'white', padding: '5px 8px', position: "absolute", right:"180px", bottom: '12px', transition: 'opacity 0.3s ease-in-out' }}
+                style={{ color: '#7d7d7d', borderColor: '#7d7d7d', opacity: isExpanded ? 1 : 0, pointerEvents: isExpanded ? 'auto' : 'none', width: "100px", overflow: 'hidden', background: 'white', padding: '5px 8px', position: "absolute", right:"180px", bottom: '12px', transition: 'opacity 0.3s ease-in-out' }}
                 onClick={onClickCancel}
             >
                 CANCEL
