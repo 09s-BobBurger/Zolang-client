@@ -8,9 +8,10 @@
 ::-webkit-scrollbar {
   height: 6px;
   width: 8px;
+  margin-top: 1px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #5b6070;
+  background-color: #949bb5;
   border-radius: 2px;
 }
 ::-webkit-scrollbar-track {

@@ -247,6 +247,7 @@ function NodeDetailCard({ name }) {
                     gap: "29px",
                     width: "100%",
                     overflow: "auto",
+                    paddingBottom: "5px"
                 }}
             >
                 {commonKeys.map((key, index) => {
