@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useLocation} from "react-router-dom";
 import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
 import Overview from "../../components/monitoring/Overview.jsx";
+import Nodes from '../../components/monitoring/nodes/Nodes.jsx';
 
 const Dashboard = () => {
     const location = useLocation();
@@ -18,12 +19,15 @@ const Dashboard = () => {
     ]
 
     return (
-        <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "calc(100vh-67px)", overflow: "auto"}}>
+        <div className='dashboard-page' style={{height: "calc(100vh - 68px)",}}>
             <MonitoringNav items={category} currentMenu={currentMenu} setCurrentMenu={setCurrentMenu}/>
             <div className='monitoring-content'>
                 <p className="title">{currentMenu}</p>
                 {currentMenu === 'Overview' &&
                     <Overview />
+                }
+                {currentMenu === 'Nodes' &&
+                    <Nodes />
                 }
             </div>
         </div>
