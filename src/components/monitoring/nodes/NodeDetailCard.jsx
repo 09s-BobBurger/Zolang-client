@@ -6,13 +6,13 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { Typography, Box } from "@mui/material";
+import Chart from "./Chart";
 
 function NodeDetailCard({ name }) {
     function getTimeDiff(timeString) {
         const currentTime = new Date();
         const targetTime = new Date(timeString);
         const diff = Math.floor((currentTime - targetTime) / (1000 * 60));
-
         return `${diff}분 전`;
     }
 
@@ -89,172 +89,246 @@ function NodeDetailCard({ name }) {
             pods: "110",
         },
     };
+    const allocatableKeys = Object.keys(exampleData.allocatable);
+    const capacityKeys = Object.keys(exampleData.capacity);
+
+    const commonKeys = allocatableKeys.filter((key) =>
+        capacityKeys.includes(key)
+    );
+    function parseValueWithUnit(valueString) {
+        // 숫자와 단위를 추출합니다.
+        const match = valueString.match(/([0-9.]+)\s*(\w+)?/);
+        if (!match) {
+            // 일반적인 형식이 아니라면 바로 parseFloat를 사용하여 변환합니다.
+            return parseFloat(valueString);
+        }
+        const numericValue = parseFloat(match[1]);
+        const unit = match[2] ? match[2].toLowerCase() : null;
+        // 단위에 따라 값을 변환하여 반환합니다.
+        switch (unit) {
+            case 'kb':
+                return numericValue * 1024;
+            case 'mb':
+                return numericValue * 1024 * 1024;
+            case 'gb':
+                return numericValue * 1024 * 1024 * 1024;
+            case 'ki':
+                return numericValue * 1024; // KiB를 KB로 변환합니다.
+            default:
+                // 단위가 없거나 인식할 수 없는 경우에는 그대로 반환합니다.
+                return numericValue;
+        }
+    }
+    
 
     return (
         <div
-            className="node-detail-card"
             style={{
-                maxWidth: "60vw",
-                background: "#222634",
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: "40px",
             }}
         >
-            <Box
-                border={1}
-                borderRadius={5}
-                p={1}
-                borderColor="#ff9436"
-                backgroundColor="#ca6a16"
-            >
-                <Typography variant="subtitle">기본 정보</Typography>
-            </Box>
             {/* Node Info Table */}
-            <TableContainer>
-                <Table aria-label="node info table">
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>OS Image</TableCell>
-                            <TableCell>{exampleData.OSImage}</TableCell>
-                        </TableRow>
-                        {exampleData.addresses.map((address, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{address.type}</TableCell>
-                                <TableCell>{address.address}</TableCell>
-                            </TableRow>
-                        ))}
-                        <TableRow>
-                            <TableCell>Kubelet Version</TableCell>
-                            <TableCell>{exampleData.KubeletVersion}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>OS</TableCell>
-                            <TableCell>{exampleData.OS}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Container Runtime</TableCell>
-                            <TableCell>
-                                {exampleData.containerRuntime}
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Created</TableCell>
-                            <TableCell>{exampleData.created}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Kernel Version</TableCell>
-                            <TableCell>{exampleData.kernelVersion}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>{exampleData.name}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            {/* Conditions Table */}
-            <TableContainer>
-                <Table aria-label="conditions table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell>Last Heartbeat Time</TableCell>
-                            <TableCell>Last Transition Time</TableCell>
-                            <TableCell>Reason</TableCell>
-                            <TableCell>Message</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {exampleData.conditions.map((condition, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{condition.type}</TableCell>
-                                <TableCell>{condition.status}</TableCell>
-                                <TableCell>
-                                    {getTimeDiff(condition.lastHeartbeatTime)}
-                                </TableCell>
-                                <TableCell>
-                                    {getTimeDiff(condition.lastTransitionTime)}
-                                </TableCell>
-                                <TableCell>{condition.reason}</TableCell>
-                                <TableCell>{condition.message}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <div style={{display: "flex", alignItems: "flex-end"}}>
-                <Box
-                    border={1}
-                    borderRadius={5}
-                    p={1}
-                    borderColor="#e136ff"
-                    backgroundColor="#a016ca"
-                >
-                    <Typography variant="subtitle">Allocatable</Typography>
-                </Box>
-                <Typography variant="caption" color="#ABAFBD">
-                    : 할당 가능한 자원
-                </Typography>
-            </div>
-            {/* Allocatable Table */}
-            <TableContainer>
-                <Table aria-label="allocatable table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Allocatable</TableCell>
-                            <TableCell>Value</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {Object.entries(exampleData.allocatable).map(
-                            ([key, value]) => (
-                                <TableRow key={key}>
-                                    <TableCell component="th" scope="row">
-                                        {key}
-                                    </TableCell>
-                                    <TableCell>{value}</TableCell>
-                                </TableRow>
-                            )
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <div style={{display: "flex", alignItems: "flex-end"}}>
-            <Box
-                border={1}
-                borderRadius={5}
-                p={1}
-                borderColor="#6cff36"
-                backgroundColor="#16ca43"
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "40px",
+                    width: "700px",
+                }}
             >
-                <Typography variant="subtitle">Capacity</Typography>
-            </Box>
-            <Typography variant="caption" color="#ABAFBD">
-                : 물리적 리소스 양
-            </Typography>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        color: "#ffffff",
+                    }}
+                >
+                    <div>
+                        <Typography variant="body2" color="#ABAFBD">
+                            Name
+                        </Typography>
+                        <Typography variant="h6" color="#ff9f4a">
+                            {exampleData.name}
+                        </Typography>
+                    </div>
+                    <div>
+                        <Typography variant="body2" color="#ABAFBD">
+                            Kubelet Version
+                        </Typography>
+                        <Typography variant="h6" color="#b8ff6a">
+                            {exampleData.KubeletVersion}
+                        </Typography>
+                    </div>
+                    <div style={{ marginRight: "5px" }}>
+                        <Typography variant="body2" color="#ABAFBD">
+                            OS
+                        </Typography>
+                        <Typography variant="h6">{exampleData.OS}</Typography>
+                    </div>
+                    <div>
+                        <Typography variant="body2" color="#ABAFBD">
+                            Created
+                        </Typography>
+                        <Typography variant="h6">
+                            {exampleData.created.split("T")[0]}
+                        </Typography>
+                    </div>
+                </div>
+                <div>
+                    {/* <Box
+                    border={1}
+                    borderRadius={2}
+                    p={1}
+                    paddingRight="15px"
+                    paddingLeft="15px"
+                    borderColor="#ff9436"
+                    backgroundColor="#ca6a16"
+                    width="fit-content"
+                >
+                    <Typography variant="subtitle" color="#ffffff"></Typography>
+                </Box> */}
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            color: "#ffffff",
+                        }}
+                    >
+                        <div>
+                            <Typography variant="body2" color="#ABAFBD">
+                                OS Image
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }}>
+                                {exampleData.OSImage}
+                            </Typography>
+                        </div>
+                        <div style={{ marginRight: "5px" }}>
+                            <Typography variant="body2" color="#ABAFBD">
+                                Internal IP
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }}>
+                                {exampleData.addresses[0].address}
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography variant="body2" color="#ABAFBD">
+                                Hostname
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }}>
+                                {exampleData.name}
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography variant="body2" color="#ABAFBD">
+                                Container Runtime
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }}>
+                                {exampleData.containerRuntime}
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography variant="body2" color="#ABAFBD">
+                                Kernel Version
+                            </Typography>
+                            <Typography sx={{ mb: 1.5 }}>
+                                {exampleData.kernelVersion}
+                            </Typography>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {/* Capacity Table */}
-            <TableContainer>
-                <Table aria-label="capacity table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Capacity</TableCell>
-                            <TableCell>Value</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {Object.entries(exampleData.capacity).map(
-                            ([key, value]) => (
-                                <TableRow key={key}>
-                                    <TableCell component="th" scope="row">
-                                        {key}
+            <div
+                style={{
+                    flex: "1",
+                    display: "flex",
+                    gap: "29px",
+                    width: "100%",
+                    overflow: "auto",
+                }}
+            >
+                {commonKeys.map((key, index) => {
+                    const allocatableValue = parseValueWithUnit(
+                        exampleData.allocatable[key]
+                    );
+                    const capacityValue = parseValueWithUnit(
+                        exampleData.capacity[key]
+                    );
+                    if (allocatableValue > 0) {
+                        return (
+                            <Chart
+                                key={key}
+                                title={key}
+                                values={[
+                                    {
+                                        name: "Allocatable",
+                                        value: allocatableValue,
+                                    },
+                                    {
+                                        name: "Capacity",
+                                        value: capacityValue,
+                                    },
+                                ]}
+                                fullValue={capacityValue}
+                                colors={["#019CF6", "#256CD6"]}
+                                number={index % 4}
+                            />
+                        );
+                    }
+                })}
+            </div>
+            {/* Conditions Table */}
+            <div
+                className="node-detail-card"
+                style={{
+                    padding: "15px",
+                    outline: "1px solid #ABAFBD",
+                    borderRadius: "10px",
+                    background: "#2E3240",
+                    justifyContent: "center",
+                }}
+            >
+                <TableContainer>
+                    <Table aria-label="conditions table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>타입</TableCell>
+                                <TableCell>상태</TableCell>
+                                <TableCell>지난 하트비트 시간</TableCell>
+                                <TableCell>지난 상태 전이 시간</TableCell>
+                                <TableCell style={{ width: "70px" }}>
+                                    Reason
+                                </TableCell>
+                                <TableCell style={{ width: "150px" }}>
+                                    Message
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {exampleData.conditions.map((condition, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{condition.type}</TableCell>
+                                    <TableCell>{condition.status}</TableCell>
+                                    <TableCell>
+                                        {getTimeDiff(
+                                            condition.lastHeartbeatTime
+                                        )}
                                     </TableCell>
-                                    <TableCell>{value}</TableCell>
+                                    <TableCell>
+                                        {getTimeDiff(
+                                            condition.lastTransitionTime
+                                        )}
+                                    </TableCell>
+                                    <TableCell>{condition.reason}</TableCell>
+                                    <TableCell>{condition.message}</TableCell>
                                 </TableRow>
-                            )
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
         </div>
     );
 }

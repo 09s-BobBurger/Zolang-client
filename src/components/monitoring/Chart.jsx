@@ -2,7 +2,7 @@ import React from 'react';
 import ApexChart from 'react-apexcharts';
 import { RadialBar } from 'apexcharts';
 
-const Chart = ({ title, values, fullValue }) => {
+const Chart = ({ title, values, fullValue, colors }) => {
 
     const series = values.map(item => item.value/fullValue * 100);
 
@@ -13,7 +13,7 @@ const Chart = ({ title, values, fullValue }) => {
             height: 250, // Set chart height to 250 pixels
             aspectRatio: 4, // Maintain a 2:1 aspect ratio
         },
-        colors: ['#019CF6', '#256CD6'],
+        colors: colors? colors: ['#019CF6', '#256CD6'],
         plotOptions: {
             radialBar: {
                 inverseOrder: false,

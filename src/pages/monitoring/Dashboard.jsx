@@ -19,7 +19,7 @@ const Dashboard = () => {
     ]
 
     return (
-        <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "calc(100vh-67px)", overflow: "auto"}}>
+        <div className='dashboard-page' style={{height: "calc(100vh - 68px)",}}>
             <MonitoringNav items={category} currentMenu={currentMenu} setCurrentMenu={setCurrentMenu}/>
             <div className='monitoring-content'>
                 <p className="title">{currentMenu}</p>

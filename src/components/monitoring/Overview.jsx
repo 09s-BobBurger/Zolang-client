@@ -5,7 +5,7 @@ import Pods from "./Pods.jsx";
 
 const Overview = () => {
     return (
-        <div className="overview-content">
+        <div className="overview-content" style={{width: "calc(100vw-200px)"}}>
             <div style={{flex: "1", display: "flex", gap: "33px"}}>
                 <Chart
                     title="CPU allocation"
