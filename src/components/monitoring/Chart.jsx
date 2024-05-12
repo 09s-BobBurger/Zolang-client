@@ -2,7 +2,7 @@ import React from 'react';
 import ApexChart from 'react-apexcharts';
 import { RadialBar } from 'apexcharts';
 
-const Chart = ({ title, values, fullValue }) => {
+const Chart = ({ title, values, fullValue, colors }) => {
 
     const series = values.map(item => item.value/fullValue * 100);
 
@@ -13,7 +13,7 @@ const Chart = ({ title, values, fullValue }) => {
             height: 250, // Set chart height to 250 pixels
             aspectRatio: 4, // Maintain a 2:1 aspect ratio
         },
-        colors: ['#019CF6', '#256CD6'],
+        colors: colors,
         plotOptions: {
             radialBar: {
                 inverseOrder: false,
@@ -61,7 +61,6 @@ const Chart = ({ title, values, fullValue }) => {
             position: 'bottom',
             horizontalAlign: 'left',
             formatter: function(seriesName, opts) {
-                console.log(opts);
                 if (opts.seriesIndex < series.length) return `
                     <div class="legend-item-label">${seriesName}</div>
                     <div class="legend-item-value">${values[opts.seriesIndex].value}</div>
@@ -88,14 +87,14 @@ const Chart = ({ title, values, fullValue }) => {
     }
 
     return (
-        <div className="chart-container">
+        <div className="chart-container" style={{ width: '230px', height: '300px'}}>
             <p className="chart-title">{title}</p>
             <ApexChart
                 options={options}
                 series={series}
                 type="radialBar"
-                width={288}
-                height={302}
+                width='100%'
+                height='100%'
                 />
         </div>
     );
