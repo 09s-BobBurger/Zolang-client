@@ -18,6 +18,8 @@ import DeleteButton from "./DeleteButton.jsx";
 import { CodeBlock, hybrid } from "react-code-blocks";
 import "../../styles/FORMTOYAML.css";
 import loginUtil from '../../util/login.js'
+import yaml, {setYaml} from "../../redux/modules/yaml.js";
+import {useDispatch, useSelector} from "react-redux";
 
 function YamlResult(props) {
     const [data, setData] = useState([]);
@@ -27,6 +29,14 @@ function YamlResult(props) {
     const [addResourceType, setAddResourceType] = useState("");
 
     const HeightValue = loginUtil.checkLogin() ? "calc(100vh - 127px)" : "calc(100vh - 60px)";
+
+    // 최종 yaml
+    const yaml = useSelector((state) => state.yaml.yaml);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setYaml(data.map((item) => item.trim()).join("\n---\n")));
+    }, [data]);
 
     const handleAddResource = (resourceType) => {
         setResourceComponents([...resourceComponents, { type: resourceType }]);
@@ -225,7 +235,7 @@ function YamlResult(props) {
             }
         });
     };
-    const resultYaml = data.map((item) => item.trim()).join("\n---\n");
+
     return (
         <div
             style={{
@@ -332,7 +342,7 @@ function YamlResult(props) {
                 </div>
                 <CodeBlock
                     language="yaml"
-                    text={resultYaml}
+                    text={yaml}
                     wrapLines={true}
                     showLineNumbers={false}
                     theme={hybrid}
