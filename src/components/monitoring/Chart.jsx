@@ -13,7 +13,7 @@ const Chart = ({ title, values, fullValue, colors }) => {
             height: 250, // Set chart height to 250 pixels
             aspectRatio: 4, // Maintain a 2:1 aspect ratio
         },
-        colors: colors,
+        colors: colors? colors: ['#019CF6', '#256CD6'],
         plotOptions: {
             radialBar: {
                 inverseOrder: false,

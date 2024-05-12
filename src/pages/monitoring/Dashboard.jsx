@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import {useLocation} from "react-router-dom";
 import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
 import Overview from "../../components/monitoring/Overview.jsx";
-import Nodes from "../../components/monitoring/Nodes.jsx";
+import Nodes from '../../components/monitoring/nodes/Nodes.jsx';
 
 const Dashboard = () => {
     const location = useLocation();
@@ -27,7 +27,6 @@ const Dashboard = () => {
                 <Routes>
                     <Route path="" element={<Overview />} />
                     <Route path="nodes" element={<Nodes />} />
-                    {/* Node 컴포넌트는 후에 Node 폴더 내 Node로 바꿀 것 */}
                     {/* 페이지 작업할 때마다 Route 추가 */}
                 </Routes>
             </div>
