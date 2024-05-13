@@ -14,13 +14,14 @@ const Dashboard = () => {
     const category = [
         {name : 'Overview'},
         {name : 'Nodes'},
-        {name : 'Workloads', subCategory: ['Pods', 'Deployments', 'DaemonSets', 'StatefulSets', 'ReplicaSets', 'Jobs', 'CronJobs']},
-        {name : 'Network', subCategory: ['Services', 'Endpoints', 'Ingresses', 'Network Policies']},
-        {name : 'Storage', subCategory: ['Persistent Volume Claims', 'Persistent Volumes', 'Storage Classes']},
+        {name : 'Workloads', subCategory: ['Overview', 'Pods', 'Deployments', 'DaemonSets', 'StatefulSets', 'ReplicaSets', 'Jobs', 'CronJobs']},
+        {name : 'Network', subCategory: ['Services', 'Ingresses']},
+        {name : 'Namespace'},
+        // {name : 'Storage', subCategory: ['Persistent Volume Claims', 'Persistent Volumes', 'Storage Classes']},
     ]
 
     return (
-        <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "100%", overflow: "auto"}}>
+        <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "calc(100% - 68px)", overflow: "auto"}}>
             <MonitoringNav items={category} currentMenu={currentMenu} />
             <div className='monitoring-content'>
                 <p className="title">{currentMenu.charAt(0).toUpperCase() + currentMenu.slice(1)}</p>
