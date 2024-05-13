@@ -4,6 +4,7 @@ import {useLocation} from "react-router-dom";
 import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
 import Overview from "../../components/monitoring/Overview.jsx";
 import Nodes from '../../components/monitoring/nodes/Nodes.jsx';
+import WorkloadsOverview from '../../components/monitoring/workloads/overview/Overview.jsx';
 
 const Dashboard = () => {
     const location = useLocation();
@@ -28,6 +29,7 @@ const Dashboard = () => {
                 <Routes>
                     <Route path="" element={<Overview />} />
                     <Route path="nodes" element={<Nodes />} />
+                    <Route path="workloads/overview" element={<WorkloadsOverview />} />
                     {/* 페이지 작업할 때마다 Route 추가 */}
                 </Routes>
             </div>

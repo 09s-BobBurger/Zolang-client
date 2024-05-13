@@ -94,7 +94,7 @@ function Nodes(props) {
                                 fontWeight: "bold",
                             }}
                         >
-                            Nodes
+                            List
                         </span>
                     </div>
                     <hr
