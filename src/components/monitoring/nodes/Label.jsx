@@ -12,7 +12,7 @@ function Label(props) {
                 width: "max-content",
                 height: "fit-content",
                 borderRadius: "8px",
-                textAlign: 'left'
+                textAlign: "left",
             }}
         >
             {props.name}

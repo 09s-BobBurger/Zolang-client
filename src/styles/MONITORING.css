@@ -1,3 +1,34 @@
+/* Workload table */
+
+.moni-workloads-table{
+    /* width: calc((100vw - 80px) / 100 * 75); */
+}
+
+.moni-workloads-table > div > table > thead > tr > th:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.moni-workloads-table > div > table > thead > tr > th:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.moni-workloads-table > div > table > thead > tr > th {
+    color: #ffffff;
+    border-bottom: 0;
+    background: #222634;
+    font-size: 10px;
+}
+
+.moni-workloads-table > div > table > tbody > tr > th {
+    color: #dde1ef !important;
+    border-bottom-color: #606472 !important;
+}
+
+.moni-workloads-table > div > table > tbody > tr > td {
+    color: #dde1ef !important;
+    border-bottom-color: #606472 !important;
+}
+
 /* node detail card */
 .node-detail-card {
     color: #ffffff;
