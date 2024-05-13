@@ -76,7 +76,7 @@ function FormToYamlFooter(props) {
 
     useEffect(() => {
         axios
-            .get(`/api/v1/users/github-repo/?repoName=${repository}`,
+            .get(`/api/v1/users/github/branches?repoName=${repository}`,
                 {
                     headers: {
                         "Authorization": "Bearer " + loginUtil.getAccessToken(),
@@ -122,7 +122,7 @@ function FormToYamlFooter(props) {
             if (isExpanded) {
                 if (yaml && repository && branches && commitMessage && fileName) {
                     axios
-                        .post(`/api/v1/users/github/?repoName=${repository}&branchName=${branch}`,
+                        .put(`/api/v1/users/github/commits?repoName=${repository}&branchName=${branch}`,
                             {
                                 data: {
                                     "yaml": yaml,
@@ -144,7 +144,7 @@ function FormToYamlFooter(props) {
                 }
             } else {
                  axios
-                    .get('/api/v1/users/github-repo', {
+                    .get('/api/v1/users/github', {
                         headers: {
                             "Authorization": "Bearer " + loginUtil.getAccessToken(),
                         }

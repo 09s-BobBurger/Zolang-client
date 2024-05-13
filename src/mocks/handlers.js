@@ -38,7 +38,8 @@ export const handlers = [
         })
     }),
 
-    http.get('/api/v1/users/github-repo', () => {
+    // load repositories
+    http.get('/api/v1/users/github', () => {
         return HttpResponse.json({
             "success": true,
             "data": [
@@ -152,7 +153,8 @@ export const handlers = [
         })
     }),
 
-    http.get('/api/v1/users/github-repo/', ({request}) => {
+    // load branches
+    http.get('/api/v1/users/github/branches', ({request}) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get('repoName');
         return HttpResponse.json({
@@ -181,7 +183,8 @@ export const handlers = [
         })
     }),
 
-    http.post('/api/v1/users/github/', async ({request}) => {
+    // push
+    http.put('/api/v1/users/github/commits', async ({request}) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get('repoName');
         const branchName = url.searchParams.get('branchName');
