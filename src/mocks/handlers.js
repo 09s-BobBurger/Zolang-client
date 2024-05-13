@@ -38,7 +38,8 @@ export const handlers = [
         })
     }),
 
-    http.get('/api/v1/users/github-repo', () => {
+    // load repositories
+    http.get('/api/v1/users/github', () => {
         return HttpResponse.json({
             "success": true,
             "data": [
@@ -152,8 +153,10 @@ export const handlers = [
         })
     }),
 
-    http.get('/api/v1/users/github-repo/:repositoryName', ({params}) => {
-        const { repositoryName } = params;
+    // load branches
+    http.get('/api/v1/users/github/branches', ({request}) => {
+        const url = new URL(request.url);
+        const repoName = url.searchParams.get('repoName');
         return HttpResponse.json({
             "success": true,
             "data": [
@@ -180,11 +183,14 @@ export const handlers = [
         })
     }),
 
-    http.post('/api/v1/users/github-repo/:repositoryName/:branchName', async ({request, params}) => {
-        const {repositoryName, branchName} = params;
+    // push
+    http.put('/api/v1/users/github/commits', async ({request}) => {
+        const url = new URL(request.url);
+        const repoName = url.searchParams.get('repoName');
+        const branchName = url.searchParams.get('branchName');
         const data = await request.json();
         // 실패 데이터
-        if (repositoryName.length > 15) {
+        if (repoName.length > 15) {
             return HttpResponse.json({
                 "message" : "서버 내부 오류"
             })
