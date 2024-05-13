@@ -180,7 +180,7 @@ export const handlers = [
         })
     }),
 
-    http.post('/api/v1/users/github-repo/:repositoryName/:branchName', async ({request, params}) => {
+    http.post('/api/v1/users/github/:repositoryName/:branchName', async ({request, params}) => {
         const {repositoryName, branchName} = params;
         const data = await request.json();
         // 실패 데이터
