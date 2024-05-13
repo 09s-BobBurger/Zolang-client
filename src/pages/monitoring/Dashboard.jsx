@@ -20,7 +20,7 @@ const Dashboard = () => {
     ]
 
     return (
-        <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "calc(100vh-67px)", overflow: "auto"}}>
+        <div className='dashboard-page' style={{position: "fixed", top: "68px", height: "100%", overflow: "auto"}}>
             <MonitoringNav items={category} currentMenu={currentMenu} />
             <div className='monitoring-content'>
                 <p className="title">{currentMenu.charAt(0).toUpperCase() + currentMenu.slice(1)}</p>
