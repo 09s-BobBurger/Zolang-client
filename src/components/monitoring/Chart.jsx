@@ -87,14 +87,14 @@ const Chart = ({ title, values, fullValue, colors }) => {
     }
 
     return (
-        <div className="chart-container">
+        <div className="chart-container" style={{ width: '230px', height: '300px'}}>
             <p className="chart-title">{title}</p>
             <ApexChart
                 options={options}
                 series={series}
                 type="radialBar"
-                width={288}
-                height={302}
+                width='100%'
+                height='100%'
                 />
         </div>
     );

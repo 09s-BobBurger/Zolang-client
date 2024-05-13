@@ -122,7 +122,7 @@ function FormToYamlFooter(props) {
             if (isExpanded) {
                 if (yaml && repository && branches && commitMessage && fileName) {
                     axios
-                        .post(`/api/v1/users/github-repo/${repository}/${branch.replace("/", " ")}`,
+                        .post(`/api/v1/users/github-repo/${repository.replace("/", " ")}/${branch.replace("/", " ")}`,
                             {
                                 "yaml": yaml,
                                 "file_name": fileName.endsWith(".yaml") ? fileName : fileName + ".yaml",

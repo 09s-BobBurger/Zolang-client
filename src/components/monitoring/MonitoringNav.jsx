@@ -6,6 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import {styled} from "@mui/material/styles";
 import KeyboardArrowDown from "../icon/KeyboardArrowDown.jsx";
+import { useNavigate } from 'react-router-dom';
 
 const Accordion = styled(MuiAccordion) ({
     background: "transparent",
@@ -36,6 +37,8 @@ const Accordion = styled(MuiAccordion) ({
 
 const MonitoringNav = ({items, currentMenu, setCurrentMenu}) => {
 
+    const navigate = useNavigate();
+
     return (
         <div className="monitoring-nav">
             <List
@@ -45,9 +48,10 @@ const MonitoringNav = ({items, currentMenu, setCurrentMenu}) => {
                 {items.map((item, idx1) => {
                     if (item.subCategory === undefined) {
                         return <ListItemButton key={idx1}
-                            style={ currentMenu === item.name ? { background: '#222634'} : {background: 'transparent'}}
+                            style={ currentMenu === item.name.toLowerCase() ? { background: '#222634'} : {background: 'transparent'}}
                             onClick={() => {
-                                setCurrentMenu(item.name);
+                                if (item.name === 'Overview') navigate("/monitoring/dashboard");
+                                else navigate(`${item.name.toLowerCase()}`)
                             }}
                         ><Typography>{item.name}</Typography></ListItemButton>
                     }
@@ -60,9 +64,10 @@ const MonitoringNav = ({items, currentMenu, setCurrentMenu}) => {
                                 <AccordionDetails>
                                 {item.subCategory.map((innerItem, idx2) =>
                                 <ListItemButton key={idx2}
-                                    style={ currentMenu === innerItem ? { background: '#222634'} : {background: 'transparent'}}
+                                    style={ currentMenu === innerItem.toLowerCase() ? { background: '#222634'} : {background: 'transparent'}}
                                     onClick={() => {
-                                        setCurrentMenu(innerItem);
+                                        // setCurrentMenu(innerItem);
+                                        navigate(`${item.name.toLowerCase()}/${innerItem.toLowerCase()}`)
                                     }}
                                 ><Typography>{innerItem}</Typography></ListItemButton>)}
                                 </AccordionDetails>

@@ -41,7 +41,7 @@ function App() {
           <Route path="/cd/dashboard" element={isLogin ? <CDDashboard /> : <Navigate to={"/"} />} />
           <Route path="/cd/repoList" element={isLogin ? <RepoList /> : <Navigate to={"/"} />} />
           <Route path="/monitoring/clusterList" element={isLogin ? <ClusterList /> : <Navigate to={"/"} />} />
-          <Route path="/monitoring/dashboard" element={isLogin ? <MonitoringDashboard /> : <Navigate to={"/"} />} />
+          <Route path="/monitoring/dashboard/*" element={isLogin ? <MonitoringDashboard /> : <Navigate to={"/"} />} />
           <Route path="/monitoring/token" element={isLogin ? <Token /> : <Navigate to={"/"} />} />
         </Routes>
         <Nav open={navOpen}/>

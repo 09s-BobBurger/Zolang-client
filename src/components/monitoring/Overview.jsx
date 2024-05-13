@@ -22,6 +22,7 @@ const Overview = () => {
                         { name: "Limits", value: 0.25 },
                     ]}
                     fullValue={2.0}
+                    colors={['#ff9033', '#ffe046']}
                 />
                 <Chart
                     title="Memory allocation"
@@ -30,6 +31,7 @@ const Overview = () => {
                         { name: "Limits", value: 404.00 },
                     ]}
                     fullValue={2.0}
+                    colors={['#019CF6', '#74ea44']}
                 />
                 <Chart
                     title="Pods allocation"
@@ -38,6 +40,7 @@ const Overview = () => {
                         { name: "Limits", value: 100 },
                     ]}
                     fullValue={2.0}
+                    colors={['#ff0073', '#ffb994']}
                 />
             </div>
             <div style={{flex: "1"}}> 
