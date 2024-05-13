@@ -152,8 +152,9 @@ export const handlers = [
         })
     }),
 
-    http.get('/api/v1/users/github-repo/:repositoryName', ({params}) => {
-        const { repositoryName } = params;
+    http.get('/api/v1/users/github-repo/', ({request}) => {
+        const url = new URL(request.url);
+        const repoName = url.searchParams.get('repoName');
         return HttpResponse.json({
             "success": true,
             "data": [
@@ -180,11 +181,13 @@ export const handlers = [
         })
     }),
 
-    http.post('/api/v1/users/github/:repositoryName/:branchName', async ({request, params}) => {
-        const {repositoryName, branchName} = params;
+    http.post('/api/v1/users/github/', async ({request}) => {
+        const url = new URL(request.url);
+        const repoName = url.searchParams.get('repoName');
+        const branchName = url.searchParams.get('branchName');
         const data = await request.json();
         // 실패 데이터
-        if (repositoryName.length > 15) {
+        if (repoName.length > 15) {
             return HttpResponse.json({
                 "message" : "서버 내부 오류"
             })
