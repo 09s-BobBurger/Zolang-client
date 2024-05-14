@@ -8,6 +8,7 @@ import Table from "@mui/material/Table";
 import "../../../../styles/MONITORING.css";
 import { useNavigate } from "react-router-dom";
 import Label from "../../nodes/Label";
+import Status from "../../../icon/Status.jsx";
 
 function TableForm({ data, title }) {
     const navigate = useNavigate();
@@ -106,7 +107,7 @@ function TableForm({ data, title }) {
                                         </div>
                                     </TableCell>
                                     <TableCell>{row.node}</TableCell>
-                                    <TableCell>{row.status}</TableCell>
+                                    <TableCell><Status status={row.status} /></TableCell>
                                     <TableCell>{row.restartCount}</TableCell>
                                     <TableCell>{row.age}</TableCell>
                                 </TableRow>

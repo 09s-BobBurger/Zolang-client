@@ -5,6 +5,7 @@ import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
 import Overview from "../../components/monitoring/Overview.jsx";
 import WorkloadsOverview from '../../components/monitoring/workloads/overview/Overview.jsx';
 import Pods from '../../components/monitoring/workloads/Pods/Pods.jsx'
+import Nodes from '../../components/monitoring/nodes/Nodes.jsx'
 
 const Dashboard = () => {
     const location = useLocation();
