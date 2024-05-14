@@ -1,7 +1,14 @@
 /* Workload table */
+.pie-chart-container > div > svg path {
+    stroke-width: 0;
+}
+
+.pie-chart-container > div {
+    color : white;
+}
 
 .moni-workloads-table{
-    /* width: calc((100vw - 80px) / 100 * 75); */
+    width: calc(100vw / 100 * 77);
 }
 
 .moni-workloads-table > div > table > thead > tr > th:first-child {
