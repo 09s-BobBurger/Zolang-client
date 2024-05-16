@@ -8,7 +8,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import MuiTextField from "@mui/material/TextField";
 import loginUtil from '../../util/login.js';
-import axios from 'axios';
+import {cusomizedAxios as axios} from "../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 
 const FormControl = styled(MuiFormControl) ({
