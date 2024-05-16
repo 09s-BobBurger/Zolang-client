@@ -91,7 +91,7 @@ const nameContainerStyle = {
 const menus = [
     "Dashboard", "Form To Yaml", "CI/CD", "Monitoring"
 ]
-const Nav = ({open}) => {
+const Nav = ({open, toggleDrawer}) => {
     const [menuIdx, setMenuIdx] = useState();
     const location = useLocation().pathname === "/" ?
         useLocation().pathname : useLocation().pathname.toString().split("/")[1];
@@ -117,7 +117,7 @@ const Nav = ({open}) => {
     }
 
     return (
-        <Drawer open={open}>
+        <Drawer open={open} onClick={toggleDrawer(false)}>
             <AccountContainer>
                 <img src="https://ko.vitejs.dev/logo.svg" alt="test용 이미지"/>
                 <div style={nameContainerStyle}>
