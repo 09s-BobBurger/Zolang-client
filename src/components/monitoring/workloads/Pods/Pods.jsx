@@ -94,7 +94,7 @@ const Pods = () => {
     return (
         <div className="overview-content">
             {!selectedPod && <PodsList pods={podsData} setPod={setSelectedPod} />}
-            {selectedPod && <PodDetail pod={selectedPod} />}
+            {selectedPod && <PodDetail pod={selectedPod} setPod={setSelectedPod} />}
 
         </div>
     );
