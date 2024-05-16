@@ -15,7 +15,7 @@ import MuiButton from '@mui/material/Button';
 const boxStyle = {
     boxSizing: 'border-box',
     minWidth: '250px',
-    height: '140px',
+    height: '120px',
     background: 'transparent',
     borderRadius: '10px',
     border: '2.5px solid #ABAFBD',
@@ -26,9 +26,34 @@ const boxStyle = {
     justifyContent: 'space-between',
 }
 
+const boxTitleVariant = "h6";
+const boxValueVariant = "body1";
+
+// key 폰트 크기가 value보다 작은 디자인
+const KeyValueDesign = ({title, value}) => {
+    return (<div>
+        <Typography variant="body2" color="#ABAFBD">
+            {title}
+        </Typography>
+        <Typography variant="body1" color="#ffffff">
+            {value}
+        </Typography>
+    </div>)
+}
+
+const titleStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    color: "#ffffff",
+    fontSize: "1.6rem"
+}
+
 const PodDetail = ({ pod, setPod }) => {
     return (
-        <div>
+        <div
+            style={{ width: '79vw' }}
+        >
             <MuiButton
                 style={{
                     width: 'fit-content',
@@ -66,8 +91,8 @@ const PodDetail = ({ pod, setPod }) => {
                         background: 'rgb(56, 60, 74)'
                     }}
                 >
-                    <span style={{ display: 'flex', alignItems: 'center', width: '100%', color: "#ffffff", fontSize: "2rem"}}>
-                        <img width="40px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg" alt="metadata"/>
+                    <span style={titleStyle}>
+                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg" alt="metadata"/>
                         Metadata
                     </span>
                     <div
@@ -171,7 +196,7 @@ const PodDetail = ({ pod, setPod }) => {
                          boxSizing: 'border-box',
                          display: 'flex',
                          flexWrap: "wrap",
-                         gap: '20px',
+                         gap: '10px',
                          border: '1px solid rgb(171, 175, 189)',
                          borderRadius: '10px',
                          padding: '30px',
@@ -179,138 +204,65 @@ const PodDetail = ({ pod, setPod }) => {
                          overflowX: 'auto',
                      }}
                 >
-                    <span style={{ display: 'flex', alignItems: 'center', width: '100%', color: "#ffffff", fontSize: "2rem"}}>
-                        <img width="40px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg" alt="resource"/>
+                    <span style={titleStyle}>
+                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg" alt="resource"/>
                         Resource
                     </span>
                     <div
                         style={{
-                            display: 'flex',
-                            gap: '20px'
+                            width: 'fit-content'
                         }}
                     >
-                        <div style={boxStyle}>
-                            <Typography variant="h5">
-                                Node
-                            </Typography>
-                            <Typography variant="body1" align="right">
-                                {pod.resource.node}
-                            </Typography>
+                        <div
+                            style={{
+                                display: 'flex',
+                                width: 'fit-content',
+                                gap: '20px',
+                                justifyContent: 'space-between'
+                            }}
+                        >
+                            <div style={boxStyle}>
+                                <Typography variant={boxTitleVariant}>
+                                    Node
+                                </Typography>
+                                <Typography variant={boxValueVariant} align="right">
+                                    {pod.resource.node}
+                                </Typography>
+                            </div>
+                            <div style={boxStyle}>
+                                <Typography variant={boxTitleVariant}>
+                                    Status
+                                </Typography>
+                                <Typography variant={boxValueVariant} align="right">
+                                    {pod.resource.status}
+                                </Typography>
+                            </div>
+                            <div style={boxStyle}>
+                                <Typography variant={boxTitleVariant} >
+                                    IP
+                                </Typography>
+                                <Typography variant={boxValueVariant} align="right">
+                                    {pod.resource.ip}
+                                </Typography>
+                            </div>
                         </div>
-                        <div style={boxStyle}>
-                            <Typography variant="h5">
-                                Status
-                            </Typography>
-                            {/*<div style={{ marginLeft: 'auto'}}>*/}
-                            {/*    <Status status={pod.resource.status}/>*/}
-                            {/*</div>*/}
-                            <Typography variant="body1" align="right">
-                                {pod.resource.status}
-                            </Typography>
-                        </div>
-                        <div style={boxStyle}>
-                            <Typography variant="h5" >
-                                IP
-                            </Typography>
-                            <Typography variant="body1" align="right">
-                                {pod.resource.ip}
-                            </Typography>
-                        </div>
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            gap: '20px',
-                            width: '100%',
-                        }}
-                    >
-                        <div style={boxStyle}>
-                            <Typography variant="h5" >
-                                Priority Class
-                            </Typography>
-                            <Typography variant="body1" align="right">
-                                {pod.resource.priorityClass ? pod.resource.priorityClass : '-'}
-                            </Typography>
-                        </div>
-                        <div style={boxStyle}>
-                            <Typography variant="h5" >
-                                Restart Count
-                            </Typography>
-                            <Typography variant="body1" align="right">
-                                {pod.resource.restartCount}
-                            </Typography>
-                        </div>
-                        <div style={boxStyle}>
-                            <Typography variant="h5" >
-                                Service Account
-                            </Typography>
-                            <Typography variant="body1" align="right">
-                                {pod.resource.serviceAccount}
-                            </Typography>
-                        </div>
-                        <div style={boxStyle}>
-                            <Typography variant="h5" >
-                                Image Pull Secret
-                            </Typography>
-                            <Typography variant="body1" align="right">
-                                {pod.resource.imagePullSecret ? pod.resource.imagePullSecret : '-'}
-                            </Typography>
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: '20px',
+                                padding: '20px',
+                                background: 'transparent',
+                                borderRadius: '10px',
+                                justifyContent: 'space-between'
+                            }}
+                        >
+                            <KeyValueDesign title="Priority Class" value={pod.resource.priorityClass ? pod.resource.priorityClass : '-'} />
+                            <KeyValueDesign title="Restart Count" value={pod.resource.restartCount} />
+                            <KeyValueDesign title="Service Account" value={pod.resource.serviceAccount} />
+                            <KeyValueDesign title="Image Pull Secret" value={pod.resource.imagePullSecret ? pod.resource.imagePullSecret : '-'} />
                         </div>
                     </div>
-                    {/*<div>*/}
-                    {/*    <Typography variant="body2" color="#ABAFBD">*/}
-                    {/*        Node*/}
-                    {/*    </Typography>*/}
-                    {/*    <Typography color="#ffffff">*/}
-                    {/*        {pod.resource.node}*/}
-                    {/*    </Typography>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                    {/*    <Typography variant="body2" color="#ABAFBD" style={{ marginBottom: '5px'}}>*/}
-                    {/*        Status*/}
-                    {/*    </Typography>*/}
-                    {/*    <Status status={pod.resource.status}/>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                    {/*    <Typography variant="body2" color="#ABAFBD">*/}
-                    {/*        IP*/}
-                    {/*    </Typography>*/}
-                    {/*    <Typography color="#ffffff">*/}
-                    {/*        {pod.resource.ip}*/}
-                    {/*    </Typography>*/}
-                    {/*</div>*/}
-                    {/*{pod.resource.priorityClass && <div>*/}
-                    {/*    <Typography variant="body2" color="#ABAFBD">*/}
-                    {/*        Priority Class*/}
-                    {/*    </Typography>*/}
-                    {/*    <Typography color="#ffffff">*/}
-                    {/*        {pod.resource.priorityClass}*/}
-                    {/*    </Typography>*/}
-                    {/*</div>}*/}
-                    {/*<div>*/}
-                    {/*    <Typography variant="body2" color="#ABAFBD">*/}
-                    {/*        Restart Count*/}
-                    {/*    </Typography>*/}
-                    {/*    <Typography color="#ffffff">*/}
-                    {/*        {pod.resource.restartCount}*/}
-                    {/*    </Typography>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                    {/*    <Typography variant="body2" color="#ABAFBD">*/}
-                    {/*        Service Account*/}
-                    {/*    </Typography>*/}
-                    {/*    <Typography color="#ffffff">*/}
-                    {/*        {pod.resource.serviceAccount}*/}
-                    {/*    </Typography>*/}
-                    {/*</div>*/}
-                    {/*{pod.resource.imagePullSecret && <div>*/}
-                    {/*    <Typography variant="body2" color="#ABAFBD">*/}
-                    {/*        Image Pull Secret*/}
-                    {/*    </Typography>*/}
-                    {/*    <Typography color="#ffffff">*/}
-                    {/*        {pod.resource.imagePullSecret}*/}
-                    {/*    </Typography>*/}
-                    {/*</div>}*/}
+
                 </div>
                 {/* Conditions Table */}
                 <div
@@ -329,8 +281,8 @@ const PodDetail = ({ pod, setPod }) => {
                         flexDirection: 'column',
                         gap: '20px'
                     }}>
-                        <span style={{ display: 'flex', alignItems: 'center', width: '100%', color: "#ffffff", fontSize: "2rem", }}>
-                            <img width="40px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg" alt="status"/>
+                        <span style={titleStyle}>
+                            <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg" alt="status"/>
                             Conditions
                         </span>
                         <Table aria-label="conditions table">
@@ -366,6 +318,148 @@ const PodDetail = ({ pod, setPod }) => {
                                         <TableCell align="center">
                                             {condition.message ? condition.message : '-'}
                                         </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </div>
+                {/* Controlled */}
+                <div
+                    style={{
+                        boxSizing: 'border-box',
+                        display: 'flex',
+                        flexWrap: "wrap",
+                        gap: '10px',
+                        border: '1px solid rgb(171, 175, 189)',
+                        borderRadius: '10px',
+                        padding: '30px',
+                        background: 'rgb(56, 60, 74)',
+                        overflowX: 'auto',
+                    }}
+                >
+                    <span style={titleStyle}>
+                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../controlled.svg" alt="controlled"/>
+                        Controlled
+                    </span>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0',
+                    }}>
+                        <div
+                             style={{
+                                 display: 'flex',
+                                 flexDirection: 'column',
+                                 gap: '20px',
+                             }}
+                        >
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    gap: '50px'
+                                }}
+                            >
+                                <div>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Name
+                                    </Typography>
+                                    <Typography variant="h6" color="#ffffff">
+                                        {pod.controlled.name}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Kind
+                                    </Typography>
+                                    <Typography variant="h6" color="#ffffff">
+                                        {pod.controlled.kind}
+                                    </Typography>
+                                </div>
+                                <KeyValueDesign title="Replicas" value={pod.controlled.replicas}/>
+                                <KeyValueDesign title="Ready Replicas" value={pod.controlled.readyReplicas}/>
+                                <KeyValueDesign title="Age" value={pod.controlled.age}/>
+                            </div>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    gap: '20px'
+                                }}
+                            >
+                                <div style={{marginRight: "5px"}}>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Labels
+                                    </Typography>
+                                    <Typography sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                        {Object.keys(pod.controlled.labels).map((key) => {
+                                            return <Label name={key + ":" + pod.controlled.labels[key]}/>
+                                        })}
+                                    </Typography>
+                                </div>
+                                <div style={{marginRight: "5px"}}>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Images
+                                    </Typography>
+                                    <Typography sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                        {pod.controlled.images.map((item, key) => {
+                                            return <Label name={item} key={key}/>
+                                        })}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* Persistent Volume Claims */}
+                <div
+                    className="node-detail-card"
+                    style={{
+                        padding: "30px",
+                        flexDirection: 'column',
+                        outline: "1px solid #ABAFBD",
+                        borderRadius: "10px",
+                        background: "#2E3240",
+                        justifyContent: "center",
+                    }}
+                >
+                    <TableContainer sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '20px'
+                    }}>
+                        <span style={titleStyle}>
+                            <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../persistentVolumeClaim.svg" alt="persistent volume claim"/>
+                            Persistent Volume Claims
+                        </span>
+                        <Table aria-label="conditions table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell sx={{ paddingLeft: '16px !important' }}
+                                    >Name</TableCell>
+                                    <TableCell align="center">Label</TableCell>
+                                    <TableCell align="center">Status</TableCell>
+                                    <TableCell align="center">Volume</TableCell>
+                                    <TableCell align="center">Capacity</TableCell>
+                                    <TableCell align="center">Access Mode</TableCell>
+                                    <TableCell align="center">Storage Class</TableCell>
+                                    <TableCell align="center">Creation Time</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {pod.persistentVolumeClaims.map((pvc, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{pvc.name}</TableCell>
+                                        <TableCell>
+                                            {pvc.labels && Object.keys(pvc.labels).map((key) => {
+                                                return <Label name={key + ":" + pod.controlled.labels[key]}/>
+                                            })}
+                                        </TableCell>
+                                        <TableCell align="center">{pvc.status}</TableCell>
+                                        <TableCell align="center">{pvc.volume}</TableCell>
+                                        <TableCell align="center">{pvc.capacity}</TableCell>
+                                        <TableCell align="center">{pvc.accessMode}</TableCell>
+                                        <TableCell align="center">{pvc.storageClass}</TableCell>
+                                        <TableCell align="center">{pvc.creationTime}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
