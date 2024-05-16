@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Label from "../../nodes/Label.jsx";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -16,40 +16,32 @@ const PodsList = ({ pods, setPod }) => {
                 "success": true,
                 "data": {
                     "metadata": {
-                        "name": "nginx-ingress-microk8s-controller-4n4rq",
-                        "namespace": "ingress",
-                        "conditions": [
-                            "PodReadyToStartContainers",
-                            "Initialized",
-                            "Ready",
-                            "ContainersReady",
-                            "PodScheduled"
-                        ],
-                        "creationTime": "2024.04.26",
-                        "age": "13d",
-                        "uid": "f7971391-2a65-4b5b-9b77-62983090a475",
+                        "name": "grafana-657c7689bd-gqggn",
+                        "namespace": "monitoring",
+                        "creationDate": "2024 .04 .26 .",
+                        "creationTime": "오후 02:11:40",
+                        "age": "17 day",
+                        "uid": "cc272971-122b-4665-92bb-a75dad0e611b",
                         "labels": {
-                            "controller-revision-hash": "7466d5f4cb",
-                            "name": "nginx-ingress-microk8s",
-                            "pod-template-generation": "10"
+                            "app": "grafana",
+                            "pod-template-hash": "657c7689bd"
                         },
                         "annotations": {
-                            "cni.projectcalico.org/containerID": "f757933b0663b3c79e71e2fb9d79124c65f07db8a4149368dd0259119373eccd",
-                            "cni.projectcalico.org/podIP": "10.1.49.135/32",
-                            "cni.projectcalico.org/podIPs": "10.1.49.135/32"
+                            "cni.projectcalico.org/containerID": "1d94c5f774cc1ca00089e855352bafc167d8656001b5f47a734188f00fd551c0",
+                            "cni.projectcalico.org/podIP": "10.1.75.185/32",
+                            "cni.projectcalico.org/podIPs": "10.1.75.185/32",
+                            "kubectl.kubernetes.io/restartedAt": "2024-04-26T14:11:20Z"
                         }
                     },
-                    "cpu": null,
-                    "memory": null,
                     "resource": {
-                        "node": "instance-20230502-0040",
+                        "node": "instance-20230123-2111",
                         "status": "Running",
-                        "ip": "10.1.49.135",
+                        "ip": "10.1.75.185",
                         "priorityClass": null,
                         "restartCount": [
-                            12
+                            20
                         ],
-                        "serviceAccount": "nginx-ingress-microk8s-serviceaccount",
+                        "serviceAccount": "default",
                         "imagePullSecret": null
                     },
                     "conditions": [
@@ -57,15 +49,15 @@ const PodsList = ({ pods, setPod }) => {
                             "type": "PodReadyToStartContainers",
                             "status": "True",
                             "lastProbeTime": null,
-                            "lastTransitionTime": "13d",
-                            "reason": "reasonTest reasonTest reasonTest",
-                            "message": "messageTest messageTest messageTest"
+                            "lastTransitionTime": "17 day",
+                            "reason": null,
+                            "message": null
                         },
                         {
                             "type": "Initialized",
                             "status": "True",
                             "lastProbeTime": null,
-                            "lastTransitionTime": "13d",
+                            "lastTransitionTime": "17 day",
                             "reason": null,
                             "message": null
                         },
@@ -73,7 +65,7 @@ const PodsList = ({ pods, setPod }) => {
                             "type": "Ready",
                             "status": "True",
                             "lastProbeTime": null,
-                            "lastTransitionTime": "-18m",
+                            "lastTransitionTime": "1 day",
                             "reason": null,
                             "message": null
                         },
@@ -81,7 +73,7 @@ const PodsList = ({ pods, setPod }) => {
                             "type": "ContainersReady",
                             "status": "True",
                             "lastProbeTime": null,
-                            "lastTransitionTime": "-18m",
+                            "lastTransitionTime": "1 day",
                             "reason": null,
                             "message": null
                         },
@@ -89,9 +81,37 @@ const PodsList = ({ pods, setPod }) => {
                             "type": "PodScheduled",
                             "status": "True",
                             "lastProbeTime": null,
-                            "lastTransitionTime": "13d",
+                            "lastTransitionTime": "17 day",
                             "reason": null,
                             "message": null
+                        }
+                    ],
+                    "controlled": [
+                        {
+                            "name": "grafana-657c7689bd",
+                            "kind": "ReplicaSet",
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "age": "17 day",
+                            "labels": {
+                                "app": "grafana",
+                                "pod-template-hash": "657c7689bd"
+                            },
+                            "images": [
+                                "grafana/grafana:latest"
+                            ]
+                        }
+                    ],
+                    "persistentVolumeClaims": [
+                        {
+                            "name": "grafana-pvc",
+                            "label": "{}",
+                            "status": "Bound",
+                            "volume": "grafana-volume",
+                            "capacity": "10 Gi",
+                            "accessMode": "[ReadWriteOnce]",
+                            "storageClass": "grafana",
+                            "creationTime": "2 month"
                         }
                     ]
                 },
@@ -218,7 +238,12 @@ const PodsList = ({ pods, setPod }) => {
                                     <TableCell align="center">
                                         {pod.restartCount}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                        align="center"
+                                        onMouseEnter={(e) => {
+                                            console.log(e);
+                                        }}
+                                    >
                                         {pod.age}
                                     </TableCell>
                                 </TableRow>
