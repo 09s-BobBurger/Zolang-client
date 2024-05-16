@@ -60,11 +60,6 @@ const MonitoringNav = ({ items, currentMenu, namespace }) => {
     return (
         <div className="monitoring-nav">
             <div className="menu-bar">
-                {/* <div style={{ paddingLeft: "16px" }}>
-                    <Typography variant="caption" color="#ABAFBD">
-                        Namespace
-                    </Typography>
-                </div> */}
                 <List
                     component="nav"
                     aria-label="namespace"
@@ -118,13 +113,9 @@ const MonitoringNav = ({ items, currentMenu, namespace }) => {
                         return (
                             <ListItemButton
                                 key={idx1}
-                                style={
-                                    currentMenu === item.name.toLowerCase()
-                                        ? { background: "#222634" }
-                                        : { background: "transparent" }
-                                }
+                                style={currentMenu === item.name.toLowerCase() ? { background: "#222634" }: { background: "transparent" }}
                                 onClick={() => {
-                                    if (item.name === "Overview")
+                                    if (item.name === "Cluster Overview")
                                         navigate("/monitoring/dashboard");
                                     else navigate(`${item.name.toLowerCase()}`);
                                 }}
@@ -146,18 +137,7 @@ const MonitoringNav = ({ items, currentMenu, namespace }) => {
                                             (innerItem, idx2) => (
                                                 <ListItemButton
                                                     key={idx2}
-                                                    style={
-                                                        currentMenu ===
-                                                        innerItem.toLowerCase()
-                                                            ? {
-                                                                  background:
-                                                                      "#222634",
-                                                              }
-                                                            : {
-                                                                  background:
-                                                                      "transparent",
-                                                              }
-                                                    }
+                                                    style={ currentMenu === innerItem.toLowerCase()? {background:"#222634",}: {background:"transparent",}}
                                                     onClick={() => {
                                                         navigate(
                                                             `${item.name.toLowerCase()}/${innerItem.toLowerCase()}`
@@ -165,13 +145,7 @@ const MonitoringNav = ({ items, currentMenu, namespace }) => {
                                                     }}
                                                 >
                                                     <Typography>
-                                                        {innerItem.startsWith(
-                                                            "+"
-                                                        )
-                                                            ? innerItem.substring(
-                                                                  1
-                                                              )
-                                                            : innerItem}
+                                                        {innerItem}
                                                     </Typography>
                                                 </ListItemButton>
                                             )

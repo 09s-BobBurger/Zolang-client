@@ -16,7 +16,7 @@ const Dashboard = () => {
     const pathName = location.pathname.replace("%20", " ");
 
     const category = [
-        { name: "Overview" },
+        { name: "Cluster Overview" },
         { name: "Nodes" },
         { name : 'Workloads', subCategory: ['Overview', 'Pods', 'Deployments', 'DaemonSets', 'StatefulSets', 'ReplicaSets', 'Jobs', 'CronJobs']},
         { name: "Network", subCategory: ["Services", "Ingresses"] },
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         const currentMenu =
-            pathName === "/monitoring/dashboard" ? "overview" : pathName.split("/").pop();
+            pathName === "/monitoring/dashboard" ? "cluster overview" : pathName.split("/").pop();
         setCurrentMenu(currentMenu);
     }, [pathName]);
 

@@ -237,10 +237,11 @@
 
 .monitoring-nav {
     background-color: #2e3240;
-    padding: 32px 16px;
+    padding: 15px 16px;
     color: white;
     font-size: 16px;
     width: 200px;
+    overflow: hidden;
 }
 
 .monitoring-nav .menu-bar .MuiListItemText-root {
@@ -249,7 +250,7 @@
 
 .MuiMenu-paper {
     width: 200px !important;
-    background: #dfe0e9 !important;
+    background: #f5f6fc !important;
     color: #2e3240 !important;
 }
 
