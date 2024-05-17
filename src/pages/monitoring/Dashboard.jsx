@@ -4,9 +4,10 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
 import Overview from "../../components/monitoring/Overview.jsx";
-import Nodes from "../../components/monitoring/nodes/Nodes.jsx";
-import WorkloadsOverview from "../../components/monitoring/workloads/overview/Overview.jsx";
-import Pods from "../../components/monitoring/workloads/Pods/Pods.jsx";
+import WorkloadsOverview from '../../components/monitoring/workloads/overview/Overview.jsx';
+import Pods from '../../components/monitoring/workloads/Pods/Pods.jsx'
+import Nodes from '../../components/monitoring/nodes/Nodes.jsx'
+import Services from "../../components/monitoring/network/services/Services.jsx";
 
 const Dashboard = () => {
     const location = useLocation();
@@ -63,6 +64,7 @@ const Dashboard = () => {
                         element={<WorkloadsOverview />}
                     />
                     <Route path="workloads/pods" element={<Pods />} />
+                    <Route path="network/services" element={<Services />} />
                     {/* 페이지 작업할 때마다 Route 추가 */}
                 </Routes>
             </div>

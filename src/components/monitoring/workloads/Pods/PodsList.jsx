@@ -86,22 +86,20 @@ const PodsList = ({ pods, setPod }) => {
                             "message": null
                         }
                     ],
-                    "controlled": [
-                        {
-                            "name": "grafana-657c7689bd",
-                            "kind": "ReplicaSet",
-                            "replicas": 1,
-                            "readyReplicas": 1,
-                            "age": "17 day",
-                            "labels": {
-                                "app": "grafana",
-                                "pod-template-hash": "657c7689bd"
-                            },
-                            "images": [
-                                "grafana/grafana:latest"
-                            ]
-                        }
-                    ],
+                    "controlled": {
+                        "name": "grafana-657c7689bd",
+                        "kind": "ReplicaSet",
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "age": "17 day",
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "657c7689bd"
+                        },
+                        "images": [
+                            "grafana/grafana:latest"
+                        ]
+                    },
                     "persistentVolumeClaims": [
                         {
                             "name": "grafana-pvc",
