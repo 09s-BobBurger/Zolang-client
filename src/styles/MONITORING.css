@@ -237,15 +237,41 @@
 
 .monitoring-nav {
     background-color: #2e3240;
-    padding: 32px 16px;
+    padding: 15px 16px;
     color: white;
     font-size: 16px;
     width: 200px;
+    overflow: hidden;
+}
+
+.monitoring-nav .menu-bar .MuiListItemText-root {
+    padding: 0;
+}
+
+.MuiMenu-paper {
+    width: 200px !important;
+    background: #f5f6fc !important;
+    color: #2e3240 !important;
 }
 
 .monitoring-nav .MuiList-root {
     margin: 0;
-    padding: 0;
+    padding: 0;   
+}
+
+.monitoring-nav .menu-bar .MuiListItemButton-root {
+    border-left: solid 3px white !important;
+    margin-bottom: 5px;
+}
+
+.monitoring-nav .MuiList-root > div > div > span {
+    color: rgb(167, 252, 255) !important;
+    font-size: 24px;
+}
+
+.monitoring-nav .MuiList-root > div > div > p {
+    color: rgb(180, 180, 180) !important;
+    font-size: 12px;
 }
 
 .monitoring-nav .MuiTypography-root {
