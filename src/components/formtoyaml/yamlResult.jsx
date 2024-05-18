@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import YamlDeployment from "./YamlDeployment";
-import YamlPersistentVolume from "./YamlPersistentVolume";
-import YamlSecret from "./YamlSecret";
+import YamlDeployment from "./yamlDeployment";
+import YamlPersistentVolume from "./yamlPersistentVolume";
+import YamlSecret from "./yamlSecret";
 import Accordion from "./Accordion.jsx";
 import AccordionDetails from "./AccordionDetails.jsx";
 import AccordionSummary from "./AccordionSummary.jsx";
