@@ -1,6 +1,7 @@
 import React from 'react';
 import GuideToken from "./GuideToken"
 import TokenDescribe from "./TokenDescribe"
+import GuideDomainUrl from "./GuideDomainUrl.jsx";
 
 function TokenResult(props) {
     return (
@@ -13,6 +14,7 @@ function TokenResult(props) {
                 }}>Guide Token</span>
             <GuideToken />
             <TokenDescribe />
+            <GuideDomainUrl />
         </div>
     );
 }
