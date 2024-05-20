@@ -199,5 +199,16 @@ export const handlers = [
                 "message" : "성공"
             })
         }
-    })
+    }),
+
+    // enroll cluster
+    http.post('/api/v1/cluster', async ({request}) => {
+        const data = await request.json();
+        console.log(data);
+        return HttpResponse.json({
+            "success": true,
+            "data": 1,
+            "error": null
+        })
+    }),
 ]
