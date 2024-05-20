@@ -24,11 +24,12 @@ const Dashboard = () => {
     ];
 
     useEffect(() => {
+        // axios로 namespace들을 불러와 앞에 All을 삽입할 것
         axios
             .get("your-api-endpoint-for-sub-categories")
             .then((response) => {
                 // setSubCategories(response.data);
-                setSubCategories(["Docker", "test-k8s", "nginx"])
+                setSubCategories(["All", "Docker", "test-k8s", "nginx"])
             })
             .catch((error) => {
                 console.error("Error fetching sub categories:", error);
