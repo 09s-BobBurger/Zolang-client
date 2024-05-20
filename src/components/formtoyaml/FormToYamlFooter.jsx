@@ -74,6 +74,23 @@ function FormToYamlFooter(props) {
 
     const [commitMessageError, setCommitMessageError] = useState(false);
     const [fileNameError, setFileNameError] = useState(false);
+    const [email, setEmail] = useState();
+    const [name, setName] = useState();
+
+    useEffect(()=>{
+        axios.get('/api/v1/user',{
+            headers: {
+                Authorization: "Bearer " + loginUtil.getAccessToken(),
+            },
+        })
+        .then((res) => {
+            setEmail(res.data.email);
+            setName(res.data.nickname);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    })
 
     useEffect(() => {
         axios
@@ -134,12 +151,12 @@ function FormToYamlFooter(props) {
                         .put(
                             `/api/v1/github/commits?repoName=${repository}&branchName=${branch}`,
                             {
-                                content: yaml,
+                                committer_name: name,
+                                committer_email: email,
                                 file_name: fileName.endsWith(".yaml")
                                     ? fileName
                                     : fileName + ".yaml",
-                                commiter_message: commitMessage,
-                                commiter_email: "elinnane0@gmail.com",
+                                content: yaml,
                             },
                             {
                                 headers: {
@@ -151,7 +168,8 @@ function FormToYamlFooter(props) {
                             }
                         )
                         .then((r) => {
-                            if (r.data.message !== "성공") {
+                            console.log(r);
+                            if (r.data !== "true" || r.success != "true") {
                                 props.setIsPushFailModalOpen(true);
                             } else {
                                 setIsExpanded(false);
