@@ -9,7 +9,7 @@ const Main = () => {
     const navigate = useNavigate();
     const cookies = new Cookies().cookies;
     const onClickLogin = () => {
-        window.location.href = 'https://zolang.site/oauth2/authorization/github';
+        window.location.href = 'http://localhost:8080/oauth2/authorization/github';
     }
 
     useEffect(() => {
