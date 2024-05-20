@@ -74,12 +74,11 @@ function FormToYamlFooter(props) {
 
     const [commitMessageError, setCommitMessageError] = useState(false);
     const [fileNameError, setFileNameError] = useState(false);
-    const [userId, setUserId] = useState(2);
 
     useEffect(() => {
         axios
             .get(
-                `/api/v1/github/branches?userId=${userId}&repoName=${repository}`,
+                `/api/v1/github/branches?repoName=${repository}`,
                 {
                     headers: {
                         Authorization: "Bearer " + loginUtil.getAccessToken(),
@@ -133,7 +132,7 @@ function FormToYamlFooter(props) {
                 ) {
                     axios
                         .put(
-                            `/api/v1/github/commits?userId=${userId}&repoName=${repository}&branchName=${branch}`,
+                            `/api/v1/github/commits?repoName=${repository}&branchName=${branch}`,
                             {
                                 content: yaml,
                                 file_name: fileName.endsWith(".yaml")
@@ -163,7 +162,7 @@ function FormToYamlFooter(props) {
             } else {
                 console.log(loginUtil.getAccessToken());
                 axios
-                    .get(`/api/v1/github?userId=${userId}`, {
+                    .get(`/api/v1/github`, {
                         headers: {
                             Authorization:
                                 "Bearer " + loginUtil.getAccessToken(),
