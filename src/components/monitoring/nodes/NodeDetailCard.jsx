@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -7,8 +7,10 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { Typography, Box } from "@mui/material";
 import Chart from "./Chart";
+import KeyboardArrowLeft from "../../icon/KeyboardArrowLeft.jsx";
+import MuiButton from "@mui/material/Button";
 
-function NodeDetailCard({ name }) {
+function NodeDetailCard({ node, setNode }) {
     function getTimeDiff(timeString) {
         const currentTime = new Date();
         const targetTime = new Date(timeString);
@@ -16,81 +18,8 @@ function NodeDetailCard({ name }) {
         return `${diff}분 전`;
     }
 
-    const exampleData = {
-        allocatable: {
-            cpu: "10",
-            "ephemeral-storage": "56403987978",
-            "hugepages-1Gi": "0",
-            "hugepages-2Mi": "0",
-            "hugepages-32Mi": "0",
-            "hugepages-64Ki": "0",
-            memory: "7926968Ki",
-            pods: "110",
-        },
-        OSImage: "Docker Desktop",
-        addresses: [
-            {
-                type: "InternalIP",
-                address: "192.168.65.3",
-            },
-            {
-                type: "Hostname",
-                address: "docker-desktop",
-            },
-        ],
-        KubeletVersion: "v1.29.1",
-        OS: "linux",
-        containerRuntime: "docker://25.0.3",
-        created: "2024-03-20T14:26:36Z",
-        kernelVersion: "6.6.12-linuxkit",
-        name: "docker-desktop",
-        conditions: [
-            {
-                type: "MemoryPressure",
-                status: "False",
-                lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                lastTransitionTime: "2024-03-20T14:26:36Z",
-                reason: "KubeletHasSufficientMemory",
-                message: "kubelet has sufficient memory available",
-            },
-            {
-                type: "DiskPressure",
-                status: "False",
-                lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                lastTransitionTime: "2024-03-20T14:26:36Z",
-                reason: "KubeletHasNoDiskPressure",
-                message: "kubelet has no disk pressure",
-            },
-            {
-                type: "PIDPressure",
-                status: "False",
-                lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                lastTransitionTime: "2024-03-20T14:26:36Z",
-                reason: "KubeletHasSufficientPID",
-                message: "kubelet has sufficient PID available",
-            },
-            {
-                type: "Ready",
-                status: "True",
-                lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                lastTransitionTime: "2024-03-20T14:26:37Z",
-                reason: "KubeletReady",
-                message: "kubelet is posting ready status",
-            },
-        ],
-        capacity: {
-            cpu: "10",
-            "ephemeral-storage": "61202244Ki",
-            "hugepages-1Gi": "0",
-            "hugepages-2Mi": "0",
-            "hugepages-32Mi": "0",
-            "hugepages-64Ki": "0",
-            memory: "8029368Ki",
-            pods: "110",
-        },
-    };
-    const allocatableKeys = Object.keys(exampleData.allocatable);
-    const capacityKeys = Object.keys(exampleData.capacity);
+    const allocatableKeys = Object.keys(node.allocatable);
+    const capacityKeys = Object.keys(node.capacity);
 
     const commonKeys = allocatableKeys.filter((key) =>
         capacityKeys.includes(key)
@@ -106,20 +35,19 @@ function NodeDetailCard({ name }) {
         const unit = match[2] ? match[2].toLowerCase() : null;
         // 단위에 따라 값을 변환하여 반환합니다.
         switch (unit) {
-            case 'kb':
+            case "kb":
                 return numericValue * 1024;
-            case 'mb':
+            case "mb":
                 return numericValue * 1024 * 1024;
-            case 'gb':
+            case "gb":
                 return numericValue * 1024 * 1024 * 1024;
-            case 'ki':
+            case "ki":
                 return numericValue * 1024; // KiB를 KB로 변환합니다.
             default:
                 // 단위가 없거나 인식할 수 없는 경우에는 그대로 반환합니다.
                 return numericValue;
         }
     }
-    
 
     return (
         <div
@@ -130,6 +58,23 @@ function NodeDetailCard({ name }) {
                 gap: "40px",
             }}
         >
+            <MuiButton
+                style={{
+                    width: "fit-content",
+                    background: "transparent",
+                    color: "white",
+                    border: "none",
+                    marginBottom: "10px",
+                    padding: "10px 0",
+                    fontSize: "1.1rem",
+                }}
+                onClick={() => {
+                    setNode(false);
+                }}
+            >
+                <KeyboardArrowLeft />
+                Return to List
+            </MuiButton>
             {/* Node Info Table */}
             <div
                 style={{
@@ -137,6 +82,10 @@ function NodeDetailCard({ name }) {
                     flexDirection: "column",
                     gap: "40px",
                     width: "700px",
+                    padding: "15px",
+                    outline: "1px solid #ABAFBD",
+                    borderRadius: "10px",
+                    background: "rgb(56, 60, 74)",
                 }}
             >
                 <div
@@ -151,7 +100,7 @@ function NodeDetailCard({ name }) {
                             Name
                         </Typography>
                         <Typography variant="h6" color="#ff9f4a">
-                            {exampleData.name}
+                            {node.name}
                         </Typography>
                     </div>
                     <div>
@@ -159,21 +108,21 @@ function NodeDetailCard({ name }) {
                             Kubelet Version
                         </Typography>
                         <Typography variant="h6" color="#b8ff6a">
-                            {exampleData.KubeletVersion}
+                            {node.KubeletVersion}
                         </Typography>
                     </div>
                     <div style={{ marginRight: "5px" }}>
                         <Typography variant="body2" color="#ABAFBD">
                             OS
                         </Typography>
-                        <Typography variant="h6">{exampleData.OS}</Typography>
+                        <Typography variant="h6">{node.OS}</Typography>
                     </div>
                     <div>
                         <Typography variant="body2" color="#ABAFBD">
                             Created
                         </Typography>
                         <Typography variant="h6">
-                            {exampleData.created.split("T")[0]}
+                            {node.created.split("T")[0]}
                         </Typography>
                     </div>
                 </div>
@@ -202,7 +151,7 @@ function NodeDetailCard({ name }) {
                                 OS Image
                             </Typography>
                             <Typography sx={{ mb: 1.5 }}>
-                                {exampleData.OSImage}
+                                {node.OSImage}
                             </Typography>
                         </div>
                         <div style={{ marginRight: "5px" }}>
@@ -210,7 +159,7 @@ function NodeDetailCard({ name }) {
                                 Internal IP
                             </Typography>
                             <Typography sx={{ mb: 1.5 }}>
-                                {exampleData.addresses[0].address}
+                                {node.addresses[0].address}
                             </Typography>
                         </div>
                         <div>
@@ -218,7 +167,7 @@ function NodeDetailCard({ name }) {
                                 Hostname
                             </Typography>
                             <Typography sx={{ mb: 1.5 }}>
-                                {exampleData.name}
+                                {node.name}
                             </Typography>
                         </div>
                         <div>
@@ -226,7 +175,7 @@ function NodeDetailCard({ name }) {
                                 Container Runtime
                             </Typography>
                             <Typography sx={{ mb: 1.5 }}>
-                                {exampleData.containerRuntime}
+                                {node.containerRuntime}
                             </Typography>
                         </div>
                         <div>
@@ -234,7 +183,7 @@ function NodeDetailCard({ name }) {
                                 Kernel Version
                             </Typography>
                             <Typography sx={{ mb: 1.5 }}>
-                                {exampleData.kernelVersion}
+                                {node.kernelVersion}
                             </Typography>
                         </div>
                     </div>
@@ -247,15 +196,15 @@ function NodeDetailCard({ name }) {
                     gap: "29px",
                     width: "100%",
                     overflow: "auto",
-                    paddingBottom: "5px"
+                    paddingBottom: "5px",
                 }}
             >
                 {commonKeys.map((key, index) => {
                     const allocatableValue = parseValueWithUnit(
-                        exampleData.allocatable[key]
+                        node.allocatable[key]
                     );
                     const capacityValue = parseValueWithUnit(
-                        exampleData.capacity[key]
+                        node.capacity[key]
                     );
                     if (allocatableValue > 0) {
                         return (
@@ -287,7 +236,7 @@ function NodeDetailCard({ name }) {
                     padding: "15px",
                     outline: "1px solid #ABAFBD",
                     borderRadius: "10px",
-                    background: "#2E3240",
+                    background: "rgb(56, 60, 74)",
                     justifyContent: "center",
                 }}
             >
@@ -308,7 +257,7 @@ function NodeDetailCard({ name }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {exampleData.conditions.map((condition, index) => (
+                            {node.conditions.map((condition, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{condition.type}</TableCell>
                                     <TableCell>{condition.status}</TableCell>
