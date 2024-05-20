@@ -2,14 +2,14 @@ import React, {useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import Button from "@mui/material/Button";
-import {Cookies} from 'react-cookie';
+import {Cookies, useCookies} from 'react-cookie';
 import loginUtil from '../util/login.js';
 
 const Main = () => {
     const navigate = useNavigate();
-    const cookies = new Cookies().cookies;
+
     const onClickLogin = () => {
-        window.location.href = 'https://zolang.site/oauth2/authorization/github';
+        window.location.href = 'http://localhost:8080/oauth2/authorization/github';
     }
 
     useEffect(() => {

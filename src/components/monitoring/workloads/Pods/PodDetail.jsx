@@ -11,6 +11,7 @@ import Status from "../../../icon/Status.jsx";
 import TableBody from "@mui/material/TableBody";
 import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from '@mui/material/Button';
+import UsageLineChart from "../../UsageLineChart.jsx";
 
 const boxStyle = {
     boxSizing: 'border-box',
@@ -78,6 +79,27 @@ const PodDetail = ({ pod, setPod }) => {
                     height: 'auto'
                 }}
             >
+                {/* Usage Charts */}
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "20px",
+                        width: '100%'
+                    }}
+                >
+                    <UsageLineChart
+                        title="CPU Usage"
+                        data={pod.metrics.map(i => i.cpuUsage)}
+                        time={pod.metrics.map(i => i.time)}
+                        color="#2efc00"
+                    />
+                    <UsageLineChart
+                        title="Memory Usage"
+                        data={pod.metrics.map(i => i.memoryUsage)}
+                        time={pod.metrics.map(i => i.time)}
+                        color="#f8fc00"
+                    />
+                </div>
                 {/* Metadata Table */}
                 <div
                     style={{
@@ -465,6 +487,25 @@ const PodDetail = ({ pod, setPod }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                </div>
+                {/*  Container  */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "20px",
+                        // width: "800px",
+                        border: '1px solid rgb(171, 175, 189)',
+                        borderRadius: '10px',
+                        padding: '30px',
+                        background: 'rgb(56, 60, 74)'
+                    }}
+                >
+                    <span style={titleStyle}>
+                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../container.svg" alt="container"/>
+                        Container
+                    </span>
+
                 </div>
             </div>
         </div>
