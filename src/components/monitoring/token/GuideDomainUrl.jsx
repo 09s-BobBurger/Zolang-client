@@ -121,7 +121,7 @@ echo $APISERVER`;
                     margin: "5px",
                 }}
             >
-                Domain URL 발급 방법
+                Token & Domain URL 확인 방법
             </span>
             <hr
                 style={{
@@ -138,9 +138,11 @@ echo $APISERVER`;
                     color: "#ffffff",
                     padding: "5px",
                     margin: "5px",
+                    lineHeight: '2'
                 }}
             >
-                클러스터 이름을 작성하여 아래의 코드를 터미널에 입력합니다.
+                클러스터 이름을 작성하여 아래의 코드를 터미널에 입력합니다.<br />
+                출력된 토큰과 APISERVER 도메인으로 클러스터를 추가해주세요.
             </span>
             <div className="cluster-name-form"
                 style={{
@@ -166,18 +168,6 @@ echo $APISERVER`;
                     codeBlock
                 />
             </div>
-            <br/>
-            <span
-                style={{
-                    display: 'inline-block',
-                    fontSize: "16px",
-                    color: "#ffffff",
-                    padding: "5px",
-                    margin: "5px",
-                }}
-            >
-                출력된 토큰과 APISERVER 도메인을 입력해주세요.<br />
-            </span>
         </div>
     );
 };
