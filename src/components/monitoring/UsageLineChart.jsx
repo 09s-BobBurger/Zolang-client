@@ -1,7 +1,7 @@
 import React from 'react';
 import ApexChart from "react-apexcharts";
 
-const UsageLineChart = ({title, data, time, color, yAxis}) => {
+const UsageLineChart = ({title, data, time, color, yAxis, yFormat}) => {
     const series = [{
         name : title,
         data : data
@@ -9,7 +9,7 @@ const UsageLineChart = ({title, data, time, color, yAxis}) => {
     const options = {
             chart: {
                 height: 350,
-                type: 'line',
+                type: 'area',
                 zoom: {
                     enabled: false
                 }
@@ -19,7 +19,7 @@ const UsageLineChart = ({title, data, time, color, yAxis}) => {
                 enabled: false
             },
             stroke: {
-                curve: 'straight'
+                curve: 'smooth'
             },
             title: {
                 text: title,
@@ -43,18 +43,34 @@ const UsageLineChart = ({title, data, time, color, yAxis}) => {
                 labels: {
                     style: {
                         colors: '#ffffff'
-                    }
-                }
-
+                    },
+                },
             },
             yaxis: {
                 show: 'true',
+                title: {
+                    text: yAxis,
+                    style : {
+                        color: '#ffffff'
+                    }
+                },
                 labels: {
                     style: {
                         colors: ['#ffffff']
-                    }
+                    },
+                    formatter : yFormat
                 }
-            }
+            },
+            fill: {
+                colors: [color],
+                type: 'gradient',
+                gradient: {
+                    type: "vertical",
+                    // opacityFrom: 0.80,
+                    // opacityTo: 0.1,
+                    stops: [0, 100, 100]
+                },
+            },
     }
 
     return (
@@ -70,7 +86,7 @@ const UsageLineChart = ({title, data, time, color, yAxis}) => {
             <ApexChart
                 options={options}
                 series={series}
-                type="line"
+                type="area"
                 width="580"
                 height="300"
             />
