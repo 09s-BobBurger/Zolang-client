@@ -9,11 +9,11 @@ import Pods from '../../components/monitoring/workloads/Pods/Pods.jsx'
 import Nodes from '../../components/monitoring/nodes/Nodes.jsx'
 import Services from "../../components/monitoring/network/services/Services.jsx";
 
-const Dashboard = () => {
+const Dashboard = (data) => {
     const location = useLocation();
     const [subCategories, setSubCategories] = useState([]);
     const [currentMenu, setCurrentMenu] = useState("");
-    const clusterName = location.state?.data;
+    const clusterData = location.state?.data;
     const pathName = location.pathname.replace("%20", " ");
 
     const category = [
@@ -58,7 +58,7 @@ const Dashboard = () => {
                     {currentMenu.charAt(0).toUpperCase() + currentMenu.slice(1)}
                 </p>
                 <Routes>
-                    <Route path="" element={<Overview />} />
+                    <Route path="" element={<Overview data={clusterData}/>} />
                     <Route path="nodes" element={<Nodes />} />
                     <Route
                         path="workloads/overview"

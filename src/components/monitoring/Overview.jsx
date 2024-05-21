@@ -2,8 +2,42 @@ import React from "react";
 import Chart from "./Chart.jsx";
 import InnerNodes from "./InnerNodes.jsx";
 import Pods from "./Pods.jsx";
+import { cusomizedAxios as axios } from "../../util/customizedAxios.js";
 
-const Overview = () => {
+const Overview = (data) => {
+    const clusterId = data.clusterId;
+
+    useEffect(() => {
+        axios
+            .get(
+                `/api/v1/cluster/${clusterId}/workload/overview`,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                    }
+                }
+            )
+            .then((res) => {
+                let clustersList = res.data.data;
+                for (let i = 0; i < clustersList.length; i++) {
+                    axios
+                        .get(
+                            `/api/v1/cluster/${clustersList[i].clusterId}/status`
+                        )
+                        .then((res) => {
+                            clustersList[i].status = res.data.data;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                }
+                setClusters(clustersList);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }, [])
+    
     return (
         <div className="overview-content">
             <div style={{
