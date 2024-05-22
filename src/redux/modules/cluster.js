@@ -12,7 +12,6 @@ const clusterSlice = createSlice({
             // state.clusterName = null;
         },
         setCluster(state, props) {
-            console.log(props.payload);
             state.clusterId = props.payload;
             // state.clusterName = props.payload.clusterName;
         },
