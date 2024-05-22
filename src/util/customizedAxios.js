@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const cusomizedAxios = axios.create({
-    // baseURL: 'https://kcs.zolang.site',
-    baseURL: 'http://localhost:8080',
+export const customizedAxios = axios.create({
+    // baseURL: 'https://zolang.site',
+    // baseURL: 'http://localhost:8080',
+    baseURL: 'https://kcs.zolang.site'
 });

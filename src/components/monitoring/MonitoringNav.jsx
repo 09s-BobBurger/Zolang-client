@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../styles/MONITORING.css";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -12,6 +12,8 @@ import { styled } from "@mui/material/styles";
 import KeyboardArrowDown from "../icon/KeyboardArrowDown.jsx";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import {setNamespace} from "../../redux/modules/namespace.js";
+import {useDispatch, useSelector} from "react-redux";
 
 const Accordion = styled(MuiAccordion)({
     background: "transparent",
@@ -42,15 +44,18 @@ const Accordion = styled(MuiAccordion)({
 const MonitoringNav = ({ items, currentMenu, namespace }) => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
     const open = Boolean(anchorEl);
+
+    const currentNamespace = useSelector((state) => state.namespace.namespace);
+    const dispatch = useDispatch();
+
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
+    const handleMenuItemClick = (option) => {
         setAnchorEl(null);
+        dispatch(setNamespace(option));
     };
 
     const handleClose = () => {
@@ -75,9 +80,7 @@ const MonitoringNav = ({ items, currentMenu, namespace }) => {
                     >
                         <ListItemText
                             primary={
-                                namespace[selectedIndex]
-                                    ? namespace[selectedIndex]
-                                    : "Namespace"
+                                currentNamespace
                             }
                             secondary="Namespace"
                         />
@@ -94,12 +97,12 @@ const MonitoringNav = ({ items, currentMenu, namespace }) => {
                     }}
                     sx={{ padding: 0 }}
                 >
-                    {namespace.map((option, index) => (
+                    {namespace.map((option) => (
                         <MenuItem
                             key={option}
-                            selected={index === selectedIndex}
-                            onClick={(event) =>
-                                handleMenuItemClick(event, index)
+                            selected={option === currentNamespace}
+                            onClick={() =>
+                                handleMenuItemClick(option)
                             }
                         >
                             {option}

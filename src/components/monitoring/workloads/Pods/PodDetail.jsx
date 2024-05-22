@@ -11,6 +11,7 @@ import Status from "../../../icon/Status.jsx";
 import TableBody from "@mui/material/TableBody";
 import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from '@mui/material/Button';
+import UsageLineChart from "../../UsageLineChart.jsx";
 
 const boxStyle = {
     boxSizing: 'border-box',
@@ -78,6 +79,30 @@ const PodDetail = ({ pod, setPod }) => {
                     height: 'auto'
                 }}
             >
+                {/* Usage Charts */}
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "20px",
+                        width: '100%'
+                    }}
+                >
+                    <UsageLineChart
+                        title="CPU Usage"
+                        data={pod.metrics.map(i => i.cpuUsage)}
+                        time={pod.metrics.map(i => i.time)}
+                        color="#f8fc00"
+                        yAxis="CPU(cores)"
+                    />
+                    <UsageLineChart
+                        title="Memory Usage"
+                        data={pod.metrics.map(i => i.memoryUsage/(10 ** 6))}
+                        time={pod.metrics.map(i => i.time)}
+                        color="#00bbff"
+                        yAxis="Memory(bytes)"
+                        yFormat={(value) => value.toFixed(1).toString() + "Mi"}
+                    />
+                </div>
                 {/* Metadata Table */}
                 <div
                     style={{
@@ -465,6 +490,258 @@ const PodDetail = ({ pod, setPod }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                </div>
+                {/*  Container  */}
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "20px",
+                        // width: "800px",
+                        border: '1px solid rgb(171, 175, 189)',
+                        borderRadius: '10px',
+                        padding: '30px',
+                        background: 'rgb(56, 60, 74)'
+                    }}
+                >
+                    <span style={titleStyle}>
+                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../container.svg" alt="container"/>
+                        Container
+                    </span>
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: '15px',
+                            color: "#ffffff",
+                            alignItems: 'center'
+                        }}
+                    >
+                        <div
+                            style={{
+                                width: '16px',
+                                height: '16px',
+                                borderRadius: '8px',
+                                background: pod.container.isRunning ? "green" : "red"
+                            }}
+                        ></div>
+                        <Typography variant="h6">
+                            {pod.container.name}
+                        </Typography>
+                    </div>
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: '40px',
+                            color: "#ffffff",
+                        }}
+                    >
+                        <div>
+                            <Typography variant="body2" color="#ABAFBD">
+                                Image
+                            </Typography>
+                            <Typography variant="body1">
+                                {pod.container.image}
+                            </Typography>
+                        </div>
+                    </div>
+                    <div>
+                        <Typography variant="h6" color="#EFEFEF">
+                            State
+                        </Typography>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: '40px',
+                                color: "#ffffff",
+                                marginTop: '10px',
+                            }}
+                        >
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Ready
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.ready.toString()}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Started
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.started.toString()}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Started At
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.startedAt}
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <Typography variant="h6" color="#EFEFEF">
+                            Environment Variable
+                        </Typography>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: '40px',
+                                color: "#ffffff",
+                                marginTop: '10px',
+                            }}
+                        >
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Pod Name
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.env[0].value ? pod.containers.env[0].value : '-'}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Pod Namespace
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.env[1].value ? pod.containers.env[1].value : '-'}
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <Typography variant="h6" color="#EFEFEF">
+                            Factor
+                        </Typography>
+                        <div
+                            style={{
+                                backgroundColor: 'rgb(46, 50, 64)',
+                                borderRadius: '5px',
+                                padding: '15px 25px',
+                                marginTop: '10px',
+                                color: 'white',
+                            }}
+                        >
+                            {pod.container.factor.map(i => <p style={{ margin: '0'}}>{i + '\n'}</p>)}
+                        </div>
+                    </div>
+                    <div>
+                        <Typography variant="h6" color="#EFEFEF">
+                            Mount
+                        </Typography>
+                        <TableContainer
+                            sx={{
+                                marginTop: '10px',
+                            }}
+                        >
+                            <Table aria-label="conditions table"
+                                   sx={{
+                                       '& .MuiTableCell-root': {
+                                           color: 'white',
+                                           border: '1px solid #ABAFBD'
+                                       },
+                                       '& .MuiTableRow-head .MuiTableCell-root': {
+                                           color: '#ABAFBD',
+                                           backgroundColor: 'rgb(46, 50, 64)'
+                                       },
+                                   }}
+                            >
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell sx={{ paddingLeft: '16px !important', border: '1px solid white' }}
+                                        >Name</TableCell>
+                                        <TableCell align="center">Read Only</TableCell>
+                                        <TableCell align="center">Mount Path</TableCell>
+                                        <TableCell align="center">Sub Path</TableCell>
+                                        <TableCell align="center">Source Type</TableCell>
+                                        <TableCell align="center">Source Name</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {pod.container.mount.map((item, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>{item.name}</TableCell>
+                                            <TableCell align="center">
+                                                {item.readOnly.toString()}
+                                            </TableCell>
+                                            <TableCell align="center">{item.mountPath ? item.mountPath : '-'}</TableCell>
+                                            <TableCell align="center">{item.subPath ? item.subPath : '-'}</TableCell>
+                                            <TableCell align="center">{item.sourceType ? item.sourceType : '-'}</TableCell>
+                                            <TableCell align="center">{item.sourceName ? item.sourceName : '-'}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+                    <div>
+                        <Typography variant="h6" color="#EFEFEF">
+                            Security Context
+                        </Typography>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: '40px',
+                                color: "#ffffff",
+                                marginTop: '10px',
+                            }}
+                        >
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Run As User
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.securityContext.runAsUser? pod.container.securityContext.runAsUser : '-'}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Added Capabilities
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.securityContext.addedCapabilities.join(", ")}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Drop Capabilities
+                                </Typography>
+                                <Typography variant="body1">
+                                    {pod.container.securityContext.dropCapabilities.join(", ")}
+                                </Typography>
+                            </div>
+                        </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: '10px 40px',
+                                color: "#ffffff",
+                                flexWrap: 'wrap',
+                                marginTop: '10px'
+                            }}
+                        >
+                            {
+                                Object.keys(pod.container.securityContext).slice(3).map(key => {
+                                    if (pod.container.securityContext[key]) {
+                                        return (
+                                            <div>
+                                                <Typography variant="body2" color="#ABAFBD">
+                                                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                </Typography>
+                                                <Typography variant="body1">
+                                                    {pod.container.securityContext[key]}
+                                                </Typography>
+                                            </div>
+                                        )
+                                    }
+                                    return null;
+                                })
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
