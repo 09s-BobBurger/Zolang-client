@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import mkcert from 'vite-plugin-mkcert'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,12 +8,21 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
   },
-  plugins: [
-    react(),
-    // mkcert({
-    //   // mkcert 플러그인을 사용하여 로컬 SSL 인증서를 자동으로 생성할 수 있습니다.
-    //   // 이 설정은 개발 환경에서만 필요합니다.
-    //   autoInstall: true
-    // })
-  ],
+  plugins: [react()],
+  // build: {
+  //   outDir: 'dist', // 빌드된 파일이 생성될 디렉토리
+  //   assetsDir: '.', // 자산 파일의 기본 디렉토리
+  //   sourcemap: true, // 소스 맵 생성 여부
+
+  //   rollupOptions: {
+  //     input: {
+  //       main: './index.html', // 진입점 HTML 파일 경로
+  //     },
+  //     output: {
+  //       entryFileNames: '[name].js', // 출력 파일 이름 패턴
+  //       chunkFileNames: 'chunks/[name].[hash].js', // 청크 파일 이름 패턴
+  //       assetFileNames: 'assets/[name].[ext]', // 자산 파일 이름 패턴
+  //     },
+  //   },
+  // },
 })
