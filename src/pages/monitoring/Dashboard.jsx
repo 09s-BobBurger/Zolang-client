@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
@@ -8,14 +8,18 @@ import WorkloadsOverview from '../../components/monitoring/workloads/overview/Ov
 import Pods from '../../components/monitoring/workloads/Pods/Pods.jsx'
 import Nodes from '../../components/monitoring/nodes/Nodes.jsx'
 import Services from "../../components/monitoring/network/services/Services.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {initCluster} from "../../redux/modules/cluster.js";
+import {initNamespace} from "../../redux/modules/namespace.js";
 
 const Dashboard = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const dispatch = useDispatch();
     const [subCategories, setSubCategories] = useState([]);
     const [currentMenu, setCurrentMenu] = useState("");
-    const clusterName = location.state?.data;
     const pathName = location.pathname.replace("%20", " ");
-
     const category = [
         { name: "Cluster Overview" },
         { name: "Nodes" },
@@ -24,6 +28,11 @@ const Dashboard = () => {
     ];
 
     useEffect(() => {
+        // 클러스터 아이디 없이 접근한 경우 clusterList로 보냄
+        if (clusterId === -1) {
+            navigate("/monitoring/clusterList")
+        }
+
         // axios로 namespace들을 불러와 앞에 All을 삽입할 것
         axios
             .get("your-api-endpoint-for-sub-categories")

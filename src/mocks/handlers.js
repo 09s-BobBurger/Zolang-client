@@ -1,8 +1,10 @@
 // src/mocks/handlers.js
 import { http, HttpResponse } from 'msw'
 
+const baseURL =  'https://kcs.zolang.site';
+
 export const handlers = [
-    http.get('/api/v1/cluster', () => {
+    http.get(`${baseURL}/api/v1/cluster`, () => {
         return HttpResponse.json({
             "success": true,
             "data": [
@@ -29,7 +31,7 @@ export const handlers = [
         })
     }),
 
-    http.get('/api/v1/cluster/:clusterId/status', ({params}) => {
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/status`, ({params}) => {
         const { clusterId } = params;
         return HttpResponse.json({
             "success": true,
