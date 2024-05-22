@@ -15,5 +15,5 @@ const namespaceSlice = createSlice({
     }
 });
 
-export const { setNamespace } = namespaceSlice.actions;
+export const { initNamespace, setNamespace } = namespaceSlice.actions;
 export default namespaceSlice.reducer;
