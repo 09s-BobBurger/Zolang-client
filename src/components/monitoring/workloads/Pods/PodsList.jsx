@@ -9,242 +9,28 @@ import TableHead from "@mui/material/TableHead";
 import Status from "../../../icon/Status.jsx";
 import UsageLineChart from "../../UsageLineChart.jsx";
 import MiniUsageChart from "../../MiniUsageChart.jsx";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import loginUtil from "../../../../util/login.js";
+import {useSelector} from "react-redux";
 
 const PodsList = ({ podsData, setPod }) => {
-
-    // console.log(podsData);
-    // console.log(podsData.pods);
-
-    const onClickRow = () => {
-        setPod(
-            {
-                "success": true,
-                "data": {
-                    "metrics": [
-                        {
-                            "time": "4:04",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:05",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:06",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 63578112
-                        },
-                        {
-                            "time": "4:07",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:08",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:09",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:10",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:11",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:12",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 63574016
-                        },
-                        {
-                            "time": "4:13",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 63627264
-                        },
-                        {
-                            "time": "4:14",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 53465088
-                        },
-                        {
-                            "time": "4:15",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 53465088
-                        },
-                        {
-                            "time": "4:16",
-                            "cpuUsage": 0.001,
-                            "memoryUsage": 53465088
-                        }
-                    ],
-                    "metadata": {
-                        "name": "grafana-657c7689bd-hxq6d",
-                        "namespace": "monitoring",
-                        "creationDate": "2024 .05 .16 .",
-                        "creationTime": "오전 06:51:25",
-                        "age": "2 day",
-                        "uid": "0c570196-634b-4e6c-9c89-f32a6561967d",
-                        "labels": {
-                            "app": "grafana",
-                            "pod-template-hash": "657c7689bd"
-                        },
-                        "annotations": {
-                            "cni.projectcalico.org/containerID": "a579475697e82d2563a58712021f61dca7197b27b2288ade25e6d6f654bfd803",
-                            "cni.projectcalico.org/podIP": "10.1.75.186/32",
-                            "cni.projectcalico.org/podIPs": "10.1.75.186/32",
-                            "kubectl.kubernetes.io/restartedAt": "2024-04-26T14:11:20Z"
-                        }
-                    },
-                    "resource": {
-                        "node": "instance-20230123-2111",
-                        "status": "Running",
-                        "ip": "10.1.75.186",
-                        "priorityClass": null,
-                        "restartCount": 3,
-                        "serviceAccount": "default",
-                        "imagePullSecret": null
-                    },
-                    "conditions": [
-                        {
-                            "type": "PodReadyToStartContainers",
-                            "status": "True",
-                            "lastProbeTime": null,
-                            "lastTransitionTime": "2 day",
-                            "reason": null,
-                            "message": null
-                        },
-                        {
-                            "type": "Initialized",
-                            "status": "True",
-                            "lastProbeTime": null,
-                            "lastTransitionTime": "2 day",
-                            "reason": null,
-                            "message": null
-                        },
-                        {
-                            "type": "Ready",
-                            "status": "True",
-                            "lastProbeTime": null,
-                            "lastTransitionTime": "1 day",
-                            "reason": null,
-                            "message": null
-                        },
-                        {
-                            "type": "ContainersReady",
-                            "status": "True",
-                            "lastProbeTime": null,
-                            "lastTransitionTime": "1 day",
-                            "reason": null,
-                            "message": null
-                        },
-                        {
-                            "type": "PodScheduled",
-                            "status": "True",
-                            "lastProbeTime": null,
-                            "lastTransitionTime": "2 day",
-                            "reason": null,
-                            "message": null
-                        }
-                    ],
-                    "controlled": {
-                        "name": "grafana-657c7689bd",
-                        "kind": "ReplicaSet",
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "age": "22 day",
-                        "labels": {
-                            "app": "grafana",
-                            "pod-template-hash": "657c7689bd"
-                        },
-                        "images": [
-                            "grafana/grafana:latest"
-                        ]
-                    },
-                    "persistentVolumeClaims": [
-                        {
-                            "name": "grafana-pvc",
-                            "namespace": "monitoring",
-                            "label": "{}",
-                            "status": "Bound",
-                            "volume": "grafana-volume",
-                            "capacity": "10 Gi",
-                            "accessMode": [
-                                "ReadWriteOnce"
-                            ],
-                            "storageClass": "grafana",
-                            "age": "2 month",
-                            "creationDateTime": "2024. 02. 25. 오후 13:45:53"
-                        }
-                    ],
-                    "container": {
-                        "isRunning": true,
-                        "name": "nginx-ingress-microk8s",
-                        "image": "registry.k8s.io/ingress-nginx/controller:v1.5.1",
-                        "ready": true,
-                        "started": true,
-                        "startedAt": "2024. 05. 16. 오후 13:43:57",
-                        "env": [
-                            {
-                                "name": "POD_NAME",
-                                "value": null
-                            },
-                            {
-                                "name": "POD_NAMESPACE",
-                                "value": null
-                            }
-                        ],
-                        "factor": [
-                            "/nginx-ingress-controller",
-                            "--configmap=$(POD_NAMESPACE)/nginx-load-balancer-microk8s-conf",
-                            "--tcp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-tcp-microk8s-conf",
-                            "--udp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-udp-microk8s-conf",
-                            "--ingress-class=public",
-                            " ",
-                            "--publish-status-address=127.0.0.1",
-                            "--default-ssl-certificate=kube-system/star-jayden-bin-kro-kr"
-                        ],
-                        "mount": [
-                            {
-                                "name": "kube-api-access-pd6sp",
-                                "readOnly": true,
-                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
-                                "subPath": null,
-                                "sourceType": "Projected",
-                                "sourceName": null
-                            }
-                        ],
-                        "securityContext": {
-                            "runAsUser": 101,
-                            "addedCapabilities": [
-                                "NET_BIND_SERVICE"
-                            ],
-                            "dropCapabilities": [
-                                "ALL"
-                            ],
-                            "allowPrivilegeEscalation": 'test',
-                            "privileged": 'test',
-                            "procMount": 'test',
-                            "readOnlyRootFilesystem": 'test',
-                            "runAsGroup": 'test',
-                            "runAsNonRoot": 'test',
-                            "seccompProfile": 'test',
-                            "windowsOptions": 'test'
-                        },
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const onClickRow = (podName) => {
+        axios
+            .get(
+                `/api/v1/cluster/${clusterId}/workload/pods/${podName}`,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
                     }
-                },
-                "error": null
-            }.data
-        )
+                }
+            )
+            .then((res) => {
+                setPod(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
     return (
         <div
@@ -365,7 +151,7 @@ const PodsList = ({ podsData, setPod }) => {
                                     <TableRow
                                         key={pod.name}
                                         onClick={() =>
-                                            onClickRow()
+                                            onClickRow(pod.name)
                                         }
                                         sx={{
                                             "&:last-child td, &:last-child th":
