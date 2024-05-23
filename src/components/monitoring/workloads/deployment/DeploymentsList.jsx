@@ -11,7 +11,7 @@ const DeploymentsList = ({ deployments, setDeployment }) => {
         axios
             .get(`/api/v1/cluster/${clusterId}/workload/deployments/${deploymentName}`)
             .then((res) => {
-                setDeployment(res.data.data[0]);
+                setDeployment(res.data.data);
             })
             .catch((err) => {
                 console.log(err);

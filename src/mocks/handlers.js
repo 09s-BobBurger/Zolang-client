@@ -1087,32 +1087,103 @@ export const handlers = [
                 "success": true,
                 "data": [
                     {
-                        "name": "nginx-ingress-microk8s-controller",
-                        "namespace": "ingress",
+                        "name": "jenkins",
+                        "namespace": "jenkins",
                         "images": [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                            "ghcr.io/konempty/jenkins-docker-image:latest"
+                        ],
+                        "labels": {},
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2024. 01. 28. 오후 12:57:35",
+                        "age": "3 month"
+                    },
+                    {
+                        "name": "calico-kube-controllers",
+                        "namespace": "kube-system",
+                        "images": [
+                            "docker.io/calico/kube-controllers:v3.23.5"
                         ],
                         "labels": {
-                            "microk8s-application": "nginx-ingress-microk8s"
+                            "k8s-app": "calico-kube-controllers"
                         },
-                        "replicas": 2,
-                        "readyReplicas": 2,
-                        "creationDateTime": "2023. 05. 03. 오전 08:35:01",
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 01. 오후 14:09:50",
                         "age": "1 year"
                     },
                     {
-                        "name": "calico-node",
+                        "name": "coredns",
                         "namespace": "kube-system",
                         "images": [
-                            "docker.io/calico/node:v3.23.5"
+                            "coredns/coredns:1.9.3"
                         ],
                         "labels": {
-                            "k8s-app": "calico-node"
+                            "addonmanager.kubernetes.io/mode": "Reconcile",
+                            "k8s-app": "kube-dns",
+                            "kubernetes.io/cluster-service": "true",
+                            "kubernetes.io/name": "CoreDNS"
                         },
-                        "replicas": 4,
-                        "readyReplicas": 4,
-                        "creationDateTime": "2023. 05. 01. 오후 14:09:48",
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 02. 오전 11:27:43",
                         "age": "1 year"
+                    },
+                    {
+                        "name": "dashboard-metrics-scraper",
+                        "namespace": "kube-system",
+                        "images": [
+                            "kubernetesui/metrics-scraper:v1.0.8"
+                        ],
+                        "labels": {
+                            "k8s-app": "dashboard-metrics-scraper"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "kubernetes-dashboard",
+                        "namespace": "kube-system",
+                        "images": [
+                            "kubernetesui/dashboard:v2.7.0"
+                        ],
+                        "labels": {
+                            "k8s-app": "kubernetes-dashboard"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "metrics-server",
+                        "namespace": "kube-system",
+                        "images": [
+                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
+                        ],
+                        "labels": {
+                            "k8s-app": "metrics-server"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 03. 오전 07:21:30",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "grafana",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2024. 02. 25. 오후 13:45:53",
+                        "age": "2 month"
                     }
                 ],
                 "error": null
@@ -1129,31 +1200,76 @@ export const handlers = [
                 "success": true,
                 "data": [
                     {
-                        "name": "nginx-ingress-microk8s-controller",
-                        "namespace": "ingress",
+                        "name": "calico-kube-controllers",
+                        "namespace": "kube-system",
                         "images": [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                            "docker.io/calico/kube-controllers:v3.23.5"
                         ],
                         "labels": {
-                            "microk8s-application": "nginx-ingress-microk8s"
+                            "k8s-app": "calico-kube-controllers"
                         },
-                        "replicas": 2,
-                        "readyReplicas": 2,
-                        "creationDateTime": "2023. 05. 03. 오전 08:35:01",
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 01. 오후 14:09:50",
                         "age": "1 year"
                     },
                     {
-                        "name": "calico-node",
+                        "name": "coredns",
                         "namespace": "kube-system",
                         "images": [
-                            "docker.io/calico/node:v3.23.5"
+                            "coredns/coredns:1.9.3"
                         ],
                         "labels": {
-                            "k8s-app": "calico-node"
+                            "addonmanager.kubernetes.io/mode": "Reconcile",
+                            "k8s-app": "kube-dns",
+                            "kubernetes.io/cluster-service": "true",
+                            "kubernetes.io/name": "CoreDNS"
                         },
-                        "replicas": 4,
-                        "readyReplicas": 4,
-                        "creationDateTime": "2023. 05. 01. 오후 14:09:48",
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 02. 오전 11:27:43",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "dashboard-metrics-scraper",
+                        "namespace": "kube-system",
+                        "images": [
+                            "kubernetesui/metrics-scraper:v1.0.8"
+                        ],
+                        "labels": {
+                            "k8s-app": "dashboard-metrics-scraper"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "kubernetes-dashboard",
+                        "namespace": "kube-system",
+                        "images": [
+                            "kubernetesui/dashboard:v2.7.0"
+                        ],
+                        "labels": {
+                            "k8s-app": "kubernetes-dashboard"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "metrics-server",
+                        "namespace": "kube-system",
+                        "images": [
+                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
+                        ],
+                        "labels": {
+                            "k8s-app": "metrics-server"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 03. 오전 07:21:30",
                         "age": "1 year"
                     }
                 ],
@@ -1168,64 +1284,60 @@ export const handlers = [
         return HttpResponse.json(
             {
                 "success": true,
-                "data": [
-                    {
-                        "metadata": {
-                            "name": "dashboard-metrics-scraper",
-                            "namespace": "kube-system",
-                            "creationDate": "2023 .05 .06 .",
-                            "creationTime": "오전 06:04:58",
-                            "age": "1 year",
-                            "uid": "3356a050-903f-450d-b976-b650baf53a40",
-                            "labels": {
-                                "k8s-app": "dashboard-metrics-scraper"
-                            },
-                            "annotations": {
-                                "deployment.kubernetes.io/revision": "1",
-                                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"k8s-app\":\"dashboard-metrics-scraper\"},\"name\":\"dashboard-metrics-scraper\",\"namespace\":\"kube-system\"},\"spec\":{\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"matchLabels\":{\"k8s-app\":\"dashboard-metrics-scraper\"}},\"template\":{\"metadata\":{\"labels\":{\"k8s-app\":\"dashboard-metrics-scraper\"}},\"spec\":{\"containers\":[{\"image\":\"kubernetesui/metrics-scraper:v1.0.8\",\"livenessProbe\":{\"httpGet\":{\"path\":\"/\",\"port\":8000,\"scheme\":\"HTTP\"},\"initialDelaySeconds\":30,\"timeoutSeconds\":30},\"name\":\"dashboard-metrics-scraper\",\"ports\":[{\"containerPort\":8000,\"protocol\":\"TCP\"}],\"securityContext\":{\"allowPrivilegeEscalation\":false,\"readOnlyRootFilesystem\":true,\"runAsGroup\":2001,\"runAsUser\":1001},\"volumeMounts\":[{\"mountPath\":\"/tmp\",\"name\":\"tmp-volume\"}]}],\"nodeSelector\":{\"kubernetes.io/os\":\"linux\"},\"securityContext\":{\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"serviceAccountName\":\"kubernetes-dashboard\",\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\"}],\"volumes\":[{\"emptyDir\":{},\"name\":\"tmp-volume\"}]}}}}\n"
-                            }
+                "data": {
+                    "metadata": {
+                        "name": "jenkins",
+                        "namespace": "jenkins",
+                        "creationDate": "2024 .01 .28 .",
+                        "creationTime": "오후 12:57:35",
+                        "age": "3 month",
+                        "uid": "e1ba3755-d1fb-4a42-8a9d-5af0cbebdbd9",
+                        "labels": {},
+                        "annotations": {
+                            "deployment.kubernetes.io/revision": "13",
+                            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"jenkins\",\"namespace\":\"jenkins\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"jenkins\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"jenkins\"}},\"spec\":{\"containers\":[{\"image\":\"ghcr.io/konempty/jenkins-docker-image:latest\",\"name\":\"jenkins\",\"ports\":[{\"containerPort\":8080,\"name\":\"http-port\"}],\"volumeMounts\":[{\"mountPath\":\"/var/jenkins_home\",\"name\":\"jenkins-vol\"},{\"mountPath\":\"/var/run/docker.sock\",\"name\":\"docker-socket\"}]}],\"imagePullSecrets\":[{\"name\":\"ghcr-login-secret\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"instance-20230426-2354\"},\"volumes\":[{\"hostPath\":{\"path\":\"/var/jenkins_volume\",\"type\":\"DirectoryOrCreate\"},\"name\":\"jenkins-vol\"},{\"hostPath\":{\"path\":\"/var/run/docker.sock\"},\"name\":\"docker-socket\"}]}}}}\n"
+                        }
+                    },
+                    "resource": {
+                        "strategy": "RollingUpdate",
+                        "minimumPreparationTime": 0,
+                        "revisionHistoryLimit": 10,
+                        "selector": {
+                            "app": "jenkins"
+                        }
+                    },
+                    "rollingUpdateStrategy": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "podConditions": {
+                        "updatedReplicas": 1,
+                        "totalReplicas": 1,
+                        "availableReplicas": 1
+                    },
+                    "condition": [
+                        {
+                            "type": "Available",
+                            "status": "True",
+                            "lastUpdateTime": "2024. 05. 19. 오후 13:14:14",
+                            "lastUpdateAge": "3 day",
+                            "lastTransitionTime": "2024. 05. 19. 오후 13:14:14",
+                            "lastTransitionAge": "3 day",
+                            "reason": "MinimumReplicasAvailable",
+                            "message": "Deployment has minimum availability."
                         },
-                        "resource": {
-                            "strategy": "RollingUpdate",
-                            "minimumPreparationTime": 0,
-                            "revisionHistoryLimit": 10,
-                            "selector": {
-                                "k8s-app": "dashboard-metrics-scraper"
-                            }
-                        },
-                        "rollingUpdateStrategy": {
-                            "maxSurge": "25%",
-                            "maxUnavailable": "25%"
-                        },
-                        "podConditions": {
-                            "updatedReplicas": 1,
-                            "totalReplicas": 1,
-                            "availableReplicas": 1
-                        },
-                        "condition": [
-                            {
-                                "type": "Progressing",
-                                "status": "True",
-                                "lastUpdateTime": "2023. 05. 06. 오전 06:05:00",
-                                "lastUpdateAge": "1 year",
-                                "lastTransitionTime": "2023. 05. 06. 오전 06:04:58",
-                                "lastTransitionAge": "1 year",
-                                "reason": "NewReplicaSetAvailable",
-                                "message": "ReplicaSet \"dashboard-metrics-scraper-7bc864c59\" has successfully progressed."
-                            },
-                            {
-                                "type": "Available",
-                                "status": "True",
-                                "lastUpdateTime": "2024. 05. 20. 오후 13:35:05",
-                                "lastUpdateAge": "9 hour",
-                                "lastTransitionTime": "2024. 05. 20. 오후 13:35:05",
-                                "lastTransitionAge": "9 hour",
-                                "reason": "MinimumReplicasAvailable",
-                                "message": "Deployment has minimum availability."
-                            }
-                        ]
-                    }
-                ],
+                        {
+                            "type": "Progressing",
+                            "status": "True",
+                            "lastUpdateTime": "2024. 05. 19. 오후 13:30:43",
+                            "lastUpdateAge": "3 day",
+                            "lastTransitionTime": "2024. 01. 28. 오후 12:57:35",
+                            "lastTransitionAge": "3 month",
+                            "reason": "NewReplicaSetAvailable",
+                            "message": "ReplicaSet \"jenkins-696ccd6ffc\" has successfully progressed."
+                        }
+                    ]
+                },
                 "error": null
             }
         )
