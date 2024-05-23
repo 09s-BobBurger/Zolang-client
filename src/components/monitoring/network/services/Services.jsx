@@ -1,40 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import ServiceDetail from "./ServiceDetail.jsx";
 import ServicesList from "./ServicesList.jsx";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import {useSelector} from "react-redux";
+import loginUtil from "../../../../util/login.js";
 
 const Services = () => {
     const [servicesData, setServicesData] = useState([]);
     const [selectedService, setSelectedService] = useState(null);
+    const clusterId = useSelector(state => state.cluster.clusterId);
 
     useEffect(() => {
-        setServicesData(
-            [
+        axios
+            .get(`/api/v1/cluster/${clusterId}/service`,
                 {
-                    "name": "kubernetes",
-                    "namespace": "default",
-                    "labels": {
-                        "component": "apiserver",
-                        "provider": "kubernetes"
-                    },
-                    "type": "ClusterIP",
-                    "clusterIP": "10.100.0.1",
-                    "port": 443,
-                    "age": "2d"
-                },
-                {
-                    "name": "kubernetes",
-                    "namespace": "default",
-                    "labels": {
-                        "component": "apiserver",
-                        "provider": "kubernetes"
-                    },
-                    "type": "ClusterIP",
-                    "clusterIP": "10.100.0.1",
-                    "port": 443,
-                    "age": "2d"
-                }
-            ]
-        )
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                    }
+                })
+            .then((res) => {
+                setServicesData(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }, [])
 
     return (

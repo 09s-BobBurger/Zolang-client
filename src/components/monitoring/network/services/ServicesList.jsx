@@ -6,50 +6,27 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import loginUtil from "../../../../util/login.js";
+import {useSelector} from "react-redux";
 
 const ServicesList = ({ services, setService}) => {
-    const onClickRow = () => {
-        setService({
-            "items": [
+
+    const clusterId = useSelector(state => state.cluster.clusterId);
+    const onClickRow = (serviceName) => {
+        axios
+            .get(`/api/v1/cluster/${clusterId}/service/${serviceName}`,
                 {
-                    "metadata": {
-                        "name": "kubernetes",
-                        "namespace": "default",
-                        "uid": "549bff8b-8b1e-4001-bbd7-527830d6dcdc",
-                        "resourceVersion": "191",
-                        "creationTimestamp": "2024-05-10T06:51:29Z",
-                        "labels": {
-                            "component": "apiserver",
-                            "provider": "kubernetes"
-                        },
-                    },
-                    "spec": {
-                        "ports": [
-                            {
-                                "name": "https",
-                                "protocol": "TCP",
-                                "port": 443,
-                                "targetPort": 443
-                            }
-                        ],
-                        "clusterIP": "10.100.0.1",
-                        "clusterIPs": [
-                            "10.100.0.1"
-                        ],
-                        "type": "ClusterIP",
-                        "sessionAffinity": "None",
-                        "ipFamilies": [
-                            "IPv4"
-                        ],
-                        "ipFamilyPolicy": "SingleStack",
-                        "internalTrafficPolicy": "Cluster"
-                    },
-                    "status": {
-                        "loadBalancer": {}
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
                     }
-                }
-            ]
-        }.items[0]);
+                })
+            .then((res) => {
+                setService(res.data.data[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     return (
@@ -112,10 +89,10 @@ const ServicesList = ({ services, setService}) => {
                                     Labels
                                 </TableCell>
                                 <TableCell align="center">
-                                    Type
+                                    Cluster IP
                                 </TableCell>
                                 <TableCell align="center">
-                                    Cluster IP
+                                    External IP
                                 </TableCell>
                                 <TableCell align="center">
                                     Port
@@ -128,9 +105,9 @@ const ServicesList = ({ services, setService}) => {
                         <TableBody>
                             {services.map((service) => (
                                 <TableRow
-                                    key={service.name}
+                                    key={service.serviceName}
                                     onClick={() =>
-                                        onClickRow()
+                                        onClickRow(service.serviceName)
                                     }
                                     sx={{
                                         "&:last-child td, &:last-child th":
@@ -143,30 +120,30 @@ const ServicesList = ({ services, setService}) => {
                                         component="th"
                                         scope="row"
                                     >
-                                        {service.name}
+                                        {service.serviceName}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.namespace}
+                                        {service.serviceNamespace}
                                     </TableCell>
                                     <TableCell align="center">
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                            {Object.keys(service.labels).slice(0, 3).map((key) => {
-                                                return <Label name={key + ":" + service.labels[key]}/>
+                                            {Object.keys(service.serviceLabels).slice(0, 3).map((key) => {
+                                                return <Label name={key + ":" + service.serviceLabels[key]}/>
                                             })}
-                                            {Object.keys(service.labels).length > 3 && <Label name="..." />}
+                                            {Object.keys(service.serviceLabels).length > 3 && <Label name="..." />}
                                         </div>
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.type}
+                                        {service.serviceClusterIP}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.clusterIP}
+                                        {service.serviceExternalIP ? service.serviceExternalIP : '-'}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.port}
+                                        {service.servicePort[0]}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.age}
+                                        {service.serviceAge}
                                     </TableCell>
                                 </TableRow>
                             ))}
