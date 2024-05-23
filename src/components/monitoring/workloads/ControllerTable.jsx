@@ -81,7 +81,7 @@ const ControllerTable = ({data, onClickRow}) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.map((item) => (
+                            {data && data.map((item) => (
                                 <TableRow
                                     key={item.name}
                                     onClick={() =>

@@ -1341,5 +1341,439 @@ export const handlers = [
                 "error": null
             }
         )
+    }),
+
+    // get daemons of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/daemons`, ({params}) => {
+        const {clusterId} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "nginx-ingress-microk8s-controller",
+                        "namespace": "ingress",
+                        "images": [
+                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                        ],
+                        "labels": {
+                            "microk8s-application": "nginx-ingress-microk8s"
+                        },
+                        "replicas": 2,
+                        "readyReplicas": 2,
+                        "creationDateTime": "2023. 05. 03. 오전 08:35:01",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "calico-node",
+                        "namespace": "kube-system",
+                        "images": [
+                            "docker.io/calico/node:v3.23.5"
+                        ],
+                        "labels": {
+                            "k8s-app": "calico-node"
+                        },
+                        "replicas": 4,
+                        "readyReplicas": 4,
+                        "creationDateTime": "2023. 05. 01. 오후 14:09:48",
+                        "age": "1 year"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get daemons of cluster with namespace
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/daemons/namespace`, ({params, request}) => {
+        const {clusterId} = params;
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "nginx-ingress-microk8s-controller",
+                        "namespace": "ingress",
+                        "images": [
+                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                        ],
+                        "labels": {
+                            "microk8s-application": "nginx-ingress-microk8s"
+                        },
+                        "replicas": 2,
+                        "readyReplicas": 2,
+                        "creationDateTime": "2023. 05. 03. 오전 08:35:01",
+                        "age": "1 year"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get deployment Detail of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/daemons/:daemonsSetName`, ({params}) => {
+        const {clusterId, deploymentName} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": {
+                    "metadata": {
+                        "name": "calico-node",
+                        "namespace": "kube-system",
+                        "creationDate": "2023 .05 .01 .",
+                        "creationTime": "오후 02:09:48",
+                        "age": "1 year",
+                        "uid": "9ecda8ca-ac53-4946-8a5b-49812d293b15",
+                        "labels": {
+                            "k8s-app": "calico-node"
+                        },
+                        "annotations": {
+                            "deprecated.daemonset.template.generation": "25",
+                            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"DaemonSet\",\"metadata\":{\"annotations\":{},\"labels\":{\"k8s-app\":\"calico-node\"},\"name\":\"calico-node\",\"namespace\":\"kube-system\"},\"spec\":{\"selector\":{\"matchLabels\":{\"k8s-app\":\"calico-node\"}},\"template\":{\"metadata\":{\"labels\":{\"k8s-app\":\"calico-node\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"DATASTORE_TYPE\",\"value\":\"kubernetes\"},{\"name\":\"WAIT_FOR_DATASTORE\",\"value\":\"true\"},{\"name\":\"NODENAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"spec.nodeName\"}}},{\"name\":\"CALICO_NETWORKING_BACKEND\",\"valueFrom\":{\"configMapKeyRef\":{\"key\":\"calico_backend\",\"name\":\"calico-config\"}}},{\"name\":\"CLUSTER_TYPE\",\"value\":\"k8s,bgp\"},{\"name\":\"IP\",\"value\":\"autodetect\"},{\"name\":\"IP_AUTODETECTION_METHOD\",\"value\":\"can-reach=10.0.0.221\"},{\"name\":\"CALICO_IPV4POOL_VXLAN\",\"value\":\"Always\"},{\"name\":\"CALICO_IPV6POOL_VXLAN\",\"value\":\"Never\"},{\"name\":\"FELIX_IPINIPMTU\",\"valueFrom\":{\"configMapKeyRef\":{\"key\":\"veth_mtu\",\"name\":\"calico-config\"}}},{\"name\":\"FELIX_VXLANMTU\",\"valueFrom\":{\"configMapKeyRef\":{\"key\":\"veth_mtu\",\"name\":\"calico-config\"}}},{\"name\":\"FELIX_WIREGUARDMTU\",\"valueFrom\":{\"configMapKeyRef\":{\"key\":\"veth_mtu\",\"name\":\"calico-config\"}}},{\"name\":\"CALICO_IPV4POOL_CIDR\",\"value\":\"10.1.0.0/16\"},{\"name\":\"CALICO_DISABLE_FILE_LOGGING\",\"value\":\"true\"},{\"name\":\"FELIX_DEFAULTENDPOINTTOHOSTACTION\",\"value\":\"ACCEPT\"},{\"name\":\"FELIX_IPV6SUPPORT\",\"value\":\"false\"},{\"name\":\"FELIX_HEALTHENABLED\",\"value\":\"true\"},{\"name\":\"FELIX_FEATUREDETECTOVERRIDE\",\"value\":\"ChecksumOffloadBroken=true\"}],\"envFrom\":[{\"configMapRef\":{\"name\":\"kubernetes-services-endpoint\",\"optional\":true}}],\"image\":\"docker.io/calico/node:v3.23.5\",\"lifecycle\":{\"preStop\":{\"exec\":{\"command\":[\"/bin/calico-node\",\"-shutdown\"]}}},\"livenessProbe\":{\"exec\":{\"command\":[\"/bin/calico-node\",\"-felix-live\"]},\"failureThreshold\":6,\"initialDelaySeconds\":10,\"periodSeconds\":10,\"timeoutSeconds\":10},\"name\":\"calico-node\",\"readinessProbe\":{\"exec\":{\"command\":[\"/bin/calico-node\",\"-felix-ready\"]},\"periodSeconds\":10,\"timeoutSeconds\":10},\"resources\":{\"requests\":{\"cpu\":\"250m\"}},\"securityContext\":{\"privileged\":true},\"volumeMounts\":[{\"mountPath\":\"/host/etc/cni/net.d\",\"name\":\"cni-net-dir\",\"readOnly\":false},{\"mountPath\":\"/lib/modules\",\"name\":\"lib-modules\",\"readOnly\":true},{\"mountPath\":\"/run/xtables.lock\",\"name\":\"xtables-lock\",\"readOnly\":false},{\"mountPath\":\"/var/run/calico\",\"name\":\"var-run-calico\",\"readOnly\":false},{\"mountPath\":\"/var/lib/calico\",\"name\":\"var-lib-calico\",\"readOnly\":false},{\"mountPath\":\"/var/run/nodeagent\",\"name\":\"policysync\"},{\"mountPath\":\"/var/log/calico/cni\",\"name\":\"cni-log-dir\",\"readOnly\":true}]}],\"hostNetwork\":true,\"initContainers\":[{\"command\":[\"/opt/cni/bin/calico-ipam\",\"-upgrade\"],\"env\":[{\"name\":\"KUBERNETES_NODE_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"spec.nodeName\"}}},{\"name\":\"CALICO_NETWORKING_BACKEND\",\"valueFrom\":{\"configMapKeyRef\":{\"key\":\"calico_backend\",\"name\":\"calico-config\"}}}],\"envFrom\":[{\"configMapRef\":{\"name\":\"kubernetes-services-endpoint\",\"optional\":true}}],\"image\":\"docker.io/calico/cni:v3.23.5\",\"name\":\"upgrade-ipam\",\"securityContext\":{\"privileged\":true},\"volumeMounts\":[{\"mountPath\":\"/var/lib/cni/networks\",\"name\":\"host-local-net-dir\"},{\"mountPath\":\"/host/opt/cni/bin\",\"name\":\"cni-bin-dir\"}]},{\"command\":[\"/opt/cni/bin/install\"],\"env\":[{\"name\":\"CNI_CONF_NAME\",\"value\":\"10-calico.conflist\"},{\"name\":\"CNI_NETWORK_CONFIG\",\"valueFrom\":{\"configMapKeyRef\":{\"key\":\"cni_network_config\",\"name\":\"calico-config\"}}},{\"name\":\"KUBERNETES_NODE_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"spec.nodeName\"}}},{\"name\":\"CNI_MTU\",\"valueFrom\":{\"configMapKeyRef\":{\"key\":\"veth_mtu\",\"name\":\"calico-config\"}}},{\"name\":\"SLEEP\",\"value\":\"false\"},{\"name\":\"CNI_NET_DIR\",\"value\":\"/var/snap/microk8s/current/args/cni-network\"}],\"envFrom\":[{\"configMapRef\":{\"name\":\"kubernetes-services-endpoint\",\"optional\":true}}],\"image\":\"docker.io/calico/cni:v3.23.5\",\"name\":\"install-cni\",\"securityContext\":{\"privileged\":true},\"volumeMounts\":[{\"mountPath\":\"/host/opt/cni/bin\",\"name\":\"cni-bin-dir\"},{\"mountPath\":\"/host/etc/cni/net.d\",\"name\":\"cni-net-dir\"}]}],\"nodeSelector\":{\"kubernetes.io/os\":\"linux\"},\"priorityClassName\":\"system-node-critical\",\"serviceAccountName\":\"calico-node\",\"terminationGracePeriodSeconds\":0,\"tolerations\":[{\"effect\":\"NoSchedule\",\"operator\":\"Exists\"},{\"key\":\"CriticalAddonsOnly\",\"operator\":\"Exists\"},{\"effect\":\"NoExecute\",\"operator\":\"Exists\"}],\"volumes\":[{\"hostPath\":{\"path\":\"/lib/modules\"},\"name\":\"lib-modules\"},{\"hostPath\":{\"path\":\"/var/snap/microk8s/current/var/run/calico\"},\"name\":\"var-run-calico\"},{\"hostPath\":{\"path\":\"/var/snap/microk8s/current/var/lib/calico\"},\"name\":\"var-lib-calico\"},{\"hostPath\":{\"path\":\"/run/xtables.lock\",\"type\":\"FileOrCreate\"},\"name\":\"xtables-lock\"},{\"hostPath\":{\"path\":\"/sys/fs/\",\"type\":\"DirectoryOrCreate\"},\"name\":\"sys-fs\"},{\"hostPath\":{\"path\":\"/var/snap/microk8s/current/opt/cni/bin\"},\"name\":\"cni-bin-dir\"},{\"hostPath\":{\"path\":\"/var/snap/microk8s/current/args/cni-network\"},\"name\":\"cni-net-dir\"},{\"hostPath\":{\"path\":\"/var/snap/microk8s/common/var/log/calico/cni\"},\"name\":\"cni-log-dir\"},{\"hostPath\":{\"path\":\"/var/snap/microk8s/current/var/lib/cni/networks\"},\"name\":\"host-local-net-dir\"},{\"hostPath\":{\"path\":\"/var/snap/microk8s/current/var/run/nodeagent\",\"type\":\"DirectoryOrCreate\"},\"name\":\"policysync\"}]}},\"updateStrategy\":{\"rollingUpdate\":{\"maxUnavailable\":1},\"type\":\"RollingUpdate\"}}}\n"
+                        }
+                    },
+                    "resource": {
+                        "selector": {
+                            "k8s-app": "calico-node"
+                        },
+                        "image": "docker.io/calico/node:v3.23.5"
+                    },
+                    "podConditions": {
+                        "runningPods": 4,
+                        "desiredPods": 4
+                    },
+                    "pods": [
+                        {
+                            "name": "calico-node-6752t",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/node:v3.23.5"
+                            ],
+                            "labels": {
+                                "controller-revision-hash": "776859db77",
+                                "k8s-app": "calico-node",
+                                "pod-template-generation": "25"
+                            },
+                            "node": "instance-20230426-2354",
+                            "status": "Running",
+                            "restartCount": 1,
+                            "usage": null,
+                            "metrics": [
+                                {
+                                    "time": "12:52",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98803712
+                                },
+                                {
+                                    "time": "12:53",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98402304
+                                },
+                                {
+                                    "time": "12:54",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 91852800
+                                },
+                                {
+                                    "time": "12:55",
+                                    "cpuUsage": 0.06,
+                                    "memoryUsage": 109920256
+                                },
+                                {
+                                    "time": "12:56",
+                                    "cpuUsage": 0.066,
+                                    "memoryUsage": 123932672
+                                },
+                                {
+                                    "time": "12:57",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 123428864
+                                },
+                                {
+                                    "time": "12:58",
+                                    "cpuUsage": 0.056,
+                                    "memoryUsage": 124796928
+                                },
+                                {
+                                    "time": "12:59",
+                                    "cpuUsage": 0.075,
+                                    "memoryUsage": 107069440
+                                },
+                                {
+                                    "time": "13:00",
+                                    "cpuUsage": 0.081,
+                                    "memoryUsage": 120406016
+                                },
+                                {
+                                    "time": "13:01",
+                                    "cpuUsage": 0.057,
+                                    "memoryUsage": 121118720
+                                },
+                                {
+                                    "time": "13:02",
+                                    "cpuUsage": 0.07,
+                                    "memoryUsage": 121589760
+                                },
+                                {
+                                    "time": "13:03",
+                                    "cpuUsage": 0.059,
+                                    "memoryUsage": 79851520
+                                },
+                                null
+                            ],
+                            "age": "23 day",
+                            "creationDateTime": "2024. 04. 30. 오전 11:07:36"
+                        },
+                        {
+                            "name": "calico-node-mlsvm",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/node:v3.23.5"
+                            ],
+                            "labels": {
+                                "controller-revision-hash": "776859db77",
+                                "k8s-app": "calico-node",
+                                "pod-template-generation": "25"
+                            },
+                            "node": "instance-20230502-0040",
+                            "status": "Running",
+                            "restartCount": 1,
+                            "usage": null,
+                            "metrics": [
+                                {
+                                    "time": "12:52",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98803712
+                                },
+                                {
+                                    "time": "12:53",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98402304
+                                },
+                                {
+                                    "time": "12:54",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 91852800
+                                },
+                                {
+                                    "time": "12:55",
+                                    "cpuUsage": 0.06,
+                                    "memoryUsage": 109920256
+                                },
+                                {
+                                    "time": "12:56",
+                                    "cpuUsage": 0.066,
+                                    "memoryUsage": 123932672
+                                },
+                                {
+                                    "time": "12:57",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 123428864
+                                },
+                                {
+                                    "time": "12:58",
+                                    "cpuUsage": 0.056,
+                                    "memoryUsage": 124796928
+                                },
+                                {
+                                    "time": "12:59",
+                                    "cpuUsage": 0.075,
+                                    "memoryUsage": 107069440
+                                },
+                                {
+                                    "time": "13:00",
+                                    "cpuUsage": 0.081,
+                                    "memoryUsage": 120406016
+                                },
+                                {
+                                    "time": "13:01",
+                                    "cpuUsage": 0.057,
+                                    "memoryUsage": 121118720
+                                },
+                                {
+                                    "time": "13:02",
+                                    "cpuUsage": 0.07,
+                                    "memoryUsage": 121589760
+                                },
+                                {
+                                    "time": "13:03",
+                                    "cpuUsage": 0.059,
+                                    "memoryUsage": 79851520
+                                },
+                                null
+                            ],
+                            "age": "26 day",
+                            "creationDateTime": "2024. 04. 26. 오후 15:51:40"
+                        },
+                        {
+                            "name": "calico-node-xmjcx",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/node:v3.23.5"
+                            ],
+                            "labels": {
+                                "controller-revision-hash": "776859db77",
+                                "k8s-app": "calico-node",
+                                "pod-template-generation": "25"
+                            },
+                            "node": "instance-20230203-2114",
+                            "status": "Running",
+                            "restartCount": 1,
+                            "usage": null,
+                            "metrics": [
+                                {
+                                    "time": "12:52",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98803712
+                                },
+                                {
+                                    "time": "12:53",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98402304
+                                },
+                                {
+                                    "time": "12:54",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 91852800
+                                },
+                                {
+                                    "time": "12:55",
+                                    "cpuUsage": 0.06,
+                                    "memoryUsage": 109920256
+                                },
+                                {
+                                    "time": "12:56",
+                                    "cpuUsage": 0.066,
+                                    "memoryUsage": 123932672
+                                },
+                                {
+                                    "time": "12:57",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 123428864
+                                },
+                                {
+                                    "time": "12:58",
+                                    "cpuUsage": 0.056,
+                                    "memoryUsage": 124796928
+                                },
+                                {
+                                    "time": "12:59",
+                                    "cpuUsage": 0.075,
+                                    "memoryUsage": 107069440
+                                },
+                                {
+                                    "time": "13:00",
+                                    "cpuUsage": 0.081,
+                                    "memoryUsage": 120406016
+                                },
+                                {
+                                    "time": "13:01",
+                                    "cpuUsage": 0.057,
+                                    "memoryUsage": 121118720
+                                },
+                                {
+                                    "time": "13:02",
+                                    "cpuUsage": 0.07,
+                                    "memoryUsage": 121589760
+                                },
+                                {
+                                    "time": "13:03",
+                                    "cpuUsage": 0.059,
+                                    "memoryUsage": 79851520
+                                },
+                                null
+                            ],
+                            "age": "22 day",
+                            "creationDateTime": "2024. 04. 30. 오후 15:23:50"
+                        },
+                        {
+                            "name": "calico-node-zkbfk",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/node:v3.23.5"
+                            ],
+                            "labels": {
+                                "controller-revision-hash": "776859db77",
+                                "k8s-app": "calico-node",
+                                "pod-template-generation": "25"
+                            },
+                            "node": "instance-20230123-2111",
+                            "status": "Running",
+                            "restartCount": 1,
+                            "usage": null,
+                            "metrics": [
+                                {
+                                    "time": "12:52",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98803712
+                                },
+                                {
+                                    "time": "12:53",
+                                    "cpuUsage": 0.062,
+                                    "memoryUsage": 98402304
+                                },
+                                {
+                                    "time": "12:54",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 91852800
+                                },
+                                {
+                                    "time": "12:55",
+                                    "cpuUsage": 0.06,
+                                    "memoryUsage": 109920256
+                                },
+                                {
+                                    "time": "12:56",
+                                    "cpuUsage": 0.066,
+                                    "memoryUsage": 123932672
+                                },
+                                {
+                                    "time": "12:57",
+                                    "cpuUsage": 0.065,
+                                    "memoryUsage": 123428864
+                                },
+                                {
+                                    "time": "12:58",
+                                    "cpuUsage": 0.056,
+                                    "memoryUsage": 124796928
+                                },
+                                {
+                                    "time": "12:59",
+                                    "cpuUsage": 0.075,
+                                    "memoryUsage": 107069440
+                                },
+                                {
+                                    "time": "13:00",
+                                    "cpuUsage": 0.081,
+                                    "memoryUsage": 120406016
+                                },
+                                {
+                                    "time": "13:01",
+                                    "cpuUsage": 0.057,
+                                    "memoryUsage": 121118720
+                                },
+                                {
+                                    "time": "13:02",
+                                    "cpuUsage": 0.07,
+                                    "memoryUsage": 121589760
+                                },
+                                {
+                                    "time": "13:03",
+                                    "cpuUsage": 0.059,
+                                    "memoryUsage": 79851520
+                                },
+                                null
+                            ],
+                            "age": "26 day",
+                            "creationDateTime": "2024. 04. 26. 오후 15:51:37"
+                        }
+                    ],
+                    "services": []
+                },
+                "error": null
+            }
+        )
     })
 ]
