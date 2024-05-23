@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from "@mui/material/Button";
 import Label from "../../nodes/Label.jsx";
@@ -11,6 +11,8 @@ import Table from "@mui/material/Table";
 import TableRow from "@mui/material/TableRow";
 import TableHead from "@mui/material/TableHead";
 import TableCell from "@mui/material/TableCell";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import {useSelector} from "react-redux";
 
 const titleStyle = {
     display: 'flex',
@@ -19,7 +21,22 @@ const titleStyle = {
     color: "#ffffff",
     fontSize: "1.6rem"
 }
-const DaemonSetDetail = ({ daemonSet, initDaemonSet }) => {
+const DaemonSetDetail = ({ daemonSetName, initDaemonSet }) => {
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const [daemonSet, setDaemonSet] = useState();
+
+    useEffect(() => {
+        axios
+            .get(
+                `/api/v1/cluster/${clusterId}/workload/daemons/${daemonSetName}`)
+            .then((res) => {
+                setDaemonSet(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }, []);
+
     return (
         <div
             style={{width: '79vw'}}
@@ -42,7 +59,7 @@ const DaemonSetDetail = ({ daemonSet, initDaemonSet }) => {
                 Return to List
             </MuiButton>
 
-            <div
+            {daemonSet && <div
                 style={{
                     width: "100%",
                     display: "flex",
@@ -384,11 +401,13 @@ const DaemonSetDetail = ({ daemonSet, initDaemonSet }) => {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.filter(i => i).map(i => i.cpuUsage)} color1="#f8fc00"
+                                            <MiniUsageChart data={pod.metrics.filter(i => i).map(i => i.cpuUsage)}
+                                                            color1="#f8fc00"
                                                             color2="#b0b300"/>
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.filter(i => i).map(i => i.memoryUsage)} color1="#00bbff"
+                                            <MiniUsageChart data={pod.metrics.filter(i => i).map(i => i.memoryUsage)}
+                                                            color1="#00bbff"
                                                             color2="#00729c"/>
                                         </TableCell>
                                         <TableCell
@@ -404,7 +423,7 @@ const DaemonSetDetail = ({ daemonSet, initDaemonSet }) => {
 
                     {/* Services */}
                 </div>
-            </div>
+            </div>}
         </div>
     );
 };

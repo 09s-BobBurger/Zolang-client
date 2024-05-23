@@ -5,15 +5,17 @@ import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
 import DaemonSetsList from "./DaemonSetsList.jsx";
 import DaemonSetDetail from "./DaemonSetDetail.jsx";
+import {useLocation} from "react-router-dom";
 
 const DaemonSets = () => {
+    const initDaemonSetName = useLocation().state ? useLocation().state.name : null;
     const [daemonSets, setDaemonSets] = useState();
-    const [selectedDaemonSet, setSelectedDaemonSet] = useState(null);
+    const [daemonSetName, setDaemonSetName] = useState(initDaemonSetName);
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
 
     const initDaemonSet = () => {
-        setSelectedDaemonSet(null);
+        setDaemonSetName(null);
     }
 
     const loadData = () => {
@@ -46,12 +48,12 @@ const DaemonSets = () => {
 
     return (
         <div>
-            {!selectedDaemonSet && <DaemonSetsList
+            {!daemonSetName && <DaemonSetsList
                 daemonSets={daemonSets}
-                setDaemonSet={setSelectedDaemonSet}
+                setDaemonSetName={setDaemonSetName}
             />}
-            {selectedDaemonSet && <DaemonSetDetail
-                daemonSet={selectedDaemonSet}
+            {daemonSetName && <DaemonSetDetail
+                daemonSetName={daemonSetName}
                 initDaemonSet={initDaemonSet}/>}
         </div>
     );
