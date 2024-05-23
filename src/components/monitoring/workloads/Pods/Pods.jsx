@@ -4,10 +4,12 @@ import PodsList from "./PodsList.jsx";
 import {useSelector} from "react-redux";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import loginUtil from "../../../../util/login.js";
+import {useLocation} from "react-router-dom";
 
 const Pods = () => {
+    const initPodName = useLocation().state ? useLocation().state.name : null;
     const [podsData, setPodsData] = useState({totalUsage: [], pods: []});
-    const [selectedPod, setSelectedPod] = useState(null);
+    const [selectedPod, setSelectedPod] = useState(initPodName);
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
 
@@ -43,6 +45,10 @@ const Pods = () => {
         }
     }
 
+    const initPod = () => {
+        setSelectedPod(null);
+    }
+
     useEffect(() => {
         loadData();
     }, []);
@@ -54,7 +60,7 @@ const Pods = () => {
     return (
         <div className="overview-content">
             {!selectedPod && <PodsList podsData={podsData} setPod={setSelectedPod} />}
-            {selectedPod && <PodDetail pod={selectedPod} setPod={setSelectedPod} />}
+            {selectedPod && <PodDetail podName={selectedPod} initPod={initPod} />}
         </div>
     );
 };
