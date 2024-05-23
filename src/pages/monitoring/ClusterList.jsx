@@ -2,19 +2,23 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/MONITORING.css';
 import loginUtil from '../../util/login.js';
-import { cusomizedAxios as axios } from "../../util/customizedAxios.js";
+import {useDispatch} from "react-redux";
+import {customizedAxios as axios} from '../../util/customizedAxios.js';
+import {setCluster} from "../../redux/modules/cluster.js";
 
 const ClusterList = () => {
     const navigate = useNavigate();
     const [clusters, setClusters] = useState([]);
+    const dispatch = useDispatch();
 
     const onClickNew = () => {
         navigate("/monitoring/token");
     }
 
-    // 후에 클러스터에 대한 정보를 전달할 수 있도록 변경할 것 - 현재는 이름만 전달
+    // 후에 클러스터에 대한 정보를 전달할 수 있도록 변경할 것
     const onClickCluster = (item) => {
-        navigate("/monitoring/dashboard", { state: { data: item}});
+        dispatch(setCluster(item.clusterId)) // item의 cluster_id 전달
+        navigate("/monitoring/dashboard");
     }
 
     useEffect(() => {

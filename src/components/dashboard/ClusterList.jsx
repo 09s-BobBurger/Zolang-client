@@ -1,9 +1,46 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ClusterState from "./ClusterState.jsx";
 import {useNavigate} from "react-router-dom";
+import {setCluster} from "../../redux/modules/cluster.js";
+import {useDispatch} from "react-redux";
+import loginUtil from "../../util/login.js";
+import {customizedAxios as axios} from "../../util/customizedAxios.js";
 
 const ClusterList = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [clusters, setClusters] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get(
+                "/api/v1/cluster",
+                {
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                    }
+                }
+            )
+            .then((res) => {
+                let clustersList = res.data.data.slice(0, 3);
+                for (let i = 0; i < 3; i++) {
+                    axios
+                        .get(
+                            `/api/v1/cluster/${clustersList[i].clusterId}/status`
+                        )
+                        .then((res) => {
+                            clustersList[i].status = res.data.data;
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                }
+                setClusters(clustersList);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }, [])
 
     const onClickNew = () => {
         navigate("/monitoring/token");
@@ -13,17 +50,11 @@ const ClusterList = () => {
         navigate("/monitoring/clusterList");
     }
 
-    // 후에 클러스터에 대한 정보를 전달할 수 있도록 변경할 것 - 현재는 이름만 전달
+    // 후에 클러스터에 대한 정보를 전달할 수 있도록 변경할 것 - 클러스터 아이디 redux에 저장
     const onClickCluster = (item) => {
-        navigate("/monitoring/dashboard", { state: { data: item}});
+        dispatch(setCluster(item.clusterId)) // item의 cluster_id 전달
+        navigate("/monitoring/dashboard");
     }
-
-    // testData
-    const clusterNames = [
-        { name: 'bell-k8s-test-context', IP: '123.3.36.382', version: 'v1.30.0', state: 1},
-        { name: 'dkos-test-pg1-context', IP: 'local', version: 'v1.30.0', state: 2},
-        { name: 'kubernetes-admin@cluster.local', IP: '123.3.36.382', version: 'v1.30.0', state: 3},
-    ]
 
     return (
         <div className="cluster-list-container" style={{
@@ -47,14 +78,16 @@ const ClusterList = () => {
                         <span>IP</span>
                         <span>Version</span>
                     </li>
-                    {clusterNames.map((item) => {
+                    {clusters.map((item) => {
                         return <li
-                            onClick={() => onClickCluster(item.name)}
+                            onClick={() => onClickCluster(item)}
                         >
-                            <span>{item.name}</span>
-                            <span>{item.IP}</span>
+                            <span>{item.clusterName}</span>
+                            <span>{item.domainUrl}</span>
                             <span>{item.version}</span>
-                            <span><ClusterState state={item.state} /></span>
+                            <span>{item.status ?
+                                <img src="../clusterStateTrue.svg" alt="good"/> : <img src="../clusterStateFalse.svg" alt="bad"/>}
+                            </span>
                         </li>
                     })}
                 </ul>

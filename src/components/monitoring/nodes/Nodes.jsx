@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NodesList from "./NodesList";
 import NodesDetailCard from "./NodeDetailCard";
-import {cusomizedAxios as axios} from "../../../util/customizedAxios.js";
+import {customizedAxios as axios} from "../../../util/customizedAxios.js";
 
 function Nodes(props) {
     const [nodeData, setNodeData] = useState([]);
