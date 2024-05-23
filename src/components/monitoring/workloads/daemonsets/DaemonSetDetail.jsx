@@ -317,7 +317,7 @@ const DaemonSetDetail = ({ daemonSetName, initDaemonSet }) => {
                         <span style={titleStyle}>
                             <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
                                  src="../../../status.svg" alt="status"/>
-                            Conditions
+                            Pods
                         </span>
                         <Table
                             sx={{minWidth: 650, color: "#ffffff"}}
