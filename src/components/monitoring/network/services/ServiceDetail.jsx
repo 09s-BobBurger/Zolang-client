@@ -12,7 +12,6 @@ const titleStyle = {
     fontSize: "1.6rem"
 }
 const ServiceDetail = ({ service, setService }) => {
-    console.log(service);
     return (
         <div
             style={{ width: '79vw' }}
