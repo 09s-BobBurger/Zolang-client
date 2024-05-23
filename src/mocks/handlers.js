@@ -1412,7 +1412,7 @@ export const handlers = [
         )
     }),
 
-    // get deployment Detail of cluster
+    // get daemon Detail of cluster
     http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/daemons/:daemonsSetName`, ({params}) => {
         const {clusterId, deploymentName} = params;
         return HttpResponse.json(
@@ -1775,5 +1775,370 @@ export const handlers = [
                 "error": null
             }
         )
-    })
+    }),
+
+    // get replicas of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/replicas`, ({params}) => {
+        const {clusterId} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "kubernetes-dashboard-7f479859cc",
+                        "namespace": "kube-system",
+                        "images": [
+                            "kubernetesui/dashboard:v2.7.0"
+                        ],
+                        "labels": {
+                            "k8s-app": "kubernetes-dashboard",
+                            "pod-template-hash": "7f479859cc"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2023. 05. 06. 오전 06:12:23",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "kubernetes-dashboard-bc88b5c98",
+                        "namespace": "kube-system",
+                        "images": [
+                            "kubernetesui/dashboard:v2.7.0"
+                        ],
+                        "labels": {
+                            "k8s-app": "kubernetes-dashboard",
+                            "pod-template-hash": "bc88b5c98"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 06. 오전 08:12:46",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "kubernetes-dashboard-dc96f9fc",
+                        "namespace": "kube-system",
+                        "images": [
+                            "kubernetesui/dashboard:v2.7.0"
+                        ],
+                        "labels": {
+                            "k8s-app": "kubernetes-dashboard",
+                            "pod-template-hash": "dc96f9fc"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "metrics-server-68885988d",
+                        "namespace": "kube-system",
+                        "images": [
+                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
+                        ],
+                        "labels": {
+                            "k8s-app": "metrics-server",
+                            "pod-template-hash": "68885988d"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2023. 05. 03. 오전 09:09:22",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "metrics-server-6cd6d6ffb8",
+                        "namespace": "kube-system",
+                        "images": [
+                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
+                        ],
+                        "labels": {
+                            "k8s-app": "metrics-server",
+                            "pod-template-hash": "6cd6d6ffb8"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2023. 05. 03. 오전 07:21:30",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "metrics-server-6d8dc95f86",
+                        "namespace": "kube-system",
+                        "images": [
+                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
+                        ],
+                        "labels": {
+                            "k8s-app": "metrics-server",
+                            "pod-template-hash": "6d8dc95f86"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2023. 05. 05. 오전 05:37:43",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "grafana-54df5dbbc7",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "54df5dbbc7"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2024. 04. 18. 오후 16:03:55",
+                        "age": "1 month"
+                    },
+                    {
+                        "name": "grafana-657c7689bd",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "657c7689bd"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2024. 04. 26. 오후 14:11:40",
+                        "age": "26 day"
+                    },
+                    {
+                        "name": "grafana-668b9b7d5d",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "668b9b7d5d"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2024. 05. 19. 오후 13:06:37",
+                        "age": "4 day"
+                    },
+                    {
+                        "name": "grafana-6bc4b5b4b7",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "6bc4b5b4b7"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2024. 04. 18. 오후 16:09:22",
+                        "age": "1 month"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get replicas of cluster with namespace
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/replicas/namespace`, ({params, request}) => {
+        const {clusterId} = params;
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "grafana-54df5dbbc7",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "54df5dbbc7"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2024. 04. 18. 오후 16:03:55",
+                        "age": "1 month"
+                    },
+                    {
+                        "name": "grafana-657c7689bd",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "657c7689bd"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2024. 04. 26. 오후 14:11:40",
+                        "age": "27 day"
+                    },
+                    {
+                        "name": "grafana-668b9b7d5d",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "668b9b7d5d"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2024. 05. 19. 오후 13:06:37",
+                        "age": "4 day"
+                    },
+                    {
+                        "name": "grafana-6bc4b5b4b7",
+                        "namespace": "monitoring",
+                        "images": [
+                            "grafana/grafana:latest"
+                        ],
+                        "labels": {
+                            "app": "grafana",
+                            "pod-template-hash": "6bc4b5b4b7"
+                        },
+                        "replicas": 0,
+                        "readyReplicas": 0,
+                        "creationDateTime": "2024. 04. 18. 오후 16:09:22",
+                        "age": "1 month"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get replica Detail of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/replicas/:replicasSetName`, ({params}) => {
+        const {clusterId, replicaSetName} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": {
+                    "metadata": {
+                        "name": "jenkins-696ccd6ffc",
+                        "namespace": "jenkins",
+                        "creationDate": "2024 .05 .19 .",
+                        "creationTime": "오후 01:30:08",
+                        "age": "4 day",
+                        "uid": "f0eee0d7-392e-4a6b-8425-d36f49e5e56c",
+                        "labels": {
+                            "app": "jenkins",
+                            "pod-template-hash": "696ccd6ffc"
+                        },
+                        "annotations": {
+                            "deployment.kubernetes.io/desired-replicas": "1",
+                            "deployment.kubernetes.io/max-replicas": "2",
+                            "deployment.kubernetes.io/revision": "13"
+                        }
+                    },
+                    "resource": {
+                        "selector": {
+                            "app": "jenkins",
+                            "pod-template-hash": "696ccd6ffc"
+                        },
+                        "image": "ghcr.io/konempty/jenkins-docker-image:latest"
+                    },
+                    "podConditions": {
+                        "runningPods": 1,
+                        "desiredPods": 1
+                    },
+                    "pods": [
+                        {
+                            "name": "jenkins-696ccd6ffc-bxtz4",
+                            "namespace": "jenkins",
+                            "images": [
+                                "ghcr.io/konempty/jenkins-docker-image:latest"
+                            ],
+                            "labels": {
+                                "app": "jenkins",
+                                "pod-template-hash": "696ccd6ffc"
+                            },
+                            "node": "instance-20230426-2354",
+                            "status": "Running",
+                            "restartCount": 0,
+                            "usage": {
+                                "time": "18:54",
+                                "cpuUsage": 0.002,
+                                "memoryUsage": 960290816
+                            },
+                            "metrics": [
+                                null,
+                                null,
+                                null,
+                                null,
+                                {
+                                    "time": "18:45",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:46",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:47",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:48",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:49",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:50",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:51",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:52",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                },
+                                {
+                                    "time": "18:53",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960290816
+                                }
+                            ],
+                            "age": "4 day",
+                            "creationDateTime": "2024. 05. 19. 오후 13:30:08"
+                        }
+                    ],
+                    "services": [
+                        {
+                            "serviceName": "jenkins",
+                            "serviceNamespace": "jenkins",
+                            "serviceLabels": {},
+                            "serviceClusterIP": "10.152.183.232",
+                            "serviceExternalIP": null,
+                            "servicePort": [
+                                8080
+                            ],
+                            "serviceAge": "1 year"
+                        }
+                    ]
+                },
+                "error": null
+            }
+        )
+    }),
 ]
