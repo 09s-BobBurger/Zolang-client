@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -9,6 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import {useSelector} from "react-redux";
 
 const titleStyle = {
     display: 'flex',
@@ -18,7 +20,21 @@ const titleStyle = {
     fontSize: "1.6rem"
 }
 
-const DeploymentDetail = ({ deployment, setDeployment}) => {
+const DeploymentDetail = ({ deploymentName, initDeployment}) => {
+    const clusterId = useSelector(state => state.cluster.clusterId);
+    const [deployment, setDeployment] = useState();
+
+    useEffect(() => {
+        axios
+            .get(`/api/v1/cluster/${clusterId}/workload/deployments/${deploymentName}`)
+            .then((res) => {
+                setDeployment(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }, [])
+
     return (
         <div
             style={{ width: '79vw' }}
@@ -34,13 +50,13 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                     padding: '10px 0',
                     fontSize: '1.1rem'
                 }}
-                onClick={() => {setDeployment(null)}}
+                onClick={() => {initDeployment()}}
             >
                 <KeyboardArrowLeft />
                 Return to List
             </MuiButton>
 
-            <div
+            {deployment && <div
                 style={{
                     width: "100%",
                     display: "flex",
@@ -63,7 +79,8 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg" alt="metadata"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg"
+                             alt="metadata"/>
                         Metadata
                     </span>
                     <div
@@ -134,7 +151,7 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                             <Typography variant="body2" color="#ABAFBD">
                                 Labels
                             </Typography>
-                            <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                            <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                 {Object.keys(deployment.metadata.labels).map((key) => {
                                     return <Label name={key + ":" + deployment.metadata.labels[key]}/>
                                 })}
@@ -152,9 +169,9 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                             <Typography variant="body2" color="#ABAFBD">
                                 Annotations
                             </Typography>
-                            <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                            <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                 {Object.keys(deployment.metadata.annotations).map((key) => {
-                                    if (deployment.metadata.annotations[key].length < 1000) {
+                                    if (deployment.metadata.annotations[key].length < 200) {
                                         return <Label name={key + ":" + deployment.metadata.annotations[key]}/>
                                     }
                                 })}
@@ -165,20 +182,21 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
 
                 {/* Resource */}
                 <div
-                     style={{
-                         boxSizing: 'border-box',
-                         display: 'flex',
-                         flexWrap: "wrap",
-                         gap: '10px',
-                         border: '1px solid rgb(171, 175, 189)',
-                         borderRadius: '10px',
-                         padding: '30px',
-                         background: 'rgb(56, 60, 74)',
-                         overflowX: 'auto',
-                     }}
+                    style={{
+                        boxSizing: 'border-box',
+                        display: 'flex',
+                        flexWrap: "wrap",
+                        gap: '10px',
+                        border: '1px solid rgb(171, 175, 189)',
+                        borderRadius: '10px',
+                        padding: '30px',
+                        background: 'rgb(56, 60, 74)',
+                        overflowX: 'auto',
+                    }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg" alt="resource"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg"
+                             alt="resource"/>
                         Resource
                     </span>
                     <div
@@ -234,7 +252,7 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                                 <Typography variant="body2" color="#ABAFBD">
                                     Selector
                                 </Typography>
-                                <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                     {Object.keys(deployment.resource.selector).map((key) => {
                                         return <Label name={key + ":" + deployment.resource.selector[key]}/>
                                     })}
@@ -247,20 +265,21 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
 
                 {/* rollingUpdateStrategy */}
                 <div
-                     style={{
-                         boxSizing: 'border-box',
-                         display: 'flex',
-                         flexWrap: "wrap",
-                         gap: '10px',
-                         border: '1px solid rgb(171, 175, 189)',
-                         borderRadius: '10px',
-                         padding: '30px',
-                         background: 'rgb(56, 60, 74)',
-                         overflowX: 'auto',
-                     }}
+                    style={{
+                        boxSizing: 'border-box',
+                        display: 'flex',
+                        flexWrap: "wrap",
+                        gap: '10px',
+                        border: '1px solid rgb(171, 175, 189)',
+                        borderRadius: '10px',
+                        padding: '30px',
+                        background: 'rgb(56, 60, 74)',
+                        overflowX: 'auto',
+                    }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg" alt="resource"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg"
+                             alt="resource"/>
                         Rolling Update Strategy
                     </span>
                     <div
@@ -315,7 +334,8 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg" alt="resource"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg"
+                             alt="resource"/>
                         Pod Conditions
                     </span>
                     <div
@@ -381,21 +401,24 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                         gap: '20px'
                     }}>
                         <span style={titleStyle}>
-                            <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg" alt="status"/>
+                            <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
+                                 src="../../../status.svg" alt="status"/>
                             Conditions
                         </span>
                         <Table aria-label="conditions table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ paddingLeft: '16px !important' }}
+                                    <TableCell sx={{paddingLeft: '16px !important'}}
                                     >Type</TableCell>
                                     <TableCell align="center" style={{width: "5%"}}>Status</TableCell>
                                     <TableCell align="center" style={{width: "10%"}}>Last Update Age</TableCell>
                                     <TableCell align="center" style={{width: "10%"}}>Last Transition Age</TableCell>
-                                    <TableCell align="left" style={{width: "25%"}} sx={{ paddingLeft: '16px !important'}}>
+                                    <TableCell align="left" style={{width: "25%"}}
+                                               sx={{paddingLeft: '16px !important'}}>
                                         Reason
                                     </TableCell>
-                                    <TableCell align="left" style={{width: "40%"}} sx={{ paddingLeft: '16px !important'}}>
+                                    <TableCell align="left" style={{width: "40%"}}
+                                               sx={{paddingLeft: '16px !important'}}>
                                         Message
                                     </TableCell>
                                 </TableRow>
@@ -403,7 +426,7 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                             <TableBody>
                                 {deployment.condition.map((condition, index) => (
                                     <TableRow key={index}>
-                                        <TableCell sx={{ fontWeight: 'bold' }}>{condition.type}</TableCell>
+                                        <TableCell sx={{fontWeight: 'bold'}}>{condition.type}</TableCell>
                                         <TableCell align="center">{condition.status}</TableCell>
                                         <TableCell align="center">
                                             {condition.lastUpdateAge}
@@ -423,7 +446,7 @@ const DeploymentDetail = ({ deployment, setDeployment}) => {
                         </Table>
                     </TableContainer>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 };

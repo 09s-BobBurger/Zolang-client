@@ -4,10 +4,12 @@ import {useSelector} from "react-redux";
 import loginUtil from "../../../../util/login.js";
 import DeploymentsList from "./DeploymentsList.jsx";
 import DeploymentDetail from "./DeploymentDetail.jsx";
+import {useLocation} from "react-router-dom";
 
 const Deployments = () => {
+    const initDeploymentName = useLocation().state ? useLocation().state.name : null;
     const [deployments, setDeployments] = useState([]);
-    const [selectedDeployment, setSelectedDeployment] = useState(null);
+    const [deploymentName, setDeploymentName] = useState(initDeploymentName);
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
 
@@ -33,6 +35,10 @@ const Deployments = () => {
         }
     }
 
+    const initDeployment = () => {
+        setDeploymentName(null);
+    }
+
     useEffect(() => {
         loadData();
     }, []);
@@ -43,8 +49,8 @@ const Deployments = () => {
 
     return (
         <div>
-            {!selectedDeployment && <DeploymentsList deployments={deployments} setDeployment={setSelectedDeployment}/>}
-            {selectedDeployment && <DeploymentDetail deployment={selectedDeployment} setDeployment={setSelectedDeployment}/>}
+            {!deploymentName && <DeploymentsList deployments={deployments} setDeploymentName={setDeploymentName}/>}
+            {deploymentName && <DeploymentDetail deploymentName={deploymentName} initDeployment={initDeployment}/>}
         </div>
     );
 };
