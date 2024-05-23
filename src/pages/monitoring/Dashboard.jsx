@@ -11,6 +11,7 @@ import Services from "../../components/monitoring/network/services/Services.jsx"
 import {useDispatch, useSelector} from "react-redux";
 import {initCluster} from "../../redux/modules/cluster.js";
 import {initNamespace} from "../../redux/modules/namespace.js";
+import DaemonSets from "../../components/monitoring/workloads/daemonsets/DaemonSets.jsx";
 import Deployments from "../../components/monitoring/workloads/deployment/Deployments.jsx";
 
 const Dashboard = () => {
@@ -76,6 +77,7 @@ const Dashboard = () => {
                     />
                     <Route path="workloads/pods" element={<Pods />} />
                     <Route path="workloads/deployments" element={<Deployments />} />
+                    <Route path="workloads/daemonsets" element={<DaemonSets />} />
                     <Route path="network/services" element={<Services />} />
                     {/* 페이지 작업할 때마다 Route 추가 */}
                 </Routes>
