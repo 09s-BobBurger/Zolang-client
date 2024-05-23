@@ -1078,4 +1078,156 @@ export const handlers = [
             }
         )
     }),
+
+    // get deployments of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/deployments`, ({params}) => {
+        const {clusterId} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "nginx-ingress-microk8s-controller",
+                        "namespace": "ingress",
+                        "images": [
+                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                        ],
+                        "labels": {
+                            "microk8s-application": "nginx-ingress-microk8s"
+                        },
+                        "replicas": 2,
+                        "readyReplicas": 2,
+                        "creationDateTime": "2023. 05. 03. 오전 08:35:01",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "calico-node",
+                        "namespace": "kube-system",
+                        "images": [
+                            "docker.io/calico/node:v3.23.5"
+                        ],
+                        "labels": {
+                            "k8s-app": "calico-node"
+                        },
+                        "replicas": 4,
+                        "readyReplicas": 4,
+                        "creationDateTime": "2023. 05. 01. 오후 14:09:48",
+                        "age": "1 year"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get deployments of cluster with namespace
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/deployments/namespace`, ({params, request}) => {
+        const {clusterId} = params;
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "nginx-ingress-microk8s-controller",
+                        "namespace": "ingress",
+                        "images": [
+                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                        ],
+                        "labels": {
+                            "microk8s-application": "nginx-ingress-microk8s"
+                        },
+                        "replicas": 2,
+                        "readyReplicas": 2,
+                        "creationDateTime": "2023. 05. 03. 오전 08:35:01",
+                        "age": "1 year"
+                    },
+                    {
+                        "name": "calico-node",
+                        "namespace": "kube-system",
+                        "images": [
+                            "docker.io/calico/node:v3.23.5"
+                        ],
+                        "labels": {
+                            "k8s-app": "calico-node"
+                        },
+                        "replicas": 4,
+                        "readyReplicas": 4,
+                        "creationDateTime": "2023. 05. 01. 오후 14:09:48",
+                        "age": "1 year"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get deployment Detail of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/deployments/:deploymentName`, ({params}) => {
+        const {clusterId, deploymentName} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "metadata": {
+                            "name": "dashboard-metrics-scraper",
+                            "namespace": "kube-system",
+                            "creationDate": "2023 .05 .06 .",
+                            "creationTime": "오전 06:04:58",
+                            "age": "1 year",
+                            "uid": "3356a050-903f-450d-b976-b650baf53a40",
+                            "labels": {
+                                "k8s-app": "dashboard-metrics-scraper"
+                            },
+                            "annotations": {
+                                "deployment.kubernetes.io/revision": "1",
+                                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"labels\":{\"k8s-app\":\"dashboard-metrics-scraper\"},\"name\":\"dashboard-metrics-scraper\",\"namespace\":\"kube-system\"},\"spec\":{\"replicas\":1,\"revisionHistoryLimit\":10,\"selector\":{\"matchLabels\":{\"k8s-app\":\"dashboard-metrics-scraper\"}},\"template\":{\"metadata\":{\"labels\":{\"k8s-app\":\"dashboard-metrics-scraper\"}},\"spec\":{\"containers\":[{\"image\":\"kubernetesui/metrics-scraper:v1.0.8\",\"livenessProbe\":{\"httpGet\":{\"path\":\"/\",\"port\":8000,\"scheme\":\"HTTP\"},\"initialDelaySeconds\":30,\"timeoutSeconds\":30},\"name\":\"dashboard-metrics-scraper\",\"ports\":[{\"containerPort\":8000,\"protocol\":\"TCP\"}],\"securityContext\":{\"allowPrivilegeEscalation\":false,\"readOnlyRootFilesystem\":true,\"runAsGroup\":2001,\"runAsUser\":1001},\"volumeMounts\":[{\"mountPath\":\"/tmp\",\"name\":\"tmp-volume\"}]}],\"nodeSelector\":{\"kubernetes.io/os\":\"linux\"},\"securityContext\":{\"seccompProfile\":{\"type\":\"RuntimeDefault\"}},\"serviceAccountName\":\"kubernetes-dashboard\",\"tolerations\":[{\"effect\":\"NoSchedule\",\"key\":\"node-role.kubernetes.io/master\"}],\"volumes\":[{\"emptyDir\":{},\"name\":\"tmp-volume\"}]}}}}\n"
+                            }
+                        },
+                        "resource": {
+                            "strategy": "RollingUpdate",
+                            "minimumPreparationTime": 0,
+                            "revisionHistoryLimit": 10,
+                            "selector": {
+                                "k8s-app": "dashboard-metrics-scraper"
+                            }
+                        },
+                        "rollingUpdateStrategy": {
+                            "maxSurge": "25%",
+                            "maxUnavailable": "25%"
+                        },
+                        "podConditions": {
+                            "updatedReplicas": 1,
+                            "totalReplicas": 1,
+                            "availableReplicas": 1
+                        },
+                        "condition": [
+                            {
+                                "type": "Progressing",
+                                "status": "True",
+                                "lastUpdateTime": "2023. 05. 06. 오전 06:05:00",
+                                "lastUpdateAge": "1 year",
+                                "lastTransitionTime": "2023. 05. 06. 오전 06:04:58",
+                                "lastTransitionAge": "1 year",
+                                "reason": "NewReplicaSetAvailable",
+                                "message": "ReplicaSet \"dashboard-metrics-scraper-7bc864c59\" has successfully progressed."
+                            },
+                            {
+                                "type": "Available",
+                                "status": "True",
+                                "lastUpdateTime": "2024. 05. 20. 오후 13:35:05",
+                                "lastUpdateAge": "9 hour",
+                                "lastTransitionTime": "2024. 05. 20. 오후 13:35:05",
+                                "lastTransitionAge": "9 hour",
+                                "reason": "MinimumReplicasAvailable",
+                                "message": "Deployment has minimum availability."
+                            }
+                        ]
+                    }
+                ],
+                "error": null
+            }
+        )
+    })
 ]
