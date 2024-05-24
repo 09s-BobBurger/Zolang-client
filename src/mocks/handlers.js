@@ -2141,4 +2141,177 @@ export const handlers = [
             }
         )
     }),
+
+    // get statefuls of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/statefuls`, ({params}) => {
+        const {clusterId} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "prometheus-server",
+                        "namespace": "monitoring",
+                        "images": [
+                            "prom/prometheus:latest"
+                        ],
+                        "labels": {
+                            "app": "prometheus"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2024. 02. 24. 오후 18:40:06",
+                        "age": "2 month"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get statefuls of cluster with namespace
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/statefuls/namespace`, ({params, request}) => {
+        const {clusterId} = params;
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name": "prometheus-server",
+                        "namespace": "monitoring",
+                        "images": [
+                            "prom/prometheus:latest"
+                        ],
+                        "labels": {
+                            "app": "prometheus"
+                        },
+                        "replicas": 1,
+                        "readyReplicas": 1,
+                        "creationDateTime": "2024. 02. 24. 오후 18:40:06",
+                        "age": "2 month"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get stateful Detail of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/statefuls/:replicasSetName`, ({params}) => {
+        const {clusterId, replicaSetName} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": {
+                    "metadata": {
+                        "name": "prometheus-server",
+                        "namespace": "monitoring",
+                        "creationDate": "2024 .02 .24 .",
+                        "creationTime": "오후 06:40:06",
+                        "age": "2 month",
+                        "uid": "f0f825ae-cca8-44a7-ac28-eb27402948d1",
+                        "labels": {
+                            "app": "prometheus"
+                        },
+                        "annotations": {
+                            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"StatefulSet\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"prometheus\"},\"name\":\"prometheus-server\",\"namespace\":\"monitoring\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"prometheus\"}},\"serviceName\":\"prometheus-server-http\",\"template\":{\"metadata\":{\"labels\":{\"app\":\"prometheus\"}},\"spec\":{\"containers\":[{\"args\":[\"--storage.tsdb.path=/prometheus\",\"--storage.tsdb.retention.time=15d\",\"--config.file=/etc/prometheus/prometheus.yaml\",\"--web.enable-admin-api\"],\"image\":\"prom/prometheus:latest\",\"name\":\"prometheus\",\"ports\":[{\"containerPort\":9090,\"name\":\"prometheus\"}],\"resources\":{\"limits\":{\"cpu\":\"500m\",\"memory\":\"500Mi\"},\"requests\":{\"cpu\":\"500m\",\"memory\":\"500Mi\"}},\"volumeMounts\":[{\"mountPath\":\"/prometheus\",\"name\":\"prometheus-storage\"},{\"mountPath\":\"/etc/prometheus\",\"name\":\"prometheus-server-conf\"}]}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"instance-20230502-0040\"},\"securityContext\":{\"runAsUser\":0},\"serviceAccountName\":\"monitoring\",\"volumes\":[{\"configMap\":{\"defaultMode\":420,\"name\":\"prometheus-server-conf\"},\"name\":\"prometheus-server-conf\"}]}},\"volumeClaimTemplates\":[{\"metadata\":{\"name\":\"prometheus-storage\",\"namespace\":\"monitoring\"},\"spec\":{\"accessModes\":[\"ReadWriteOnce\"],\"resources\":{\"requests\":{\"storage\":\"20Gi\"}},\"storageClassName\":\"manual\"}}]}}\n"
+                        }
+                    },
+                    "resource": {
+                        "selector": {
+                            "app": "prometheus"
+                        },
+                        "image": "prom/prometheus:latest"
+                    },
+                    "podConditions": {
+                        "runningPods": 1,
+                        "desiredPods": 1
+                    },
+                    "pods": [
+                        {
+                            "name": "prometheus-server-0",
+                            "namespace": "monitoring",
+                            "images": [
+                                "prom/prometheus:latest"
+                            ],
+                            "labels": {
+                                "app": "prometheus",
+                                "apps.kubernetes.io/pod-index": "0",
+                                "controller-revision-hash": "prometheus-server-566fc6784b",
+                                "statefulset.kubernetes.io/pod-name": "prometheus-server-0"
+                            },
+                            "node": "instance-20230502-0040",
+                            "status": "Running",
+                            "restartCount": 0,
+                            "usage": {
+                                "time": "17:05",
+                                "cpuUsage": 0.001,
+                                "memoryUsage": 63209472
+                            },
+                            "metrics": [
+                                {
+                                    "time": "16:52",
+                                    "cpuUsage": 0.003,
+                                    "memoryUsage": 60203008
+                                },
+                                {
+                                    "time": "16:53",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 60203008
+                                },
+                                {
+                                    "time": "16:54",
+                                    "cpuUsage": 0.003,
+                                    "memoryUsage": 60203008
+                                },
+                                {
+                                    "time": "16:55",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 60203008
+                                },
+                                {
+                                    "time": "16:56",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 60203008
+                                },
+                                {
+                                    "time": "16:57",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 61390848
+                                },
+                                null,
+                                null,
+                                null,
+                                {
+                                    "time": "17:01",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 61177856
+                                },
+                                {
+                                    "time": "17:02",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 61177856
+                                },
+                                {
+                                    "time": "17:03",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 63209472
+                                },
+                                {
+                                    "time": "17:04",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 63209472
+                                }
+                            ],
+                            "age": "7 day",
+                            "creationDateTime": "2024. 05. 16. 오후 13:40:06"
+                        }
+                    ],
+                    "services": null
+                },
+                "error": null
+            }
+        )
+    }),
 ]
