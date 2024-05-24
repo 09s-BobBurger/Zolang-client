@@ -1,191 +1,232 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
-import Drawer from "@mui/material/Drawer";
-import NodeDetailCard from "./NodeDetailCard";
-import axios from "axios";
+import Status from "../../icon/Status";
+import LinearProgress, {
+    linearProgressClasses,
+} from "@mui/material/LinearProgress";
+import { styled } from "@mui/material/styles";
+import { Typography } from "@mui/material";
 
-function Nodes({namespace, nodeData, setNode}) {
+function Nodes({ nodeData, setNode }) {
     const handleRowClick = (node) => {
-        // setNode(node);
-        setNode({
-            allocatable: {
-                cpu: "10",
-                "ephemeral-storage": "56403987978",
-                "hugepages-1Gi": "0",
-                "hugepages-2Mi": "0",
-                "hugepages-32Mi": "0",
-                "hugepages-64Ki": "0",
-                memory: "7926968Ki",
-                pods: "110",
-            },
-            OSImage: "Docker Desktop",
-            addresses: [
-                {
-                    type: "InternalIP",
-                    address: "192.168.65.3",
-                },
-                {
-                    type: "Hostname",
-                    address: "docker-desktop",
-                },
-            ],
-            KubeletVersion: "v1.29.1",
-            OS: "linux",
-            containerRuntime: "docker://25.0.3",
-            created: "2024-03-20T14:26:36Z",
-            kernelVersion: "6.6.12-linuxkit",
-            name: "docker-desktop",
-            conditions: [
-                {
-                    type: "MemoryPressure",
-                    status: "False",
-                    lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                    lastTransitionTime: "2024-03-20T14:26:36Z",
-                    reason: "KubeletHasSufficientMemory",
-                    message: "kubelet has sufficient memory available",
-                },
-                {
-                    type: "DiskPressure",
-                    status: "False",
-                    lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                    lastTransitionTime: "2024-03-20T14:26:36Z",
-                    reason: "KubeletHasNoDiskPressure",
-                    message: "kubelet has no disk pressure",
-                },
-                {
-                    type: "PIDPressure",
-                    status: "False",
-                    lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                    lastTransitionTime: "2024-03-20T14:26:36Z",
-                    reason: "KubeletHasSufficientPID",
-                    message: "kubelet has sufficient PID available",
-                },
-                {
-                    type: "Ready",
-                    status: "True",
-                    lastHeartbeatTime: "2024-05-02T07:10:29Z",
-                    lastTransitionTime: "2024-03-20T14:26:37Z",
-                    reason: "KubeletReady",
-                    message: "kubelet is posting ready status",
-                },
-            ],
-            capacity: {
-                cpu: "10",
-                "ephemeral-storage": "61202244Ki",
-                "hugepages-1Gi": "0",
-                "hugepages-2Mi": "0",
-                "hugepages-32Mi": "0",
-                "hugepages-64Ki": "0",
-                memory: "8029368Ki",
-                pods: "110",
-            },
-        })
+        setNode(node);
     };
+
+    const getTimeDiff = (timeString) => {
+        const currentTime = new Date();
+        const targetTime = new Date(timeString);
+        const diff = Math.floor((currentTime - targetTime) / (1000 * 60));
+        return `${diff}분 전`;
+    };
+
+    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+        height: 10,
+        width: 70,
+        borderRadius: 5,
+        [`&.${linearProgressClasses.colorPrimary}`]: {
+            backgroundColor:
+                theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+        },
+        [`& .${linearProgressClasses.bar}`]: {
+            borderRadius: 5,
+            backgroundColor:
+                theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+        },
+    }));
+
+    const convertToPercentage = (value, max) => (value / max) * 100;
+
+    const boxStyle = {
+        boxSizing: "border-box",
+        minWidth: "200px",
+        height: "80px",
+        background: "transparent",
+        borderRadius: "10px",
+        border: "2.5px solid #ABAFBD",
+        color: "#ffffff",
+        padding: "15px 20px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+    };
+
+    const boxTitleVariant = "subtitle";
+    const boxValueVariant = "body2";
+
     return (
-        <div
-            style={{
-                padding: "15px",
-                outline: "1px solid #ABAFBD",
-                borderRadius: "10px",
-                background: "#2E3240",
-                justifyContent: "center",
-                height: "auto",
-                overflow: "auto",
-            }}
-        >
-            <div
-                style={{
-                    color: "#ffffff",
-                    padding: "10px",
-                    paddingTop: "0px",
-                    paddingBottom: "0px",
-                    paddingLeft: "15px",
-                    justifyContent: "space-between",
-                    display: "flex",
-                }}
-            >
-                <span
+        <div className="overview-content">
+            {nodeData.map((node, index) => (
+                <div
+                    key={node.name}
                     style={{
-                        paddingTop: "10px",
-                        fontSize: "24px",
-                        fontWeight: "bold",
+                        padding: "15px",
+                        outline: "1px solid #ABAFBD",
+                        borderRadius: "10px",
+                        background: "#2E3240",
+                        justifyContent: "center",
+                        height: "auto",
+                        overflow: "auto",
                     }}
                 >
-                    List
-                </span>
-            </div>
-            <hr
-                style={{
-                    width: "98%",
-                    border: 0,
-                    height: "1px",
-                    backgroundColor: "#474B59",
-                    marginBottom: "15px",
-                }}
-            />
-
-            <div className="moni-dashboard-nodes">
-                <TableContainer>
-                    <Table
-                        sx={{ minWidth: 650, color: "#ffffff" }}
-                        aria-label="simple table"
-                    >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell align="center">
-                                    Kubelet Version
-                                </TableCell>
-                                <TableCell align="center">Created</TableCell>
-                                <TableCell align="center">Ready</TableCell>
-                                <TableCell align="center">CPU</TableCell>
-                                <TableCell align="center">Memory</TableCell>
-                                <TableCell align="center">Pods</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {nodeData.map((node) => (
-                                <TableRow
-                                    key={node.name}
-                                    onClick={() => handleRowClick(node.name)}
-                                    sx={{
-                                        "&:last-child td, &:last-child th": {
-                                            border: 0,
-                                        },
-                                    }}
+                    <div className="node-list-metadata">
+                        <span>
+                            {node.name}
+                        </span>
+                        <div
+                            style={{
+                                display: "flex",
+                                width: "fit-content",
+                                gap: "20px",
+                                justifyContent: "space-between",
+                                marginTop: "10px",
+                                marginBottom: "10px"
+                            }}
+                        >
+                            <div style={boxStyle}>
+                                <Typography variant={boxTitleVariant}>
+                                    Version
+                                </Typography>
+                                <Typography
+                                    variant={boxValueVariant}
+                                    align="right"
                                 >
-                                    <TableCell component="th" scope="row">
-                                        {node.name}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {node.KubeletVersion}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {node.created}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {node.ready}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {node.capacity["capacity-cpu"]}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {node.capacity["capacity-memory"]}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {node.capacity["capacity-pods"]}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+                                    {node.kubectlVersion.split("-")[0]}
+                                </Typography>
+                            </div>
+                            <div style={boxStyle}>
+                                <Typography variant={boxTitleVariant}>
+                                    TimeStamp
+                                </Typography>
+                                <Typography
+                                    variant={boxValueVariant}
+                                    align="right"
+                                >
+                                    {node.timeStamp}
+                                </Typography>
+                            </div>
+                            <div
+                                style={{
+                                    boxSizing: "border-box",
+                                    minWidth: "200px",
+                                    height: "80px",
+                                    background: "transparent",
+                                    borderRadius: "10px",
+                                    border: "2.5px solid #ABAFBD",
+                                    color: "#ffffff",
+                                    padding: "15px 20px",
+                                }}
+                            >
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <Typography variant={boxTitleVariant}>
+                                        CPU
+                                    </Typography>
+                                    <BorderLinearProgress
+                                        variant="determinate"
+                                        value={convertToPercentage(1000, 2500)}
+                                    />
+                                </div>
+                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                    <Typography variant={boxTitleVariant}>
+                                        Memory
+                                    </Typography>
+                                    <BorderLinearProgress
+                                        variant="determinate"
+                                        value={convertToPercentage(1000, 1200)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr
+                        style={{
+                            width: "98%",
+                            border: 0,
+                            height: "1px",
+                            backgroundColor: "#474B59",
+                            marginBottom: "15px",
+                        }}
+                    />
+
+                    <div className="moni-dashboard-nodes">
+                        <TableContainer>
+                            <Table
+                                sx={{ minWidth: 650, color: "#ffffff" }}
+                                aria-label="simple table"
+                            >
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Type</TableCell>
+                                        <TableCell align="center">
+                                            Status
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            LastHeartbeatTime
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            LastTransitionTime
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            Message
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            Reason
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {node.conditions.map((condition, idx) => (
+                                        <TableRow
+                                            key={`${node.name}-${condition.type}-${idx}`}
+                                            onClick={() =>
+                                                handleRowClick(node.name)
+                                            }
+                                            sx={{
+                                                "&:last-child td, &:last-child th":
+                                                    {
+                                                        border: 0,
+                                                    },
+                                            }}
+                                        >
+                                            <TableCell
+                                                component="th"
+                                                scope="row"
+                                            >
+                                                {condition.type}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Status
+                                                    status={condition.status}
+                                                />
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {getTimeDiff(
+                                                    node.lastHeartbeatTime
+                                                )}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {getTimeDiff(
+                                                    node.lastTransitionTime
+                                                )}
+                                            </TableCell>
+                                            <TableCell scope="row" component="th">
+                                                {condition.message}
+                                            </TableCell>
+                                            <TableCell scope="row" component="th">
+                                                {condition.reason}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }

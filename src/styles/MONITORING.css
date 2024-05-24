@@ -1,3 +1,19 @@
+.node-list-metadata {
+    color: #ffffff;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.node-list-metadata > span {
+    padding-top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
 /* Workload table */
 .pie-chart-container > div > svg path {
     stroke-width: 0;
@@ -23,7 +39,7 @@
     color: #ffffff;
     border-bottom: 0;
     background: #222634;
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .moni-workloads-table > div > table > tbody > tr > th {
@@ -97,7 +113,7 @@
 /* Nodes */
 
 .moni-dashboard-nodes{
-    width: calc((100vw - 80px) / 100 * 75);
+    width: calc(100vw / 100 * 77);
 }
 
 .moni-dashboard-nodes > div > table > thead > tr > th:first-child {

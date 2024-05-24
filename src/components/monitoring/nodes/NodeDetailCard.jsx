@@ -17,7 +17,13 @@ function NodeDetailCard({ node, setNode }) {
         const diff = Math.floor((currentTime - targetTime) / (1000 * 60));
         return `${diff}분 전`;
     }
-
+    const titleStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        color: "#ffffff",
+        fontSize: "1.6rem"
+    }
     const allocatableKeys = Object.keys(node.allocatable);
     const capacityKeys = Object.keys(node.capacity);
 
@@ -52,7 +58,7 @@ function NodeDetailCard({ node, setNode }) {
     return (
         <div
             style={{
-                width: "100%",
+                width: '79vw',
                 display: "flex",
                 flexDirection: "column",
                 gap: "40px",
@@ -79,19 +85,24 @@ function NodeDetailCard({ node, setNode }) {
             <div
                 style={{
                     display: "flex",
-                    flexDirection: "column",
-                    gap: "40px",
-                    width: "700px",
-                    padding: "15px",
-                    outline: "1px solid #ABAFBD",
-                    borderRadius: "10px",
-                    background: "rgb(56, 60, 74)",
+                        flexDirection: "column",
+                        gap: "20px",
+                        // width: "800px",
+                        border: '1px solid rgb(171, 175, 189)',
+                        borderRadius: '10px',
+                        padding: '30px',
+                        background: 'rgb(56, 60, 74)'
                 }}
             >
+                <span style={titleStyle}>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg"
+                             alt="metadata"/>
+                        Metadata
+                    </span>
                 <div
                     style={{
                         display: "flex",
-                        justifyContent: "space-between",
+                        gap: '50px',
                         color: "#ffffff",
                     }}
                 >
@@ -127,22 +138,11 @@ function NodeDetailCard({ node, setNode }) {
                     </div>
                 </div>
                 <div>
-                    {/* <Box
-                    border={1}
-                    borderRadius={2}
-                    p={1}
-                    paddingRight="15px"
-                    paddingLeft="15px"
-                    borderColor="#ff9436"
-                    backgroundColor="#ca6a16"
-                    width="fit-content"
-                >
-                    <Typography variant="subtitle" color="#ffffff"></Typography>
-                </Box> */}
                     <div
                         style={{
                             display: "flex",
-                            justifyContent: "space-between",
+                            gap: '40px',
+                            // justifyContent: "space-between",
                             color: "#ffffff",
                         }}
                     >

@@ -4,6 +4,105 @@ import { http, HttpResponse } from 'msw'
 const baseURL =  'https://kcs.zolang.site';
 
 export const handlers = [
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/nodes`, ({params})=> {
+        const { clusterId } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": [
+                {
+                    "name": "ip-172-31-11-72.ap-northeast-2.compute.internal",
+                    "kubectlVersion": "v1.29.3-eks-ae9a62a",
+                    "timeStamp": "2024-05-10 06:58:44",
+                    "allocatableCpu": "1.930",
+                    "allocatableMemory": "3529355264",
+                    "allocatablePod": "17",
+                    "capacityCpu": "2",
+                    "capacityMemory": "4097683456",
+                    "capacityPod": "17",
+                    "conditions": [
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has sufficient memory available",
+                            "reason": "KubeletHasSufficientMemory",
+                            "status": "False",
+                            "type": "MemoryPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has no disk pressure",
+                            "reason": "KubeletHasNoDiskPressure",
+                            "status": "False",
+                            "type": "DiskPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has sufficient PID available",
+                            "reason": "KubeletHasSufficientPID",
+                            "status": "False",
+                            "type": "PIDPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324337.000000000,
+                            "message": "kubelet is posting ready status",
+                            "reason": "KubeletReady",
+                            "status": "True",
+                            "type": "Ready"
+                        }
+                    ]
+                },
+                {
+                    "name": "ip-172-31-44-178.ap-northeast-2.compute.internal",
+                    "kubectlVersion": "v1.29.3-eks-ae9a62a",
+                    "timeStamp": "2024-05-10 06:58:48",
+                    "allocatableCpu": "1.930",
+                    "allocatableMemory": "3529355264",
+                    "allocatablePod": "17",
+                    "capacityCpu": "2",
+                    "capacityMemory": "4097683456",
+                    "capacityPod": "17",
+                    "conditions": [
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324327.000000000,
+                            "message": "kubelet has sufficient memory available",
+                            "reason": "KubeletHasSufficientMemory",
+                            "status": "False",
+                            "type": "MemoryPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324327.000000000,
+                            "message": "kubelet has no disk pressure",
+                            "reason": "KubeletHasNoDiskPressure",
+                            "status": "False",
+                            "type": "DiskPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324327.000000000,
+                            "message": "kubelet has sufficient PID available",
+                            "reason": "KubeletHasSufficientPID",
+                            "status": "False",
+                            "type": "PIDPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324342.000000000,
+                            "message": "kubelet is posting ready status",
+                            "reason": "KubeletReady",
+                            "status": "True",
+                            "type": "Ready"
+                        }
+                    ]
+                }
+            ],
+            "error": null
+        })
+    }),
     http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/overview`, ({params})=> {
         const { clusterId } = params;
         return HttpResponse.json({
@@ -41,6 +140,7 @@ export const handlers = [
             "error": null
         })
     }),
+    
     http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/overview/namespace`, async ({params, request}) => {
         const { clusterId } = params;
         const namespace = new URL(request.url).searchParams.get('namespace');
