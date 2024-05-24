@@ -84,9 +84,9 @@ const ControllerTable = ({data, onClickRow}) => {
                             {data && data.map((item) => (
                                 <TableRow
                                     key={item.name}
-                                    onClick={() =>
-                                        onClickRow(item.name)
-                                    }
+                                    onClick={() => {
+                                        if (onClickRow) onClickRow(item.name)
+                                    }}
                                     sx={{
                                         "&:last-child td, &:last-child th":
                                             {

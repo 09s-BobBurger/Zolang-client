@@ -2314,4 +2314,19 @@ export const handlers = [
             }
         )
     }),
+
+    // get jobs of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/jobs`, ({params}) => {
+        const {clusterId} = params;
+        return HttpResponse.json(
+        )
+    }),
+
+    // get jobs of cluster with namespace
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/jobs/namespace`, ({params, request}) => {
+        const {clusterId} = params;
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        return HttpResponse.json(
+        )
+    }),
 ]
