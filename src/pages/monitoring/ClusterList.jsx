@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/MONITORING.css';
 import loginUtil from '../../util/login.js';
 import {useDispatch} from "react-redux";
-import {customizedAxios as axios} from '../../util/customizedAxios.js';
+// src/components/dashboard/ClusterList.jsx
+import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import {setCluster} from "../../redux/modules/cluster.js";
 
 const ClusterList = () => {

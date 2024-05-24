@@ -4,6 +4,81 @@ import { http, HttpResponse } from 'msw'
 const baseURL =  'https://kcs.zolang.site';
 
 export const handlers = [
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/overview`, ({params})=> {
+        const { clusterId } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "pod": {
+                    "counts": 18,
+                    "running": 18
+                },
+                "deployment": {
+                    "counts": 9,
+                    "running": 9
+                },
+                "replicaSet": {
+                    "counts": 51,
+                    "running": 51
+                },
+                "statefulSet": {
+                    "counts": 1,
+                    "running": 1
+                },
+                "daemonSet": {
+                    "counts": 2,
+                    "running": 2
+                },
+                "job": {
+                    "counts": 0,
+                    "running": 0
+                },
+                "cronJob": {
+                    "counts": 0,
+                    "running": 0
+                }
+            },
+            "error": null
+        })
+    }),
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/overview/namespace`, async ({params, request}) => {
+        const { clusterId } = params;
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "pod": {
+                    "counts": 18,
+                    "running": 18
+                },
+                "deployment": {
+                    "counts": 9,
+                    "running": 3
+                },
+                "replicaSet": {
+                    "counts": 51,
+                    "running": 50
+                },
+                "statefulSet": {
+                    "counts": 1,
+                    "running": 1
+                },
+                "daemonSet": {
+                    "counts": 2,
+                    "running": 2
+                },
+                "job": {
+                    "counts": 0,
+                    "running": 0
+                },
+                "cronJob": {
+                    "counts": 0,
+                    "running": 0
+                }
+            },
+            "error": null
+        })
+    }),
     http.get(`${baseURL}/api/v1/cluster`, () => {
         return HttpResponse.json({
             "success": true,
@@ -862,5 +937,220 @@ export const handlers = [
             },
             "error": null
         })
+    }),
+
+    // get services of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/service`, ({params}) => {
+        const {clusterId} = params
+        return HttpResponse.json({
+                "success": true,
+                "data": [
+                    {
+                        "serviceName": "cert-manager",
+                        "serviceNamespace": "cert-manager",
+                        "serviceLabels": {
+                            "app": "cert-manager",
+                            "app.kubernetes.io/component": "controller",
+                            "app.kubernetes.io/instance": "cert-manager",
+                            "app.kubernetes.io/name": "cert-manager",
+                            "app.kubernetes.io/version": "v1.9.1"
+                        },
+                        "serviceClusterIP": "10.100.158.205",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            9402
+                        ],
+                        "serviceAge": "5 day"
+                    },
+                    {
+                        "serviceName": "cert-manager-webhook",
+                        "serviceNamespace": "cert-manager",
+                        "serviceLabels": {
+                            "app": "webhook",
+                            "app.kubernetes.io/component": "webhook",
+                            "app.kubernetes.io/instance": "cert-manager",
+                            "app.kubernetes.io/name": "webhook",
+                            "app.kubernetes.io/version": "v1.9.1"
+                        },
+                        "serviceClusterIP": "10.100.248.108",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            443
+                        ],
+                        "serviceAge": "5 day"
+                    },
+                    {
+                        "serviceName": "kubernetes",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {
+                            "component": "apiserver",
+                            "provider": "kubernetes"
+                        },
+                        "serviceClusterIP": "10.100.0.1",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            443
+                        ],
+                        "serviceAge": "11 day"
+                    },
+                    {
+                        "serviceName": "my-ingress-ingress-nginx-controller",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {
+                            "app.kubernetes.io/component": "controller",
+                            "app.kubernetes.io/instance": "my-ingress",
+                            "app.kubernetes.io/managed-by": "Helm",
+                            "app.kubernetes.io/name": "ingress-nginx",
+                            "app.kubernetes.io/part-of": "ingress-nginx",
+                            "app.kubernetes.io/version": "1.10.1",
+                            "helm.sh/chart": "ingress-nginx-4.10.1"
+                        },
+                        "serviceClusterIP": "10.100.157.138",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            80,
+                            443
+                        ],
+                        "serviceAge": "5 day"
+                    },
+                    {
+                        "serviceName": "my-ingress-ingress-nginx-controller-admission",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {
+                            "app.kubernetes.io/component": "controller",
+                            "app.kubernetes.io/instance": "my-ingress",
+                            "app.kubernetes.io/managed-by": "Helm",
+                            "app.kubernetes.io/name": "ingress-nginx",
+                            "app.kubernetes.io/part-of": "ingress-nginx",
+                            "app.kubernetes.io/version": "1.10.1",
+                            "helm.sh/chart": "ingress-nginx-4.10.1"
+                        },
+                        "serviceClusterIP": "10.100.227.108",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            443
+                        ],
+                        "serviceAge": "5 day"
+                    },
+                    {
+                        "serviceName": "redis",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {},
+                        "serviceClusterIP": "10.100.231.130",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            6379
+                        ],
+                        "serviceAge": "4 day"
+                    },
+                    {
+                        "serviceName": "zolang-service",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {},
+                        "serviceClusterIP": "10.100.223.86",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            80
+                        ],
+                        "serviceAge": "5 day"
+                    },
+                    {
+                        "serviceName": "kube-dns",
+                        "serviceNamespace": "kube-system",
+                        "serviceLabels": {
+                            "eks.amazonaws.com/component": "kube-dns",
+                            "k8s-app": "kube-dns",
+                            "kubernetes.io/cluster-service": "true",
+                            "kubernetes.io/name": "CoreDNS"
+                        },
+                        "serviceClusterIP": "10.100.0.10",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            53,
+                            53,
+                            9153
+                        ],
+                        "serviceAge": "11 day"
+                    },
+                    {
+                        "serviceName": "dashboard-metrics-scraper",
+                        "serviceNamespace": "kubernetes-dashboard",
+                        "serviceLabels": {
+                            "k8s-app": "dashboard-metrics-scraper"
+                        },
+                        "serviceClusterIP": "10.100.49.90",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            8000
+                        ],
+                        "serviceAge": "4 day"
+                    },
+                    {
+                        "serviceName": "kubernetes-dashboard",
+                        "serviceNamespace": "kubernetes-dashboard",
+                        "serviceLabels": {
+                            "k8s-app": "kubernetes-dashboard"
+                        },
+                        "serviceClusterIP": "10.100.68.37",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            443
+                        ],
+                        "serviceAge": "4 day"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
+    // get service detail of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/service/:serviceName`, ({params}) => {
+        const {clusterId, serviceName} = params;
+        return HttpResponse.json({
+                "success": true,
+                "data": [
+                    {
+                        "metaData": {
+                            "serviceTimeStamp": "2024-05-16 06:58:22",
+                            "serviceAge": "5 day",
+                            "serviceName": "cert-manager",
+                            "serviceNamespace": "cert-manager",
+                            "serviceLabels": {
+                                "app": "cert-manager",
+                                "app.kubernetes.io/component": "controller",
+                                "app.kubernetes.io/instance": "cert-manager",
+                                "app.kubernetes.io/name": "cert-manager",
+                                "app.kubernetes.io/version": "v1.9.1"
+                            },
+                            "serviceAnnotations": {
+                                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"cert-manager\",\"app.kubernetes.io/component\":\"controller\",\"app.kubernetes.io/instance\":\"cert-manager\",\"app.kubernetes.io/name\":\"cert-manager\",\"app.kubernetes.io/version\":\"v1.9.1\"},\"name\":\"cert-manager\",\"namespace\":\"cert-manager\"},\"spec\":{\"ports\":[{\"name\":\"tcp-prometheus-servicemonitor\",\"port\":9402,\"protocol\":\"TCP\",\"targetPort\":9402}],\"selector\":{\"app.kubernetes.io/component\":\"controller\",\"app.kubernetes.io/instance\":\"cert-manager\",\"app.kubernetes.io/name\":\"cert-manager\"},\"type\":\"ClusterIP\"}}\n"
+                            }
+                        },
+                        "spec": {
+                            "servicePort": [
+                                9402
+                            ],
+                            "serviceSelector": {
+                                "app.kubernetes.io/component": "controller",
+                                "app.kubernetes.io/instance": "cert-manager",
+                                "app.kubernetes.io/name": "cert-manager"
+                            },
+                            "serviceType": "ClusterIP",
+                            "serviceClusterIp": "10.100.158.205",
+                            "serviceIpFamiles": [
+                                "IPv4"
+                            ],
+                            "serviceIpFamilyPolicy": "SingleStack"
+                        },
+                        "status": {
+                            "serviceStatusLoad": null,
+                            "serviceStatus": null
+                        }
+                    }
+                ],
+                "error": null
+            }
+        )
     }),
 ]

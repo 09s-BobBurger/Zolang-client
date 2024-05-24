@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {Route, Routes, useNavigate} from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
+import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import MonitoringNav from "../../components/monitoring/MonitoringNav.jsx";
 import Overview from "../../components/monitoring/Overview.jsx";
 import WorkloadsOverview from '../../components/monitoring/workloads/overview/Overview.jsx';
@@ -12,14 +12,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {initCluster} from "../../redux/modules/cluster.js";
 import {initNamespace} from "../../redux/modules/namespace.js";
 
-const Dashboard = (data) => {
+const Dashboard = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const dispatch = useDispatch();
     const [subCategories, setSubCategories] = useState([]);
     const [currentMenu, setCurrentMenu] = useState("");
-    const clusterData = location.state?.data;
     const pathName = location.pathname.replace("%20", " ");
     const category = [
         { name: "Cluster Overview" },
@@ -33,17 +32,17 @@ const Dashboard = (data) => {
         if (clusterId === -1) {
             navigate("/monitoring/clusterList")
         }
-
+        setSubCategories(["All", "Docker", "test-k8s", "nginx"])
         // axios로 namespace들을 불러와 앞에 All을 삽입할 것
-        axios
-            .get("your-api-endpoint-for-sub-categories")
-            .then((response) => {
-                // setSubCategories(response.data);
-                setSubCategories(["All", "Docker", "test-k8s", "nginx"])
-            })
-            .catch((error) => {
-                console.error("Error fetching sub categories:", error);
-            });
+        // axios
+        //     .get("your-api-endpoint-for-sub-categories")
+        //     .then((response) => {
+        //         // setSubCategories(response.data);
+        //         setSubCategories(["All", "Docker", "test-k8s", "nginx"])
+        //     })
+        //     .catch((error) => {
+        //         console.error("Error fetching sub categories:", error);
+        //     });
     }, []);
 
     useEffect(() => {
@@ -68,7 +67,7 @@ const Dashboard = (data) => {
                     {currentMenu.charAt(0).toUpperCase() + currentMenu.slice(1)}
                 </p>
                 <Routes>
-                    <Route path="" element={<Overview data={clusterData}/>} />
+                    <Route path="" element={<Overview data={clusterId}/>} />
                     <Route path="nodes" element={<Nodes />} />
                     <Route
                         path="workloads/overview"

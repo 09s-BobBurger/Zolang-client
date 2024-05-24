@@ -1,21 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "./Chart.jsx";
 import InnerNodes from "./InnerNodes.jsx";
 import Pods from "./Pods.jsx";
-import { cusomizedAxios as axios } from "../../util/customizedAxios.js";
+import { customizedAxios as axios } from "../../util/customizedAxios.js";
 
 const Overview = (data) => {
-    const clusterId = data.clusterId;
+    const clusterId = data;
 
     useEffect(() => {
         axios
             .get(
                 `/api/v1/cluster/${clusterId}/workload/overview`,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                    }
-                }
             )
             .then((res) => {
                 let clustersList = res.data.data;

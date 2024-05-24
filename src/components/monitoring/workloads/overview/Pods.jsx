@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../../styles/MONITORING.css";
-import axios from "axios";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import Label from "../../nodes/Label.jsx";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -9,92 +9,57 @@ import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import Status from "../../../icon/Status.jsx";
+import {useSelector} from "react-redux";
+import loginUtil from "../../../../util/login.js";
+import UsageLineChart from "../../UsageLineChart.jsx";
+import MiniUsageChart from "../../MiniUsageChart.jsx";
 
 function Pods(props) {
-    const [pods, setPods] = useState([]);
-    useEffect(() => {
-        axios
-            .get("#")
-            .then((response) => {
-                // setPods(response.data);
-                setPods([
+    const [podsData, setPodsData] = useState({totalUsage: [], pods: []});
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector((state) => state.namespace.namespace);
+
+    const loadData = () => {
+        if (namespace === "All") {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/pods`,
                     {
-                        name: "nginx-ingress-microk8s-controller-4lp4l",
-                        namespace: "ingress",
-                        image: [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1",
-                        ],
-                        labels: {
-                            "controller-revision-hash": "7466d5f4cb",
-                            name: "nginx-ingress-microk8s",
-                            "pod-template-generation": "10",
-                        },
-                        node: "instance-20230123-2111",
-                        status: "Running",
-                        restartCount: [14],
-                        age: "17 day",
-                        creationDateTime: "2024-04-26 오후 15:51:15",
-                        cpu: "10",
-                        memory: "1000",
-                    },
-                    {
-                        name: "nginx-ingress-microk8s-controller-4n4rq",
-                        namespace: "ingress",
-                        image: [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1",
-                        ],
-                        labels: {
-                            "controller-revision-hash": "7466d5f4cb",
-                            name: "nginx-ingress-microk8s",
-                            "pod-template-generation": "10",
-                        },
-                        node: "instance-20230502-0040",
-                        status: "Running",
-                        restartCount: [15],
-                        age: "17 day",
-                        creationDateTime: "2024-04-26 오후 15:53:49",
-                        cpu: "10",
-                        memory: "1000",
-                    },
-                    {
-                        name: "jenkins-7c95566465-pv2lm",
-                        namespace: "jenkins",
-                        image: ["ghcr.io/konempty/jenkins-docker-image:latest"],
-                        labels: {
-                            app: "jenkins",
-                            "pod-template-hash": "7c95566465",
-                        },
-                        node: "instance-20230426-2354",
-                        status: "Running",
-                        restartCount: [0],
-                        age: "17 day",
-                        creationDateTime: "2024-04-26 오후 15:52:25",
-                        cpu: "10",
-                        memory: "1000",
-                    },
-                    {
-                        name: "calico-kube-controllers-56fd769446-2pjgx",
-                        namespace: "kube-system",
-                        image: ["docker.io/calico/kube-controllers:v3.23.5"],
-                        labels: {
-                            "k8s-app": "calico-kube-controllers",
-                            "pod-template-hash": "56fd769446",
-                        },
-                        node: "instance-20230203-2114",
-                        status: "Running",
-                        restartCount: [0],
-                        age: "17 day",
-                        creationDateTime: "2024-04-26 오후 15:50:29",
-                        cpu: "10",
-                        memory: "1000",
-                    },
-                ]);
+                        headers: {
+                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                        }
+                    }
+                )
+                .then((res) => {
+                    setPodsData(res.data.data);
+                }).catch((err) => {
+                console.log(err)
             })
-            .catch((error) => {
-                console.error("Error fetching node data:", error);
-            });
+        } else {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`,
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                        }
+                    }
+                )
+                .then((res) => {
+                    setPodsData(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }
+
+    useEffect(() => {
+        loadData();
     }, []);
 
+    useEffect(() => {
+        loadData();
+    }, [namespace])
+    
+    const onClickRow = (podName) => {};
     return (
         <div
             style={{
@@ -161,38 +126,61 @@ function Pods(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {pods.slice(0, 3).map((pod, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{pod.name}</TableCell>
-                                    <TableCell>{pod.namespace}</TableCell>
-                                    <TableCell>
-                                        {pod.image.join(", ")}
-                                    </TableCell>
-                                    <TableCell>
-                                        <div
-                                            style={{
-                                                display: "flex",
-                                                flexWrap: "wrap",
-                                                gap: "5px",
-                                            }}
+                        {podsData.pods.map((pod) => (
+                                    <TableRow
+                                        key={pod.name}
+                                        onClick={() =>
+                                            onClickRow(pod.name)
+                                        }
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
+                                    >
+                                        <TableCell
+                                            component="th"
+                                            scope="row"
                                         >
-                                            {Object.keys(pod.labels).map(
-                                                (key, index) => (
-                                                    <Label
-                                                        name={`${key}: ${pod.labels[key]}`}
-                                                    />
-                                                )
-                                            )}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{pod.node}</TableCell>
-                                    <TableCell><Status status={pod.status} /></TableCell>
-                                    <TableCell>{pod.restartCount}</TableCell>
-                                    <TableCell>{pod.cpu}</TableCell>
-                                    <TableCell>{pod.memory}</TableCell>
-                                    <TableCell>{pod.age}</TableCell>
-                                </TableRow>
-                            ))}
+                                            {pod.name}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {pod.namespace}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {pod.image}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
+                                                {Object.keys(pod.labels).slice(0, 3).map((key) => {
+                                                    return <Label name={key + ":" + pod.labels[key]}/>
+                                                })}
+                                                {Object.keys(pod.labels).length > 3 && <Label name="..." />}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {pod.node}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Status status={pod.status} />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {pod.restartCount}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <MiniUsageChart data={pod.metrics.map(i => i.cpuUsage)} color1="#f8fc00" color2="#b0b300"/>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <MiniUsageChart data={pod.metrics.map(i => i.memoryUsage)} color1="#00bbff" color2="#00729c"/>
+                                        </TableCell>
+                                        <TableCell
+                                            align="center"
+                                        >
+                                            {pod.age}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
