@@ -12,6 +12,7 @@ import LinearProgress, {
 } from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
 import Status from "../icon/Status";
+import {useNavigate} from "react-router-dom";
 
 function createData(name, labels, node, age, cpu, memory, restart, status) {
     return { name, labels, node, age, cpu, memory, restart, status };
@@ -64,6 +65,9 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 function Pods(props) {
+
+    const navigate = useNavigate();
+
     return (
         <div
             style={{
@@ -132,6 +136,9 @@ function Pods(props) {
                                         "&:last-child td, &:last-child th": {
                                             border: 0,
                                         },
+                                    }}
+                                    onClick={() => {
+                                        navigate('workloads/pods', { state: { name : row.name } })
                                     }}
                                 >
                                     <TableCell component="th" scope="row" style={{width: "130px"}}>

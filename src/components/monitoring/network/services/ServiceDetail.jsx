@@ -3,12 +3,6 @@ import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from "@mui/material/Button";
 import Label from "../../nodes/Label.jsx";
 import {Typography} from "@mui/material";
-import TableHead from "@mui/material/TableHead";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
 
 const titleStyle = {
     display: 'flex',
@@ -76,7 +70,7 @@ const ServiceDetail = ({ service, setService }) => {
                                 Name
                             </Typography>
                             <Typography variant="h6" color="#ff9f4a">
-                                {service.metadata.name}
+                                {service.metaData.serviceName}
                             </Typography>
                         </div>
                         <div>
@@ -84,40 +78,23 @@ const ServiceDetail = ({ service, setService }) => {
                                 Namespace
                             </Typography>
                             <Typography variant="h6" color="#b8ff6a">
-                                {service.metadata.namespace}
+                                {service.metaData.serviceNamespace}
                             </Typography>
                         </div>
-                        <div>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Resource Version
-                            </Typography>
-                            <Typography variant="h6">
-                                {service.metadata.resourceVersion}
-                            </Typography>
-                        </div>
-                    </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: '40px',
-                            // justifyContent: "space-between",
-                            color: "#ffffff",
-                        }}
-                    >
                         <div style={{marginRight: "5px"}}>
                             <Typography variant="body2" color="#ABAFBD">
                                 Created
                             </Typography>
                             <Typography variant="h6">
-                                {service.metadata.creationTimestamp}
+                                {service.metaData.serviceTimeStamp}
                             </Typography>
                         </div>
-                        <div>
+                        <div style={{marginRight: "5px"}}>
                             <Typography variant="body2" color="#ABAFBD">
-                                UId
+                                Created
                             </Typography>
-                            <Typography sx={{mb: 1.5}}>
-                                {service.metadata.uid}
+                            <Typography variant="h6">
+                                {service.metaData.serviceAge}
                             </Typography>
                         </div>
                     </div>
@@ -133,12 +110,30 @@ const ServiceDetail = ({ service, setService }) => {
                                 Labels
                             </Typography>
                             <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(service.metadata.labels).map((key) => {
-                                    return <Label name={key + ":" + service.metadata.labels[key]}/>
+                                {Object.keys(service.metaData.serviceLabels).map((key) => {
+                                    return <Label name={key + ":" + service.metaData.serviceLabels[key]}/>
                                 })}
                             </Typography>
                         </div>
                     </div>
+                    {/*<div*/}
+                    {/*    style={{*/}
+                    {/*        display: "flex",*/}
+                    {/*        justifyContent: "space-between",*/}
+                    {/*        color: "#ffffff",*/}
+                    {/*    }}*/}
+                    {/*>*/}
+                    {/*    <div style={{marginRight: "5px"}}>*/}
+                    {/*        <Typography variant="body2" color="#ABAFBD">*/}
+                    {/*            Annotations*/}
+                    {/*        </Typography>*/}
+                    {/*        <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>*/}
+                    {/*            {Object.keys(service.metaData.serviceAnnotations).map((key) => {*/}
+                    {/*                return <Label name={key + ":" + service.metaData.serviceAnnotations[key]}/>*/}
+                    {/*            })}*/}
+                    {/*        </Typography>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
 
                 {/* Spec */}
@@ -166,7 +161,7 @@ const ServiceDetail = ({ service, setService }) => {
                                         Type
                                     </Typography>
                                     <Typography variant="h6">
-                                        {service.spec.type}
+                                        {service.spec.serviceType}
                                     </Typography>
                                 </div>
                                 <div>
@@ -174,93 +169,38 @@ const ServiceDetail = ({ service, setService }) => {
                                         ClusterIP
                                     </Typography>
                                     <Typography variant="h6">
-                                        {service.spec.clusterIP}
+                                        {service.spec.serviceClusterIp}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Port
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {service.spec.servicePort[0]}
                                     </Typography>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', gap: '40px'}}>
                                 <div>
                                     <Typography variant="body2" color="#ABAFBD">
-                                        Session Affinity
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        {service.spec.sessionAffinity}
-                                    </Typography>
-                                </div>
-                                <div>
-                                    <Typography variant="body2" color="#ABAFBD">
                                         IP Family Policy
                                     </Typography>
                                     <Typography variant="body1">
-                                        {service.spec.ipFamilyPolicy}
+                                        {service.spec.serviceIpFamilyPolicy}
                                     </Typography>
                                 </div>
                                 <div>
                                     <Typography variant="body2" color="#ABAFBD">
-                                        Internal Traffic Policy
+                                        IP Families
                                     </Typography>
-                                    <Typography variant="body1">
-                                        {service.spec.internalTrafficPolicy}
+                                    <Typography variant="h6">
+                                        {service.spec.serviceIpFamiles.map((item, idx) =>
+                                            <Label name={item} key={idx}/>
+                                        )}
                                     </Typography>
                                 </div>
                             </div>
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    IP Families
-                                </Typography>
-                                <Typography variant="h6">
-                                    {service.spec.ipFamilies.map((item, idx) =>
-                                        <Label name={item} key={idx}/>
-                                    )}
-                                </Typography>
-                            </div>
-                        </div>
-
-                        <div
-                            className="node-detail-card"
-                            style={{
-                                width: '50%',
-                                // padding: "30px",
-                                flexDirection: 'column',
-                                // outline: "1px solid #ABAFBD",
-                                // borderRadius: "10px",
-                                // background: "#2E3240",
-                                justifyContent: "center",
-                            }}
-                        >
-                            <TableContainer sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '20px'
-                            }}>
-                            <span style={{
-                                color: 'white',
-                                fontSize: '1.3rem',
-                            }}>
-                                Ports
-                            </span>
-                                <Table aria-label="conditions table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell sx={{ paddingLeft: '16px !important' }} style={{width: "20%"}}
-                                            >Name</TableCell>
-                                            <TableCell align="center" style={{width: "5%"}}>Protocol</TableCell>
-                                            <TableCell align="center" style={{width: "10%"}}>Port</TableCell>
-                                            <TableCell align="center" style={{width: "10%"}}>Target Port</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {service.spec.ports.map((port, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell>{port.name}</TableCell>
-                                                <TableCell align="center">{port.protocol}</TableCell>
-                                                <TableCell align="center">{port.port}</TableCell>
-                                                <TableCell align="center">{port.targetPort}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
                         </div>
                     </div>
 
@@ -282,6 +222,30 @@ const ServiceDetail = ({ service, setService }) => {
                         <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg" alt="status"/>
                         Status
                     </span>
+                    <div
+                        style={{
+                            display: "flex",
+                            gap: '40px',
+                            color: "#ffffff",
+                        }}
+                    >
+                        <div>
+                            <Typography variant="body2" color="#ABAFBD">
+                                Status
+                            </Typography>
+                            <Typography variant="body1">
+                                {service.status.serviceStatus ? service.status.serviceStatus : '-'}
+                            </Typography>
+                        </div>
+                        <div>
+                            <Typography variant="body2" color="#ABAFBD">
+                                Status Load
+                            </Typography>
+                            <Typography variant="body1">
+                                {service.status.serviceStatusLoad ? service.status.serviceStatusLoad : '-'}
+                            </Typography>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

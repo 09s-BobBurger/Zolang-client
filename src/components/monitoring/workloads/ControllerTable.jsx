@@ -1,34 +1,15 @@
 import React from 'react';
-import Label from "../../nodes/Label.jsx";
+import Label from "../nodes/Label.jsx";
+import Status from "../../icon/Status.jsx";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
-import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
-import {useSelector} from "react-redux";
 
-const ServicesList = ({ services, setService}) => {
-
-    const clusterId = useSelector(state => state.cluster.clusterId);
-    const onClickRow = (serviceName) => {
-        axios
-            .get(`/api/v1/cluster/${clusterId}/service/${serviceName}`,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                    }
-                })
-            .then((res) => {
-                setService(res.data.data[0]);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-
+// demonSet, deployment, statefulSet, ReplicasSet, Job 모두 list table 형식이 같음(cronjob만 형식 다름)
+const ControllerTable = ({data, onClickRow}) => {
     return (
         <div
             style={{
@@ -71,7 +52,7 @@ const ServicesList = ({ services, setService}) => {
                 }}
             />
 
-            <div className="moni-dashboard-nodes" style={{width: '78vw'}}>
+            <div className="moni-dashboard-nodes" style={{width: '100%'}}>
                 <TableContainer>
                     <Table
                         sx={{minWidth: 650, color: "#ffffff"}}
@@ -86,16 +67,13 @@ const ServicesList = ({ services, setService}) => {
                                     Namespace
                                 </TableCell>
                                 <TableCell align="left">
+                                    Images
+                                </TableCell>
+                                <TableCell align="left">
                                     Labels
                                 </TableCell>
                                 <TableCell align="center">
-                                    Cluster IP
-                                </TableCell>
-                                <TableCell align="center">
-                                    External IP
-                                </TableCell>
-                                <TableCell align="center">
-                                    Port
+                                    Pods
                                 </TableCell>
                                 <TableCell align="center">
                                     Age
@@ -103,11 +81,11 @@ const ServicesList = ({ services, setService}) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {services.map((service) => (
+                            {data && data.map((item) => (
                                 <TableRow
-                                    key={service.serviceName}
+                                    key={item.name}
                                     onClick={() =>
-                                        onClickRow(service.serviceName)
+                                        onClickRow(item.name)
                                     }
                                     sx={{
                                         "&:last-child td, &:last-child th":
@@ -120,30 +98,32 @@ const ServicesList = ({ services, setService}) => {
                                         component="th"
                                         scope="row"
                                     >
-                                        {service.serviceName}
+                                        {item.name}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.serviceNamespace}
+                                        {item.namespace}
                                     </TableCell>
                                     <TableCell align="center">
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                            {Object.keys(service.serviceLabels).slice(0, 3).map((key) => {
-                                                return <Label name={key + ":" + service.serviceLabels[key]}/>
+                                            {item.images.slice(0, 3).map(image => {
+                                                return <Label name={image}/>
                                             })}
-                                            {Object.keys(service.serviceLabels).length > 3 && <Label name="..." />}
+                                            {item.images.length > 3 && <Label name="..." />}
                                         </div>
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.serviceClusterIP}
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
+                                            {Object.keys(item.labels).slice(0, 3).map((key) => {
+                                                return <Label name={key + ":" + item.labels[key]}/>
+                                            })}
+                                            {Object.keys(item.labels).length > 3 && <Label name="..." />}
+                                        </div>
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.serviceExternalIP ? service.serviceExternalIP : '-'}
+                                        {item.replicas} / {item.readyReplicas}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {service.servicePort[0]}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {service.serviceAge}
+                                        {item.age}
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -155,4 +135,4 @@ const ServicesList = ({ services, setService}) => {
     );
 };
 
-export default ServicesList;
+export default ControllerTable;

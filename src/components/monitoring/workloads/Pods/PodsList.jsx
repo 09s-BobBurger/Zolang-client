@@ -9,29 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import Status from "../../../icon/Status.jsx";
 import UsageLineChart from "../../UsageLineChart.jsx";
 import MiniUsageChart from "../../MiniUsageChart.jsx";
-import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
-import {useSelector} from "react-redux";
 
 const PodsList = ({ podsData, setPod }) => {
-    const clusterId = useSelector((state) => state.cluster.clusterId);
-    const onClickRow = (podName) => {
-        axios
-            .get(
-                `/api/v1/cluster/${clusterId}/workload/pods/${podName}`,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                    }
-                }
-            )
-            .then((res) => {
-                setPod(res.data.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
     return (
         <div
             style={{
@@ -151,7 +130,7 @@ const PodsList = ({ podsData, setPod }) => {
                                     <TableRow
                                         key={pod.name}
                                         onClick={() =>
-                                            onClickRow(pod.name)
+                                            setPod(pod.name)
                                         }
                                         sx={{
                                             "&:last-child td, &:last-child th":
