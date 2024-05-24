@@ -13,12 +13,13 @@ import {useSelector} from "react-redux";
 import loginUtil from "../../../../util/login.js";
 import UsageLineChart from "../../UsageLineChart.jsx";
 import MiniUsageChart from "../../MiniUsageChart.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Pods(props) {
     const [podsData, setPodsData] = useState({totalUsage: [], pods: []});
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
-
+    const navigate = useNavigate();
     const loadData = () => {
         if (namespace === "All") {
             axios
@@ -117,21 +118,21 @@ function Pods(props) {
                                 <TableCell>Namespace</TableCell>
                                 <TableCell>Image</TableCell>
                                 <TableCell>Labels</TableCell>
-                                <TableCell>Node</TableCell>
-                                <TableCell>Status</TableCell>
-                                <TableCell>Restart</TableCell>
-                                <TableCell>CPU</TableCell>
-                                <TableCell>Memory</TableCell>
-                                <TableCell>Age</TableCell>
+                                <TableCell align="center">Node</TableCell>
+                                <TableCell align="center">Status</TableCell>
+                                <TableCell align="center">Restart</TableCell>
+                                <TableCell align="center">CPU</TableCell>
+                                <TableCell align="center">Memory</TableCell>
+                                <TableCell  align="center">Age</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                         {podsData.pods.map((pod) => (
                                     <TableRow
                                         key={pod.name}
-                                        onClick={() =>
-                                            onClickRow(pod.name)
-                                        }
+                                        onClick={() => {
+                                            navigate('workloads/pods', { state: { name : pod.name } })
+                                        }}
                                         sx={{
                                             "&:last-child td, &:last-child th":
                                                 {

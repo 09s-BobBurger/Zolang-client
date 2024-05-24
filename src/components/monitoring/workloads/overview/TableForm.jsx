@@ -13,12 +13,13 @@ import Status from "../../../icon/Status.jsx";
 function TableForm({ data, title }) {
     const navigate = useNavigate();
 
-    const onClickMore = () => {
-        navigate("/monitoring/dashboard");
-    };
-
-    const onClickCluster = (item) => {
-        navigate("/monitoring/dashboard", { state: { data: item } });
+    const onClick= (name) => {
+        if (title== "DaemonSets"){
+            navigate('workloads/daemonsets', { state: { name : name } })
+            
+        } else if (title== "Deployments") {
+            navigate('workloads/deployments', { state: { name : name } })
+        }
     };
 
     return (
@@ -72,13 +73,11 @@ function TableForm({ data, title }) {
                         <TableHead>
                             <TableRow>
                                 <TableCell style={{minWidth: "200px"}}>Name</TableCell>
-                                <TableCell>Namespace</TableCell>
+                                <TableCell style={{minWidth: "90px"}}>Namespace</TableCell>
                                 <TableCell>Image</TableCell>
                                 <TableCell>Labels</TableCell>
-                                <TableCell>Node</TableCell>
-                                <TableCell>Status</TableCell>
-                                <TableCell>Restart</TableCell>
-                                <TableCell>Age</TableCell>
+                                <TableCell align="center" style={{minWidth: "30px"}}>Pod</TableCell>
+                                <TableCell align="center">Age</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -90,26 +89,31 @@ function TableForm({ data, title }) {
                                             border: 0,
                                         },
                                     }}
-                                    onClick={onClickMore}
+                                    onClick={() => onClick(row.name)}
                                 >
                                     <TableCell>{row.name}</TableCell>
                                     <TableCell>{row.namespace}</TableCell>
                                     <TableCell>
-                                        {row.image.join(", ")}
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
+                                            {row.images.slice(0, 3).map(image => {
+                                                return <Label name={image}/>
+                                            })}
+                                            {row.images.length > 3 && <Label name="..." />}
+                                            {Object.keys(row.images).length > 3 && <Label name="..." />}
+                                        </div>
                                     </TableCell>
                                     <TableCell>
                                         <div style={{display: "flex", flexWrap: "wrap", gap: "5px"}}>
-                                        {Object.keys(row.labels).map(
+                                        {Object.keys(row.labels).slice(0, 3).map(
                                             (labelKey, index) => (
                                                 <Label name={labelKey+row.labels[labelKey]} />
                                             )
                                         )}
+                                        {Object.keys(row.labels).length > 3 && <Label name="..." />}
                                         </div>
                                     </TableCell>
-                                    <TableCell>{row.node}</TableCell>
-                                    <TableCell><Status status={row.status} /></TableCell>
-                                    <TableCell>{row.restartCount}</TableCell>
-                                    <TableCell>{row.age}</TableCell>
+                                    <TableCell align="center">{row.replicas} / {row.readyReplicas}</TableCell>
+                                    <TableCell align="center">{row.age}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
