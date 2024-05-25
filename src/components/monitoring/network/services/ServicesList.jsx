@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Label from "../../nodes/Label.jsx";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -7,27 +7,40 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
 
-const ServicesList = ({ services, setService}) => {
-
+const ServicesList = ({ setService}) => {
     const clusterId = useSelector(state => state.cluster.clusterId);
+    const namespace = useSelector(state => state.namespace.namespace);
+    const [services, setServices] = useState([]);
     const onClickRow = (serviceName) => {
-        axios
-            .get(`/api/v1/cluster/${clusterId}/service/${serviceName}`,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                    }
-                })
-            .then((res) => {
-                setService(res.data.data[0]);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        setService(serviceName);
     }
+    const loadData = () => {
+        if (namespace === "All") {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/service`)
+                .then((res) => {
+                    setServices(res.data.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        } else {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/service/namespace?namespace=${namespace}`)
+                .then((res) => {
+                    setServices(res.data.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [namespace]);
 
     return (
         <div

@@ -1288,6 +1288,117 @@ export const handlers = [
         )
     }),
 
+    // get services of cluster with namespace
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/service/namespace`, ({params, request}) => {
+        const {clusterId} = params
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        console.log(namespace)
+        return HttpResponse.json({
+                "success": true,
+                "data": [
+                    {
+                        "serviceName": "kubernetes",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {
+                            "component": "apiserver",
+                            "provider": "kubernetes"
+                        },
+                        "serviceClusterIP": "10.100.0.1",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            443
+                        ],
+                        "serviceAge": "15 day"
+                    },
+                    {
+                        "serviceName": "my-ingress-ingress-nginx-controller",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {
+                            "app.kubernetes.io/component": "controller",
+                            "app.kubernetes.io/instance": "my-ingress",
+                            "app.kubernetes.io/managed-by": "Helm",
+                            "app.kubernetes.io/name": "ingress-nginx",
+                            "app.kubernetes.io/part-of": "ingress-nginx",
+                            "app.kubernetes.io/version": "1.10.1",
+                            "helm.sh/chart": "ingress-nginx-4.10.1"
+                        },
+                        "serviceClusterIP": "10.100.157.138",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            80,
+                            443
+                        ],
+                        "serviceAge": "9 day"
+                    },
+                    {
+                        "serviceName": "my-ingress-ingress-nginx-controller-admission",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {
+                            "app.kubernetes.io/component": "controller",
+                            "app.kubernetes.io/instance": "my-ingress",
+                            "app.kubernetes.io/managed-by": "Helm",
+                            "app.kubernetes.io/name": "ingress-nginx",
+                            "app.kubernetes.io/part-of": "ingress-nginx",
+                            "app.kubernetes.io/version": "1.10.1",
+                            "helm.sh/chart": "ingress-nginx-4.10.1"
+                        },
+                        "serviceClusterIP": "10.100.227.108",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            443
+                        ],
+                        "serviceAge": "9 day"
+                    },
+                    {
+                        "serviceName": "redis",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {},
+                        "serviceClusterIP": "10.100.231.130",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            6379
+                        ],
+                        "serviceAge": "8 day"
+                    },
+                    {
+                        "serviceName": "zolang-backend",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {},
+                        "serviceClusterIP": "10.100.227.118",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            80
+                        ],
+                        "serviceAge": "3 day"
+                    },
+                    {
+                        "serviceName": "zolang-frontend-service",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {},
+                        "serviceClusterIP": "10.100.160.35",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            80
+                        ],
+                        "serviceAge": "2 day"
+                    },
+                    {
+                        "serviceName": "zolang-service",
+                        "serviceNamespace": "default",
+                        "serviceLabels": {},
+                        "serviceClusterIP": "10.100.24.32",
+                        "serviceExternalIP": null,
+                        "servicePort": [
+                            80
+                        ],
+                        "serviceAge": "3 day"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
     // get service detail of cluster
     http.get(`${baseURL}/api/v1/cluster/:clusterId/service/:serviceName`, ({params}) => {
         const {clusterId, serviceName} = params;
@@ -1296,40 +1407,33 @@ export const handlers = [
                 "data": [
                     {
                         "metaData": {
-                            "serviceTimeStamp": "2024-05-16 06:58:22",
-                            "serviceAge": "5 day",
-                            "serviceName": "cert-manager",
-                            "serviceNamespace": "cert-manager",
-                            "serviceLabels": {
-                                "app": "cert-manager",
-                                "app.kubernetes.io/component": "controller",
-                                "app.kubernetes.io/instance": "cert-manager",
-                                "app.kubernetes.io/name": "cert-manager",
-                                "app.kubernetes.io/version": "v1.9.1"
-                            },
+                            "serviceTimeStamp": "2024-05-22 00:46:51",
+                            "serviceAge": "3 day",
+                            "serviceName": "zolang-service",
+                            "serviceNamespace": "default",
+                            "serviceLabels": {},
                             "serviceAnnotations": {
-                                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"cert-manager\",\"app.kubernetes.io/component\":\"controller\",\"app.kubernetes.io/instance\":\"cert-manager\",\"app.kubernetes.io/name\":\"cert-manager\",\"app.kubernetes.io/version\":\"v1.9.1\"},\"name\":\"cert-manager\",\"namespace\":\"cert-manager\"},\"spec\":{\"ports\":[{\"name\":\"tcp-prometheus-servicemonitor\",\"port\":9402,\"protocol\":\"TCP\",\"targetPort\":9402}],\"selector\":{\"app.kubernetes.io/component\":\"controller\",\"app.kubernetes.io/instance\":\"cert-manager\",\"app.kubernetes.io/name\":\"cert-manager\"},\"type\":\"ClusterIP\"}}\n"
+                                "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Service\",\"metadata\":{\"annotations\":{},\"name\":\"zolang-service\",\"namespace\":\"default\"},\"spec\":{\"ports\":[{\"port\":80,\"protocol\":\"TCP\",\"targetPort\":8080}],\"selector\":{\"app\":\"zolang\"},\"type\":\"LoadBalancer\"}}\n"
                             }
                         },
                         "spec": {
                             "servicePort": [
-                                9402
+                                80
                             ],
                             "serviceSelector": {
-                                "app.kubernetes.io/component": "controller",
-                                "app.kubernetes.io/instance": "cert-manager",
-                                "app.kubernetes.io/name": "cert-manager"
+                                "app": "zolang"
                             },
-                            "serviceType": "ClusterIP",
-                            "serviceClusterIp": "10.100.158.205",
+                            "serviceType": "LoadBalancer",
+                            "serviceClusterIp": "10.100.24.32",
                             "serviceIpFamiles": [
                                 "IPv4"
                             ],
                             "serviceIpFamilyPolicy": "SingleStack"
                         },
                         "status": {
-                            "serviceStatusLoad": null,
-                            "serviceStatus": null
+                            "loadBalancerIngress": [
+                                "a462bbc7b287349b7828f57066226f16-465447139.ap-northeast-2.elb.amazonaws.com"
+                            ]
                         }
                     }
                 ],
