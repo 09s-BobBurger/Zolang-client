@@ -1286,55 +1286,102 @@ export const handlers = [
                 "success": true,
                 "data": {
                     "metadata": {
-                        "name": "jenkins",
+                        "name": "jenkins-696ccd6ffc",
                         "namespace": "jenkins",
-                        "creationDate": "2024 .01 .28 .",
-                        "creationTime": "오후 12:57:35",
-                        "age": "3 month",
-                        "uid": "e1ba3755-d1fb-4a42-8a9d-5af0cbebdbd9",
-                        "labels": {},
+                        "creationDate": "2024 .05 .19 .",
+                        "creationTime": "오후 01:30:08",
+                        "age": "3 day",
+                        "uid": "f0eee0d7-392e-4a6b-8425-d36f49e5e56c",
+                        "labels": {
+                            "app": "jenkins",
+                            "pod-template-hash": "696ccd6ffc"
+                        },
                         "annotations": {
-                            "deployment.kubernetes.io/revision": "13",
-                            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"jenkins\",\"namespace\":\"jenkins\"},\"spec\":{\"replicas\":1,\"selector\":{\"matchLabels\":{\"app\":\"jenkins\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"jenkins\"}},\"spec\":{\"containers\":[{\"image\":\"ghcr.io/konempty/jenkins-docker-image:latest\",\"name\":\"jenkins\",\"ports\":[{\"containerPort\":8080,\"name\":\"http-port\"}],\"volumeMounts\":[{\"mountPath\":\"/var/jenkins_home\",\"name\":\"jenkins-vol\"},{\"mountPath\":\"/var/run/docker.sock\",\"name\":\"docker-socket\"}]}],\"imagePullSecrets\":[{\"name\":\"ghcr-login-secret\"}],\"nodeSelector\":{\"kubernetes.io/hostname\":\"instance-20230426-2354\"},\"volumes\":[{\"hostPath\":{\"path\":\"/var/jenkins_volume\",\"type\":\"DirectoryOrCreate\"},\"name\":\"jenkins-vol\"},{\"hostPath\":{\"path\":\"/var/run/docker.sock\"},\"name\":\"docker-socket\"}]}}}}\n"
+                            "deployment.kubernetes.io/desired-replicas": "1",
+                            "deployment.kubernetes.io/max-replicas": "2",
+                            "deployment.kubernetes.io/revision": "13"
                         }
                     },
                     "resource": {
-                        "strategy": "RollingUpdate",
-                        "minimumPreparationTime": 0,
-                        "revisionHistoryLimit": 10,
                         "selector": {
-                            "app": "jenkins"
-                        }
-                    },
-                    "rollingUpdateStrategy": {
-                        "maxSurge": "25%",
-                        "maxUnavailable": "25%"
+                            "app": "jenkins",
+                            "pod-template-hash": "696ccd6ffc"
+                        },
+                        "image": "ghcr.io/konempty/jenkins-docker-image:latest"
                     },
                     "podConditions": {
-                        "updatedReplicas": 1,
-                        "totalReplicas": 1,
-                        "availableReplicas": 1
+                        "runningPods": 1,
+                        "desiredPods": 1
                     },
-                    "condition": [
+                    "pods": [
                         {
-                            "type": "Available",
-                            "status": "True",
-                            "lastUpdateTime": "2024. 05. 19. 오후 13:14:14",
-                            "lastUpdateAge": "3 day",
-                            "lastTransitionTime": "2024. 05. 19. 오후 13:14:14",
-                            "lastTransitionAge": "3 day",
-                            "reason": "MinimumReplicasAvailable",
-                            "message": "Deployment has minimum availability."
-                        },
+                            "name": "jenkins-696ccd6ffc-bxtz4",
+                            "namespace": "jenkins",
+                            "images": [
+                                "ghcr.io/konempty/jenkins-docker-image:latest"
+                            ],
+                            "labels": {
+                                "app": "jenkins",
+                                "pod-template-hash": "696ccd6ffc"
+                            },
+                            "node": "instance-20230426-2354",
+                            "status": "Running",
+                            "restartCount": 0,
+                            "usage": null,
+                            "metrics": [
+                                null,
+                                null,
+                                null,
+                                null,
+                                {
+                                    "time": "11:23",
+                                    "cpuUsage": 0.003,
+                                    "memoryUsage": 960057344
+                                },
+                                {
+                                    "time": "11:24",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960057344
+                                },
+                                {
+                                    "time": "11:25",
+                                    "cpuUsage": 0.001,
+                                    "memoryUsage": 960057344
+                                },
+                                {
+                                    "time": "11:26",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960057344
+                                },
+                                {
+                                    "time": "11:27",
+                                    "cpuUsage": 0.001,
+                                    "memoryUsage": 960057344
+                                },
+                                {
+                                    "time": "11:28",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 960057344
+                                },
+                                null,
+                                null,
+                                null
+                            ],
+                            "age": "3 day",
+                            "creationDateTime": "2024. 05. 19. 오후 13:30:08"
+                        }
+                    ],
+                    "services": [
                         {
-                            "type": "Progressing",
-                            "status": "True",
-                            "lastUpdateTime": "2024. 05. 19. 오후 13:30:43",
-                            "lastUpdateAge": "3 day",
-                            "lastTransitionTime": "2024. 01. 28. 오후 12:57:35",
-                            "lastTransitionAge": "3 month",
-                            "reason": "NewReplicaSetAvailable",
-                            "message": "ReplicaSet \"jenkins-696ccd6ffc\" has successfully progressed."
+                            "serviceName": "jenkins",
+                            "serviceNamespace": "jenkins",
+                            "serviceLabels": {},
+                            "serviceClusterIP": "10.152.183.232",
+                            "serviceExternalIP": null,
+                            "servicePort": [
+                                8080
+                            ],
+                            "serviceAge": "1 year"
                         }
                     ]
                 },
@@ -2026,7 +2073,7 @@ export const handlers = [
                         "namespace": "jenkins",
                         "creationDate": "2024 .05 .19 .",
                         "creationTime": "오후 01:30:08",
-                        "age": "4 day",
+                        "age": "5 day",
                         "uid": "f0eee0d7-392e-4a6b-8425-d36f49e5e56c",
                         "labels": {
                             "app": "jenkins",
@@ -2064,62 +2111,58 @@ export const handlers = [
                             "status": "Running",
                             "restartCount": 0,
                             "usage": {
-                                "time": "18:54",
+                                "time": "20:37",
                                 "cpuUsage": 0.002,
-                                "memoryUsage": 960290816
+                                "memoryUsage": 758775808
                             },
                             "metrics": [
                                 null,
                                 null,
                                 null,
                                 null,
+                                null,
                                 {
-                                    "time": "18:45",
+                                    "time": "20:29",
                                     "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "memoryUsage": 758775808
                                 },
                                 {
-                                    "time": "18:46",
+                                    "time": "20:30",
                                     "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "memoryUsage": 758775808
                                 },
                                 {
-                                    "time": "18:47",
+                                    "time": "20:31",
                                     "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "memoryUsage": 758775808
                                 },
                                 {
-                                    "time": "18:48",
+                                    "time": "20:32",
                                     "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "memoryUsage": 758902784
                                 },
                                 {
-                                    "time": "18:49",
+                                    "time": "20:33",
                                     "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "memoryUsage": 758775808
                                 },
                                 {
-                                    "time": "18:50",
+                                    "time": "20:34",
                                     "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "memoryUsage": 758775808
                                 },
                                 {
-                                    "time": "18:51",
+                                    "time": "20:35",
                                     "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "memoryUsage": 758775808
                                 },
                                 {
-                                    "time": "18:52",
-                                    "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
-                                },
-                                {
-                                    "time": "18:53",
-                                    "cpuUsage": 0.002,
-                                    "memoryUsage": 960290816
+                                    "time": "20:36",
+                                    "cpuUsage": 0.001,
+                                    "memoryUsage": 758775808
                                 }
                             ],
-                            "age": "4 day",
+                            "age": "5 day",
                             "creationDateTime": "2024. 05. 19. 오후 13:30:08"
                         }
                     ],
@@ -2308,7 +2351,7 @@ export const handlers = [
                             "creationDateTime": "2024. 05. 16. 오후 13:40:06"
                         }
                     ],
-                    "services": null
+                    "services": []
                 },
                 "error": null
             }

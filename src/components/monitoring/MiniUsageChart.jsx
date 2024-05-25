@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ApexChart from "react-apexcharts";
 
-const MiniUsageChart = ({ data, color1, color2 }) => {
+const MiniUsageChart = ({ data, color1, color2, min, max }) => {
     const series = [{
         name : "",
         data : data
@@ -81,6 +81,8 @@ const MiniUsageChart = ({ data, color1, color2 }) => {
             },
         },
         yaxis: {
+            min: min,
+            max: max,
             labels : {
                 show : false
             },
@@ -109,14 +111,16 @@ const MiniUsageChart = ({ data, color1, color2 }) => {
     return (
         <div
             style={{
+                width: '100px',
+                height: '70px',
             }}
         >
             <ApexChart
                 options={options}
                 series={series}
                 type="area"
-                width="100px"
-                height="70px"
+                width="100%"
+                height="100%"
             />
         </div>
     );
