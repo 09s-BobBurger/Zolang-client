@@ -65,7 +65,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../metadetail.svg"
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg"
                              alt="metadetail"/>
                         Metadata
                     </span>
@@ -239,7 +239,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg"
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg"
                              alt="resource"/>
                         Pod Conditions
                     </span>
@@ -299,7 +299,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                     }}>
                             <span style={titleStyle}>
                                 <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
-                                     src="../../../status.svg" alt="status"/>
+                                     src="../../../pods.svg" alt="pods"/>
                                 Pods
                             </span>
                         <Table
@@ -429,7 +429,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                         }}>
                     <span style={titleStyle}>
                         <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
-                             src="../../../status.svg" alt="status"/>
+                             src="../../../services.svg" alt="services"/>
                         Services
                     </span>
                             <Table
