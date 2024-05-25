@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
+import JobsList from "./JobsList.jsx";
 
 const Jobs = () => {
     const [jobs, setJobs] = useState();
@@ -10,7 +11,7 @@ const Jobs = () => {
     const loadData = () => {
         if (namespace === 'All') {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/deployments`)
+                .get(`/api/v1/cluster/${clusterId}/workload/jobs`)
                 .then((res) => {
                     setJobs(res.data.data);
                 })
@@ -19,7 +20,7 @@ const Jobs = () => {
                 })
         } else {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/deployments/namespace?namespace=${namespace}`)
+                .get(`/api/v1/cluster/${clusterId}/workload/jobs/namespace?namespace=${namespace}`)
                 .then(res => {
                     setJobs(res.data.data);
                 })
@@ -39,7 +40,7 @@ const Jobs = () => {
 
     return (
         <div>
-            <ControllerTable data={jobs} />
+            <JobsList jobs={jobs} />
         </div>
     );
 };

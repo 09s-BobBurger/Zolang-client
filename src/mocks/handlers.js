@@ -2319,6 +2319,48 @@ export const handlers = [
     http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/jobs`, ({params}) => {
         const {clusterId} = params;
         return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name" : "job-example2",
+                        "namespace" : "default",
+                        "completions" : 2,
+                        "total" : 3,
+                        "duration" : "10s",
+                        "age" : "5m",
+                        "labels" : {
+                            "app" : "example2"
+                        },
+                        "status" : "Running"
+                    },
+                    {
+                        "name" : "job-example3",
+                        "namespace" : "dev",
+                        "completions" : 0,
+                        "total" : 1,
+                        "duration" : "4m",
+                        "age" : "10m",
+                        "labels" : {
+                            "app" : "example3"
+                        },
+                        "status" : "Failed"
+                    },
+                    {
+                        "name" : "job-example4",
+                        "namespace" : "test",
+                        "completions" : 1,
+                        "total" : 1,
+                        "duration" : "1h",
+                        "age" : "20m",
+                        "labels" : {
+                            "app" : "example4"
+                        },
+                        "status" : "Completed"
+                    }
+                ],
+                "error": null
+            }
         )
     }),
 
@@ -2327,6 +2369,36 @@ export const handlers = [
         const {clusterId} = params;
         const namespace = new URL(request.url).searchParams.get('namespace');
         return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "name" : "job-example2",
+                        "namespace" : "default",
+                        "completions" : 2,
+                        "total" : 3,
+                        "duration" : "PT5M45S",
+                        "age" : "5m",
+                        "labels" : {
+                            "app" : "example2"
+                        },
+                        "status" : "Running"
+                    },
+                    {
+                        "name" : "job-example3",
+                        "namespace" : "default",
+                        "completions" : 0,
+                        "total" : 1,
+                        "duration" : "PT0S",
+                        "age" : "10m",
+                        "labels" : {
+                            "app" : "example3"
+                        },
+                        "status" : "Failed"
+                    }
+                ],
+                "error": null
+            }
         )
     }),
 ]
