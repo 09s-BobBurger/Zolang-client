@@ -1,14 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
-import UsageLineChart from "../../UsageLineChart.jsx";
-import Label from "../../nodes/Label.jsx";
-import Status from "../../../icon/Status.jsx";
-import MiniUsageChart from "../../MiniUsageChart.jsx";
 import ControllerTable from "../ControllerTable.jsx";
 
-const DaemonSetsList = ({daemonSets, setDaemonSetName}) => {
+const DaemonSetsList = ({ setDaemonSetName }) => {
+    const [daemonSets, setDaemonSets] = useState();
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector((state) => state.namespace.namespace);
+    const loadData = () => {
+        if (namespace === "All") {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/daemons`)
+                .then((res) => {
+                    setDaemonSets(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
+        } else {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/daemons/namespace?namespace=${namespace}`)
+                .then((res) => {
+                    setDaemonSets(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [namespace]);
 
     const onClickRow = (name) => {
         setDaemonSetName(name);

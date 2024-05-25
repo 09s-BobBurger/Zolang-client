@@ -1,11 +1,39 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
-import Label from "../../nodes/Label.jsx";
 import ControllerTable from "../ControllerTable.jsx";
 
-const DeploymentsList = ({ deployments, setDeploymentName }) => {
+const DeploymentsList = ({ setDeploymentName }) => {
+    const [deployments, setDeployments] = useState([]);
+    const clusterId = useSelector(state => state.cluster.clusterId);
+    const namespace = useSelector(state => state.namespace.namespace);
+
+    const loadData = () => {
+        if (namespace === 'All') {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/deployments`)
+                .then((res) => {
+                    setDeployments(res.data.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        } else {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/deployments/namespace?namespace=${namespace}`)
+                .then(res => {
+                    setDeployments(res.data.data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }
+
+    useEffect(() => {
+        loadData();
+    }, [namespace]);
+
     const onClickRow = (deploymentName) => {
         setDeploymentName(deploymentName);
     }
