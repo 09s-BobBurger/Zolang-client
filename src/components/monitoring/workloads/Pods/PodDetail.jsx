@@ -13,6 +13,7 @@ import UsageLineChart from "../../UsageLineChart.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
+import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
 const boxStyle = {
     boxSizing: 'border-box',
@@ -53,6 +54,7 @@ const titleStyle = {
 
 const PodDetail = ({ podName, initPod}) => {
     const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector(state => state.namespace.namespace);
     const [pod, setPod] = useState();
 
     const loadData = () => {
@@ -80,6 +82,10 @@ const PodDetail = ({ podName, initPod}) => {
         }, 60000);
         return () => clearInterval(timer);
     }, []);
+
+    useDidMountEffect(() => {
+        initPod();
+    }, [namespace]);
 
     return (
         <div

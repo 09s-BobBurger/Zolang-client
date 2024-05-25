@@ -2,17 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerDetail from "../ControllerDetail.jsx";
-
-const titleStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-    color: "#ffffff",
-    fontSize: "1.6rem"
-}
+import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
 const DeploymentDetail = ({ deploymentName, initDeployment}) => {
     const clusterId = useSelector(state => state.cluster.clusterId);
+    const namespace = useSelector(state => state.namespace.namespace);
     const [deployment, setDeployment] = useState();
 
     useEffect(() => {
@@ -25,6 +19,10 @@ const DeploymentDetail = ({ deploymentName, initDeployment}) => {
                 console.log(err);
             })
     }, [])
+
+    useDidMountEffect(() => {
+        initDeployment();
+    }, [namespace]);
 
     return (
         <ControllerDetail detail={deployment} goToList={initDeployment} />
