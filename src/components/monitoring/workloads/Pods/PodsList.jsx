@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Label from "../../nodes/Label.jsx";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -9,8 +9,59 @@ import TableHead from "@mui/material/TableHead";
 import Status from "../../../icon/Status.jsx";
 import UsageLineChart from "../../UsageLineChart.jsx";
 import MiniUsageChart from "../../MiniUsageChart.jsx";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import loginUtil from "../../../../util/login.js";
+import {useSelector} from "react-redux";
 
-const PodsList = ({ podsData, setPod }) => {
+const PodsList = ({ setPod }) => {
+    const [podsData, setPodsData] = useState({totalUsage: [], pods: []});
+
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector((state) => state.namespace.namespace);
+
+    const loadData = () => {
+        if (namespace === "All") {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/pods`,
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                        }
+                    }
+                )
+                .then((res) => {
+                    setPodsData(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
+        } else {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`,
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                        }
+                    }
+                )
+                .then((res) => {
+                    setPodsData(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            loadData();
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+        loadData();
+    }, [namespace]);
+
     return (
         <div
             style={{
