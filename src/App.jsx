@@ -37,6 +37,7 @@ function App() {
     <Provider store={store}>
       <Router>
         {isLogin && <Header toggleDrawer={toggleDrawer} currentPage={window.location.pathname}/>}
+        
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/dashboard" element={isLogin ? <Dashboard /> : <Navigate to={"/"} /> } />

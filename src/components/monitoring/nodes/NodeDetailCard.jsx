@@ -5,12 +5,43 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import { Typography, Box } from "@mui/material";
-import Chart from "./Chart";
-import KeyboardArrowLeft from "../../icon/KeyboardArrowLeft.jsx";
+import { Typography } from "@mui/material";
 import MuiButton from "@mui/material/Button";
+import KeyboardArrowLeft from "../../icon/KeyboardArrowLeft";
+import { useSelector } from "react-redux";
+import { customizedAxios as axios } from "../../../util/customizedAxios.js";
+import Status from "../../icon/Status";
+import Chart from "./Chart";
 
-function NodeDetailCard({ node, setNode }) {
+function NodeDetailCard({ nodeName, initNode }) {
+    const [node, setNode] = useState();
+    const [usage, setUsage] = useState();
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+
+    const loadUsage = () => {
+        axios
+            .get(`/api/v1/cluster/${clusterId}/usage/${nodeName}`)
+            .then((res) => {
+                setUsage(res.data.data[0]);
+                console.log(usage);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
+    useEffect(() => {
+        axios
+            .get(`/api/v1/cluster/${clusterId}/nodes/${nodeName}`)
+            .then((res) => {
+                setNode(res.data.data[0]);
+                loadUsage();
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, [nodeName]);
+
     function getTimeDiff(timeString) {
         const currentTime = new Date();
         const targetTime = new Date(timeString);
@@ -18,22 +49,13 @@ function NodeDetailCard({ node, setNode }) {
         return `${diff}분 전`;
     }
 
-    const allocatableKeys = Object.keys(node.allocatable);
-    const capacityKeys = Object.keys(node.capacity);
-
-    const commonKeys = allocatableKeys.filter((key) =>
-        capacityKeys.includes(key)
-    );
     function parseValueWithUnit(valueString) {
-        // 숫자와 단위를 추출합니다.
         const match = valueString.match(/([0-9.]+)\s*(\w+)?/);
         if (!match) {
-            // 일반적인 형식이 아니라면 바로 parseFloat를 사용하여 변환합니다.
             return parseFloat(valueString);
         }
         const numericValue = parseFloat(match[1]);
         const unit = match[2] ? match[2].toLowerCase() : null;
-        // 단위에 따라 값을 변환하여 반환합니다.
         switch (unit) {
             case "kb":
                 return numericValue * 1024;
@@ -42,22 +64,22 @@ function NodeDetailCard({ node, setNode }) {
             case "gb":
                 return numericValue * 1024 * 1024 * 1024;
             case "ki":
-                return numericValue * 1024; // KiB를 KB로 변환합니다.
+                return numericValue * 1024;
             default:
-                // 단위가 없거나 인식할 수 없는 경우에는 그대로 반환합니다.
                 return numericValue;
         }
     }
 
+    const titleStyle = {
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        color: "#ffffff",
+        fontSize: "1.6rem",
+    };
+
     return (
-        <div
-            style={{
-                width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                gap: "40px",
-            }}
-        >
+        <div style={{ width: "79vw" }}>
             <MuiButton
                 style={{
                     width: "fit-content",
@@ -69,216 +91,450 @@ function NodeDetailCard({ node, setNode }) {
                     fontSize: "1.1rem",
                 }}
                 onClick={() => {
-                    setNode(false);
+                    initNode();
                 }}
             >
                 <KeyboardArrowLeft />
                 Return to List
             </MuiButton>
-            {/* Node Info Table */}
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "40px",
-                    width: "700px",
-                    padding: "15px",
-                    outline: "1px solid #ABAFBD",
-                    borderRadius: "10px",
-                    background: "rgb(56, 60, 74)",
-                }}
-            >
+            {node && (
                 <div
                     style={{
+                        width: "100%",
                         display: "flex",
-                        justifyContent: "space-between",
-                        color: "#ffffff",
+                        flexDirection: "column",
+                        gap: "40px",
+                        height: "auto",
                     }}
                 >
-                    <div>
-                        <Typography variant="body2" color="#ABAFBD">
-                            Name
-                        </Typography>
-                        <Typography variant="h6" color="#ff9f4a">
-                            {node.name}
-                        </Typography>
-                    </div>
-                    <div>
-                        <Typography variant="body2" color="#ABAFBD">
-                            Kubelet Version
-                        </Typography>
-                        <Typography variant="h6" color="#b8ff6a">
-                            {node.KubeletVersion}
-                        </Typography>
-                    </div>
-                    <div style={{ marginRight: "5px" }}>
-                        <Typography variant="body2" color="#ABAFBD">
-                            OS
-                        </Typography>
-                        <Typography variant="h6">{node.OS}</Typography>
-                    </div>
-                    <div>
-                        <Typography variant="body2" color="#ABAFBD">
-                            Created
-                        </Typography>
-                        <Typography variant="h6">
-                            {node.created.split("T")[0]}
-                        </Typography>
-                    </div>
-                </div>
-                <div>
-                    {/* <Box
-                    border={1}
-                    borderRadius={2}
-                    p={1}
-                    paddingRight="15px"
-                    paddingLeft="15px"
-                    borderColor="#ff9436"
-                    backgroundColor="#ca6a16"
-                    width="fit-content"
-                >
-                    <Typography variant="subtitle" color="#ffffff"></Typography>
-                </Box> */}
                     <div
                         style={{
                             display: "flex",
-                            justifyContent: "space-between",
-                            color: "#ffffff",
+                            flexDirection: "column",
+                            gap: "20px",
+                            border: "1px solid rgb(171, 175, 189)",
+                            borderRadius: "10px",
+                            padding: "30px",
+                            background: "rgb(56, 60, 74)",
                         }}
                     >
-                        <div>
-                            <Typography variant="body2" color="#ABAFBD">
-                                OS Image
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }}>
-                                {node.OSImage}
-                            </Typography>
+                        <span style={titleStyle}>
+                            <img
+                                width="30px"
+                                style={{
+                                    marginRight: "10px",
+                                    marginBottom: "5px",
+                                }}
+                                src="../../../metadata.svg"
+                                alt="metadata"
+                            />
+                            Node Info
+                        </span>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: "40px",
+                                color: "#ffffff",
+                            }}
+                        >
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Name
+                                </Typography>
+                                <Typography
+                                    variant="h6"
+                                    style={{ color: "#ff9f4a" }}
+                                >
+                                    {node.name}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Created
+                                </Typography>
+                                <Typography variant="h6">
+                                    {node.created.split("T")[0]}{" "}
+                                    {node.created.split("T")[1]}
+                                </Typography>
+                            </div>
                         </div>
-                        <div style={{ marginRight: "5px" }}>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Internal IP
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }}>
-                                {node.addresses[0].address}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Hostname
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }}>
-                                {node.name}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Container Runtime
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }}>
-                                {node.containerRuntime}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Kernel Version
-                            </Typography>
-                            <Typography sx={{ mb: 1.5 }}>
-                                {node.kernelVersion}
-                            </Typography>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: "40px",
+                                // justifyContent: "space-between",
+                                color: "#ffffff",
+                            }}
+                        >
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    OS Image
+                                </Typography>
+                                <Typography>{node.osImage}</Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Kubelet Version
+                                </Typography>
+                                <Typography
+                                    variant="h6"
+                                    style={{ color: "#b8ff6a" }}
+                                >
+                                    {node.kubeletVersion}
+                                </Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    OS
+                                </Typography>
+                                <Typography variant="h6">{node.os}</Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Container Runtime
+                                </Typography>
+                                <Typography>{node.containerRuntime}</Typography>
+                            </div>
+                            <div>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Kernel Version
+                                </Typography>
+                                <Typography>{node.kernelVersion}</Typography>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div
-                style={{
-                    flex: "1",
-                    display: "flex",
-                    gap: "29px",
-                    width: "100%",
-                    overflow: "auto",
-                    paddingBottom: "5px",
-                }}
-            >
-                {commonKeys.map((key, index) => {
-                    const allocatableValue = parseValueWithUnit(
-                        node.allocatable[key]
-                    );
-                    const capacityValue = parseValueWithUnit(
-                        node.capacity[key]
-                    );
-                    if (allocatableValue > 0) {
-                        return (
-                            <Chart
-                                key={key}
-                                title={key}
-                                values={[
-                                    {
-                                        name: "Allocatable",
-                                        value: allocatableValue,
-                                    },
-                                    {
-                                        name: "Capacity",
-                                        value: capacityValue,
-                                    },
-                                ]}
-                                fullValue={capacityValue}
-                                colors={["#019CF6", "#256CD6"]}
-                                number={index % 4}
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "20px",
+                            border: "1px solid rgb(171, 175, 189)",
+                            borderRadius: "10px",
+                            padding: "30px",
+                            background: "rgb(56, 60, 74)",
+                        }}
+                    >
+                        <span style={titleStyle}>
+                            <img
+                                width="30px"
+                                style={{
+                                    marginRight: "10px",
+                                    marginBottom: "5px",
+                                }}
+                                src="../../../metadata.svg"
+                                alt="metadata"
                             />
-                        );
-                    }
-                })}
-            </div>
-            {/* Conditions Table */}
-            <div
-                className="node-detail-card"
-                style={{
-                    padding: "15px",
-                    outline: "1px solid #ABAFBD",
-                    borderRadius: "10px",
-                    background: "rgb(56, 60, 74)",
-                    justifyContent: "center",
-                }}
-            >
-                <TableContainer>
-                    <Table aria-label="conditions table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>타입</TableCell>
-                                <TableCell>상태</TableCell>
-                                <TableCell>지난 하트비트 시간</TableCell>
-                                <TableCell>지난 상태 전이 시간</TableCell>
-                                <TableCell style={{ width: "70px" }}>
-                                    Reason
-                                </TableCell>
-                                <TableCell style={{ width: "150px" }}>
-                                    Message
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {node.conditions.map((condition, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{condition.type}</TableCell>
-                                    <TableCell>{condition.status}</TableCell>
-                                    <TableCell>
-                                        {getTimeDiff(
-                                            condition.lastHeartbeatTime
+                            Chart
+                        </span>
+                        {usage && (
+                            <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap"}}>
+                                <Chart
+                                    title="CPU"
+                                    values={[
+                                        {
+                                            name: "Capacity",
+                                            value: usage.capacityCpu,
+                                        },
+                                        {
+                                            name: "Allocatable",
+                                            value: usage.allocatableCpu,
+                                        },
+                                        {
+                                            name: "Usage",
+                                            value: usage.usage.nodeCpuUsage,
+                                        },
+                                    ]}
+                                    fullValue={usage.capacityCpu}
+                                    colors={["#019CF6", "#256CD6"]}
+                                    number={1}
+                                />
+                                <Chart
+                                    title="Memory"
+                                    values={[
+                                        {
+                                            name: "Capacity",
+                                            value: usage.capacityMemory,
+                                        },
+                                        {
+                                            name: "Allocatable",
+                                            value: usage.allocatableMemory,
+                                        },
+                                        {
+                                            name: "Usage",
+                                            value: usage.usage.nodeMemoryUsage,
+                                        },
+                                    ]}
+                                    fullValue={usage.capacityMemory}
+                                    colors={["#019CF6", "#256CD6"]}
+                                    number={2}
+                                />
+                                <Chart
+                                    title="Pod"
+                                    values={[
+                                        {
+                                            name: "Capacity",
+                                            value: usage.capacityPod,
+                                        },
+                                        {
+                                            name: "Allocatable",
+                                            value: usage.allocatablePod,
+                                        },
+                                    ]}
+                                    fullValue={usage.capacityPod}
+                                    colors={["#019CF6", "#256CD6"]}
+                                    number={3}
+                                />
+                            </div>
+                        )}
+                    </div>
+                    {node.addresses && (
+                        <div
+                            className="node-detail-card"
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "20px",
+                                border: "1px solid rgb(171, 175, 189)",
+                                borderRadius: "10px",
+                                padding: "30px",
+                                background: "rgb(56, 60, 74)",
+                            }}
+                        >
+                            <TableContainer
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "20px",
+                                }}
+                            >
+                                <span style={titleStyle}>
+                                    <img
+                                        width="30px"
+                                        style={{
+                                            marginRight: "10px",
+                                            marginBottom: "5px",
+                                        }}
+                                        src="../../../status.svg"
+                                        alt="status"
+                                    />
+                                    IP
+                                </span>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                External DNS
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                External IP
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                Hostname
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                Internal IP
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                Internal DNS
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell>
+                                                {node.addresses.ExternalDNS}
+                                            </TableCell>
+                                            <TableCell>
+                                                {node.addresses.ExternalIP}
+                                            </TableCell>
+                                            <TableCell>
+                                                {node.addresses.Hostname}
+                                            </TableCell>
+                                            <TableCell>
+                                                {node.addresses.InternalIP}
+                                            </TableCell>
+                                            <TableCell>
+                                                {" "}
+                                                {node.addresses.InternalDNS}
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    )}
+                    {node.conditions && (
+                        <div
+                            className="node-detail-card"
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "20px",
+                                border: "1px solid rgb(171, 175, 189)",
+                                borderRadius: "10px",
+                                padding: "30px",
+                                background: "rgb(56, 60, 74)",
+                            }}
+                        >
+                            <span style={titleStyle}>
+                                <img
+                                    width="30px"
+                                    style={{
+                                        marginRight: "10px",
+                                        marginBottom: "5px",
+                                    }}
+                                    src="../../../metadata.svg"
+                                    alt="metadata"
+                                />
+                                Conditions
+                            </span>
+                            <TableContainer>
+                                <Table
+                                    sx={{ minWidth: 650, color: "#ffffff" }}
+                                    aria-label="simple table"
+                                >
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell
+                                                style={{
+                                                    width: "10%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                Type
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                style={{
+                                                    width: "4%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                Status
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                style={{
+                                                    width: "5%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                LastHeartbeatTime
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                LastTransitionTime
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                Message
+                                            </TableCell>
+                                            <TableCell
+                                                style={{
+                                                    width: "15%",
+                                                    fontSize: "12px",
+                                                }}
+                                            >
+                                                Reason
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {node.conditions.map(
+                                            (condition, idx) => (
+                                                <TableRow
+                                                    sx={{
+                                                        "&:last-child td, &:last-child th":
+                                                            {
+                                                                border: 0,
+                                                            },
+                                                    }}
+                                                >
+                                                    <TableCell
+                                                        component="th"
+                                                        scope="row"
+                                                    >
+                                                        {condition.type}
+                                                    </TableCell>
+                                                    <TableCell
+                                                        align="center"
+                                                        sx={{
+                                                            textAlign:
+                                                                "-webkit-center",
+                                                        }}
+                                                    >
+                                                        <Status
+                                                            status={
+                                                                condition.status
+                                                            }
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {getTimeDiff(
+                                                            node.lastHeartbeatTime
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {getTimeDiff(
+                                                            node.lastTransitionTime
+                                                        )}
+                                                    </TableCell>
+                                                    <TableCell
+                                                        scope="row"
+                                                        component="th"
+                                                    >
+                                                        {condition.message}
+                                                    </TableCell>
+                                                    <TableCell
+                                                        scope="row"
+                                                        component="th"
+                                                    >
+                                                        {condition.reason}
+                                                    </TableCell>
+                                                </TableRow>
+                                            )
                                         )}
-                                    </TableCell>
-                                    <TableCell>
-                                        {getTimeDiff(
-                                            condition.lastTransitionTime
-                                        )}
-                                    </TableCell>
-                                    <TableCell>{condition.reason}</TableCell>
-                                    <TableCell>{condition.message}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }

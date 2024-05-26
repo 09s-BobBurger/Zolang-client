@@ -9,7 +9,9 @@ const Main = () => {
     const navigate = useNavigate();
 
     const onClickLogin = () => {
-        window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+        // window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+        window.location.href = 'https://kcs.zolang.store/oauth2/authorization/github';
+        // window.location.href = 'https://kcs.zolang.site/oauth2/authorization/github';
     }
 
     useEffect(() => {

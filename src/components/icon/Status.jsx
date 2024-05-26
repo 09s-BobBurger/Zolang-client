@@ -7,6 +7,8 @@ const Status = ({ status }) => {
         'Error' : 'rgba(255, 201, 120, 0.5)',
         'Fail' : 'rgba(255, 98, 98, 0.5)',
         'Success' : 'rgba(96, 173, 32, 0.5)',
+        'True' : 'rgba(96, 173, 32, 0.5)',
+        'False' : 'rgba(255, 98, 98, 0.5)'
     }
     const style = {
         background: color[status],

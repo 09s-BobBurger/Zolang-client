@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../../styles/MONITORING.css';
 import loginUtil from '../../util/login.js';
 import {useDispatch} from "react-redux";
-import {customizedAxios as axios} from '../../util/customizedAxios.js';
+// src/components/dashboard/ClusterList.jsx
+import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import {setCluster} from "../../redux/modules/cluster.js";
 
 const ClusterList = () => {
@@ -58,18 +59,18 @@ const ClusterList = () => {
                 <h3 className="cluster-list-title">Cluster Monitoring</h3>
                 <button className="new-cluster-button" onClick={onClickNew}>+ new</button>
             </div>
-            <div className="cluster-list">
+            <div className="cluster-list" style={{width: "80vw"}}>
                 <ul>
                     <li>
-                        <span>Name</span>
-                        <span>IP</span>
-                        <span>Version</span>
+                        <span style={{width: "20vw"}}>Name</span>
+                        <span style={{width: "50vw"}}>IP</span>
+                        <span style={{width: "5vw"}}>Version</span>
                     </li>
                     {clusters.map((item) => {
                         return <li onClick={() => onClickCluster(item)}>
-                            <span>{item.clusterName}</span>
-                            <span>{item.domainUrl}</span>
-                            <span>{item.version}</span>
+                            <span style={{width: "20vw"}}>{item.clusterName}</span>
+                            <span style={{width: "50vw"}}>{item.domainUrl}</span>
+                            <span style={{width: "5vw"}}>{item.version}</span>
                             <span>{item.status ?
                                 <img src="../clusterStateTrue.svg" alt="good"/> : <img src="../clusterStateFalse.svg" alt="bad"/>}
                             </span>

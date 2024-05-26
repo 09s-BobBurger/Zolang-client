@@ -16,8 +16,8 @@ const getAccessToken = () => {
 // logout 시 cookies에서 token 삭제
 const logout = () => {
     const cookies = new Cookies();
-    cookies.remove('access_token');
-    cookies.remove('refresh_token');
+    cookies.remove('access_token', { path: '/' });
+    cookies.remove('refresh_token', { path: '/' });
     const path = window.location.pathname;
 
     if (path !== "/FormToYaml" || path !== "/formToYaml" || path !== "/") {

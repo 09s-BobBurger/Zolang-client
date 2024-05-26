@@ -3,10 +3,13 @@ import PieChart from "./PieChart";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import axios from "axios";
+import { customizedAxios as axios } from "../../../../util/customizedAxios.js";
+import { useSelector } from "react-redux";
 
 function ChartList(props) {
-    const [run, setRun] = useState([]);
+    const [runState, setRunState] = useState({});
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector((state) => state.namespace.namespace);
     const colors = [
         "#66c434",
         "orange",
@@ -16,48 +19,37 @@ function ChartList(props) {
         "#ff5f5f",
         "#5050ff",
     ];
+
+    const loadData = () => {
+        if (namespace === "All") {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/overview`)
+                .then((response) => {
+                    console.log(response);
+                    setRunState(response.data.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching node data:", error);
+                });
+        } else {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/overview/namespace?namespace=${namespace}`)
+                .then((res) => {
+                    console.log(res);
+                    setRunState(res.data.data);
+                }).catch((err) => {
+                    console.log(err);
+                });
+        }
+    }
+
     useEffect(() => {
-        axios
-            .get("#")
-            .then((response) => {
-                // setRun(response.data);
-                setRun([
-                    {
-                        pod: {
-                            counts: 18,
-                            running: 10,
-                        },
-                        deployment: {
-                            counts: 9,
-                            running: 9,
-                        },
-                        replicaSet: {
-                            counts: 51,
-                            running: 46,
-                        },
-                        statefulSet: {
-                            counts: 1,
-                            running: 1,
-                        },
-                        daemonSet: {
-                            counts: 2,
-                            running: 1,
-                        },
-                        job: {
-                            counts: 0,
-                            running: 0,
-                        },
-                        cronJob: {
-                            counts: 0,
-                            running: 0,
-                        },
-                    },
-                ]);
-            })
-            .catch((error) => {
-                console.error("Error fetching node data:", error);
-            });
+        loadData();
     }, []);
+
+    useEffect(() => {
+        loadData();
+    }, [namespace]);
 
     return (
         <div
@@ -102,44 +94,22 @@ function ChartList(props) {
                 }}
             />
             <div className="moni-workloads-table" style={{ overflow: "auto" }}>
-                {/* <Grid container spacing={2}>
-                    {" "}
-                    // 창 크기에 따라 2줄 기본에서 3~4줄 표현
-                    {run.map((row) =>
-                        Object.keys(row).map(
-                            (key, innerIndex) =>
-                                row[key].counts > 0 && (
-                                    <Box key={innerIndex} flexGrow={1}>
-                                        <PieChart
-                                            title={key}
-                                            running={row[key].running}
-                                            counts={row[key].counts}
-                                            color={colors[innerIndex]}
-                                        />
-                                    </Box>
-                                )
-                        )
-                    )}
-                </Grid> */}
                 <Stack
                     direction="row"
                     textAlign="center"
                     spacing={2}
                     margin="10px"
                 >
-                    {run.map((row) =>
-                        Object.keys(row).map(
-                            (key, innerIndex) =>
-                                row[key].counts > 0 && (
-                                    <Box key={innerIndex} flexGrow={1}>
-                                        <PieChart
-                                            title={key}
-                                            running={row[key].running}
-                                            counts={row[key].counts}
-                                            color={colors[innerIndex]}
-                                        />
-                                    </Box>
-                                )
+                    {Object.entries(runState).map(([key, value], index) =>
+                        value.counts > 0 && (
+                            <Box key={index} flexGrow={1}>
+                                <PieChart
+                                    title={key}
+                                    running={value.running}
+                                    counts={value.counts}
+                                    color={colors[index]}
+                                />
+                            </Box>
                         )
                     )}
                 </Stack>

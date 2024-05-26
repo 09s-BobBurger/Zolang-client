@@ -1,9 +1,297 @@
 // src/mocks/handlers.js
 import { http, HttpResponse } from 'msw'
-
 const baseURL =  'https://kcs.zolang.site';
 
 export const handlers = [
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/usage`, ({params}) => {
+        const { clusterId } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "cpuUsage": 0.10200000000000001,
+                "cpuAllocatable": 3.86,
+                "cpuCapacity": 4.0,
+                "memoryUsage": 4146810880,
+                "memoryAllocatable": 7058710528,
+                "memoryCapacity": 8195366912,
+                "podUsage": 19,
+                "podAllocatable": 34,
+                "podCapacity": 34
+            },
+            "error": null
+        })
+    }),
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/usage/:nodeName`, ({params}) => {
+        const { clusterId, nodeName } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": [
+                {
+                    "name": "ip-172-31-11-72.ap-northeast-2.compute.internal",
+                    "allocatableCpu": "1.930",
+                    "allocatableMemory": "3529355264",
+                    "allocatablePod": "17",
+                    "capacityCpu": "2",
+                    "capacityMemory": "4097683456",
+                    "capacityPod": "17",
+                    "usage": {
+                        "time": "12:22",
+                        "nodeCpuUsage": 0.3,
+                        "nodeMemoryUsage": 2317819904
+                    }
+                }
+            ],
+            "error": null
+        })
+    }),
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/nodes`, ({params})=> {
+        const { clusterId } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": [
+                {
+                    "name": "ip-172-31-11-72.ap-northeast-2.compute.internal",
+                    "kubectlVersion": "v1.29.3-eks-ae9a62a",
+                    "timeStamp": "2024-05-10 06:58:44",
+                    "allocatableCpu": "1.930",
+                    "allocatableMemory": "3529355264",
+                    "allocatablePod": "17",
+                    "capacityCpu": "2",
+                    "capacityMemory": "4097683456",
+                    "capacityPod": "17",
+                    "conditions": [
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has sufficient memory available",
+                            "reason": "KubeletHasSufficientMemory",
+                            "status": "False",
+                            "type": "MemoryPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has no disk pressure",
+                            "reason": "KubeletHasNoDiskPressure",
+                            "status": "False",
+                            "type": "DiskPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has sufficient PID available",
+                            "reason": "KubeletHasSufficientPID",
+                            "status": "False",
+                            "type": "PIDPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324337.000000000,
+                            "message": "kubelet is posting ready status",
+                            "reason": "KubeletReady",
+                            "status": "True",
+                            "type": "Ready"
+                        }
+                    ]
+                },
+                {
+                    "name": "ip-172-31-44-178.ap-northeast-2.compute.internal",
+                    "kubectlVersion": "v1.29.3-eks-ae9a62a",
+                    "timeStamp": "2024-05-10 06:58:48",
+                    "allocatableCpu": "1.930",
+                    "allocatableMemory": "3529355264",
+                    "allocatablePod": "17",
+                    "capacityCpu": "2",
+                    "capacityMemory": "4097683456",
+                    "capacityPod": "17",
+                    "conditions": [
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324327.000000000,
+                            "message": "kubelet has sufficient memory available",
+                            "reason": "KubeletHasSufficientMemory",
+                            "status": "False",
+                            "type": "MemoryPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324327.000000000,
+                            "message": "kubelet has no disk pressure",
+                            "reason": "KubeletHasNoDiskPressure",
+                            "status": "False",
+                            "type": "DiskPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324327.000000000,
+                            "message": "kubelet has sufficient PID available",
+                            "reason": "KubeletHasSufficientPID",
+                            "status": "False",
+                            "type": "PIDPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362422.000000000,
+                            "lastTransitionTime": 1715324342.000000000,
+                            "message": "kubelet is posting ready status",
+                            "reason": "KubeletReady",
+                            "status": "True",
+                            "type": "Ready"
+                        }
+                    ]
+                }
+            ],
+            "error": null
+        })
+    }),
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/nodes/:nodeName`, ({params}) => {
+        const { clusterId, nodeName } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": [
+                {
+                    "allocatable": {
+                        "ephemeral-storage": "76224326324",
+                        "memory": "3529355264",
+                        "cpu": "1.930",
+                        "hugepages-2Mi": "0",
+                        "pods": "17"
+                    },
+                    "osImage": "Amazon Linux 2",
+                    "addresses": {
+                        "ExternalDNS": "ec2-3-34-96-151.ap-northeast-2.compute.amazonaws.com",
+                        "ExternalIP": "3.34.96.151",
+                        "Hostname": "ip-172-31-11-72.ap-northeast-2.compute.internal",
+                        "InternalIP": "172.31.11.72",
+                        "InternalDNS": "ip-172-31-11-72.ap-northeast-2.compute.internal"
+                    },
+                    "kubectlVersion": "v1.29.3-eks-ae9a62a",
+                    "os": "linux",
+                    "containerRuntime": "containerd://1.7.11",
+                    "created": "2024-05-10T06:58:44Z",
+                    "kernelVersion": "5.10.215-203.850.amzn2.x86_64",
+                    "name": "ip-172-31-11-72.ap-northeast-2.compute.internal",
+                    "conditions": [
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has sufficient memory available",
+                            "reason": "KubeletHasSufficientMemory",
+                            "status": "False",
+                            "type": "MemoryPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has no disk pressure",
+                            "reason": "KubeletHasNoDiskPressure",
+                            "status": "False",
+                            "type": "DiskPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324322.000000000,
+                            "message": "kubelet has sufficient PID available",
+                            "reason": "KubeletHasSufficientPID",
+                            "status": "False",
+                            "type": "PIDPressure"
+                        },
+                        {
+                            "lastHeartbeatTime": 1716362454.000000000,
+                            "lastTransitionTime": 1715324337.000000000,
+                            "message": "kubelet is posting ready status",
+                            "reason": "KubeletReady",
+                            "status": "True",
+                            "type": "Ready"
+                        }
+                    ],
+                    "capacity": {
+                        "ephemeral-storage": "85886742528",
+                        "memory": "4097683456",
+                        "cpu": "2",
+                        "hugepages-2Mi": "0",
+                        "pods": "17"
+                    }
+                }
+            ],
+            "error": null
+        })
+    }),
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/overview`, ({params})=> {
+        const { clusterId } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "pod": {
+                    "counts": 18,
+                    "running": 18
+                },
+                "deployment": {
+                    "counts": 9,
+                    "running": 9
+                },
+                "replicaSet": {
+                    "counts": 51,
+                    "running": 51
+                },
+                "statefulSet": {
+                    "counts": 1,
+                    "running": 1
+                },
+                "daemonSet": {
+                    "counts": 2,
+                    "running": 2
+                },
+                "job": {
+                    "counts": 0,
+                    "running": 0
+                },
+                "cronJob": {
+                    "counts": 0,
+                    "running": 0
+                }
+            },
+            "error": null
+        })
+    }),
+    
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/overview/namespace`, async ({params, request}) => {
+        const { clusterId } = params;
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "pod": {
+                    "counts": 18,
+                    "running": 18
+                },
+                "deployment": {
+                    "counts": 9,
+                    "running": 3
+                },
+                "replicaSet": {
+                    "counts": 51,
+                    "running": 50
+                },
+                "statefulSet": {
+                    "counts": 1,
+                    "running": 1
+                },
+                "daemonSet": {
+                    "counts": 2,
+                    "running": 2
+                },
+                "job": {
+                    "counts": 0,
+                    "running": 0
+                },
+                "cronJob": {
+                    "counts": 0,
+                    "running": 0
+                }
+            },
+            "error": null
+        })
+    }),
     http.get(`${baseURL}/api/v1/cluster`, () => {
         return HttpResponse.json({
             "success": true,
