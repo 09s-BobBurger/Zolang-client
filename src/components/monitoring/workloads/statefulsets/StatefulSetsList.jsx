@@ -1,27 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import ControllerTable from "../ControllerTable.jsx";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 
-const ReplicaSetsList = ({ setReplicaSetName }) => {
-    const [replicaSets, setReplicaSets] = useState();
+const StatefulSetsList = ({ setStatefulSetName }) => {
+    const [statefulSets, setStatefulSets] = useState();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
 
     const loadData = () => {
         if (namespace === "All") {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/replicas`)
+                .get(`/api/v1/cluster/${clusterId}/workload/statefuls`)
                 .then((res) => {
-                    setReplicaSets(res.data.data);
+                    setStatefulSets(res.data.data);
                 }).catch((err) => {
                 console.log(err)
             })
         } else {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/replicas/namespace?namespace=${namespace}`)
+                .get(`/api/v1/cluster/${clusterId}/workload/statefuls/namespace?namespace=${namespace}`)
                 .then((res) => {
-                    setReplicaSets(res.data.data);
+                    setStatefulSets(res.data.data);
                 }).catch((err) => {
                 console.log(err)
             })
@@ -29,7 +29,7 @@ const ReplicaSetsList = ({ setReplicaSetName }) => {
     }
 
     const onClickRow = (name) => {
-        setReplicaSetName(name);
+        setStatefulSetName(name);
     }
 
     useEffect(() => {
@@ -38,9 +38,9 @@ const ReplicaSetsList = ({ setReplicaSetName }) => {
 
     return (
         <div>
-            <ControllerTable data={replicaSets} onClickRow={onClickRow} />
+            <ControllerTable data={statefulSets} onClickRow={onClickRow} />
         </div>
     );
 };
 
-export default ReplicaSetsList;
+export default StatefulSetsList;

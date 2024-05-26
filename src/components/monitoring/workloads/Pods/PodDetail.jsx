@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Chart from "../../nodes/Chart.jsx";
 import {Typography} from "@mui/material";
 import Label from "../../nodes/Label.jsx";
 import TableContainer from "@mui/material/TableContainer";
@@ -7,7 +6,6 @@ import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import Status from "../../../icon/Status.jsx";
 import TableBody from "@mui/material/TableBody";
 import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from '@mui/material/Button';
@@ -15,7 +13,7 @@ import UsageLineChart from "../../UsageLineChart.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
-import {useLocation} from "react-router-dom";
+import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
 const boxStyle = {
     boxSizing: 'border-box',
@@ -56,9 +54,10 @@ const titleStyle = {
 
 const PodDetail = ({ podName, initPod}) => {
     const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector(state => state.namespace.namespace);
     const [pod, setPod] = useState();
 
-    useEffect(() => {
+    const loadData = () => {
         axios
             .get(
                 `/api/v1/cluster/${clusterId}/workload/pods/${podName}`,
@@ -74,7 +73,19 @@ const PodDetail = ({ podName, initPod}) => {
             .catch((err) => {
                 console.log(err);
             })
-    }, [])
+    }
+
+    useEffect(() => {
+        loadData();
+        const timer = setInterval(() => {
+            loadData();
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useDidMountEffect(() => {
+        initPod();
+    }, [namespace]);
 
     return (
         <div

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from "@mui/material/Button";
 import Label from "../../nodes/Label.jsx";
 import {Typography} from "@mui/material";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import loginUtil from "../../../../util/login.js";
+import {useSelector} from "react-redux";
+import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
 const titleStyle = {
     display: 'flex',
@@ -11,7 +15,35 @@ const titleStyle = {
     color: "#ffffff",
     fontSize: "1.6rem"
 }
-const ServiceDetail = ({ service, setService }) => {
+const ServiceDetail = ({ serviceName, initService }) => {
+    const clusterId = useSelector(state => state.cluster.clusterId);
+    const namespace = useSelector(state => state.namespace.namespace);
+    const [service, setService] = useState();
+
+    const loadData = () => {
+        axios
+            .get(`/api/v1/cluster/${clusterId}/service/${serviceName}`,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                    }
+                })
+            .then((res) => {
+                setService(res.data.data[0]);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    useDidMountEffect(() => {
+        initService();
+    }, [namespace]);
+
     return (
         <div
             style={{ width: '79vw' }}
@@ -27,13 +59,13 @@ const ServiceDetail = ({ service, setService }) => {
                     padding: '10px 0',
                     fontSize: '1.1rem'
                 }}
-                onClick={() => {setService(false)}}
+                onClick={() => {initService()}}
             >
                 <KeyboardArrowLeft />
                 Return to List
             </MuiButton>
 
-            <div
+            {service && <div
                 style={{
                     width: "100%",
                     display: "flex",
@@ -55,7 +87,8 @@ const ServiceDetail = ({ service, setService }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg" alt="metadata"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg"
+                             alt="metadata"/>
                         Metadata
                     </span>
                     <div
@@ -98,7 +131,8 @@ const ServiceDetail = ({ service, setService }) => {
                             </Typography>
                         </div>
                     </div>
-                    <div
+                    {Object.keys(service.metaData.serviceLabels).length > 0
+                        && <div
                         style={{
                             display: "flex",
                             justifyContent: "space-between",
@@ -106,34 +140,38 @@ const ServiceDetail = ({ service, setService }) => {
                         }}
                     >
                         <div style={{marginRight: "5px"}}>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Labels
-                            </Typography>
-                            <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(service.metaData.serviceLabels).map((key) => {
-                                    return <Label name={key + ":" + service.metaData.serviceLabels[key]}/>
-                                })}
-                            </Typography>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Labels
+                                </Typography>
+                                <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                    {Object.keys(service.metaData.serviceLabels).map((key) => {
+                                        return <Label name={key + ":" + service.metaData.serviceLabels[key]}/>
+                                    })}
+                                </Typography>
+                            </div>
+                    </div>}
+                    {
+                        Object.keys(service.metaData.serviceAnnotations).filter(i => !i.startsWith("kubectl")).length > 0 &&
+                        <div
+                        style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        color: "#ffffff",
+                            }}
+                        >
+                            <div style={{marginRight: "5px"}}>
+                                <Typography variant="body2" color="#ABAFBD">
+                                    Annotations
+                                </Typography>
+                                <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                    {Object.keys(service.metaData.serviceAnnotations).filter(i => !i.startsWith("kubectl")).map((key) => {
+                                        return <Label name={key + ":" + service.metaData.serviceAnnotations[key]}/>
+                                    })}
+                                </Typography>
+                            </div>
                         </div>
-                    </div>
-                    {/*<div*/}
-                    {/*    style={{*/}
-                    {/*        display: "flex",*/}
-                    {/*        justifyContent: "space-between",*/}
-                    {/*        color: "#ffffff",*/}
-                    {/*    }}*/}
-                    {/*>*/}
-                    {/*    <div style={{marginRight: "5px"}}>*/}
-                    {/*        <Typography variant="body2" color="#ABAFBD">*/}
-                    {/*            Annotations*/}
-                    {/*        </Typography>*/}
-                    {/*        <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>*/}
-                    {/*            {Object.keys(service.metaData.serviceAnnotations).map((key) => {*/}
-                    {/*                return <Label name={key + ":" + service.metaData.serviceAnnotations[key]}/>*/}
-                    {/*            })}*/}
-                    {/*        </Typography>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+                    }
+
                 </div>
 
                 {/* Spec */}
@@ -150,12 +188,13 @@ const ServiceDetail = ({ service, setService }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../spec.svg" alt="spec"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../spec.svg"
+                             alt="spec"/>
                         Spec
                     </span>
-                    <div style={{ display: 'flex', gap: '40px'}}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '50%'}}>
-                            <div style={{ display: 'flex', gap: '40px'}}>
+                    <div style={{display: 'flex', gap: '40px'}}>
+                        <div style={{display: 'flex', flexDirection: 'column', gap: '10px', width: '50%'}}>
+                            <div style={{display: 'flex', gap: '40px'}}>
                                 <div>
                                     <Typography variant="body2" color="#ABAFBD">
                                         Type
@@ -181,7 +220,17 @@ const ServiceDetail = ({ service, setService }) => {
                                     </Typography>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '40px'}}>
+                            <div style={{display: 'flex', gap: '40px'}}>
+                                <div>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Selector
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {Object.keys(service.spec.serviceSelector).map(key =>
+                                            <Label name={key + ":" + service.spec.serviceSelector[key]} key={key}/>
+                                        )}
+                                    </Typography>
+                                </div>
                                 <div>
                                     <Typography variant="body2" color="#ABAFBD">
                                         IP Family Policy
@@ -219,35 +268,34 @@ const ServiceDetail = ({ service, setService }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg" alt="status"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg"
+                             alt="status"/>
                         Status
                     </span>
                     <div
                         style={{
                             display: "flex",
-                            gap: '40px',
+                            flexDirection: "column",
+                            gap: '20px',
                             color: "#ffffff",
                         }}
                     >
-                        <div>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Status
-                            </Typography>
-                            <Typography variant="body1">
-                                {service.status.serviceStatus ? service.status.serviceStatus : '-'}
-                            </Typography>
-                        </div>
-                        <div>
-                            <Typography variant="body2" color="#ABAFBD">
-                                Status Load
-                            </Typography>
-                            <Typography variant="body1">
-                                {service.status.serviceStatusLoad ? service.status.serviceStatusLoad : '-'}
-                            </Typography>
-                        </div>
+                        {
+                            Object.keys(service.status).map(key =>
+                                <div>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        {service.status[key] ? service.status[key] : '-'}
+                                    </Typography>
+                                </div>
+                            )
+                        }
+
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 };

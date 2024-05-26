@@ -2,27 +2,27 @@ import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
+import JobsList from "./JobsList.jsx";
 
-const DeploymentsList = ({ setDeploymentName }) => {
-    const [deployments, setDeployments] = useState([]);
+const Jobs = () => {
+    const [jobs, setJobs] = useState();
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
-
     const loadData = () => {
         if (namespace === 'All') {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/deployments`)
+                .get(`/api/v1/cluster/${clusterId}/workload/jobs`)
                 .then((res) => {
-                    setDeployments(res.data.data);
+                    setJobs(res.data.data);
                 })
                 .catch((err) => {
                     console.log(err);
                 })
         } else {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/deployments/namespace?namespace=${namespace}`)
+                .get(`/api/v1/cluster/${clusterId}/workload/jobs/namespace?namespace=${namespace}`)
                 .then(res => {
-                    setDeployments(res.data.data);
+                    setJobs(res.data.data);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -32,16 +32,17 @@ const DeploymentsList = ({ setDeploymentName }) => {
 
     useEffect(() => {
         loadData();
+    }, []);
+
+    useEffect(() => {
+        loadData();
     }, [namespace]);
 
-    const onClickRow = (deploymentName) => {
-        setDeploymentName(deploymentName);
-    }
     return (
         <div>
-            <ControllerTable data={deployments} onClickRow={onClickRow} />
+            <JobsList jobs={jobs} />
         </div>
     );
 };
 
-export default DeploymentsList;
+export default Jobs;

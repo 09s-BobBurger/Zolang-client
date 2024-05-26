@@ -1,15 +1,14 @@
 import React from 'react';
-import Label from "../nodes/Label.jsx";
-import Status from "../../icon/Status.jsx";
-import TableCell from "@mui/material/TableCell";
+import Label from "../../nodes/Label.jsx";
 import TableContainer from "@mui/material/TableContainer";
-import TableBody from "@mui/material/TableBody";
-import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import TableBody from "@mui/material/TableBody";
+import Status from "../../../icon/Status.jsx";
 
-// demonSet, deployment, statefulSet, ReplicasSet, Job 모두 list table 형식이 같음(cronjob만 형식 다름)
-const ControllerTable = ({data, onClickRow}) => {
+const JobsList = ({ jobs }) => {
     return (
         <div
             style={{
@@ -66,27 +65,27 @@ const ControllerTable = ({data, onClickRow}) => {
                                 <TableCell align="center">
                                     Namespace
                                 </TableCell>
-                                <TableCell align="left">
-                                    Images
-                                </TableCell>
-                                <TableCell align="left">
-                                    Labels
+                                <TableCell align="center" width="15%">
+                                    Completions / Total
                                 </TableCell>
                                 <TableCell align="center">
-                                    Pods
+                                    Duration
                                 </TableCell>
                                 <TableCell align="center">
                                     Age
                                 </TableCell>
+                                <TableCell align="left" width="30%">
+                                    Labels
+                                </TableCell>
+                                <TableCell align="center">
+                                    Status
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data && data.map((item) => (
+                            {jobs && jobs.map((item) => (
                                 <TableRow
                                     key={item.name}
-                                    onClick={() => {
-                                        if (onClickRow) onClickRow(item.name)
-                                    }}
                                     sx={{
                                         "&:last-child td, &:last-child th":
                                             {
@@ -104,12 +103,13 @@ const ControllerTable = ({data, onClickRow}) => {
                                         {item.namespace}
                                     </TableCell>
                                     <TableCell align="center">
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                            {item.images.slice(0, 3).map(image => {
-                                                return <Label name={image}/>
-                                            })}
-                                            {item.images.length > 3 && <Label name="..." />}
-                                        </div>
+                                        {item.completions} / {item.total}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {item.duration}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {item.age}
                                     </TableCell>
                                     <TableCell align="center">
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
@@ -120,10 +120,8 @@ const ControllerTable = ({data, onClickRow}) => {
                                         </div>
                                     </TableCell>
                                     <TableCell align="center">
-                                        {item.replicas} / {item.readyReplicas}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {item.age}
+                                        {/*<Status status={item.status} />*/}
+                                        {item.status}
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -135,4 +133,4 @@ const ControllerTable = ({data, onClickRow}) => {
     );
 };
 
-export default ControllerTable;
+export default JobsList;

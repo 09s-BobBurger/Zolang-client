@@ -3,16 +3,17 @@ import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerDetail from "../ControllerDetail.jsx";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
-const ReplicaSetDetail = ({ replicaSetName, initReplicaSet}) => {
+
+const StatefulSetDetail = ({ statefulSetName, initStatefulSet }) => {
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
-    const [replicaSet, setReplicaSet] = useState();
+    const [statefulSet, setStatefulSet] = useState();
 
     useEffect(() => {
         axios
-            .get(`/api/v1/cluster/${clusterId}/workload/replicas/${replicaSetName}`)
+            .get(`/api/v1/cluster/${clusterId}/workload/statefuls/${statefulSetName}`)
             .then((res) => {
-                setReplicaSet(res.data.data);
+                setStatefulSet(res.data.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -20,12 +21,12 @@ const ReplicaSetDetail = ({ replicaSetName, initReplicaSet}) => {
     }, []);
 
     useDidMountEffect(() => {
-        initReplicaSet();
+        initStatefulSet();
     }, [namespace]);
 
     return (
-        <ControllerDetail detail={replicaSet} goToList={initReplicaSet}/>
+        <ControllerDetail detail={statefulSet} goToList={initStatefulSet}/>
     );
 };
 
-export default ReplicaSetDetail;
+export default StatefulSetDetail;
