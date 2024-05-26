@@ -1,46 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import ServiceDetail from "./ServiceDetail.jsx";
 import ServicesList from "./ServicesList.jsx";
+import {useSelector} from "react-redux";
 
 const Services = () => {
-    const [servicesData, setServicesData] = useState([]);
-    const [selectedService, setSelectedService] = useState(null);
+    const [serviceName, setServiceName] = useState();
+    const clusterId = useSelector(state => state.cluster.clusterId);
 
-    useEffect(() => {
-        setServicesData(
-            [
-                {
-                    "name": "kubernetes",
-                    "namespace": "default",
-                    "labels": {
-                        "component": "apiserver",
-                        "provider": "kubernetes"
-                    },
-                    "type": "ClusterIP",
-                    "clusterIP": "10.100.0.1",
-                    "port": 443,
-                    "age": "2d"
-                },
-                {
-                    "name": "kubernetes",
-                    "namespace": "default",
-                    "labels": {
-                        "component": "apiserver",
-                        "provider": "kubernetes"
-                    },
-                    "type": "ClusterIP",
-                    "clusterIP": "10.100.0.1",
-                    "port": 443,
-                    "age": "2d"
-                }
-            ]
-        )
-    }, [])
+    const initService = () => {
+        setServiceName();
+    }
+
+
 
     return (
         <div>
-            {!selectedService && <ServicesList services={servicesData} setService={setSelectedService}/>}
-            {selectedService && <ServiceDetail service={selectedService} setService={setSelectedService}/>}
+            {serviceName ?
+                <ServiceDetail serviceName={serviceName} initService={initService}/>
+                : <ServicesList setService={setServiceName}/>
+            }
         </div>
     );
 };

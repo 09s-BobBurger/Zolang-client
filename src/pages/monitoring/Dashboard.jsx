@@ -11,6 +11,11 @@ import Services from "../../components/monitoring/network/services/Services.jsx"
 import {useDispatch, useSelector} from "react-redux";
 import {initCluster} from "../../redux/modules/cluster.js";
 import {initNamespace} from "../../redux/modules/namespace.js";
+import DaemonSets from "../../components/monitoring/workloads/daemonsets/DaemonSets.jsx";
+import Deployments from "../../components/monitoring/workloads/deployment/Deployments.jsx";
+import ReplicaSets from "../../components/monitoring/workloads/replicasets/ReplicaSets.jsx";
+import StatefulSets from "../../components/monitoring/workloads/statefulsets/StatefulSets.jsx";
+import Jobs from "../../components/monitoring/workloads/jobs/Jobs.jsx";
 
 const Dashboard = () => {
     const location = useLocation();
@@ -74,6 +79,11 @@ const Dashboard = () => {
                         element={<WorkloadsOverview />}
                     />
                     <Route path="workloads/pods" element={<Pods />} />
+                    <Route path="workloads/deployments" element={<Deployments />} />
+                    <Route path="workloads/daemonsets" element={<DaemonSets />} />
+                    <Route path="workloads/replicasets" element={<ReplicaSets />} />
+                    <Route path="workloads/statefulsets" element={<StatefulSets />} />
+                    <Route path="workloads/jobs" element={<Jobs />} />
                     <Route path="network/services" element={<Services />} />
                     {/* 페이지 작업할 때마다 Route 추가 */}
                 </Routes>

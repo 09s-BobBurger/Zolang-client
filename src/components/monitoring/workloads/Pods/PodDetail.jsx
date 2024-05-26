@@ -1,5 +1,4 @@
-import React from 'react';
-import Chart from "../../nodes/Chart.jsx";
+import React, {useEffect, useState} from 'react';
 import {Typography} from "@mui/material";
 import Label from "../../nodes/Label.jsx";
 import TableContainer from "@mui/material/TableContainer";
@@ -7,11 +6,14 @@ import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import Status from "../../../icon/Status.jsx";
 import TableBody from "@mui/material/TableBody";
 import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from '@mui/material/Button';
 import UsageLineChart from "../../UsageLineChart.jsx";
+import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
+import loginUtil from "../../../../util/login.js";
+import {useSelector} from "react-redux";
+import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
 const boxStyle = {
     boxSizing: 'border-box',
@@ -50,7 +52,41 @@ const titleStyle = {
     fontSize: "1.6rem"
 }
 
-const PodDetail = ({ pod, setPod }) => {
+const PodDetail = ({ podName, initPod}) => {
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector(state => state.namespace.namespace);
+    const [pod, setPod] = useState();
+
+    const loadData = () => {
+        axios
+            .get(
+                `/api/v1/cluster/${clusterId}/workload/pods/${podName}`,
+                {
+                    headers: {
+                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                    }
+                }
+            )
+            .then((res) => {
+                setPod(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        loadData();
+        const timer = setInterval(() => {
+            loadData();
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useDidMountEffect(() => {
+        initPod();
+    }, [namespace]);
+
     return (
         <div
             style={{ width: '79vw' }}
@@ -65,12 +101,12 @@ const PodDetail = ({ pod, setPod }) => {
                     padding: '10px 0',
                     fontSize: '1.1rem'
                 }}
-                onClick={() => {setPod(false)}}
+                onClick={() => {initPod()}}
             >
                 <KeyboardArrowLeft />
                 Return to List
             </MuiButton>
-            <div
+            {pod && <div
                 style={{
                     width: "100%",
                     display: "flex",
@@ -96,7 +132,7 @@ const PodDetail = ({ pod, setPod }) => {
                     />
                     <UsageLineChart
                         title="Memory Usage"
-                        data={pod.metrics.map(i => i.memoryUsage/(10 ** 6))}
+                        data={pod.metrics.map(i => i.memoryUsage / (10 ** 6))}
                         time={pod.metrics.map(i => i.time)}
                         color="#00bbff"
                         yAxis="Memory(bytes)"
@@ -117,7 +153,8 @@ const PodDetail = ({ pod, setPod }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg" alt="metadata"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../metadata.svg"
+                             alt="metadata"/>
                         Metadata
                     </span>
                     <div
@@ -188,7 +225,7 @@ const PodDetail = ({ pod, setPod }) => {
                             <Typography variant="body2" color="#ABAFBD">
                                 Labels
                             </Typography>
-                            <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                            <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                 {Object.keys(pod.metadata.labels).map((key) => {
                                     return <Label name={key + ":" + pod.metadata.labels[key]}/>
                                 })}
@@ -206,7 +243,7 @@ const PodDetail = ({ pod, setPod }) => {
                             <Typography variant="body2" color="#ABAFBD">
                                 Annotations
                             </Typography>
-                            <Typography sx={{ width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                            <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                 {Object.keys(pod.metadata.annotations).map((key) => {
                                     return <Label name={key + ":" + pod.metadata.annotations[key]}/>
                                 })}
@@ -230,7 +267,8 @@ const PodDetail = ({ pod, setPod }) => {
                      }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg" alt="resource"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg"
+                             alt="resource"/>
                         Resource
                     </span>
                     <div
@@ -263,7 +301,7 @@ const PodDetail = ({ pod, setPod }) => {
                                 </Typography>
                             </div>
                             <div style={boxStyle}>
-                                <Typography variant={boxTitleVariant} >
+                                <Typography variant={boxTitleVariant}>
                                     IP
                                 </Typography>
                                 <Typography variant={boxValueVariant} align="right">
@@ -281,10 +319,12 @@ const PodDetail = ({ pod, setPod }) => {
                                 justifyContent: 'space-between'
                             }}
                         >
-                            <KeyValueDesign title="Priority Class" value={pod.resource.priorityClass ? pod.resource.priorityClass : '-'} />
-                            <KeyValueDesign title="Restart Count" value={pod.resource.restartCount} />
-                            <KeyValueDesign title="Service Account" value={pod.resource.serviceAccount} />
-                            <KeyValueDesign title="Image Pull Secret" value={pod.resource.imagePullSecret ? pod.resource.imagePullSecret : '-'} />
+                            <KeyValueDesign title="Priority Class"
+                                            value={pod.resource.priorityClass ? pod.resource.priorityClass : '-'}/>
+                            <KeyValueDesign title="Restart Count" value={pod.resource.restartCount}/>
+                            <KeyValueDesign title="Service Account" value={pod.resource.serviceAccount}/>
+                            <KeyValueDesign title="Image Pull Secret"
+                                            value={pod.resource.imagePullSecret ? pod.resource.imagePullSecret : '-'}/>
                         </div>
                     </div>
 
@@ -307,21 +347,22 @@ const PodDetail = ({ pod, setPod }) => {
                         gap: '20px'
                     }}>
                         <span style={titleStyle}>
-                            <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg" alt="status"/>
+                            <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
+                                 src="../../../status.svg" alt="status"/>
                             Conditions
                         </span>
                         <Table aria-label="conditions table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ paddingLeft: '16px !important' }} style={{width: "20%"}}
+                                    <TableCell sx={{paddingLeft: '16px !important'}} style={{width: "20%"}}
                                     >Type</TableCell>
                                     <TableCell align="center" style={{width: "5%"}}>Status</TableCell>
                                     <TableCell align="center" style={{width: "10%"}}>Last Probe Time</TableCell>
                                     <TableCell align="center" style={{width: "10%"}}>Last Transition Time</TableCell>
-                                    <TableCell align="center" sx={{ paddingLeft: '16px !important'}}>
+                                    <TableCell align="center" sx={{paddingLeft: '16px !important'}}>
                                         Reason
                                     </TableCell>
-                                    <TableCell align="center" sx={{ paddingLeft: '16px !important'}}>
+                                    <TableCell align="center" sx={{paddingLeft: '16px !important'}}>
                                         Message
                                     </TableCell>
                                 </TableRow>
@@ -364,7 +405,8 @@ const PodDetail = ({ pod, setPod }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../controlled.svg" alt="controlled"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
+                             src="../../../controlled.svg" alt="controlled"/>
                         Controlled
                     </span>
                     <div style={{
@@ -373,11 +415,11 @@ const PodDetail = ({ pod, setPod }) => {
                         gap: '0',
                     }}>
                         <div
-                             style={{
-                                 display: 'flex',
-                                 flexDirection: 'column',
-                                 gap: '20px',
-                             }}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '20px',
+                            }}
                         >
                             <div
                                 style={{
@@ -415,7 +457,7 @@ const PodDetail = ({ pod, setPod }) => {
                                     <Typography variant="body2" color="#ABAFBD">
                                         Labels
                                     </Typography>
-                                    <Typography sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                    <Typography sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                         {Object.keys(pod.controlled.labels).map((key) => {
                                             return <Label name={key + ":" + pod.controlled.labels[key]}/>
                                         })}
@@ -425,7 +467,7 @@ const PodDetail = ({ pod, setPod }) => {
                                     <Typography variant="body2" color="#ABAFBD">
                                         Images
                                     </Typography>
-                                    <Typography sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                    <Typography sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
                                         {pod.controlled.images.map((item, key) => {
                                             return <Label name={item} key={key}/>
                                         })}
@@ -453,13 +495,14 @@ const PodDetail = ({ pod, setPod }) => {
                         gap: '20px'
                     }}>
                         <span style={titleStyle}>
-                            <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../persistentVolumeClaim.svg" alt="persistent volume claim"/>
+                            <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
+                                 src="../../../persistentVolumeClaim.svg" alt="persistent volume claim"/>
                             Persistent Volume Claims
                         </span>
                         <Table aria-label="conditions table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ paddingLeft: '16px !important' }}
+                                    <TableCell sx={{paddingLeft: '16px !important'}}
                                     >Name</TableCell>
                                     <TableCell align="center">Label</TableCell>
                                     <TableCell align="center">Status</TableCell>
@@ -505,7 +548,8 @@ const PodDetail = ({ pod, setPod }) => {
                     }}
                 >
                     <span style={titleStyle}>
-                        <img width="30px" style={{ marginRight: '10px', marginBottom: '5px'}} src="../../../container.svg" alt="container"/>
+                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}}
+                             src="../../../container.svg" alt="container"/>
                         Container
                     </span>
                     <div
@@ -625,7 +669,7 @@ const PodDetail = ({ pod, setPod }) => {
                                 color: 'white',
                             }}
                         >
-                            {pod.container.factor.map(i => <p style={{ margin: '0'}}>{i + '\n'}</p>)}
+                            {pod.container.factor.map(i => <p style={{margin: '0'}}>{i + '\n'}</p>)}
                         </div>
                     </div>
                     <div>
@@ -651,7 +695,7 @@ const PodDetail = ({ pod, setPod }) => {
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell sx={{ paddingLeft: '16px !important', border: '1px solid white' }}
+                                        <TableCell sx={{paddingLeft: '16px !important', border: '1px solid white'}}
                                         >Name</TableCell>
                                         <TableCell align="center">Read Only</TableCell>
                                         <TableCell align="center">Mount Path</TableCell>
@@ -667,10 +711,13 @@ const PodDetail = ({ pod, setPod }) => {
                                             <TableCell align="center">
                                                 {item.readOnly.toString()}
                                             </TableCell>
-                                            <TableCell align="center">{item.mountPath ? item.mountPath : '-'}</TableCell>
+                                            <TableCell
+                                                align="center">{item.mountPath ? item.mountPath : '-'}</TableCell>
                                             <TableCell align="center">{item.subPath ? item.subPath : '-'}</TableCell>
-                                            <TableCell align="center">{item.sourceType ? item.sourceType : '-'}</TableCell>
-                                            <TableCell align="center">{item.sourceName ? item.sourceName : '-'}</TableCell>
+                                            <TableCell
+                                                align="center">{item.sourceType ? item.sourceType : '-'}</TableCell>
+                                            <TableCell
+                                                align="center">{item.sourceName ? item.sourceName : '-'}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -694,7 +741,7 @@ const PodDetail = ({ pod, setPod }) => {
                                     Run As User
                                 </Typography>
                                 <Typography variant="body1">
-                                    {pod.container.securityContext.runAsUser? pod.container.securityContext.runAsUser : '-'}
+                                    {pod.container.securityContext.runAsUser ? pod.container.securityContext.runAsUser : '-'}
                                 </Typography>
                             </div>
                             <div>
@@ -743,7 +790,7 @@ const PodDetail = ({ pod, setPod }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </div>
     );
 
