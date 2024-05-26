@@ -128,91 +128,6 @@ function NodeDetailCard({ nodeName, initNode }) {
                                 src="../../../metadata.svg"
                                 alt="metadata"
                             />
-                            Chart
-                        </span>
-                        {usage && (
-                            <div style= {{display: "flex",
-                            gap: "29px", paddingBottom: "5px", alignSelf: "center", flexWrap: "wrap"}}>
-                                <Chart
-                                    title="CPU"
-                                    values={[
-                                        {
-                                            name: "Capacity",
-                                            value: usage.capacityCpu,
-                                        },
-                                        {
-                                            name: "Allocatable",
-                                            value: usage.allocatableCpu,
-                                        },
-                                        {
-                                            name: "Usage",
-                                            value: usage.usage.nodeCpuUsage,
-                                        },
-                                    ]}
-                                    fullValue={usage.capacityCpu}
-                                    colors={["#019CF6", "#256CD6"]}
-                                    number={1}
-                                />
-                                <Chart
-                                    title="Memory"
-                                    values={[
-                                        {
-                                            name: "Capacity",
-                                            value: usage.capacityMemory,
-                                        },
-                                        {
-                                            name: "Allocatable",
-                                            value: usage.allocatableMemory,
-                                        },
-                                        {
-                                            name: "Usage",
-                                            value: usage.usage.nodeMemoryUsage,
-                                        },
-                                    ]}
-                                    fullValue={usage.capacityMemory}
-                                    colors={["#019CF6", "#256CD6"]}
-                                    number={2}
-                                />
-                                <Chart
-                                    title="Pod"
-                                    values={[
-                                        {
-                                            name: "Capacity",
-                                            value: usage.capacityPod,
-                                        },
-                                        {
-                                            name: "Allocatable",
-                                            value: usage.allocatablePod,
-                                        },
-                                    ]}
-                                    fullValue={usage.capacityPod}
-                                    colors={["#019CF6", "#256CD6"]}
-                                    number={3}
-                                />
-                            </div>
-                        )}
-                    </div>
-                    <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "20px",
-                            border: "1px solid rgb(171, 175, 189)",
-                            borderRadius: "10px",
-                            padding: "30px",
-                            background: "rgb(56, 60, 74)",
-                        }}
-                    >
-                        <span style={titleStyle}>
-                            <img
-                                width="30px"
-                                style={{
-                                    marginRight: "10px",
-                                    marginBottom: "5px",
-                                }}
-                                src="../../../metadata.svg"
-                                alt="metadata"
-                            />
                             Node Info
                         </span>
                         <div
@@ -287,6 +202,90 @@ function NodeDetailCard({ nodeName, initNode }) {
                                 <Typography>{node.kernelVersion}</Typography>
                             </div>
                         </div>
+                    </div>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "20px",
+                            border: "1px solid rgb(171, 175, 189)",
+                            borderRadius: "10px",
+                            padding: "30px",
+                            background: "rgb(56, 60, 74)",
+                        }}
+                    >
+                        <span style={titleStyle}>
+                            <img
+                                width="30px"
+                                style={{
+                                    marginRight: "10px",
+                                    marginBottom: "5px",
+                                }}
+                                src="../../../metadata.svg"
+                                alt="metadata"
+                            />
+                            Chart
+                        </span>
+                        {usage && (
+                            <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap"}}>
+                                <Chart
+                                    title="CPU"
+                                    values={[
+                                        {
+                                            name: "Capacity",
+                                            value: usage.capacityCpu,
+                                        },
+                                        {
+                                            name: "Allocatable",
+                                            value: usage.allocatableCpu,
+                                        },
+                                        {
+                                            name: "Usage",
+                                            value: usage.usage.nodeCpuUsage,
+                                        },
+                                    ]}
+                                    fullValue={usage.capacityCpu}
+                                    colors={["#019CF6", "#256CD6"]}
+                                    number={1}
+                                />
+                                <Chart
+                                    title="Memory"
+                                    values={[
+                                        {
+                                            name: "Capacity",
+                                            value: usage.capacityMemory,
+                                        },
+                                        {
+                                            name: "Allocatable",
+                                            value: usage.allocatableMemory,
+                                        },
+                                        {
+                                            name: "Usage",
+                                            value: usage.usage.nodeMemoryUsage,
+                                        },
+                                    ]}
+                                    fullValue={usage.capacityMemory}
+                                    colors={["#019CF6", "#256CD6"]}
+                                    number={2}
+                                />
+                                <Chart
+                                    title="Pod"
+                                    values={[
+                                        {
+                                            name: "Capacity",
+                                            value: usage.capacityPod,
+                                        },
+                                        {
+                                            name: "Allocatable",
+                                            value: usage.allocatablePod,
+                                        },
+                                    ]}
+                                    fullValue={usage.capacityPod}
+                                    colors={["#019CF6", "#256CD6"]}
+                                    number={3}
+                                />
+                            </div>
+                        )}
                     </div>
                     {node.addresses && (
                         <div

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -12,43 +12,8 @@ import LinearProgress, {
 import { styled } from "@mui/material/styles";
 import Status from "../icon/Status";
 import {useNavigate} from "react-router-dom";
-
-function createData(name, roles, version, age, cpu, memory, disk, status) {
-    return { name, roles, version, age, cpu, memory, disk, status };
-}
-
-const rows = [
-    createData(
-        "docker-desktop",
-        "control-plane",
-        "v1.29.1",
-        "24d",
-        30,
-        70,
-        10,
-        "Ready"
-    ),
-    createData(
-        "docker-desktop",
-        "control-plane",
-        "v1.29.1",
-        "24d",
-        100,
-        40,
-        90,
-        "Fail"
-    ),
-    createData(
-        "docker-desktop",
-        "control-plane",
-        "v1.29.1",
-        "24d",
-        60,
-        40,
-        80,
-        "Running"
-    ),
-];
+import { useSelector } from "react-redux";
+import { customizedAxios as axios } from "../../util/customizedAxios.js";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -62,18 +27,51 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
     },
 }));
+const convertToPercentage = (value, max) => (value / max) * 100;
 
+function calculateTime(timestamp) {
+    const providedDate = new Date(timestamp);
+    const currentTime = new Date();
+    const timeDifferenceInMilliseconds = currentTime - providedDate;
+    const timeDifferenceInMinutes = Math.floor(timeDifferenceInMilliseconds / (1000 * 60));
+    return timeDifferenceInMinutes+ "분 전";
+}
 function InnerNodes(props) {
     const navigate = useNavigate();
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const [nodeData, setNodeData] = useState([]);
 
-    const onClickMore = () => {
-        navigate("/monitoring/dashboard");
-    }
+    const loadData = async () => {
+        try {
+            const res = await axios.get(`/api/v1/cluster/${clusterId}/nodes`);
+            const initialNodeData = res.data.data;
 
-    // 후에 클러스터에 대한 정보를 전달할 수 있도록 변경할 것 - 현재는 이름만 전달
-    const onClickCluster = (item) => {
-        navigate("/monitoring/dashboard", { state: { data: item}});
-    }
+            // 각 노드에 대해 추가 데이터를 가져와서 병합
+            const updatedNodeDataPromises = initialNodeData.map(async (node) => {
+                try {
+                    const usageRes = await axios.get(`/api/v1/cluster/${clusterId}/usage/${node.name}`);
+                    if (usageRes.data.success) {
+                        const updatedNode = { ...node, nodeUsage: usageRes.data.data[0] };
+                        return updatedNode;
+                    } else {
+                        return node;
+                    }
+                } catch (error) {
+                    console.error(`Error fetching usage data for node ${node.name}:`, error);
+                    return node;
+                }
+            });
+
+            const updatedNodeData = await Promise.all(updatedNodeDataPromises);
+            setNodeData(updatedNodeData);
+        } catch (error) {
+            console.error("Error loading initial node data:", error);
+        }
+    };
+
+    useEffect(() => {
+        loadData();
+    }, [clusterId]);
 
     return (
         <div
@@ -126,53 +124,47 @@ function InnerNodes(props) {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Name</TableCell>
-                                <TableCell align="center">Roles</TableCell>
-                                <TableCell align="center">Version</TableCell>
+                                <TableCell align="center">Kubectl Version</TableCell>
+                                <TableCell align="center">Status</TableCell>
                                 <TableCell align="center">Age</TableCell>
                                 <TableCell align="center">CPU</TableCell>
                                 <TableCell align="center">Memory</TableCell>
-                                <TableCell align="center">Disk</TableCell>
-                                <TableCell align="center">Status</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <TableRow
-                                    key={row.name}
-                                    sx={{
-                                        "&:last-child td, &:last-child th": {
-                                            border: 0,
-                                        },
-                                    }}
-                                    onClick={onClickMore}
-                                >
-                                    <TableCell component="th" scope="row" style={{width: "130px"}}>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center">{row.roles}</TableCell>
-                                    <TableCell align="center">{row.version}</TableCell>
-                                    <TableCell align="center">{row.age}</TableCell>
-                                    <TableCell align="center" style={{width: "50px"}}>
+                            {nodeData.map((row) => {
+                                const readyCondition = row.conditions.find((condition) => condition.type === "Ready");
+                                return (
+                                    <TableRow
+                                        key={row.name}
+                                        sx={{
+                                            "&:last-child td, &:last-child th": {
+                                                border: 0,
+                                            },
+                                        }}
+                                        onClick={() => {
+                                            navigate('nodes', { state: { name : row.name } })
+                                        }}
+                                    >
+                                        <TableCell component="th" scope="row" style={{width: "fit-content"}}>{row.name}</TableCell>
+                                        <TableCell align="center">{row.kubectlVersion}</TableCell>
+                                        <TableCell align="center"><Status status={readyCondition ? readyCondition.status : null}/></TableCell>
+                                        <TableCell align="center">{calculateTime(row.timeStamp)}</TableCell>
+                                        <TableCell align="center" style={{width: "10%"}}>
                                         <BorderLinearProgress
                                             variant="determinate"
-                                            value={row.cpu}
+                                            value={convertToPercentage(row.nodeUsage.usage.nodeCpuUsage, row.nodeUsage.allocatableCpu)}
                                         />
-                                    </TableCell>
-                                    <TableCell align="center" style={{width: "50px"}}>
+                                        </TableCell>
+                                        <TableCell align="center" style={{width: "10%"}}>
                                         <BorderLinearProgress
                                             variant="determinate"
-                                            value={row.memory}
+                                            value={convertToPercentage(row.nodeUsage.usage.nodeMemoryUsage, row.nodeUsage.allocatableMemory)}
                                         />
-                                    </TableCell>
-                                    <TableCell align="center" style={{width: "50px"}}>
-                                        <BorderLinearProgress
-                                            variant="determinate"
-                                            value={row.disk}
-                                        />
-                                    </TableCell>
-                                    <TableCell align="center"><Status status={row.status}/></TableCell>
-                                </TableRow>
-                            ))}
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>

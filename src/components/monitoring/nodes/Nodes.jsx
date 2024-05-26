@@ -3,13 +3,13 @@ import NodesList from "./NodesList";
 import NodesDetailCard from "./NodeDetailCard";
 import { customizedAxios as axios } from "../../../util/customizedAxios.js";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 function Nodes(props) {
+    const initNodeName = useLocation().state ? useLocation().state.name : null;
     const [nodeData, setNodeData] = useState([]);
-    const [selectedNode, setSelectedNode] = useState(null);
+    const [selectedNode, setSelectedNode] = useState(initNodeName);
     const clusterId = useSelector((state) => state.cluster.clusterId);
-    const navigate = useNavigate();
 
     const loadData = async () => {
         try {

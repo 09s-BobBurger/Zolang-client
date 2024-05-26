@@ -1,7 +1,7 @@
 /* node chart */
 .chart-container-node {
-    background-color: rgb(77, 80, 94);
-    border: 1px solid #eff0f5;
+    /* background-color: rgb(77, 80, 94); */
+    /* border: 1px solid #eff0f5; */
     border-radius: 8px;
     padding: 20px 20px 40px 20px;
 }

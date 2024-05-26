@@ -1,73 +1,65 @@
-import React from "react";
-import TableBody from "@mui/material/TableBody";
+import React, { useState, useEffect } from "react";
+import "../../styles/MONITORING.css";
+import {customizedAxios as axios} from "../../util/customizedAxios.js";
+import Label from "./nodes/Label.jsx";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
-import Paper from "@mui/material/Paper";
-import "../../styles/MONITORING.css";
-import LinearProgress, {
-    linearProgressClasses,
-} from "@mui/material/LinearProgress";
-import { styled } from "@mui/material/styles";
-import Status from "../icon/Status";
+import TableHead from "@mui/material/TableHead";
+import Status from "../icon/Status.jsx";
+import {useSelector} from "react-redux";
+import loginUtil from "../../util/login.js";
+import MiniUsageChart from "./MiniUsageChart.jsx";
 import {useNavigate} from "react-router-dom";
 
-function createData(name, labels, node, age, cpu, memory, restart, status) {
-    return { name, labels, node, age, cpu, memory, restart, status };
-}
-
-const rows = [
-    createData(
-        "docker-desktop",
-        "control-plane",
-        "v1.29.1",
-        "24d",
-        30,
-        70,
-        10,
-        "Ready"
-    ),
-    createData(
-        "docker-desktop",
-        "control-plane",
-        "v1.29.1",
-        "24d",
-        100,
-        40,
-        90,
-        "Fail"
-    ),
-    createData(
-        "docker-desktop",
-        "control-plane",
-        "v1.29.1",
-        "24d",
-        60,
-        40,
-        80,
-        "Running"
-    ),
-];
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-        backgroundColor:
-            theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-        borderRadius: 5,
-        backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
-    },
-}));
-
 function Pods(props) {
-
+    const [podsData, setPodsData] = useState({totalUsage: [], pods: []});
+    const clusterId = useSelector((state) => state.cluster.clusterId);
+    const namespace = useSelector((state) => state.namespace.namespace);
     const navigate = useNavigate();
+    const loadData = () => {
+        if (namespace === "All") {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/pods`,
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                        }
+                    }
+                )
+                .then((res) => {
+                    setPodsData(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
+        } else {
+            axios
+                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`,
+                    {
+                        headers: {
+                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
+                        }
+                    }
+                )
+                .then((res) => {
+                    setPodsData(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
+        }
+    }
 
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    useEffect(() => {
+        loadData();
+    }, [namespace])
+    
+    const onClickRow = (podName) => {};
     return (
         <div
             style={{
@@ -110,7 +102,8 @@ function Pods(props) {
                     marginBottom: "15px",
                 }}
             />
-            <div className="moni-dashboard-nodes">
+
+            <div className="moni-workloads-table">
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 650, color: "#ffffff" }}
@@ -118,51 +111,72 @@ function Pods(props) {
                     >
                         <TableHead>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell align="center">Labels</TableCell>
+                                <TableCell style={{ minWidth: "200px" }}>
+                                    Name
+                                </TableCell>
+                                <TableCell>Namespace</TableCell>
+                                <TableCell>Labels</TableCell>
                                 <TableCell align="center">Node</TableCell>
-                                <TableCell align="center">Age</TableCell>
+                                <TableCell align="center">Status</TableCell>
+                                <TableCell align="center">Restart</TableCell>
                                 <TableCell align="center">CPU</TableCell>
                                 <TableCell align="center">Memory</TableCell>
-                                <TableCell align="center">Restart</TableCell>
-                                <TableCell align="center">Status</TableCell>
+                                <TableCell  align="center">Age</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <TableRow
-                                    key={row.name}
-                                    sx={{
-                                        "&:last-child td, &:last-child th": {
-                                            border: 0,
-                                        },
-                                    }}
-                                    onClick={() => {
-                                        navigate('workloads/pods', { state: { name : row.name } })
-                                    }}
-                                >
-                                    <TableCell component="th" scope="row" style={{width: "130px"}}>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center">{row.labels}</TableCell>
-                                    <TableCell align="center">{row.node}</TableCell>
-                                    <TableCell align="center">{row.age}</TableCell>
-                                    <TableCell align="center" style={{width: "50px"}}>
-                                        <BorderLinearProgress
-                                            variant="determinate"
-                                            value={row.cpu}
-                                        />
-                                    </TableCell>
-                                    <TableCell align="center" style={{width: "50px"}}>
-                                        <BorderLinearProgress
-                                            variant="determinate"
-                                            value={row.memory}
-                                        />
-                                    </TableCell>
-                                    <TableCell align="center">{row.restart}</TableCell>
-                                    <TableCell align="center"><Status status={row.status}/></TableCell>
-                                </TableRow>
-                            ))}
+                        {podsData.pods.slice(0, 3).map((pod) => (
+                                    <TableRow
+                                        key={pod.name}
+                                        onClick={() => {
+                                            navigate('workloads/pods', { state: { name : pod.name } })
+                                        }}
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
+                                    >
+                                        <TableCell
+                                            component="th"
+                                            scope="row"
+                                        >
+                                            {pod.name}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {pod.namespace}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
+                                                {Object.keys(pod.labels).slice(0, 3).map((key) => {
+                                                    return <Label name={key + ":" + pod.labels[key]}/>
+                                                })}
+                                                {Object.keys(pod.labels).length > 3 && <Label name="..." />}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {pod.node}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <Status status={pod.status} />
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {pod.restartCount}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <MiniUsageChart data={pod.metrics.map(i => i.cpuUsage)} color1="#f8fc00" color2="#b0b300"/>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <MiniUsageChart data={pod.metrics.map(i => i.memoryUsage)} color1="#00bbff" color2="#00729c"/>
+                                        </TableCell>
+                                        <TableCell
+                                            align="center"
+                                        >
+                                            {pod.age}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
