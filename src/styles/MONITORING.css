@@ -1,3 +1,20 @@
+/* node chart */
+.chart-container-node {
+    background-color: rgb(77, 80, 94);
+    border: 1px solid #eff0f5;
+    border-radius: 8px;
+    padding: 20px 20px 40px 20px;
+}
+
+.chart-container-node .chart-title {
+    color: white;
+    padding: 0 4px 12px 4px;
+    margin: 0;
+    border-bottom: 1px solid #9498a8;
+    font-size: 24px;
+}
+
+/* node list */
 .node-list-metadata {
     color: #ffffff;
     padding: 10px;

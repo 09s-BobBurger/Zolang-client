@@ -63,6 +63,9 @@ function Nodes({ nodeData, setNode }) {
             {nodeData.map((node, index) => (
                 <div
                     key={node.name}
+                    onClick={() =>
+                        handleRowClick(node.name)
+                    }
                     style={{
                         padding: "15px",
                         outline: "1px solid #ABAFBD",
@@ -127,7 +130,7 @@ function Nodes({ nodeData, setNode }) {
                                     </Typography>
                                     <BorderLinearProgress
                                         variant="determinate"
-                                        value={convertToPercentage(1000, 2500)}
+                                        value={convertToPercentage(node.nodeUsage.usage.nodeCpuUsage, node.nodeUsage.allocatableCpu)}
                                     />
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -136,7 +139,7 @@ function Nodes({ nodeData, setNode }) {
                                     </Typography>
                                     <BorderLinearProgress
                                         variant="determinate"
-                                        value={convertToPercentage(1000, 1200)}
+                                        value={convertToPercentage(node.nodeUsage.usage.nodeMemoryUsage, node.nodeUsage.allocatableMemory)}
                                     />
                                 </div>
                             </div>
@@ -182,9 +185,6 @@ function Nodes({ nodeData, setNode }) {
                                     {node.conditions.map((condition, idx) => (
                                         <TableRow
                                             key={`${node.name}-${condition.type}-${idx}`}
-                                            onClick={() =>
-                                                handleRowClick(node.name)
-                                            }
                                             sx={{
                                                 "&:last-child td, &:last-child th":
                                                     {

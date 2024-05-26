@@ -340,7 +340,7 @@ const PodDetail = ({ podName, initPod}) => {
                                  src="../../../status.svg" alt="status"/>
                             Conditions
                         </span>
-                        <Table aria-label="conditions table">
+                        <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{paddingLeft: '16px !important'}} style={{width: "20%"}}

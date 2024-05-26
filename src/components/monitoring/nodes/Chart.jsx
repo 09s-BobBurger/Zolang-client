@@ -109,18 +109,18 @@ const Chart = ({ title, values, fullValue, number }) => {
 
     return (
         <div
-            className="chart-container"
-            style={{ width: "200px", height: "250px" }}
+            className="chart-container-node"
+            style={{ width: "300px", height: "330px" }}
         >
             <p className="chart-title">
-                {title.split("-")[1] ? title.split("-")[1] : title}
+                {title}
             </p>
             <ApexChart
                 options={options}
                 series={series}
                 type="radialBar"
-                width="200px"
-                height="250px"
+                width="100%"
+                height="100%"
             />
         </div>
     );
