@@ -17,12 +17,13 @@ function Nodes({ nodeData, setNode }) {
         setNode(node);
     };
 
-    const getTimeDiff = (timeString) => {
+    function calculateTime(timestamp) {
+        const providedDate = new Date(timestamp);
         const currentTime = new Date();
-        const targetTime = new Date(timeString);
-        const diff = Math.floor((currentTime - targetTime) / (1000 * 60));
-        return `${diff}분 전`;
-    };
+        const timeDifferenceInMilliseconds = currentTime - providedDate;
+        const timeDifferenceInMinutes = Math.floor(timeDifferenceInMilliseconds / (1000 * 60));
+        return timeDifferenceInMinutes+ "분 전";
+    }
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
@@ -204,13 +205,13 @@ function Nodes({ nodeData, setNode }) {
                                                 />
                                             </TableCell>
                                             <TableCell align="center">
-                                                {getTimeDiff(
-                                                    node.lastHeartbeatTime
+                                                {calculateTime(
+                                                    condition.lastHeartbeatTime
                                                 )}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {getTimeDiff(
-                                                    node.lastTransitionTime
+                                                {calculateTime(
+                                                    condition.lastTransitionTime
                                                 )}
                                             </TableCell>
                                             <TableCell scope="row" component="th">

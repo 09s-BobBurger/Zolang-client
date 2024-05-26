@@ -16,6 +16,7 @@ import Deployments from "../../components/monitoring/workloads/deployment/Deploy
 import ReplicaSets from "../../components/monitoring/workloads/replicasets/ReplicaSets.jsx";
 import StatefulSets from "../../components/monitoring/workloads/statefulsets/StatefulSets.jsx";
 import Jobs from "../../components/monitoring/workloads/jobs/Jobs.jsx";
+import CronJobs from "../../components/monitoring/workloads/cronjobs/CronJobs.jsx";
 
 const Dashboard = () => {
     const location = useLocation();
@@ -84,6 +85,7 @@ const Dashboard = () => {
                     <Route path="workloads/replicasets" element={<ReplicaSets />} />
                     <Route path="workloads/statefulsets" element={<StatefulSets />} />
                     <Route path="workloads/jobs" element={<Jobs />} />
+                    <Route path="workloads/cronjobs" element={<CronJobs />} />
                     <Route path="network/services" element={<Services />} />
                     {/* 페이지 작업할 때마다 Route 추가 */}
                 </Routes>

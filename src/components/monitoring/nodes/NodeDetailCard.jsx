@@ -161,7 +161,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                         <div
                             style={{
                                 display: "flex",
-                                gap: "40px",
+                                gap: "60px",
                                 // justifyContent: "space-between",
                                 color: "#ffffff",
                             }}
@@ -180,7 +180,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                                     variant="h6"
                                     style={{ color: "#b8ff6a" }}
                                 >
-                                    {node.kubeletVersion}
+                                    {node.kubectlVersion}
                                 </Typography>
                             </div>
                             <div>
@@ -505,12 +505,12 @@ function NodeDetailCard({ nodeName, initNode }) {
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         {getTimeDiff(
-                                                            node.lastHeartbeatTime
+                                                            condition.lastHeartbeatTime
                                                         )}
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         {getTimeDiff(
-                                                            node.lastTransitionTime
+                                                            condition.lastTransitionTime
                                                         )}
                                                     </TableCell>
                                                     <TableCell
