@@ -22,7 +22,7 @@ const ServiceDetail = ({ serviceName, initService }) => {
 
     const loadData = () => {
         axios
-            .get(`/api/v1/cluster/${clusterId}/service/${serviceName}`,
+            .get(`/api/v1/cluster/${clusterId}/network/service/${serviceName}`,
                 {
                     headers: {
                         "Authorization": "Bearer " + loginUtil.getAccessToken(),

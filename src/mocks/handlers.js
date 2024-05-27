@@ -1412,7 +1412,7 @@ export const handlers = [
     }),
 
     // get services of cluster
-    http.get(`${baseURL}/api/v1/cluster/:clusterId/service`, ({params}) => {
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/network/service`, ({params}) => {
         const {clusterId} = params
         return HttpResponse.json({
                 "success": true,
@@ -1577,7 +1577,7 @@ export const handlers = [
     }),
 
     // get services of cluster with namespace
-    http.get(`${baseURL}/api/v1/cluster/:clusterId/service/namespace`, ({params, request}) => {
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/network/service/namespace`, ({params, request}) => {
         const {clusterId} = params
         const namespace = new URL(request.url).searchParams.get('namespace');
         console.log(namespace)
@@ -1688,7 +1688,7 @@ export const handlers = [
     }),
 
     // get service detail of cluster
-    http.get(`${baseURL}/api/v1/cluster/:clusterId/service/:serviceName`, ({params}) => {
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/network/service/:serviceName`, ({params}) => {
         const {clusterId, serviceName} = params;
         return HttpResponse.json({
                 "success": true,
