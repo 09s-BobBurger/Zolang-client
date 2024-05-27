@@ -5,6 +5,7 @@ import {styled} from "@mui/material/styles";
 import Logout from "./icon/Logout.jsx";
 import { useLocation, useNavigate } from 'react-router-dom';
 import loginUtil from '../util/login.js';
+import { customizedAxios as axios } from "../util/customizedAxios.js";
 
 const Drawer = styled(MuiDrawer)({
     zIndex: '15',
@@ -93,6 +94,8 @@ const menus = [
 ]
 const Nav = ({open, toggleDrawer}) => {
     const [menuIdx, setMenuIdx] = useState();
+    const [userEmail, setUserEmail] = useState("Email");
+    const [userName, setUserName] = useState("User");
     const location = useLocation().pathname === "/" ?
         useLocation().pathname : useLocation().pathname.toString().split("/")[1];
     const navigate = useNavigate();
@@ -103,6 +106,21 @@ const Nav = ({open, toggleDrawer}) => {
         else if (location === "cd") setMenuIdx(2);
         else if (location === "monitoring") setMenuIdx(3);
     }, [location])
+
+    useEffect(()=>{
+        axios.get('/api/v1/users',{
+            headers: {
+                Authorization: "Bearer " + loginUtil.getAccessToken(),
+            },
+        })
+        .then((res) => {
+            setUserEmail(res.data.email);
+            setUserName(res.data.nickname);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    })
 
     const onClickMenu = (idx) => {
         if (idx === 0) {
@@ -121,8 +139,8 @@ const Nav = ({open, toggleDrawer}) => {
             <AccountContainer>
                 <img src="https://ko.vitejs.dev/logo.svg" alt="test용 이미지"/>
                 <div style={nameContainerStyle}>
-                    <span className="name-label">name</span>
-                    <span className="name-content">emoee</span>
+                    <span className="name-label">{userName}</span>
+                    <span className="name-content">{userEmail}</span>
                 </div>
             </AccountContainer>
             <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>

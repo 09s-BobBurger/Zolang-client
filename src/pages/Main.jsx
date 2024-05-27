@@ -47,7 +47,7 @@ const Main = () => {
                             color: "#ffffff",
                         }}
                     >
-                        ZoLang
+                        Zolang
                     </p>
                 </div>
             </div>
@@ -65,7 +65,7 @@ const Main = () => {
                         top: "10%",
                     }}>
                     <p style={{ margin: 0, fontSize: "36px", padding: "20px" }}>
-                        Sign in to ZoLang
+                        Sign in to Zolang
                     </p>
                     <p style={{ margin: 0, fontSize: "16px" }}>
                         Kubernetes를 처음 다루는 사람들이 접근하기 쉽고,

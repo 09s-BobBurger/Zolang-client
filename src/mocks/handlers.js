@@ -103,7 +103,7 @@ export const handlers = [
         return HttpResponse.json({
             success: true,
             data: {
-                cpuUsage: 0.10200000000000001,
+                cpuUsage: null,
                 cpuAllocatable: 3.86,
                 cpuCapacity: 4.0,
                 memoryUsage: 4146810880,
@@ -446,8 +446,8 @@ export const handlers = [
         const { clusterId } = params;
         return HttpResponse.json({
             success: true,
-            data: clusterId % 2 === 0,
-            error: null,
+            data: true,
+            error: null
         });
     }),
 
