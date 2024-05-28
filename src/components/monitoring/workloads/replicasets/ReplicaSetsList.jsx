@@ -4,41 +4,76 @@ import ControllerTable from "../ControllerTable.jsx";
 import {useSelector} from "react-redux";
 
 const ReplicaSetsList = ({ setReplicaSetName }) => {
-    const [replicaSets, setReplicaSets] = useState();
+    const [replicaSets, setReplicaSets] = useState({});
+    const [prevToken, setPrevToken] = useState();
+    const [currToken, setCurrToken] = useState(" ");
+    const [nextToken, setNextToken] = useState();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
 
     const loadData = () => {
-        if (namespace === "All") {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/replicas`)
-                .then((res) => {
-                    setReplicaSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
+        const isNamespaceAll = namespace === "All";
+        const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
+        const baseUrl = `/api/v1/cluster/${clusterId}/workload/replicas`;
+
+        const url = isNamespaceAll
+            ? `${baseUrl}${tokenParam ? `?${tokenParam}` : ""}`
+            : `${baseUrl}/namespace?namespace=${namespace}${tokenParam ? `&${tokenParam}` : ""}`;
+
+        axios.get(url)
+            .then((res) => {
+                setReplicaSets(res.data.data);
             })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/replicas/namespace?namespace=${namespace}`)
-                .then((res) => {
-                    setReplicaSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        }
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const toPrevPage = () => {
+        setCurrToken(prevToken);
     }
+
+    const toNextPage = () => {
+        setPrevToken(currToken);
+        setCurrToken(nextToken);
+    }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            loadData();
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+        loadData();
+    }, [namespace, currToken]);
+
+    useEffect(() => {
+        if (replicaSets.start === 1) {
+            setPrevToken(null);
+        }
+        if (replicaSets.end === replicaSets.total) {
+            setNextToken(null);
+        } else {
+            setNextToken(replicaSets.continueToken);
+        }
+    }, [replicaSets]);
 
     const onClickRow = (name) => {
         setReplicaSetName(name);
     }
 
-    useEffect(() => {
-        loadData();
-    }, [namespace]);
-
     return (
         <div>
-            <ControllerTable data={replicaSets} onClickRow={onClickRow} />
+            <ControllerTable
+                data={replicaSets}
+                onClickRow={onClickRow}
+                toPrevPage={toPrevPage}
+                toNextPage={toNextPage}
+                prevToken={prevToken}
+                nextToken={nextToken}
+            />
         </div>
     );
 };

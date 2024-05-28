@@ -60,13 +60,7 @@ const PodDetail = ({ podName, initPod}) => {
     const loadData = () => {
         axios
             .get(
-                `/api/v1/cluster/${clusterId}/workload/pods/${podName}`,
-                {
-                    headers: {
-                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                    }
-                }
-            )
+                `/api/v1/cluster/${clusterId}/workload/pods/${podName}`)
             .then((res) => {
                 setPod(res.data.data);
             })
