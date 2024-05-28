@@ -21,36 +21,12 @@ const ClusterList = () => {
     };
 
     useEffect(() => {
-        const fetchClusters = async () => {
-            try {
-                const res = await axios.get("/api/v1/cluster", {
-                    headers: {
-                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                    }
-                });
-
-                let clustersList = res.data.data;
-
-                const statusPromises = clustersList.map(cluster => 
-                    axios.get(`/api/v1/cluster/${cluster.clusterId}/status`)
-                        .then(statusRes => ({
-                            ...cluster,
-                            status: statusRes.data.data,
-                        }))
-                        .catch(err => {
-                            console.log(err);
-                            return { ...cluster, status: false };
-                        })
-                );
-
-                const clustersWithStatus = await Promise.all(statusPromises);
-                setClusters(clustersWithStatus);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-
-        fetchClusters();
+        axios.get("/api/v1/cluster", )
+                .then((res) => {
+                    setClusters(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
     }, []);
 
     return (
@@ -72,7 +48,7 @@ const ClusterList = () => {
                             <span style={{ width: "50vw" }}>{item.domainUrl}</span>
                             <span style={{ width: "5vw" }}>{item.version}</span>
                             <span>
-                                {item.status === true ? 
+                                {item.status === "ready" ? 
                                     <img src="../clusterStateTrue.svg" alt="good" /> : 
                                     <img src="../clusterStateFalse.svg" alt="bad" />}
                             </span>

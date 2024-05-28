@@ -127,7 +127,7 @@ function Pods(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {podsData.pods.slice(0, 3).map((pod) => (
+                        {podsData.pods?.length > 0 && podsData.pods.slice(0, 3).map((pod) => (
                                     <TableRow
                                         key={pod.name}
                                         onClick={() => {
@@ -170,10 +170,16 @@ function Pods(props) {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.cpuUsage)} color1="#f8fc00" color2="#b0b300"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                                                            color1="#f8fc00" color2="#b0b300"
+                                                            min={0}
+                                            />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.memoryUsage)} color1="#00bbff" color2="#00729c"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.memoryUsage : 0)}
+                                                            color1="#00bbff" color2="#00729c"
+                                                            min={0}
+                                            />
                                         </TableCell>
                                         <TableCell
                                             align="center"

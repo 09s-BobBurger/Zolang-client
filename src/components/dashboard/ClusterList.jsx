@@ -12,36 +12,12 @@ const ClusterList = () => {
     const [clusters, setClusters] = useState([]);
 
     useEffect(() => {
-        const fetchClusters = async () => {
-            try {
-                const res = await axios.get("/api/v1/cluster", {
-                    headers: {
-                        "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                    }
-                });
-
-                let clustersList = res.data.data.slice(0, 3);
-
-                const statusPromises = clustersList.map(cluster => 
-                    axios.get(`/api/v1/cluster/${cluster.clusterId}/status`)
-                        .then(statusRes => ({
-                            ...cluster,
-                            status: statusRes.data.data,
-                        }))
-                        .catch(err => {
-                            console.log(err);
-                            return { ...cluster, status: false };
-                        })
-                );
-
-                const clustersWithStatus = await Promise.all(statusPromises);
-                setClusters(clustersWithStatus);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-
-        fetchClusters();
+        axios.get("/api/v1/cluster", )
+                .then((res) => {
+                    setClusters(res.data.data);
+                }).catch((err) => {
+                console.log(err)
+            })
     }, []);
 
     const onClickNew = () => {
@@ -82,7 +58,7 @@ const ClusterList = () => {
                             <span>{item.clusterName}</span>
                             <span>{item.domainUrl}</span>
                             <span>{item.version}</span>
-                            <span>{item.status === true ? 
+                            <span>{item.status === "ready" ? 
                                 <img src="../clusterStateTrue.svg" alt="good" /> : <img src="../clusterStateFalse.svg" alt="bad" />}
                             </span>
                         </li>

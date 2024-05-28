@@ -417,39 +417,35 @@ export const handlers = [
     ),
     http.get(`${baseURL}/api/v1/cluster`, () => {
         return HttpResponse.json({
-            success: true,
-            data: [
+            "success": true,
+            "data": [
                 {
-                    clusterId: 1,
-                    clusterName: "default",
-                    domainUrl: "https://127.0.0.1:6443",
-                    version: "1.29.1",
+                    "clusterId": 1,
+                    "clusterName": "test1",
+                    "domainUrl": "4D7C9D3720F10894E47E736F3C5C07F6.sk1.ap-northeast-2.eks.amazonaws.com",
+                    "version": "1.29.1",
+                    "status": "ready"
                 },
                 {
-                    clusterId: 2,
-                    clusterName: "test1",
-                    domainUrl: "https://127.0.0.:6443",
-                    version: "1.29.0",
-                },
-                {
-                    clusterId: 3,
-                    clusterName: "test2",
-                    domainUrl: "https://127.0.0.1:6443",
-                    version: "1.29.3",
-                },
+                    "clusterId": 25,
+                    "clusterName": "TestAsyncCreate",
+                    "domainUrl": "",
+                    "version": "",
+                    "status": "creating"
+                }
             ],
-            error: null,
+            "error": null
         });
     }),
 
-    http.get(`${baseURL}/api/v1/cluster/:clusterId/status`, ({ params }) => {
-        const { clusterId } = params;
-        return HttpResponse.json({
-            success: true,
-            data: true,
-            error: null
-        });
-    }),
+    // http.get(`${baseURL}/api/v1/cluster/:clusterId/status`, ({ params }) => {
+    //     const { clusterId } = params;
+    //     return HttpResponse.json({
+    //         success: true,
+    //         data: true,
+    //         error: null
+    //     });
+    // }),
 
     // load repositories
     http.get("/api/v1/users/github", () => {
@@ -660,19 +656,15 @@ export const handlers = [
     }),
 
     // enroll cluster
-<<<<<<< HEAD
-    http.post("/api/v1/cluster", async ({ request }) => {
-=======
-    http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
->>>>>>> 71526b03f663df16a0d809fdc8876209b74f6105
-        const data = await request.json();
-        console.log(data);
-        return HttpResponse.json({
-            success: true,
-            data: 1,
-            error: null,
-        });
-    }),
+    // http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
+    //     const data = await request.json();
+    //     console.log(data);
+    //     return HttpResponse.json({
+    //         success: true,
+    //         data: 1,
+    //         error: null,
+    //     });
+    // }),
 
     // get api to enroll cluster
     http.post(`${baseURL}/api/v1/cluster/version`, async({request}) => {

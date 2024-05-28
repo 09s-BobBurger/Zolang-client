@@ -4,7 +4,7 @@ import ApexChart from "react-apexcharts";
 const MiniUsageChart = ({ data, color1, color2, min, max, usage }) => {
     const series = [{
         name : "",
-        data: seriesData
+        data: data
     }];
 
     const options = {
