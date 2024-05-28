@@ -131,7 +131,7 @@ function Nodes({ nodeData, setNode }) {
                                     </Typography>
                                     <BorderLinearProgress
                                         variant="determinate"
-                                        value={convertToPercentage(node.nodeUsage.usage.nodeCpuUsage, node.nodeUsage.allocatableCpu)}
+                                        value={convertToPercentage(node.nodeUsage.usage.nodeCpuUsage? node.nodeUsage.usage.nodeCpuUsage:0, node.nodeUsage.allocatableCpu)}
                                     />
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -140,7 +140,7 @@ function Nodes({ nodeData, setNode }) {
                                     </Typography>
                                     <BorderLinearProgress
                                         variant="determinate"
-                                        value={convertToPercentage(node.nodeUsage.usage.nodeMemoryUsage, node.nodeUsage.allocatableMemory)}
+                                        value={convertToPercentage(node.nodeUsage.usage.nodeMemoryUsage? node.nodeUsage.usage.nodeMemoryUsage : 0, node.nodeUsage.allocatableMemory)}
                                     />
                                 </div>
                             </div>

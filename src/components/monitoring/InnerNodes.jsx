@@ -153,13 +153,13 @@ function InnerNodes(props) {
                                         <TableCell align="center" style={{width: "10%"}}>
                                         <BorderLinearProgress
                                             variant="determinate"
-                                            value={convertToPercentage(row.nodeUsage.usage.nodeCpuUsage, row.nodeUsage.allocatableCpu)}
+                                            value={convertToPercentage(row.nodeUsage.usage.nodeCpuUsage? row.nodeUsage.usage.nodeCpuUsage: 0, row.nodeUsage.allocatableCpu)}
                                         />
                                         </TableCell>
                                         <TableCell align="center" style={{width: "10%"}}>
                                         <BorderLinearProgress
                                             variant="determinate"
-                                            value={convertToPercentage(row.nodeUsage.usage.nodeMemoryUsage, row.nodeUsage.allocatableMemory)}
+                                            value={convertToPercentage(row.nodeUsage.usage.nodeMemoryUsage? row.nodeUsage.usage.nodeMemoryUsage:0, row.nodeUsage.allocatableMemory)}
                                         />
                                         </TableCell>
                                     </TableRow>

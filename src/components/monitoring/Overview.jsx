@@ -36,7 +36,7 @@ const Overview = (data) => {
                         width: "77vw",
                         }}
                     >
-                        {usage && (
+                        {usage != null && (
                             <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap"}}>
                                 <Chart
                                     title="CPU"

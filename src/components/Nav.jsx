@@ -96,6 +96,7 @@ const Nav = ({open, toggleDrawer}) => {
     const [menuIdx, setMenuIdx] = useState();
     const [userEmail, setUserEmail] = useState("Email");
     const [userName, setUserName] = useState("User");
+    const [userImage, setUserImage]= useState();
     const location = useLocation().pathname === "/" ?
         useLocation().pathname : useLocation().pathname.toString().split("/")[1];
     const navigate = useNavigate();
@@ -114,13 +115,14 @@ const Nav = ({open, toggleDrawer}) => {
             },
         })
         .then((res) => {
-            setUserEmail(res.data.email);
-            setUserName(res.data.nickname);
+            setUserEmail(res.data.data.email);
+            setUserName(res.data.data.nickname);
+            setUserImage(res.data.data.profileImage);
         })
         .catch((err) => {
             console.log(err);
         });
-    })
+    }, []);
 
     const onClickMenu = (idx) => {
         if (idx === 0) {
@@ -137,7 +139,7 @@ const Nav = ({open, toggleDrawer}) => {
     return (
         <Drawer open={open} onClick={toggleDrawer(false)}>
             <AccountContainer>
-                <img src="https://ko.vitejs.dev/logo.svg" alt="test용 이미지"/>
+                <img src={userImage? userImage: "https://ko.vitejs.dev/logo.svg"} alt="이미지"/>
                 <div style={nameContainerStyle}>
                     <span className="name-label">{userName}</span>
                     <span className="name-content">{userEmail}</span>

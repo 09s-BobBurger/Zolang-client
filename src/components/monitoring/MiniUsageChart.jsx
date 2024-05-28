@@ -2,9 +2,11 @@ import React, {useEffect} from 'react';
 import ApexChart from "react-apexcharts";
 
 const MiniUsageChart = ({ data, color1, color2, min, max }) => {
+    const seriesData = data.map(value => value !== null && value !== undefined ? value : 0);
+    
     const series = [{
         name : "",
-        data : data
+        data: seriesData
     }];
 
     const options = {

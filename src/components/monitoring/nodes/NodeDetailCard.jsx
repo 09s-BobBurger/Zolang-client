@@ -241,7 +241,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                         {
                                             name: "Usage",
-                                            value: usage.usage.nodeCpuUsage,
+                                            value: usage.usage.nodeCpuUsage? usage.usage.nodeCpuUsage: 0,
                                         },
                                     ]}
                                     fullValue={usage.capacityCpu}
@@ -261,7 +261,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                         {
                                             name: "Usage",
-                                            value: usage.usage.nodeMemoryUsage,
+                                            value: usage.usage.nodeMemoryUsage? usage.usage.nodeMemoryUsage: 0,
                                         },
                                     ]}
                                     fullValue={usage.capacityMemory}

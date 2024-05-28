@@ -77,20 +77,20 @@ function FormToYamlFooter(props) {
     const [userEmail, setUserEmail] = useState();
     const [userName, setUserName] = useState();
 
-    useEffect(()=>{
+    const setting = () =>{
         axios.get('/api/v1/users',{
             headers: {
                 Authorization: "Bearer " + loginUtil.getAccessToken(),
             },
         })
         .then((res) => {
-            setUserEmail(res.data.email);
-            setUserName(res.data.nickname);
+            setUserEmail(res.data.data.email);
+            setUserName(res.data.data.nickname);
         })
         .catch((err) => {
             console.log(err);
         });
-    })
+    }
 
     useEffect(() => {
         axios
@@ -138,6 +138,7 @@ function FormToYamlFooter(props) {
     };
 
     const onClickPush = () => {
+        setting();
         if (loginUtil.checkLogin()) {
             if (isExpanded) {
                 if (
