@@ -22,13 +22,7 @@ const PodsList = ({ setPod }) => {
     const loadData = () => {
         if (namespace === "All") {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
+                .get(`/api/v1/cluster/${clusterId}/workload/pods`)
                 .then((res) => {
                     setPodsData(res.data.data);
                 }).catch((err) => {
@@ -36,13 +30,7 @@ const PodsList = ({ setPod }) => {
             })
         } else {
             axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
+                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`)
                 .then((res) => {
                     setPodsData(res.data.data);
                 }).catch((err) => {
@@ -81,15 +69,15 @@ const PodsList = ({ setPod }) => {
             >
                 <UsageLineChart
                     title="CPU Usage"
-                    data={podsData.totalUsage.map(i => i.cpuUsage)}
-                    time={podsData.totalUsage.map(i => i.time)}
+                    data={podsData.totalUsage.map(i => i ? i.cpuUsage : 0)}
+                    time={podsData.totalUsage.map(i => i ? i.time : '-')}
                     color="#f8fc00"
                     yAxis="CPU(cores)"
                 />
                 <UsageLineChart
                     title="Memory Usage"
-                    data={podsData.totalUsage.map(i => i.memoryUsage/(10 ** 6))}
-                    time={podsData.totalUsage.map(i => i.time)}
+                    data={podsData.totalUsage.map(i => i ? i.memoryUsage/(10 ** 6): 0)}
+                    time={podsData.totalUsage.map(i => i ? i.time : '-')}
                     color="#00bbff"
                     yAxis="Memory(bytes)"
                     yFormat={(value) => value.toFixed(1).toString() + "Mi"}
@@ -220,10 +208,16 @@ const PodsList = ({ setPod }) => {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.cpuUsage)} color1="#f8fc00" color2="#b0b300"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                                                            color1="#f8fc00" color2="#b0b300"
+                                                            min={0} usage={usages[pod.name].usage.cpuUsage}
+                                            />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.memoryUsage)} color1="#00bbff" color2="#00729c"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.memoryUsage : 0)}
+                                                            color1="#00bbff" color2="#00729c"
+                                                            min={0} usage={usages[pod.name].usage.memoryUsage}
+                                            />
                                         </TableCell>
                                         <TableCell
                                             align="center"
