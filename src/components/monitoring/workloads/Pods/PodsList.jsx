@@ -23,26 +23,22 @@ const PodsList = ({ setPod }) => {
     const namespace = useSelector((state) => state.namespace.namespace);
 
     const loadData = () => {
-        if (namespace === "All") {
-            const pageRequestParam = currToken.length > 1 ? `?continue_token=${currToken}` : "";
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods` + pageRequestParam)
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
+        const isNamespaceAll = namespace === "All";
+        const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
+        const baseUrl = `/api/v1/cluster/${clusterId}/workload/pods`;
+
+        const url = isNamespaceAll
+            ? `${baseUrl}${tokenParam ? `?${tokenParam}` : ""}`
+            : `${baseUrl}/namespace?namespace=${namespace}${tokenParam ? `&${tokenParam}` : ""}`;
+
+        axios.get(url)
+            .then((res) => {
+                setPodsData(res.data.data);
             })
-        } else {
-            const pageRequestParam = currToken.length > 1 ? `&continue_token=${currToken}` : "";
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}` + pageRequestParam)
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        }
-    }
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     const toPrevPage = () => {
         setCurrToken(prevToken);
@@ -254,26 +250,28 @@ const PodsList = ({ setPod }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <div className="page-buttons"
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            marginTop: "10px"
-                        }}
+                    {prevToken && nextToken && <div className="page-buttons"
+                          style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "10px"
+                          }}
                     >
                         <Button
                             onClick={toPrevPage}
                             disabled={!prevToken}
                         >
-                            <img style={{ width: "30px", opacity: prevToken ? "100" : '0' }} src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
+                            <img style={{width: "30px", opacity: prevToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
                         </Button>
                         <Button
                             onClick={toNextPage}
                             disabled={!nextToken}
                         >
-                            <img style={{ width: "30px", opacity: nextToken ? "100" : '0' }} src="../../../round-double-arrow-right.svg" alt="to next page button"/>
+                            <img style={{width: "30px", opacity: nextToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-right.svg" alt="to next page button"/>
                         </Button>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>
