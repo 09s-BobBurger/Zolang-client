@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import Footer from '../../Footer';
+import React, {useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
 import MuiTextField from '@mui/material/TextField';
 import {styled} from "@mui/material/styles";
-import loginUtil from "../../../util/login.js";
-import axios from 'axios';
+import {customizedAxios as axios} from "../../../util/customizedAxios.js";
+import {useSelector} from "react-redux";
+import Typography from "@mui/material/Typography";
 
 const TextField = styled(MuiTextField) ({
     width: '50vw',
@@ -36,18 +36,58 @@ const TextField = styled(MuiTextField) ({
 })
 
 function TokenFooter(props) {
+    const clusterNameState = useSelector(state => state.token.clusterName);
+    const clusterName = clusterNameState === "클러스터 이름을 입력해주세요." ? "" : clusterNameState;
     const [showInput, setShowInput] = useState(false);
     const [token, setToken] = useState("");
     const [domainUrl, setDomainUrl] = useState("");
+    const [version, setVersion] = useState();
 
     const [tokenError, setTokenError] = useState(false);
     const [domainUrlError, setDomainUrlError] = useState(false);
+    const [clusterNameError, setClusterNameError] = useState(false);
+
     const onClickOpenInput = () => {
         setShowInput(!showInput);
     }
 
+    // version check func
+    const onClickCheckVersion = () => {
+        if (clusterName.length === 0 || token.length === 0 || domainUrl.length === 0) {
+            if (clusterName.length === 0) {
+                setClusterNameError(true);
+            }
+            if (token.length === 0) {
+                setTokenError(true);
+            }
+            if (domainUrl.length === 0) {
+                setDomainUrlError(true);
+            }
+        } else {
+            axios
+                .post("/api/v1/cluster/version",
+                    {
+                        data: {
+                            "token": token,
+                            "domainUrl": domainUrl,
+                        },
+                    }
+                )
+                .then(r => {
+                    if (r.data.success) {
+                        setVersion(r.data.data);
+                    } else {
+                    }
+                })
+        }
+    }
+
+    // enroll cluster func
     const onClickEnterToken = () => {
-        if (token.length === 0 || domainUrl.length === 0) {
+        if (clusterName.length === 0 || token.length === 0 || domainUrl.length === 0) {
+            if (clusterName.length === 0) {
+                setClusterNameError(true);
+            }
             if (token.length === 0) {
                 setTokenError(true);
             }
@@ -59,11 +99,10 @@ function TokenFooter(props) {
                 .post("/api/v1/cluster",
                     {
                         data: {
+                            "cluster_name": clusterName,
                             "token": token,
-                            "domainUrl": domainUrl
-                        },
-                        headers: {
-                            "Authorization": "BearerToken " + loginUtil.getAccessToken(),
+                            "domainUrl": domainUrl,
+                            "version": version,
                         },
                     }
                 )
@@ -88,6 +127,12 @@ function TokenFooter(props) {
         setDomainUrlError(false);
     }
 
+    useEffect(() => {
+        if (clusterName.length > 0) {
+            setClusterNameError(false);
+        }
+    }, [clusterName])
+
     return (
         <div className="TokenFooter"
                 style={{
@@ -98,7 +143,7 @@ function TokenFooter(props) {
                     bottom: 0,
                     width: "98vw",
                     zIndex: "5",
-                    height: showInput ? '200px' :'40px',
+                    height: showInput ? '250px' :'40px',
                     transition: 'height 0.5s ease-in-out',
                 }}
         >
@@ -116,6 +161,12 @@ function TokenFooter(props) {
                 <div
                     style={{display: 'flex', flexDirection: 'column'}}
                 >
+                    <Typography style={{ margin: '8px', color: clusterNameError ? 'red' : 'white'}}>
+                        Cluster Name: {clusterName} {clusterNameError && "cluster name needed"}
+                    </Typography>
+                    <Typography style={{ margin: '8px', color: 'white' }}>
+                        Version: {version}
+                    </Typography>
                     <TextField
                         error={tokenError}
                         id="standard-basic"
@@ -123,6 +174,7 @@ function TokenFooter(props) {
                         variant="standard"
                         onChange={onChangeToken}
                         autoComplete='off'
+                        value={token}
                         helperText={tokenError ? "token needed" : ""}
                     />
                     <TextField
@@ -132,13 +184,39 @@ function TokenFooter(props) {
                         variant="standard"
                         onChange={onChangeDomainUrl}
                         autoComplete='off'
+                        value={domainUrl}
                         helperText={domainUrlError ? "domain url needed" : ""}
                     />
                 </div>
                 <div style={{position: "absolute", right:"40px", bottom: '15px'}}>
-                    <Button onClick={onClickEnterToken} variant="contained" style={{ zIndex: "10", width: "100px", color: "#ffffff", background: "#019CF6", paddingTop: "5px", paddingBottom: "5px", fontSize: "14px", marginRight: '20px' }}>
-                        Enter
-                    </Button>
+
+                    {version ?
+                        <Button onClick={onClickEnterToken} variant="contained" style={{
+                            zIndex: "10",
+                            width: "100px",
+                            color: "#ffffff",
+                            background: "#019CF6",
+                            paddingTop: "5px",
+                            paddingBottom: "5px",
+                            fontSize: "14px",
+                            marginRight: '20px'
+                        }}>
+                            Enter
+                        </Button>
+                    :
+                        <Button onClick={onClickCheckVersion} variant="contained" style={{
+                            zIndex: "10",
+                            width: "160px",
+                            color: "#ffffff",
+                            background: "#019CF6",
+                            paddingTop: "5px",
+                            paddingBottom: "5px",
+                            fontSize: "14px",
+                            marginRight: '20px'
+                        }}>
+                            Check Version
+                        </Button>
+                    }
                     <Button onClick={onClickOpenInput} style={{ color: '#7d7d7d', borderColor: '#7d7d7d', width: "100px", overflow: 'hidden', background: 'white', padding: '5px 8px', transition: 'opacity 0.5s ease-in-out' }}>
                         Cancel
                     </Button>

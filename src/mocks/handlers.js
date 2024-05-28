@@ -492,12 +492,23 @@ export const handlers = [
     }),
 
     // enroll cluster
-    http.post('/api/v1/cluster', async ({request}) => {
+    http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
         const data = await request.json();
         console.log(data);
         return HttpResponse.json({
             "success": true,
             "data": 1,
+            "error": null
+        })
+    }),
+
+    // get api to enroll cluster
+    http.post(`${baseURL}/api/v1/cluster/version`, async({request}) => {
+        const data = await request.json();
+        console.log(data);
+        return HttpResponse.json({
+            "success": true,
+            "data": "v1.29.4-eks-036c24b",
             "error": null
         })
     }),
