@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import KeyboardArrowLeft from "../../icon/KeyboardArrowLeft.jsx";
 import Label from "../nodes/Label.jsx";
 import Status from "../../icon/Status.jsx";
@@ -11,6 +11,8 @@ import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
+import {customizedAxios as axios} from "../../../util/customizedAxios.js";
+import {useSelector} from "react-redux";
 
 const titleStyle = {
     display: 'flex',
@@ -20,6 +22,33 @@ const titleStyle = {
     fontSize: "1.6rem"
 }
 const ControllerDetail = ({ detail, goToList }) => {
+    const clusterId = useSelector(state => state.cluster.clusterId);
+    const [usages, setUsages] = useState(null);
+    const loadUsages = async () => {
+        if (detail) {
+            let usage = {};
+            for (let pod of detail.pods) {
+                await axios
+                    .get(`/api/v1/cluster/${clusterId}/workload/controller/${pod.name}`)
+                    .then(res => {
+                        usage = {...usage, [pod.name] : res.data.data};
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            }
+            setUsages(usage);
+        }
+    }
+
+    useEffect(() => {
+        loadUsages().then(() => null);
+        const timer = setInterval(() => {
+            loadUsages().then(() => null);
+        }, 60000);
+        return () => clearInterval(timer);
+    }, [detail]);
+
     return (
         <div
             style={{width: '79vw'}}
@@ -384,16 +413,18 @@ const ControllerDetail = ({ detail, goToList }) => {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
-                                                            color1="#f8fc00" color2="#b0b300"
-                                                            min={0}
-                                            />
+                                            {usages && usages[pod.name] && <MiniUsageChart
+                                                data={usages[pod.name].metrics.map(i => i ? i.cpuUsage : 0)}
+                                                color1="#f8fc00" color2="#b0b300"
+                                                min={0} usage={(usages[pod.name].usage.cpuUsage * 10 ** 3).toFixed(2) + "m"}
+                                            />}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.memoryUsage : 0)}
-                                                            color1="#00bbff" color2="#00729c"
-                                                            min={0}
-                                            />
+                                            {usages && usages[pod.name] && <MiniUsageChart
+                                                data={usages[pod.name].metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
+                                                color1="#00bbff" color2="#00729c"
+                                                min={0} usage={(usages[pod.name].usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi"}
+                                            />}
                                         </TableCell>
                                         <TableCell
                                             align="center"

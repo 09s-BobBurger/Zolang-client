@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import ApexChart from "react-apexcharts";
 
-const MiniUsageChart = ({ data, color1, color2, min, max }) => {
+const MiniUsageChart = ({ data, color1, color2, min, max, usage }) => {
     const series = [{
         name : "",
         data : data
@@ -113,8 +113,20 @@ const MiniUsageChart = ({ data, color1, color2, min, max }) => {
             style={{
                 width: '100px',
                 height: '70px',
+                position: 'relative'
             }}
         >
+            <p
+                style={{
+                    position: "absolute",
+                    zIndex: 1,
+                    fontWeight: "bold",
+                    top: '10px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    color: 'rgba(255, 255, 255, 0.8)'
+                }}
+            >{usage}</p>
             <ApexChart
                 options={options}
                 series={series}

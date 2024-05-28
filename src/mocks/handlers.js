@@ -1195,7 +1195,7 @@ export const handlers = [
         })
     }),
 
-    // get pods of cluster with namespace
+    // get pod detail
     http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/pods/:podName`, async ({params, request}) => {
         const { clusterId, podName } = params;
         return HttpResponse.json({
@@ -1409,6 +1409,91 @@ export const handlers = [
             },
             "error": null
         })
+    }),
+
+    // get pod usage for controller
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/controller/:podName`, async ({params, request}) => {
+        const { clusterId, podName } = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": {
+                    "usage": {
+                        "time": "14:37",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 763633664
+                    },
+                    "metrics": [
+                        {
+                            "time": "14:24",
+                            "cpuUsage": 0.003,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:25",
+                            "cpuUsage": 0.002,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:26",
+                            "cpuUsage": 0.001,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:27",
+                            "cpuUsage": 0.002,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:28",
+                            "cpuUsage": 0.002,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:29",
+                            "cpuUsage": 0.001,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:30",
+                            "cpuUsage": 0.002,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:31",
+                            "cpuUsage": 0.001,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:32",
+                            "cpuUsage": 0.002,
+                            "memoryUsage": 763756544
+                        },
+                        {
+                            "time": "14:33",
+                            "cpuUsage": 0.002,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:34",
+                            "cpuUsage": 0.001,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:35",
+                            "cpuUsage": 0.002,
+                            "memoryUsage": 763633664
+                        },
+                        {
+                            "time": "14:36",
+                            "cpuUsage": 0.001,
+                            "memoryUsage": 763633664
+                        }
+                    ]
+                },
+                "error": null
+            }
+        )
     }),
 
     // get services of cluster
