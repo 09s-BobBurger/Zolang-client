@@ -660,7 +660,11 @@ export const handlers = [
     }),
 
     // enroll cluster
+<<<<<<< HEAD
     http.post("/api/v1/cluster", async ({ request }) => {
+=======
+    http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
+>>>>>>> 71526b03f663df16a0d809fdc8876209b74f6105
         const data = await request.json();
         console.log(data);
         return HttpResponse.json({
@@ -668,6 +672,17 @@ export const handlers = [
             data: 1,
             error: null,
         });
+    }),
+
+    // get api to enroll cluster
+    http.post(`${baseURL}/api/v1/cluster/version`, async({request}) => {
+        const data = await request.json();
+        console.log(data);
+        return HttpResponse.json({
+            "success": true,
+            "data": "v1.29.4-eks-036c24b",
+            "error": null
+        })
     }),
 
     // get pods of cluster

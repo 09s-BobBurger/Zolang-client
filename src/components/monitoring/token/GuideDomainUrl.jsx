@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {anOldHope, CopyBlock} from "react-code-blocks";
 import MuiTextField from "@mui/material/TextField";
 import { styled} from "@mui/material/styles";
+import {useDispatch, useSelector} from "react-redux";
+import {setClusterNameInToken} from "../../../redux/modules/token.js";
 
 const TextField = styled(MuiTextField) ({
     width: '50vw',
@@ -33,8 +35,8 @@ const TextField = styled(MuiTextField) ({
 })
 
 const GuideDomainUrl = () => {
-
-    const [clusterName, setClusterName] = useState("클러스터 이름을 입력해주세요.");
+    const clusterName = useSelector(state => state.token.clusterName);
+    const dispatch = useDispatch();
 
     const code = `# .KUBECONFIG에 여러 콘텍스트가 있을 수 있으므로, 가능한 모든 클러스터를 확인한다.
 kubectl config view -o jsonpath='{"Cluster name\\tServer\\n"}{range .clusters[*]}{.name}{"\\t"}{.cluster.server}{"\\n"}{end}'
@@ -155,7 +157,7 @@ echo $APISERVER`;
                     id="standard-basic"
                     label="Cluster Name"
                     variant="standard"
-                    onChange={(e) => {setClusterName(e.target.value)}}
+                    onChange={(e) => {dispatch(setClusterNameInToken(e.target.value))}}
                 />
             </div>
             <div style={{ width: "60vw", padding: "5px", margin: "5px" }}>
