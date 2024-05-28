@@ -513,438 +513,442 @@ export const handlers = [
         })
     }),
 
-    // get pods of cluster
-    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/pods`, async ({params}) => {
+    // get pods page of cluster
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/pods`, async ({params, request}) => {
         const { clusterId } = params;
-        return HttpResponse.json({
-            "success": true,
-            "data": {
-                "totalUsage": [
-                    {
-                        "time": "12:13",
-                        "cpuUsage": 0.629,
-                        "memoryUsage": 2225958912
-                    },
-                    {
-                        "time": "12:14",
-                        "cpuUsage": 0.622,
-                        "memoryUsage": 2216988672
-                    },
-                    {
-                        "time": "12:15",
-                        "cpuUsage": 0.568,
-                        "memoryUsage": 2286075904
-                    },
-                    {
-                        "time": "12:16",
-                        "cpuUsage": 0.525,
-                        "memoryUsage": 2225328128
-                    },
-                    {
-                        "time": "12:17",
-                        "cpuUsage": 0.576,
-                        "memoryUsage": 2267942912
-                    },
-                    {
-                        "time": "12:18",
-                        "cpuUsage": 0.543,
-                        "memoryUsage": 2227879936
-                    },
-                    {
-                        "time": "12:19",
-                        "cpuUsage": 0.658,
-                        "memoryUsage": 2233442304
-                    },
-                    {
-                        "time": "12:20",
-                        "cpuUsage": 0.741,
-                        "memoryUsage": 2228051968
-                    },
-                    {
-                        "time": "12:21",
-                        "cpuUsage": 0.628,
-                        "memoryUsage": 2238353408
-                    },
-                    {
-                        "time": "12:22",
-                        "cpuUsage": 0.651,
-                        "memoryUsage": 2232037376
-                    },
-                    {
-                        "time": "12:23",
-                        "cpuUsage": 0.584,
-                        "memoryUsage": 2296512512
-                    },
-                    {
-                        "time": "12:24",
-                        "cpuUsage": 0.432,
-                        "memoryUsage": 2298847232
-                    },
-                    {
-                        "time": "12:25",
-                        "cpuUsage": 0.657,
-                        "memoryUsage": 2233151488
-                    }
-                ],
-                "pods": [
-                    {
-                        "name": "nginx-ingress-microk8s-controller-7vm79",
-                        "namespace": "ingress",
-                        "images": [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
-                        ],
-                        "labels": {
-                            "controller-revision-hash": "7466d5f4cb",
-                            "name": "nginx-ingress-microk8s",
-                            "pod-template-generation": "10"
-                        },
-                        "node": "instance-20230502-0040",
-                        "status": "Running",
-                        "restartCount": 1,
-                        "usage": {
-                            "time": "12:26",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 88555520
-                        },
-                        "metrics": [
+        const nextToken = new URL(request.url).searchParams.get('continue_token');
+        if (!nextToken) {
+            return HttpResponse.json(
+                {
+                    "success": true,
+                    "data": {
+                        "totalUsage": [
                             {
                                 "time": "12:13",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.629,
+                                "memoryUsage": 2225958912
                             },
                             {
                                 "time": "12:14",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88150016
+                                "cpuUsage": 0.622,
+                                "memoryUsage": 2216988672
                             },
                             {
                                 "time": "12:15",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.568,
+                                "memoryUsage": 2286075904
                             },
                             {
                                 "time": "12:16",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.525,
+                                "memoryUsage": 2225328128
                             },
                             {
                                 "time": "12:17",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88403968
+                                "cpuUsage": 0.576,
+                                "memoryUsage": 2267942912
                             },
                             {
                                 "time": "12:18",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.543,
+                                "memoryUsage": 2227879936
                             },
                             {
                                 "time": "12:19",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88117248
+                                "cpuUsage": 0.658,
+                                "memoryUsage": 2233442304
                             },
                             {
                                 "time": "12:20",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88117248
+                                "cpuUsage": 0.741,
+                                "memoryUsage": 2228051968
                             },
                             {
                                 "time": "12:21",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 92745728
+                                "cpuUsage": 0.628,
+                                "memoryUsage": 2238353408
                             },
                             {
                                 "time": "12:22",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88113152
+                                "cpuUsage": 0.651,
+                                "memoryUsage": 2232037376
                             },
                             {
                                 "time": "12:23",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88113152
+                                "cpuUsage": 0.584,
+                                "memoryUsage": 2296512512
                             },
                             {
                                 "time": "12:24",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88616960
+                                "cpuUsage": 0.432,
+                                "memoryUsage": 2298847232
                             },
                             {
                                 "time": "12:25",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88555520
+                                "cpuUsage": 0.657,
+                                "memoryUsage": 2233151488
                             }
                         ],
-                        "age": "2 day",
-                        "creationDateTime": "2024. 05. 20. 오후 15:29:09"
-                    },
-                    {
-                        "name": "nginx-ingress-microk8s-controller-8dpcg",
-                        "namespace": "ingress",
-                        "images": [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                        "pods": [
+                            {
+                                "name": "nginx-ingress-microk8s-controller-7vm79",
+                                "namespace": "ingress",
+                                "images": [
+                                    "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                                ],
+                                "labels": {
+                                    "controller-revision-hash": "7466d5f4cb",
+                                    "name": "nginx-ingress-microk8s",
+                                    "pod-template-generation": "10"
+                                },
+                                "node": "instance-20230502-0040",
+                                "status": "Running",
+                                "restartCount": 1,
+                                "usage": {
+                                    "time": "12:26",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 88555520
+                                },
+                                "metrics": [
+                                    {
+                                        "time": "12:13",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:14",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88150016
+                                    },
+                                    {
+                                        "time": "12:15",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:16",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:17",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88403968
+                                    },
+                                    {
+                                        "time": "12:18",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:19",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88117248
+                                    },
+                                    {
+                                        "time": "12:20",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88117248
+                                    },
+                                    {
+                                        "time": "12:21",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 92745728
+                                    },
+                                    {
+                                        "time": "12:22",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88113152
+                                    },
+                                    {
+                                        "time": "12:23",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88113152
+                                    },
+                                    {
+                                        "time": "12:24",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88616960
+                                    },
+                                    {
+                                        "time": "12:25",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88555520
+                                    }
+                                ],
+                                "age": "2 day",
+                                "creationDateTime": "2024. 05. 20. 오후 15:29:09"
+                            },
+                            {
+                                "name": "nginx-ingress-microk8s-controller-8dpcg",
+                                "namespace": "ingress",
+                                "images": [
+                                    "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                                ],
+                                "labels": {
+                                    "controller-revision-hash": "7466d5f4cb",
+                                    "name": "nginx-ingress-microk8s",
+                                    "pod-template-generation": "10"
+                                },
+                                "node": "instance-20230123-2111",
+                                "status": "Running",
+                                "restartCount": 1,
+                                "usage": {
+                                    "time": "12:26",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 88555520
+                                },
+                                "metrics": [
+                                    {
+                                        "time": "12:13",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:14",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88150016
+                                    },
+                                    {
+                                        "time": "12:15",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:16",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:17",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88403968
+                                    },
+                                    {
+                                        "time": "12:18",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:19",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88117248
+                                    },
+                                    {
+                                        "time": "12:20",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88117248
+                                    },
+                                    {
+                                        "time": "12:21",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 92745728
+                                    },
+                                    {
+                                        "time": "12:22",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88113152
+                                    },
+                                    {
+                                        "time": "12:23",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88113152
+                                    },
+                                    {
+                                        "time": "12:24",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88616960
+                                    },
+                                    {
+                                        "time": "12:25",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88555520
+                                    }
+                                ],
+                                "age": "2 day",
+                                "creationDateTime": "2024. 05. 20. 오후 15:29:20"
+                            }
                         ],
-                        "labels": {
-                            "controller-revision-hash": "7466d5f4cb",
-                            "name": "nginx-ingress-microk8s",
-                            "pod-template-generation": "10"
-                        },
-                        "node": "instance-20230123-2111",
-                        "status": "Running",
-                        "restartCount": 1,
-                        "usage": {
-                            "time": "12:26",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 88555520
-                        },
-                        "metrics": [
+                        "total": 14,
+                        "start": 1,
+                        "end": 10,
+                        "continueToken": "eyJ2IjoibWV0YS5rOHMuaW8vdjEiLCJydiI6NjU0OTI4OTksInN0YXJ0Ijoia3ViZS1zeXN0ZW0vZGFzaGJvYXJkLW1ldHJpY3Mtc2NyYXBlci03YmM4NjRjNTktbHE5d2JcdTAwMDAifQ"
+                    },
+                    "error": null
+                }
+            )
+        } else {
+            return HttpResponse.json(
+                {
+                    "success": true,
+                    "data": {
+                        "totalUsage": [
                             {
                                 "time": "12:13",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.629,
+                                "memoryUsage": 2225958912
                             },
                             {
                                 "time": "12:14",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88150016
+                                "cpuUsage": 0.622,
+                                "memoryUsage": 2216988672
                             },
                             {
                                 "time": "12:15",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.568,
+                                "memoryUsage": 2286075904
                             },
                             {
                                 "time": "12:16",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.525,
+                                "memoryUsage": 2225328128
                             },
                             {
                                 "time": "12:17",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88403968
+                                "cpuUsage": 0.576,
+                                "memoryUsage": 2267942912
                             },
                             {
                                 "time": "12:18",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88137728
+                                "cpuUsage": 0.543,
+                                "memoryUsage": 2227879936
                             },
                             {
                                 "time": "12:19",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88117248
+                                "cpuUsage": 0.658,
+                                "memoryUsage": 2233442304
                             },
                             {
                                 "time": "12:20",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88117248
+                                "cpuUsage": 0.741,
+                                "memoryUsage": 2228051968
                             },
                             {
                                 "time": "12:21",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 92745728
+                                "cpuUsage": 0.628,
+                                "memoryUsage": 2238353408
                             },
                             {
                                 "time": "12:22",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88113152
+                                "cpuUsage": 0.651,
+                                "memoryUsage": 2232037376
                             },
                             {
                                 "time": "12:23",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88113152
+                                "cpuUsage": 0.584,
+                                "memoryUsage": 2296512512
                             },
                             {
                                 "time": "12:24",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88616960
+                                "cpuUsage": 0.432,
+                                "memoryUsage": 2298847232
                             },
                             {
                                 "time": "12:25",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 88555520
+                                "cpuUsage": 0.657,
+                                "memoryUsage": 2233151488
                             }
                         ],
-                        "age": "2 day",
-                        "creationDateTime": "2024. 05. 20. 오후 15:29:20"
+                        "pods": [
+                            {
+                                "name": "nginx-ingress-microk8s-controller-7vm79",
+                                "namespace": "ingress",
+                                "images": [
+                                    "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                                ],
+                                "labels": {
+                                    "controller-revision-hash": "7466d5f4cb",
+                                    "name": "nginx-ingress-microk8s",
+                                    "pod-template-generation": "10"
+                                },
+                                "node": "instance-20230502-0040",
+                                "status": "Running",
+                                "restartCount": 1,
+                                "usage": {
+                                    "time": "12:26",
+                                    "cpuUsage": 0.002,
+                                    "memoryUsage": 88555520
+                                },
+                                "metrics": [
+                                    {
+                                        "time": "12:13",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:14",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88150016
+                                    },
+                                    {
+                                        "time": "12:15",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:16",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:17",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88403968
+                                    },
+                                    {
+                                        "time": "12:18",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88137728
+                                    },
+                                    {
+                                        "time": "12:19",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88117248
+                                    },
+                                    {
+                                        "time": "12:20",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88117248
+                                    },
+                                    {
+                                        "time": "12:21",
+                                        "cpuUsage": 0.001,
+                                        "memoryUsage": 92745728
+                                    },
+                                    {
+                                        "time": "12:22",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88113152
+                                    },
+                                    {
+                                        "time": "12:23",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88113152
+                                    },
+                                    {
+                                        "time": "12:24",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88616960
+                                    },
+                                    {
+                                        "time": "12:25",
+                                        "cpuUsage": 0.002,
+                                        "memoryUsage": 88555520
+                                    }
+                                ],
+                                "age": "2 day",
+                                "creationDateTime": "2024. 05. 20. 오후 15:29:09"
+                            },
+                        ],
+                        "total": 14,
+                        "start": 11,
+                        "end": 14,
+                        "continueToken": "test"
                     },
-                    {
-                        "name": "jenkins-696ccd6ffc-bxtz4",
-                        "namespace": "jenkins",
-                        "images": [
-                            "ghcr.io/konempty/jenkins-docker-image:latest"
-                        ],
-                        "labels": {
-                            "app": "jenkins",
-                            "pod-template-hash": "696ccd6ffc"
-                        },
-                        "node": "instance-20230426-2354",
-                        "status": "Running",
-                        "restartCount": 0,
-                        "usage": {
-                            "time": "12:26",
-                            "cpuUsage": 0.002,
-                            "memoryUsage": 960061440
-                        },
-                        "metrics": [
-                            {
-                                "time": "12:13",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:14",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:15",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:16",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:17",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:18",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:19",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:20",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:21",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:22",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:23",
-                                "cpuUsage": 0.002,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:24",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 960057344
-                            },
-                            {
-                                "time": "12:25",
-                                "cpuUsage": 0.001,
-                                "memoryUsage": 960057344
-                            }
-                        ],
-                        "age": "3 day",
-                        "creationDateTime": "2024. 05. 19. 오후 13:30:08"
-                    },
-                    {
-                        "name": "calico-kube-controllers-56fd769446-2pjgx",
-                        "namespace": "kube-system",
-                        "images": [
-                            "docker.io/calico/kube-controllers:v3.23.5"
-                        ],
-                        "labels": {
-                            "k8s-app": "calico-kube-controllers",
-                            "pod-template-hash": "56fd769446"
-                        },
-                        "node": "instance-20230203-2114",
-                        "status": "Running",
-                        "restartCount": 2,
-                        "usage": {
-                            "time": "12:26",
-                            "cpuUsage": 0.057,
-                            "memoryUsage": 113541120
-                        },
-                        "metrics": [
-                            {
-                                "time": "12:13",
-                                "cpuUsage": 0.069,
-                                "memoryUsage": 106979328
-                            },
-                            {
-                                "time": "12:14",
-                                "cpuUsage": 0.068,
-                                "memoryUsage": 105979904
-                            },
-                            {
-                                "time": "12:15",
-                                "cpuUsage": 0.062,
-                                "memoryUsage": 113659904
-                            },
-                            {
-                                "time": "12:16",
-                                "cpuUsage": 0.057,
-                                "memoryUsage": 106233856
-                            },
-                            {
-                                "time": "12:17",
-                                "cpuUsage": 0.063,
-                                "memoryUsage": 110551040
-                            },
-                            {
-                                "time": "12:18",
-                                "cpuUsage": 0.059,
-                                "memoryUsage": 106065920
-                            },
-                            {
-                                "time": "12:19",
-                                "cpuUsage": 0.072,
-                                "memoryUsage": 106688512
-                            },
-                            {
-                                "time": "12:20",
-                                "cpuUsage": 0.081,
-                                "memoryUsage": 106090496
-                            },
-                            {
-                                "time": "12:21",
-                                "cpuUsage": 0.069,
-                                "memoryUsage": 106020864
-                            },
-                            {
-                                "time": "12:22",
-                                "cpuUsage": 0.071,
-                                "memoryUsage": 106348544
-                            },
-                            {
-                                "time": "12:23",
-                                "cpuUsage": 0.064,
-                                "memoryUsage": 113512448
-                            },
-                            {
-                                "time": "12:24",
-                                "cpuUsage": 0.047,
-                                "memoryUsage": 113659904
-                            },
-                            {
-                                "time": "12:25",
-                                "cpuUsage": 0.072,
-                                "memoryUsage": 106373120
-                            }
-                        ],
-                        "age": "26 day",
-                        "creationDateTime": "2024. 04. 26. 오후 15:50:29"
-                    }
-                ]
-            },
-            "error": null
-        })
+                    "error": null
+                }
+            )
+        }
     }),
 
     // get pods of cluster with namespace
