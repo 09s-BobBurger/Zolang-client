@@ -1370,225 +1370,224 @@ export const handlers = [
     ),
 
     // get pods of cluster with namespace
-    http.get(
-        `${baseURL}/api/v1/cluster/:clusterId/workload/pods/:podName`,
-        async ({ params, request }) => {
-            const { clusterId, podName } = params;
-            return HttpResponse.json({
-                success: true,
-                data: {
-                    metrics: [
-                        {
-                            time: "21:21",
-                            cpuUsage: 0.002,
-                            memoryUsage: 87199744,
-                        },
-                        {
-                            time: "21:22",
-                            cpuUsage: 0.002,
-                            memoryUsage: 87212032,
-                        },
-                        {
-                            time: "21:23",
-                            cpuUsage: 0.003,
-                            memoryUsage: 87187456,
-                        },
-                        {
-                            time: "21:24",
-                            cpuUsage: 0.002,
-                            memoryUsage: 87187456,
-                        },
-                        {
-                            time: "21:25",
-                            cpuUsage: 0.002,
-                            memoryUsage: 87179264,
-                        },
-                        {
-                            time: "21:26",
-                            cpuUsage: 0.002,
-                            memoryUsage: 86937600,
-                        },
-                        {
-                            time: "21:27",
-                            cpuUsage: 0.002,
-                            memoryUsage: 76734464,
-                        },
-                        {
-                            time: "21:28",
-                            cpuUsage: 0.002,
-                            memoryUsage: 76693504,
-                        },
-                        {
-                            time: "21:29",
-                            cpuUsage: 0.001,
-                            memoryUsage: 76566528,
-                        },
-                        {
-                            time: "21:30",
-                            cpuUsage: 0.002,
-                            memoryUsage: 77930496,
-                        },
-                        {
-                            time: "21:31",
-                            cpuUsage: 0.001,
-                            memoryUsage: 77881344,
-                        },
-                        {
-                            time: "21:32",
-                            cpuUsage: 0.002,
-                            memoryUsage: 77893632,
-                        },
-                        {
-                            time: "21:33",
-                            cpuUsage: 0.003,
-                            memoryUsage: 79167488,
-                        },
-                    ],
-                    metadata: {
-                        name: "nginx-ingress-microk8s-controller-4n4rq",
-                        namespace: "ingress",
-                        creationDate: "2024 .04 .26 .",
-                        creationTime: "오후 03:53:49",
-                        age: "24 day",
-                        uid: "f7971391-2a65-4b5b-9b77-62983090a475",
-                        labels: {
-                            "controller-revision-hash": "7466d5f4cb",
-                            name: "nginx-ingress-microk8s",
-                            "pod-template-generation": "10",
-                        },
-                        annotations: {
-                            "cni.projectcalico.org/containerID":
-                                "e351b19c3edcaabc448f1c0c734b112b307f8239b15570ea9ac2946cc2011afc",
-                            "cni.projectcalico.org/podIP": "10.1.49.138/32",
-                            "cni.projectcalico.org/podIPs": "10.1.49.138/32",
-                        },
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/pods/:podName`, async ({params, request}) => {
+        const { clusterId, podName } = params;
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "metrics": [
+                    {
+                        "time": "21:21",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 87199744
                     },
-                    resource: {
-                        node: "instance-20230502-0040",
-                        status: "Running",
-                        ip: "10.1.49.138",
-                        priorityClass: "Guaranteed",
-                        restartCount: 21,
-                        serviceAccount: "nginx-ingress-microk8s-serviceaccount",
-                        imagePullSecret: null,
+                    {
+                        "time": "21:22",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 87212032
                     },
-                    conditions: [
-                        {
-                            type: "PodReadyToStartContainers",
-                            status: "True",
-                            lastProbeTime: null,
-                            lastTransitionTime: "4 day",
-                            reason: null,
-                            message: null,
-                        },
-                        {
-                            type: "Initialized",
-                            status: "True",
-                            lastProbeTime: null,
-                            lastTransitionTime: "24 day",
-                            reason: null,
-                            message: null,
-                        },
-                        {
-                            type: "Ready",
-                            status: "True",
-                            lastProbeTime: null,
-                            lastTransitionTime: "3 day",
-                            reason: null,
-                            message: null,
-                        },
-                        {
-                            type: "ContainersReady",
-                            status: "True",
-                            lastProbeTime: null,
-                            lastTransitionTime: "3 day",
-                            reason: null,
-                            message: null,
-                        },
-                        {
-                            type: "PodScheduled",
-                            status: "True",
-                            lastProbeTime: null,
-                            lastTransitionTime: "24 day",
-                            reason: null,
-                            message: null,
-                        },
-                    ],
-                    controlled: {
-                        name: "nginx-ingress-microk8s-controller",
-                        kind: "DaemonSet",
-                        replicas: 2,
-                        readyReplicas: 2,
-                        age: "1 year",
-                        labels: {
-                            "microk8s-application": "nginx-ingress-microk8s",
-                        },
-                        images: [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1",
-                        ],
+                    {
+                        "time": "21:23",
+                        "cpuUsage": 0.003,
+                        "memoryUsage": 87187456
                     },
-                    persistentVolumeClaims: [],
-                    container: {
-                        isRunning: true,
-                        name: "nginx-ingress-microk8s",
-                        image: "registry.k8s.io/ingress-nginx/controller:v1.5.1",
-                        ready: true,
-                        started: true,
-                        startedAt: "2024. 05. 16. 오후 13:43:57",
-                        env: [
-                            {
-                                name: "POD_NAME",
-                                value: null,
-                            },
-                            {
-                                name: "POD_NAMESPACE",
-                                value: null,
-                            },
-                        ],
-                        factor: [
-                            "/nginx-ingress-controller",
-                            "--configmap=$(POD_NAMESPACE)/nginx-load-balancer-microk8s-conf",
-                            "--tcp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-tcp-microk8s-conf",
-                            "--udp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-udp-microk8s-conf",
-                            "--ingress-class=public",
-                            " ",
-                            "--publish-status-address=127.0.0.1",
-                            "--default-ssl-certificate=kube-system/star-jayden-bin-kro-kr",
-                        ],
-                        mount: [
-                            {
-                                name: "kube-api-access-pd6sp",
-                                readOnly: true,
-                                mountPath:
-                                    "/var/run/secrets/kubernetes.io/serviceaccount",
-                                subPath: null,
-                                sourceType: "Projected",
-                                sourceName: null,
-                            },
-                        ],
-                        securityContext: {
-                            runAsUser: 101,
-                            addedCapabilities: ["NET_BIND_SERVICE"],
-                            dropCapabilities: ["ALL"],
-                            allowPrivilegeEscalation: null,
-                            privileged: null,
-                            procMount: null,
-                            readOnlyRootFilesystem: null,
-                            runAsGroup: null,
-                            runAsNonRoot: null,
-                            seccompProfile: null,
-                            windowsOptions: null,
-                        },
+                    {
+                        "time": "21:24",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 87187456
                     },
+                    {
+                        "time": "21:25",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 87179264
+                    },
+                    {
+                        "time": "21:26",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 86937600
+                    },
+                    {
+                        "time": "21:27",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 76734464
+                    },
+                    {
+                        "time": "21:28",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 76693504
+                    },
+                    {
+                        "time": "21:29",
+                        "cpuUsage": 0.001,
+                        "memoryUsage": 76566528
+                    },
+                    {
+                        "time": "21:30",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 77930496
+                    },
+                    {
+                        "time": "21:31",
+                        "cpuUsage": 0.001,
+                        "memoryUsage": 77881344
+                    },
+                    {
+                        "time": "21:32",
+                        "cpuUsage": 0.002,
+                        "memoryUsage": 77893632
+                    },
+                    {
+                        "time": "21:33",
+                        "cpuUsage": 0.003,
+                        "memoryUsage": 79167488
+                    }
+                ],
+                "metadata": {
+                    "name": "nginx-ingress-microk8s-controller-4n4rq",
+                    "namespace": "ingress",
+                    "creationDate": "2024 .04 .26 .",
+                    "creationTime": "오후 03:53:49",
+                    "age": "24 day",
+                    "uid": "f7971391-2a65-4b5b-9b77-62983090a475",
+                    "labels": {
+                        "controller-revision-hash": "7466d5f4cb",
+                        "name": "nginx-ingress-microk8s",
+                        "pod-template-generation": "10"
+                    },
+                    "annotations": {
+                        "cni.projectcalico.org/containerID": "e351b19c3edcaabc448f1c0c734b112b307f8239b15570ea9ac2946cc2011afc",
+                        "cni.projectcalico.org/podIP": "10.1.49.138/32",
+                        "cni.projectcalico.org/podIPs": "10.1.49.138/32"
+                    }
                 },
-                error: null,
-            });
-        }
-    ),
+                "resource": {
+                    "node": "instance-20230502-0040",
+                    "status": "Running",
+                    "ip": "10.1.49.138",
+                    "priorityClass": "Guaranteed",
+                    "restartCount": 21,
+                    "serviceAccount": "nginx-ingress-microk8s-serviceaccount",
+                    "imagePullSecret": null
+                },
+                "conditions": [
+                    {
+                        "type": "PodReadyToStartContainers",
+                        "status": "True",
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "4 day",
+                        "reason": null,
+                        "message": null
+                    },
+                    {
+                        "type": "Initialized",
+                        "status": "True",
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "24 day",
+                        "reason": null,
+                        "message": null
+                    },
+                    {
+                        "type": "Ready",
+                        "status": "True",
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "3 day",
+                        "reason": null,
+                        "message": null
+                    },
+                    {
+                        "type": "ContainersReady",
+                        "status": "True",
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "3 day",
+                        "reason": null,
+                        "message": null
+                    },
+                    {
+                        "type": "PodScheduled",
+                        "status": "True",
+                        "lastProbeTime": null,
+                        "lastTransitionTime": "24 day",
+                        "reason": null,
+                        "message": null
+                    }
+                ],
+                "controlled": {
+                    "name": "nginx-ingress-microk8s-controller",
+                    "kind": "DaemonSet",
+                    "replicas": 2,
+                    "readyReplicas": 2,
+                    "age": "1 year",
+                    "labels": {
+                        "microk8s-application": "nginx-ingress-microk8s"
+                    },
+                    "images": [
+                        "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                    ]
+                },
+                "persistentVolumeClaims": [],
+                "container": {
+                    "isRunning": true,
+                    "name": "nginx-ingress-microk8s",
+                    "image": "registry.k8s.io/ingress-nginx/controller:v1.5.1",
+                    "ready": true,
+                    "started": true,
+                    "startedAt": "2024. 05. 16. 오후 13:43:57",
+                    "env": [
+                        {
+                            "name": "POD_NAME",
+                            "value": null
+                        },
+                        {
+                            "name": "POD_NAMESPACE",
+                            "value": null
+                        }
+                    ],
+                    "factor": [
+                        "/nginx-ingress-controller",
+                        "--configmap=$(POD_NAMESPACE)/nginx-load-balancer-microk8s-conf",
+                        "--tcp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-tcp-microk8s-conf",
+                        "--udp-services-configmap=$(POD_NAMESPACE)/nginx-ingress-udp-microk8s-conf",
+                        "--ingress-class=public",
+                        " ",
+                        "--publish-status-address=127.0.0.1",
+                        "--default-ssl-certificate=kube-system/star-jayden-bin-kro-kr"
+                    ],
+                    "mount": [
+                        {
+                            "name": "kube-api-access-pd6sp",
+                            "readOnly": true,
+                            "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                            "subPath": null,
+                            "sourceType": "Projected",
+                            "sourceName": null
+                        }
+                    ],
+                    "securityContext": {
+                        "runAsUser": 101,
+                        "addedCapabilities": [
+                            "NET_BIND_SERVICE"
+                        ],
+                        "dropCapabilities": [
+                            "ALL"
+                        ],
+                        "allowPrivilegeEscalation": null,
+                        "privileged": null,
+                        "procMount": null,
+                        "readOnlyRootFilesystem": null,
+                        "runAsGroup": null,
+                        "runAsNonRoot": null,
+                        "seccompProfile": null,
+                        "windowsOptions": null
+                    }
+                }
+            },
+            "error": null
+        })
+    }),
 
     // get services of cluster
-    http.get(`${baseURL}/api/v1/cluster/:clusterId/service`, ({ params }) => {
-        const { clusterId } = params;
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/service`, ({params}) => {
+        const {clusterId} = params
         return HttpResponse.json({
             success: true,
             data: [
@@ -1729,17 +1728,13 @@ export const handlers = [
     }),
 
     // get services of cluster with namespace
-    http.get(
-        `${baseURL}/api/v1/cluster/:clusterId/service/namespace`,
-        ({ params, request }) => {
-            const { clusterId } = params;
-            const namespace = new URL(request.url).searchParams.get(
-                "namespace"
-            );
-            console.log(namespace);
-            return HttpResponse.json({
-                success: true,
-                data: [
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/service/namespace`, ({params, request}) => {
+        const {clusterId} = params
+        const namespace = new URL(request.url).searchParams.get('namespace');
+        console.log(namespace)
+        return HttpResponse.json({
+                "success": true,
+                "data": [
                     {
                         serviceName: "kubernetes",
                         serviceNamespace: "default",
@@ -1830,13 +1825,11 @@ export const handlers = [
     ),
 
     // get service detail of cluster
-    http.get(
-        `${baseURL}/api/v1/cluster/:clusterId/service/:serviceName`,
-        ({ params }) => {
-            const { clusterId, serviceName } = params;
-            return HttpResponse.json({
-                success: true,
-                data: [
+    http.get(`${baseURL}/api/v1/cluster/:clusterId/service/:serviceName`, ({params}) => {
+        const {clusterId, serviceName} = params;
+        return HttpResponse.json({
+                "success": true,
+                "data": [
                     {
                         metaData: {
                             serviceTimeStamp: "2024-05-22 00:46:51",
