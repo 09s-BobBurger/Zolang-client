@@ -7,9 +7,10 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
+import Button from "@mui/material/Button";
 
 // demonSet, deployment, statefulSet, ReplicasSet, Job 모두 list table 형식이 같음(cronjob만 형식 다름)
-const ControllerTable = ({data, onClickRow}) => {
+const ControllerTable = ({data, onClickRow, toPrevPage, toNextPage, prevToken, nextToken}) => {
     return (
         <div
             style={{
@@ -81,7 +82,7 @@ const ControllerTable = ({data, onClickRow}) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data && data.map((item) => (
+                            {data && data.controllers && data.controllers.map((item) => (
                                 <TableRow
                                     key={item.name}
                                     onClick={() => {
@@ -130,6 +131,28 @@ const ControllerTable = ({data, onClickRow}) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                { prevToken && nextToken && <div className="page-buttons"
+                      style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          marginTop: "10px"
+                      }}
+                >
+                    <Button
+                        onClick={toPrevPage}
+                        disabled={!prevToken}
+                    >
+                        <img style={{width: "30px", opacity: prevToken ? "100" : '0'}}
+                             src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
+                    </Button>
+                    <Button
+                        onClick={toNextPage}
+                        disabled={!nextToken}
+                    >
+                        <img style={{width: "30px", opacity: nextToken ? "100" : '0'}}
+                             src="../../../round-double-arrow-right.svg" alt="to next page button"/>
+                    </Button>
+                </div>}
             </div>
         </div>
     );

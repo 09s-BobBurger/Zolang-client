@@ -4,41 +4,75 @@ import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 
 const StatefulSetsList = ({ setStatefulSetName }) => {
-    const [statefulSets, setStatefulSets] = useState();
+    const [statefulSets, setStatefulSets] = useState({});
+    const [prevToken, setPrevToken] = useState();
+    const [currToken, setCurrToken] = useState(" ");
+    const [nextToken, setNextToken] = useState();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
-
     const loadData = () => {
-        if (namespace === "All") {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/statefuls`)
-                .then((res) => {
-                    setStatefulSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
+        const isNamespaceAll = namespace === "All";
+        const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
+        const baseUrl = `/api/v1/cluster/${clusterId}/workload/statefuls`;
+
+        const url = isNamespaceAll
+            ? `${baseUrl}${tokenParam ? `?${tokenParam}` : ""}`
+            : `${baseUrl}/namespace?namespace=${namespace}${tokenParam ? `&${tokenParam}` : ""}`;
+
+        axios.get(url)
+            .then((res) => {
+                setStatefulSets(res.data.data);
             })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/statefuls/namespace?namespace=${namespace}`)
-                .then((res) => {
-                    setStatefulSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        }
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const toPrevPage = () => {
+        setCurrToken(prevToken);
     }
+
+    const toNextPage = () => {
+        setPrevToken(currToken);
+        setCurrToken(nextToken);
+    }
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            loadData();
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
+        loadData();
+    }, [namespace, currToken]);
+
+    useEffect(() => {
+        if (statefulSets.start === 1) {
+            setPrevToken(null);
+        }
+        if (statefulSets.end === statefulSets.total) {
+            setNextToken(null);
+        } else {
+            setNextToken(statefulSets.continueToken);
+        }
+    }, [statefulSets]);
 
     const onClickRow = (name) => {
         setStatefulSetName(name);
     }
 
-    useEffect(() => {
-        loadData();
-    }, [namespace]);
-
     return (
         <div>
-            <ControllerTable data={statefulSets} onClickRow={onClickRow} />
+            <ControllerTable
+                data={statefulSets}
+                onClickRow={onClickRow}
+                toPrevPage={toPrevPage}
+                toNextPage={toNextPage}
+                prevToken={prevToken}
+                nextToken={nextToken}
+            />
         </div>
     );
 };

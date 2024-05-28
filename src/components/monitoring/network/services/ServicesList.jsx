@@ -19,7 +19,7 @@ const ServicesList = ({ setService}) => {
     const loadData = () => {
         if (namespace === "All") {
             axios
-                .get(`/api/v1/cluster/${clusterId}/service`)
+                .get(`/api/v1/cluster/${clusterId}/network/service`)
                 .then((res) => {
                     setServices(res.data.data);
                 })
@@ -28,7 +28,7 @@ const ServicesList = ({ setService}) => {
                 })
         } else {
             axios
-                .get(`/api/v1/cluster/${clusterId}/service/namespace?namespace=${namespace}`)
+                .get(`/api/v1/cluster/${clusterId}/network/service/namespace?namespace=${namespace}`)
                 .then((res) => {
                     setServices(res.data.data);
                 })

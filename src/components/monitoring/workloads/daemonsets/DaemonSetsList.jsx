@@ -4,32 +4,60 @@ import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
 
 const DaemonSetsList = ({ setDaemonSetName }) => {
-    const [daemonSets, setDaemonSets] = useState();
+    const [daemonSets, setDaemonSets] = useState({});
+    const [prevToken, setPrevToken] = useState();
+    const [currToken, setCurrToken] = useState(" ");
+    const [nextToken, setNextToken] = useState();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
     const loadData = () => {
-        if (namespace === "All") {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/daemons`)
-                .then((res) => {
-                    setDaemonSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
+        const isNamespaceAll = namespace === "All";
+        const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
+        const baseUrl = `/api/v1/cluster/${clusterId}/workload/daemons`;
+
+        const url = isNamespaceAll
+            ? `${baseUrl}${tokenParam ? `?${tokenParam}` : ""}`
+            : `${baseUrl}/namespace?namespace=${namespace}${tokenParam ? `&${tokenParam}` : ""}`;
+
+        axios.get(url)
+            .then((res) => {
+                setDaemonSets(res.data.data);
             })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/daemons/namespace?namespace=${namespace}`)
-                .then((res) => {
-                    setDaemonSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        }
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const toPrevPage = () => {
+        setCurrToken(prevToken);
+    }
+
+    const toNextPage = () => {
+        setPrevToken(currToken);
+        setCurrToken(nextToken);
     }
 
     useEffect(() => {
+        const timer = setInterval(() => {
+            loadData();
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
         loadData();
-    }, [namespace]);
+    }, [namespace, currToken]);
+
+    useEffect(() => {
+        if (daemonSets.start === 1) {
+            setPrevToken(null);
+        }
+        if (daemonSets.end === daemonSets.total) {
+            setNextToken(null);
+        } else {
+            setNextToken(daemonSets.continueToken);
+        }
+    }, [daemonSets]);
 
     const onClickRow = (name) => {
         setDaemonSetName(name);
@@ -44,7 +72,14 @@ const DaemonSetsList = ({ setDaemonSetName }) => {
                 width: '79vw'
             }}
         >
-            <ControllerTable data={daemonSets} onClickRow={onClickRow} />
+            <ControllerTable
+                data={daemonSets}
+                onClickRow={onClickRow}
+                toPrevPage={toPrevPage}
+                toNextPage={toNextPage}
+                prevToken={prevToken}
+                nextToken={nextToken}
+            />
         </div>
     );
 };

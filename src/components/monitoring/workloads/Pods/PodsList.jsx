@@ -10,45 +10,43 @@ import Status from "../../../icon/Status.jsx";
 import UsageLineChart from "../../UsageLineChart.jsx";
 import MiniUsageChart from "../../MiniUsageChart.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
+import Button from "@mui/material/Button";
 
 const PodsList = ({ setPod }) => {
     const [podsData, setPodsData] = useState({totalUsage: [], pods: []});
+    const [prevToken, setPrevToken] = useState();
+    const [currToken, setCurrToken] = useState(" ");
+    const [nextToken, setNextToken] = useState();
 
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
 
     const loadData = () => {
-        if (namespace === "All") {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
+        const isNamespaceAll = namespace === "All";
+        const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
+        const baseUrl = `/api/v1/cluster/${clusterId}/workload/pods`;
+
+        const url = isNamespaceAll
+            ? `${baseUrl}${tokenParam ? `?${tokenParam}` : ""}`
+            : `${baseUrl}/namespace?namespace=${namespace}${tokenParam ? `&${tokenParam}` : ""}`;
+
+        axios.get(url)
+            .then((res) => {
+                setPodsData(res.data.data);
             })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        }
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const toPrevPage = () => {
+        setCurrToken(prevToken);
+    }
+
+    const toNextPage = () => {
+        setPrevToken(currToken);
+        setCurrToken(nextToken);
     }
 
     useEffect(() => {
@@ -60,7 +58,18 @@ const PodsList = ({ setPod }) => {
 
     useEffect(() => {
         loadData();
-    }, [namespace]);
+    }, [namespace, currToken]);
+
+    useEffect(() => {
+        if (podsData.start === 1) {
+            setPrevToken(null);
+        }
+        if (podsData.end === podsData.total) {
+            setNextToken(null);
+        } else {
+            setNextToken(podsData.continueToken);
+        }
+    }, [podsData]);
 
     return (
         <div
@@ -81,15 +90,15 @@ const PodsList = ({ setPod }) => {
             >
                 <UsageLineChart
                     title="CPU Usage"
-                    data={podsData.totalUsage.map(i => i.cpuUsage)}
-                    time={podsData.totalUsage.map(i => i.time)}
+                    data={podsData.totalUsage.map(i => i ? i.cpuUsage : 0)}
+                    time={podsData.totalUsage.map(i => i ? i.time : '-')}
                     color="#f8fc00"
                     yAxis="CPU(cores)"
                 />
                 <UsageLineChart
                     title="Memory Usage"
-                    data={podsData.totalUsage.map(i => i.memoryUsage/(10 ** 6))}
-                    time={podsData.totalUsage.map(i => i.time)}
+                    data={podsData.totalUsage.map(i => i ? i.memoryUsage/(10 ** 6): 0)}
+                    time={podsData.totalUsage.map(i => i ? i.time : '-')}
                     color="#00bbff"
                     yAxis="Memory(bytes)"
                     yFormat={(value) => value.toFixed(1).toString() + "Mi"}
@@ -220,10 +229,16 @@ const PodsList = ({ setPod }) => {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.cpuUsage)} color1="#f8fc00" color2="#b0b300"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                                                            color1="#f8fc00" color2="#b0b300"
+                                                            min={0} usage={(pod.usage.cpuUsage * 10 ** 3).toFixed(2) + "m"}
+                                            />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.memoryUsage)} color1="#00bbff" color2="#00729c"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
+                                                            color1="#00bbff" color2="#00729c"
+                                                            min={0} usage={(pod.usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi"}
+                                            />
                                         </TableCell>
                                         <TableCell
                                             align="center"
@@ -235,6 +250,28 @@ const PodsList = ({ setPod }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    {prevToken && nextToken && <div className="page-buttons"
+                          style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "10px"
+                          }}
+                    >
+                        <Button
+                            onClick={toPrevPage}
+                            disabled={!prevToken}
+                        >
+                            <img style={{width: "30px", opacity: prevToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
+                        </Button>
+                        <Button
+                            onClick={toNextPage}
+                            disabled={!nextToken}
+                        >
+                            <img style={{width: "30px", opacity: nextToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-right.svg" alt="to next page button"/>
+                        </Button>
+                    </div>}
                 </div>
             </div>
         </div>

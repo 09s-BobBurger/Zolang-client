@@ -4,42 +4,76 @@ import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
 
 const DeploymentsList = ({ setDeploymentName }) => {
-    const [deployments, setDeployments] = useState([]);
+    const [deployments, setDeployments] = useState({});
+    const [prevToken, setPrevToken] = useState();
+    const [currToken, setCurrToken] = useState(" ");
+    const [nextToken, setNextToken] = useState();
+
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
 
     const loadData = () => {
-        if (namespace === 'All') {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/deployments`)
-                .then((res) => {
-                    setDeployments(res.data.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/deployments/namespace?namespace=${namespace}`)
-                .then(res => {
-                    setDeployments(res.data.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
+        const isNamespaceAll = namespace === "All";
+        const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
+        const baseUrl = `/api/v1/cluster/${clusterId}/workload/deployments`;
+
+        const url = isNamespaceAll
+            ? `${baseUrl}${tokenParam ? `?${tokenParam}` : ""}`
+            : `${baseUrl}/namespace?namespace=${namespace}${tokenParam ? `&${tokenParam}` : ""}`;
+
+        axios.get(url)
+            .then((res) => {
+                setDeployments(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const toPrevPage = () => {
+        setCurrToken(prevToken);
+    }
+
+    const toNextPage = () => {
+        setPrevToken(currToken);
+        setCurrToken(nextToken);
     }
 
     useEffect(() => {
+        const timer = setInterval(() => {
+            loadData();
+        }, 60000);
+        return () => clearInterval(timer);
+    }, []);
+
+    useEffect(() => {
         loadData();
-    }, [namespace]);
+    }, [namespace, currToken]);
+
+    useEffect(() => {
+        if (deployments.start === 1) {
+            setPrevToken(null);
+        }
+        if (deployments.end === deployments.total) {
+            setNextToken(null);
+        } else {
+            setNextToken(deployments.continueToken);
+        }
+    }, [deployments]);
 
     const onClickRow = (deploymentName) => {
         setDeploymentName(deploymentName);
     }
     return (
         <div>
-            <ControllerTable data={deployments} onClickRow={onClickRow} />
+            <ControllerTable
+                data={deployments}
+                onClickRow={onClickRow}
+                toPrevPage={toPrevPage}
+                toNextPage={toNextPage}
+                prevToken={prevToken}
+                nextToken={nextToken}
+            />
         </div>
     );
 };
