@@ -166,6 +166,25 @@ function TokenFooter(props) {
                     </Typography>
                     <Typography style={{ margin: '8px', color: 'white' }}>
                         Version: {version}
+                        {version &&
+                            <Button
+                                onClick={onClickCheckVersion}
+                                sx={{
+                                    width: 30,
+                                    height: 30,
+                                    minWidth: 30,
+                                    minHeight: 30,
+                                    padding: 0,
+                                    margin: '10px',
+                                    '&:hover': {
+                                        outline: '1.5px solid #ffffff', // You can customize the color and width
+                                        outlineOffset: '2px',
+                                    },
+                                }}
+                            >
+                                <img width="25px" src="../../../reload.svg" alt="reload version" />
+                            </Button>
+                        }
                     </Typography>
                     <TextField
                         error={tokenError}

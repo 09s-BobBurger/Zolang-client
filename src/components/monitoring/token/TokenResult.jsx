@@ -13,7 +13,7 @@ function TokenResult(props) {
     }, [])
 
     return (
-        <div style={{width: "80vw", marginLeft: "25px"}}>
+        <div style={{width: "80vw", marginLeft: "25px", marginTop: "25px"}}>
             <span style={{
                     fontSize: "34px",
                     color: "#ffffff",
