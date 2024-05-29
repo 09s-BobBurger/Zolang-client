@@ -55,7 +55,6 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.cpuCapacity}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={4}
                                 />
                                 <Chart
@@ -75,7 +74,6 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.memoryCapacity}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={2}
                                 />
                                 <Chart
@@ -95,7 +93,6 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.podCapacity}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={0}
                                 />
                             </div>

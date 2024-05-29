@@ -245,7 +245,6 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                     ]}
                                     fullValue={usage.capacityCpu}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={1}
                                 />
                                 <Chart
@@ -265,7 +264,6 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                     ]}
                                     fullValue={usage.capacityMemory}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={2}
                                 />
                                 <Chart
@@ -281,7 +279,6 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                     ]}
                                     fullValue={usage.capacityPod}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={3}
                                 />
                             </div>

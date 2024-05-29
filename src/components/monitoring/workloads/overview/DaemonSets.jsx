@@ -6,28 +6,22 @@ import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 function DaemonSets(props) {
-    const [daemonSet, setDaemonSets] = useState([]);
+    const [daemonSet, setDaemonSets] = useState({});
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
 
     const loadData = () => {
-        if (namespace === "All") {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/daemons`)
-                .then((res) => {
-                    setDaemonSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
+        const url = namespace === 'All' 
+            ? `/api/v1/cluster/${clusterId}/workload/daemons` 
+            : `/api/v1/cluster/${clusterId}/workload/daemons/namespace?namespace=${namespace}`;
+        
+        axios.get(url)
+            .then((res) => {
+                setDaemonSets(res.data.data.controllers || []);
             })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/daemons/namespace?namespace=${namespace}`)
-                .then((res) => {
-                    setDaemonSets(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        }
+            .catch((err) => {
+                console.error(err);
+            });
     }
 
     useEffect(() => {
@@ -38,7 +32,10 @@ function DaemonSets(props) {
         loadData();
     }, [namespace]);
 
-    return <TableForm data={daemonSet} title="DaemonSets" />;
+    return (
+        daemonSet?.length > 0 ?
+        <TableForm data={daemonSet} title="DaemonSets" /> : null
+    );
 }
 
 export default DaemonSets;
