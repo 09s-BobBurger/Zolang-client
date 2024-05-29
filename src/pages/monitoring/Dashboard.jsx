@@ -62,7 +62,7 @@ const Dashboard = () => {
                 overflow: "auto",
             }}
         >
-            <MonitoringNav items={category} currentMenu={currentMenu} namespace={namespace} />
+            <MonitoringNav items={category} currentMenu={currentMenu} namespaces={namespaces} />
             <div className="monitoring-content">
                 <p className="title">
                     {currentMenu.charAt(0).toUpperCase() + currentMenu.slice(1)}
