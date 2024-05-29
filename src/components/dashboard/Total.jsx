@@ -4,27 +4,35 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { customizedAxios as axios } from "../../util/customizedAxios.js";
+
 function total(props) {
-    const [period, setPeriod] = React.useState("");
-    const [listValue, setListValue] = useState({
-        cpu: 700,
-        maxCpu: 1000,
-        memory: 600,
-        maxMemory: 1500,
-        pods: 800,
-        maxPods: 1000,
-        total: 0,
-    });
+    const [period, setPeriod] = React.useState(0);
+    const [value, setValue] = useState({});
 
     useEffect(() => {
-        setListValue((prevState) => ({
-            ...prevState,
-            total: prevState.cpu + prevState.memory + prevState.pods,
-        }));
-    }, [listValue.cpu, listValue.memory, listValue.pods]);
+        loadData();
+    }, []);
+
+    const loadData = () => {
+        const url =
+            period === 0
+                ? "/api/v1/user/dashboard/usage"
+                : "/api/v1/user/dashboard/usage/average";
+
+        axios
+            .get(url)
+            .then((res) => {
+                setValue(res.data.data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
 
     const handleChange = (event) => {
         setPeriod(event.target.value);
+        loadData();
     };
     return (
         <div
@@ -33,7 +41,8 @@ function total(props) {
                 outline: "1px solid #ABAFBD",
                 borderRadius: "10px",
                 background: "#2E3240",
-                height: "100%"
+                height: "100%",
+                overflow: "auto",
             }}
         >
             <div
@@ -42,7 +51,7 @@ function total(props) {
                     justifyContent: "space-between",
                     display: "flex",
                     borderBottom: "1px solid #474B59",
-                    paddingBottom: "12px"
+                    paddingBottom: "12px",
                 }}
             >
                 <span
@@ -79,56 +88,93 @@ function total(props) {
                             padding: 0,
                         }}
                     >
-                        <MenuItem value={7}>Last 7 days</MenuItem>
-                        <MenuItem value={30}>Last 30 days</MenuItem>
+                        <MenuItem value={0}>Now</MenuItem>
+                        <MenuItem value={1}>Last 1 day</MenuItem>
                     </Select>
                 </FormControl>
             </div>
-            <div style={{ display: "flex" }}>
-                <div
-                    className="scroll-container"
-                    style={{
-                        display: "flex",
-                        textAlign: "center",
-                        flex: 8,
-                        overflow: "auto",
-                    }}
-                >
-                    <div style={{ width: "1vw" }}></div>
-                    <div style={{ flex: 3 }}>
-                        <PieChart
-                            color="#019CF6"
-                            value={listValue.cpu}
-                            max={listValue.maxCpu}
-                        />
-                        <span style={{ color: "#ffffff", fontSize: "12px" }}>
-                            CPU
-                        </span>
+            <div>
+                {value ? (
+                    <div
+                        className="scroll-container"
+                        style={{
+                            display: "flex",
+                            textAlign: "center",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                        }}
+                    >
+                        <div>
+                            <PieChart
+                                color="#019CF6"
+                                value={value.cpuUsage ? value.cpuUsage : 0}
+                                max={
+                                    value.cpuAllocatable
+                                        ? value.cpuAllocatable
+                                        : 0
+                                }
+                            />
+                            <span
+                                style={{
+                                    color: "#ffffff",
+                                    fontSize: "12px",
+                                }}
+                            >
+                                CPU
+                            </span>
+                        </div>
+                        <div>
+                            <PieChart
+                                color="#FFD600"
+                                value={
+                                    value.memoryUsage ? value.memoryUsage : 0
+                                }
+                                max={
+                                    value.memoryAllocatable
+                                        ? value.memoryAllocatable
+                                        : 0
+                                }
+                            />
+                            <span
+                                style={{
+                                    color: "#ffffff",
+                                    fontSize: "12px",
+                                }}
+                            >
+                                Memory
+                            </span>
+                        </div>
+                        <div>
+                            <PieChart
+                                color="#FF824D"
+                                value={value.podUsage ? value.podUsage : 0}
+                                max={
+                                    value.podAllocatable
+                                        ? value.podAllocatable
+                                        : 0
+                                }
+                            />
+                            <span
+                                style={{
+                                    color: "#ffffff",
+                                    fontSize: "12px",
+                                }}
+                            >
+                                Pods
+                            </span>
+                        </div>
                     </div>
-                    <div style={{ width: "1vw" }}></div>
-                    <div style={{ flex: 3 }}>
-                        <PieChart
-                            color="#FFD600"
-                            value={listValue.memory}
-                            max={listValue.maxMemory}
-                        />
-                        <span style={{ color: "#ffffff", fontSize: "12px" }}>
-                            Memory
-                        </span>
+                ) : (
+                    <div
+                        style={{
+                            textAlign: "-webkit-center",
+                            paddingTop: "10px",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <img src="텅.svg" width="80px" alt="이미지" />
                     </div>
-                    <div style={{ width: "1vw" }}></div>
-                    <div style={{ flex: 3 }}>
-                        <PieChart
-                            color="#FF824D"
-                            value={listValue.pods}
-                            max={listValue.maxPods}
-                        />
-                        <span style={{ color: "#ffffff", fontSize: "12px" }}>
-                            Pods
-                        </span>
-                    </div>
-                    <div style={{ width: "1vw" }}></div>
-                </div>
+                )}
             </div>
             <br />
         </div>

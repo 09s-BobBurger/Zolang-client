@@ -168,9 +168,8 @@ function FormToYamlFooter(props) {
                                 },
                             }
                         )
-                        .then((r) => {
-                            console.log(r);
-                            if (r.data !== "true" || r.success != "true") {
+                        .then((res) => {
+                            if (res.data.data !== "true" && res.data.success != "true"){
                                 props.setIsPushFailModalOpen(true);
                             } else {
                                 setIsExpanded(false);

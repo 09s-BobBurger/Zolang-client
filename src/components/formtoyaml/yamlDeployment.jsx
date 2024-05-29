@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import AddButton from './AddButton.jsx'
 import DeleteButton from "./DeleteButton.jsx";
 import Accordion from './Accordion.jsx';

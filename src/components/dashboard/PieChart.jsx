@@ -5,8 +5,8 @@ import theme from './theme';
 
 function PieChart(props) {
     const [settings, setSettings] = useState({
-        width: 180,
-        height: 180,
+        width: 165,
+        height: 165,
         value: 0,
         valueMax: 100,
         color: "#000000",
@@ -33,13 +33,14 @@ function PieChart(props) {
         }
     }, [props.value, props.max, props.color]);
 
+    
     return (
         <div style={{ position: "relative" }}>
             <Gauge theme={theme(settings.color)}
                 {...settings}
                 sx={(theme) => ({
                     [`& .${gaugeClasses.valueText}`]: {
-                        fontSize: 24,
+                        fontSize: 22,
                     },
                     [`& .${gaugeClasses.valueArc}`]: {
                         fill: settings.color,
