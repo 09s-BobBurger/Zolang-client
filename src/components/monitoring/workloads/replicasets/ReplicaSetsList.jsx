@@ -22,7 +22,7 @@ const ReplicaSetsList = ({ setSelectedReplica }) => {
 
         axios.get(url)
             .then((res) => {
-                setReplicaSets(res.data.data);
+                setReplicaSets(res.data.data ? res.data.data : {});
             })
             .catch((err) => {
                 console.log(err);

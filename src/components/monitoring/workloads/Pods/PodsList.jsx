@@ -33,7 +33,7 @@ const PodsList = ({ setPod }) => {
 
         axios.get(url)
             .then((res) => {
-                setPodsData(res.data.data);
+                setPodsData(res.data.data ? res.data.data : {});
             })
             .catch((err) => {
                 console.log(err);

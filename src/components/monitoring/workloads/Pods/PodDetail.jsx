@@ -11,7 +11,6 @@ import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from '@mui/material/Button';
 import UsageLineChart from "../../UsageLineChart.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
@@ -620,7 +619,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             </div>
                         </div>
                     </div>
-                    <div>
+                    {pod.container.env && <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Environment Variable
                         </Typography>
@@ -649,7 +648,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 </Typography>
                             </div>
                         </div>
-                    </div>
+                    </div>}
                     <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Factor
@@ -699,7 +698,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {pod.container.mount.map((item, index) => (
+                                    {pod.container.mount && pod.container.mount.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{item.name}</TableCell>
                                             <TableCell align="center">
