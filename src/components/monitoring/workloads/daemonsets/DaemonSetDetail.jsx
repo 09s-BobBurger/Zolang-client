@@ -12,7 +12,8 @@ const DaemonSetDetail = ({ daemonSetName, initDaemonSet }) => {
     useEffect(() => {
         axios
             .get(
-                `/api/v1/cluster/${clusterId}/workload/daemons/${daemonSetName}`)
+                `/api/v1/cluster/${clusterId}/workload/daemons/${daemonSetName}?namespace=${namespace}`,
+            )
             .then((res) => {
                 setDaemonSet(res.data.data);
             })

@@ -60,7 +60,7 @@ const PodDetail = ({ podName, initPod}) => {
     const loadData = () => {
         axios
             .get(
-                `/api/v1/cluster/${clusterId}/workload/pods/${podName}`)
+                `/api/v1/cluster/${clusterId}/workload/pods/${podName}?namespace=${namespace}`)
             .then((res) => {
                 setPod(res.data.data);
             })

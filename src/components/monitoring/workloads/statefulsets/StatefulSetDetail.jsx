@@ -11,7 +11,7 @@ const StatefulSetDetail = ({ statefulSetName, initStatefulSet }) => {
 
     useEffect(() => {
         axios
-            .get(`/api/v1/cluster/${clusterId}/workload/statefuls/${statefulSetName}`)
+            .get(`/api/v1/cluster/${clusterId}/workload/statefuls/${statefulSetName}?namespace=${namespace}`)
             .then((res) => {
                 setStatefulSet(res.data.data);
             })

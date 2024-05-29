@@ -10,7 +10,7 @@ const ReplicaSetDetail = ({ replicaSetName, initReplicaSet}) => {
 
     useEffect(() => {
         axios
-            .get(`/api/v1/cluster/${clusterId}/workload/replicas/${replicaSetName}`)
+            .get(`/api/v1/cluster/${clusterId}/workload/replicas/${replicaSetName}?namespace=${namespace}`)
             .then((res) => {
                 setReplicaSet(res.data.data);
             })

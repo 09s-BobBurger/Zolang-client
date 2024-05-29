@@ -11,7 +11,7 @@ const DeploymentDetail = ({ deploymentName, initDeployment}) => {
 
     useEffect(() => {
         axios
-            .get(`/api/v1/cluster/${clusterId}/workload/deployments/${deploymentName}`)
+            .get(`/api/v1/cluster/${clusterId}/workload/deployments/${deploymentName}?namespace=${namespace}`)
             .then((res) => {
                 setDeployment(res.data.data);
             })
