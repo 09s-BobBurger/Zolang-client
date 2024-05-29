@@ -6,7 +6,7 @@ import {useLocation} from "react-router-dom";
 const DaemonSets = () => {
     const initDaemonSetName = useLocation().state ? useLocation().state.name : null;
     const initDaemonSetNamespace = useLocation().state ? useLocation().state.namespace: null;
-    const [selectedDaemon, setSelectedDaemon] = useState([initDaemonSetName, initDaemonSetNamespace]);
+    const [selectedDaemon, setSelectedDaemon] = useState(initDaemonSetName && initDaemonSetNamespace ? [initDaemonSetName, initDaemonSetNamespace] : null);
 
     const initDaemonSet = () => {
         setSelectedDaemon(null);

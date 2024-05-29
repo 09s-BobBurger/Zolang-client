@@ -6,7 +6,7 @@ import {useLocation} from "react-router-dom";
 const Deployments = () => {
     const initDeploymentName = useLocation().state ? useLocation().state.name : null;
     const initDeploymentNamespace = useLocation().state ? useLocation().state.namespace: null;
-    const [selectedDeployment, setSelectedDeployment] = useState(initDeploymentName);
+    const [selectedDeployment, setSelectedDeployment] = useState(initDeploymentName && initDeploymentNamespace ? [initDeploymentName, initDeploymentNamespace] : null);
 
     const initDeployment = () => {
         setSelectedDeployment(null);

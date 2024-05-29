@@ -6,7 +6,7 @@ import {useLocation} from "react-router-dom";
 const Pods = () => {
     const initPodName = useLocation().state ? useLocation().state.name : null;
     const initPodNamespace = useLocation().state ? useLocation().state.namespace : null;
-    const [selectedPod, setSelectedPod] = useState([initPodName, initPodNamespace]);
+    const [selectedPod, setSelectedPod] = useState(initPodName && initPodNamespace ? [initPodName, initPodNamespace] : null);
 
     const initPod = () => {
         setSelectedPod(null);

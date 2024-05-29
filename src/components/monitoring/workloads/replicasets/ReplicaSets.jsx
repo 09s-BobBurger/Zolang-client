@@ -6,7 +6,7 @@ import {useLocation} from "react-router-dom";
 const ReplicaSets = () => {
     const initReplicaSetName = useLocation().state ? useLocation().state.name : null;
     const initReplicaSetNamespace = useLocation().state ? useLocation().state.namespace : null;
-    const [selectedReplica, setSelectedReplica] = useState([initReplicaSetName, initReplicaSetNamespace]);
+    const [selectedReplica, setSelectedReplica] = useState(initReplicaSetName && initReplicaSetNamespace ? [initReplicaSetName, initReplicaSetNamespace] : null);
 
     const initReplicaSet = () => {
         setSelectedReplica(null);
