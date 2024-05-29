@@ -119,15 +119,15 @@ const PodDetail = ({ selectedPod, initPod}) => {
                 >
                     <UsageLineChart
                         title="CPU Usage"
-                        data={pod.metrics.map(i => i.cpuUsage)}
-                        time={pod.metrics.map(i => i.time)}
+                        data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                        time={pod.metrics.map(i => i ? i.time : '-')}
                         color="#f8fc00"
                         yAxis="CPU(cores)"
                     />
                     <UsageLineChart
                         title="Memory Usage"
-                        data={pod.metrics.map(i => i.memoryUsage / (10 ** 6))}
-                        time={pod.metrics.map(i => i.time)}
+                        data={pod.metrics.map(i => i ? i.memoryUsage / (10 ** 6) : 0)}
+                        time={pod.metrics.map(i => i ? i.time : '-')}
                         color="#00bbff"
                         yAxis="Memory(bytes)"
                         yFormat={(value) => value.toFixed(1).toString() + "Mi"}
