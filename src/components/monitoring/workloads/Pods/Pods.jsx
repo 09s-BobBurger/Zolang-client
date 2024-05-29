@@ -5,7 +5,8 @@ import {useLocation} from "react-router-dom";
 
 const Pods = () => {
     const initPodName = useLocation().state ? useLocation().state.name : null;
-    const [selectedPod, setSelectedPod] = useState(initPodName);
+    const initPodNamespace = useLocation().state ? useLocation().state.namespace : null;
+    const [selectedPod, setSelectedPod] = useState([initPodName, initPodNamespace]);
 
     const initPod = () => {
         setSelectedPod(null);
@@ -13,7 +14,7 @@ const Pods = () => {
 
     return (
         <div className="overview-content">
-            {selectedPod ? <PodDetail podName={selectedPod} initPod={initPod} /> : <PodsList setPod={setSelectedPod} />}
+            {selectedPod ? <PodDetail selectedPod={selectedPod} initPod={initPod} /> : <PodsList setPod={setSelectedPod} />}
         </div>
     );
 };

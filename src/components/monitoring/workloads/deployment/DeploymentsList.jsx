@@ -61,8 +61,8 @@ const DeploymentsList = ({ setDeploymentName }) => {
         }
     }, [deployments]);
 
-    const onClickRow = (deploymentName) => {
-        setDeploymentName(deploymentName);
+    const onClickRow = (data) => {
+        setDeploymentName(data);
     }
     return (
         <div>

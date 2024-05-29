@@ -3,7 +3,7 @@ import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import ControllerTable from "../ControllerTable.jsx";
 import {useSelector} from "react-redux";
 
-const ReplicaSetsList = ({ setReplicaSetName }) => {
+const ReplicaSetsList = ({ setSelectedReplica }) => {
     const [replicaSets, setReplicaSets] = useState({});
     const [prevToken, setPrevToken] = useState();
     const [currToken, setCurrToken] = useState(" ");
@@ -60,8 +60,8 @@ const ReplicaSetsList = ({ setReplicaSetName }) => {
         }
     }, [replicaSets]);
 
-    const onClickRow = (name) => {
-        setReplicaSetName(name);
+    const onClickRow = (data) => {
+        setSelectedReplica(data);
     }
 
     return (

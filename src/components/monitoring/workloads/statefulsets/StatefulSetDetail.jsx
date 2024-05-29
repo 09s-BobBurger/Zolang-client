@@ -4,14 +4,14 @@ import {useSelector} from "react-redux";
 import ControllerDetail from "../ControllerDetail.jsx";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
-const StatefulSetDetail = ({ statefulSetName, initStatefulSet }) => {
+const StatefulSetDetail = ({ selectedStateful, initStatefulSet }) => {
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
     const [statefulSet, setStatefulSet] = useState();
 
     useEffect(() => {
         axios
-            .get(`/api/v1/cluster/${clusterId}/workload/statefuls/${statefulSetName}?namespace=${namespace}`)
+            .get(`/api/v1/cluster/${clusterId}/workload/statefuls/${selectedStateful[0]}?namespace=${selectedStateful[1]}`)
             .then((res) => {
                 setStatefulSet(res.data.data);
             })

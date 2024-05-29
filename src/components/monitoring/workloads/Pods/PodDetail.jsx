@@ -52,7 +52,7 @@ const titleStyle = {
     fontSize: "1.6rem"
 }
 
-const PodDetail = ({ podName, initPod}) => {
+const PodDetail = ({ selectedPod, initPod}) => {
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
     const [pod, setPod] = useState();
@@ -60,7 +60,7 @@ const PodDetail = ({ podName, initPod}) => {
     const loadData = () => {
         axios
             .get(
-                `/api/v1/cluster/${clusterId}/workload/pods/${podName}?namespace=${namespace}`)
+                `/api/v1/cluster/${clusterId}/workload/pods/${selectedPod[0]}?namespace=${selectedPod[1]}`)
             .then((res) => {
                 setPod(res.data.data);
             })

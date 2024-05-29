@@ -190,7 +190,7 @@ const PodsList = ({ setPod }) => {
                                     <TableRow
                                         key={pod.name}
                                         onClick={() =>
-                                            setPod(pod.name)
+                                            setPod([pod.name, pod.namespace])
                                         }
                                         sx={{
                                             "&:last-child td, &:last-child th":

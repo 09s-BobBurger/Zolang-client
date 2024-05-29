@@ -111,7 +111,7 @@ function Pods(props) {
                                     <TableRow
                                         key={pod.name}
                                         onClick={() => {
-                                            navigate('workloads/pods', { state: { name : pod.name } })
+                                            navigate('workloads/pods', { state: { name : pod.name, namespace: pod.namespace } })
                                         }}
                                         sx={{
                                             "&:last-child td, &:last-child th":

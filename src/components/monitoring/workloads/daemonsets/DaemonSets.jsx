@@ -5,20 +5,21 @@ import {useLocation} from "react-router-dom";
 
 const DaemonSets = () => {
     const initDaemonSetName = useLocation().state ? useLocation().state.name : null;
-    const [daemonSetName, setDaemonSetName] = useState(initDaemonSetName);
+    const initDaemonSetNamespace = useLocation().state ? useLocation().state.namespace: null;
+    const [selectedDaemon, setSelectedDaemon] = useState([initDaemonSetName, initDaemonSetNamespace]);
 
     const initDaemonSet = () => {
-        setDaemonSetName(null);
+        setSelectedDaemon(null);
     }
 
     return (
         <div>
-            {daemonSetName ? <DaemonSetDetail
-                daemonSetName={daemonSetName}
+            {selectedDaemon ? <DaemonSetDetail
+                    selectedDaemon={selectedDaemon}
                 initDaemonSet={initDaemonSet}/>
             :
                 <DaemonSetsList
-                    setDaemonSetName={setDaemonSetName}
+                    setSelectedDaemon={setSelectedDaemon}
                 />
             }
         </div>

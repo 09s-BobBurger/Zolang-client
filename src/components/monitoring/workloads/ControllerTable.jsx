@@ -85,7 +85,7 @@ const ControllerTable = ({data, onClickRow, toPrevPage, toNextPage, prevToken, n
                                 <TableRow
                                     key={item.name}
                                     onClick={() => {
-                                        if (onClickRow) onClickRow(item.name)
+                                        if (onClickRow) onClickRow([item.name, item.namespace])
                                     }}
                                     sx={{
                                         "&:last-child td, &:last-child th":

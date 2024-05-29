@@ -59,8 +59,8 @@ const StatefulSetsList = ({ setStatefulSetName }) => {
         }
     }, [statefulSets]);
 
-    const onClickRow = (name) => {
-        setStatefulSetName(name);
+    const onClickRow = (data) => {
+        setStatefulSetName(data);
     }
 
     return (

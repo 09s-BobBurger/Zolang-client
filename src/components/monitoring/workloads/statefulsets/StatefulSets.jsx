@@ -5,18 +5,19 @@ import StatefulSetDetail from "./StatefulSetDetail.jsx";
 
 const StatefulSets = () => {
     const initStatefulSetName = useLocation().state ? useLocation().state.name : null;
-    const [statefulSetName, setStatefulSetName] = useState(initStatefulSetName);
+    const initStatefulSetNamespace = useLocation().state ? useLocation().state.namespace : null;
+    const [selectedStateful, setSelectedStateful] = useState([initStatefulSetName, initStatefulSetNamespace]);
 
     const initStatefulSet = () => {
-        setStatefulSetName(null);
+        setSelectedStateful(null);
     }
 
     return (
         <div>
-            {statefulSetName ?
-                <StatefulSetDetail statefulSetName={statefulSetName} initStatefulSet={initStatefulSet} />
+            {selectedStateful ?
+                <StatefulSetDetail selectedStateful={selectedStateful} initStatefulSet={initStatefulSet} />
                 :
-                <StatefulSetsList setStatefulSetName={setStatefulSetName} />
+                <StatefulSetsList setSelectedStateful={setSelectedStateful} />
             }
         </div>
     );

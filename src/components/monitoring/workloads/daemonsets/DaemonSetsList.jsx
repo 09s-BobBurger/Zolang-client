@@ -59,8 +59,8 @@ const DaemonSetsList = ({ setDaemonSetName }) => {
         }
     }, [daemonSets]);
 
-    const onClickRow = (name) => {
-        setDaemonSetName(name);
+    const onClickRow = (data) => {
+        setDaemonSetName(data);
     }
 
     return (

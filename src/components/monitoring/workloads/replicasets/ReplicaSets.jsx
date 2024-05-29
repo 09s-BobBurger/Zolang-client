@@ -5,17 +5,18 @@ import {useLocation} from "react-router-dom";
 
 const ReplicaSets = () => {
     const initReplicaSetName = useLocation().state ? useLocation().state.name : null;
-    const [replicaSetName, setReplicaSetName] = useState(initReplicaSetName);
+    const initReplicaSetNamespace = useLocation().state ? useLocation().state.namespace : null;
+    const [selectedReplica, setSelectedReplica] = useState([initReplicaSetName, initReplicaSetNamespace]);
 
     const initReplicaSet = () => {
-        setReplicaSetName(null);
+        setSelectedReplica(null);
     }
 
     return (
         <div>
-            {replicaSetName ?
-                <ReplicaSetDetail replicaSetName={replicaSetName} initReplicaSet={initReplicaSet} />
-                : <ReplicaSetsList setReplicaSetName={setReplicaSetName} />}
+            {selectedReplica ?
+                <ReplicaSetDetail selectedReplica={selectedReplica} initReplicaSet={initReplicaSet} />
+                : <ReplicaSetsList setSelectedReplica={setSelectedReplica} />}
         </div>
     );
 };

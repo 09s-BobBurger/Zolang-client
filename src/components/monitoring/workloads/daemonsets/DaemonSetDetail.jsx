@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import ControllerDetail from "../ControllerDetail.jsx";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
-const DaemonSetDetail = ({ daemonSetName, initDaemonSet }) => {
+const DaemonSetDetail = ({ selectedDaemon, initDaemonSet }) => {
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
     const [daemonSet, setDaemonSet] = useState();
@@ -12,7 +12,7 @@ const DaemonSetDetail = ({ daemonSetName, initDaemonSet }) => {
     useEffect(() => {
         axios
             .get(
-                `/api/v1/cluster/${clusterId}/workload/daemons/${daemonSetName}?namespace=${namespace}`,
+                `/api/v1/cluster/${clusterId}/workload/daemons/${selectedDaemon[0]}?namespace=${selectedDaemon[1]}`,
             )
             .then((res) => {
                 setDaemonSet(res.data.data);
