@@ -37,7 +37,7 @@ const Dashboard = () => {
         }
         // axios로 namespace들을 불러와 앞에 All을 삽입할 것
         axios
-            .get(`/api/v1/namespace/${clusterId}/namespace`)
+            .get(`/api/v1/namespace/${clusterId}`)
             .then((response) => {
                 setSubCategories(["All", ...Object.values(response.data.data)]);
             })
