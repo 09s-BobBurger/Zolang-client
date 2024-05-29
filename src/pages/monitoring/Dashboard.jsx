@@ -20,8 +20,7 @@ const Dashboard = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const clusterId = useSelector((state) => state.cluster.clusterId);
-    const dispatch = useDispatch();
-    const [subCategories, setSubCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState(["All"]);
     const [currentMenu, setCurrentMenu] = useState("");
     const pathName = location.pathname.replace("%20", " ");
     const category = [
@@ -40,7 +39,7 @@ const Dashboard = () => {
         axios
             .get(`/api/v1/namespace/${clusterId}/namespace`)
             .then((response) => {
-                setSubCategories(response.data.data);
+                setSubCategories(["All", ...response.data.data]);
             })
             .catch((error) => {
                 console.error("Error fetching sub categories:", error);
