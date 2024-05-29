@@ -39,7 +39,7 @@ const Dashboard = () => {
         axios
             .get(`/api/v1/namespace/${clusterId}/namespace`)
             .then((response) => {
-                setSubCategories(["All", ...response.data.data]);
+                setSubCategories(["All", ...Object.values(response.data.data)]);
             })
             .catch((error) => {
                 console.error("Error fetching sub categories:", error);
