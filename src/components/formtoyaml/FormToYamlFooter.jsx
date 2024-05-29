@@ -74,23 +74,23 @@ function FormToYamlFooter(props) {
 
     const [commitMessageError, setCommitMessageError] = useState(false);
     const [fileNameError, setFileNameError] = useState(false);
-    const [email, setEmail] = useState();
-    const [name, setName] = useState();
+    const [userEmail, setUserEmail] = useState();
+    const [userName, setUserName] = useState();
 
-    useEffect(()=>{
-        axios.get('/api/v1/user',{
+    const setting = () =>{
+        axios.get('/api/v1/users',{
             headers: {
                 Authorization: "Bearer " + loginUtil.getAccessToken(),
             },
         })
         .then((res) => {
-            setEmail(res.data.email);
-            setName(res.data.nickname);
+            setUserEmail(res.data.data.email);
+            setUserName(res.data.data.nickname);
         })
         .catch((err) => {
             console.log(err);
         });
-    })
+    }
 
     useEffect(() => {
         axios
@@ -138,6 +138,7 @@ function FormToYamlFooter(props) {
     };
 
     const onClickPush = () => {
+        setting();
         if (loginUtil.checkLogin()) {
             if (isExpanded) {
                 if (
@@ -151,8 +152,8 @@ function FormToYamlFooter(props) {
                         .put(
                             `/api/v1/github/commits?repoName=${repository}&branchName=${branch}`,
                             {
-                                committer_name: name,
-                                committer_email: email,
+                                committer_name: userName,
+                                committer_email: userEmail,
                                 file_name: fileName.endsWith(".yaml")
                                     ? fileName
                                     : fileName + ".yaml",

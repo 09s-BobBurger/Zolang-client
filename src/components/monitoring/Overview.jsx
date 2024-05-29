@@ -36,7 +36,7 @@ const Overview = (data) => {
                         width: "77vw",
                         }}
                     >
-                        {usage && (
+                        {usage != null && (
                             <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap"}}>
                                 <Chart
                                     title="CPU"
@@ -51,12 +51,11 @@ const Overview = (data) => {
                                         },
                                         {
                                             name: "Usage",
-                                            value: usage.cpuUsage,
+                                            value: usage.cpuUsage? usage.cpuUsage: 0,
                                         },
                                     ]}
                                     fullValue={usage.cpuCapacity}
-                                    colors={["#019CF6", "#256CD6"]}
-                                    number={1}
+                                    number={4}
                                 />
                                 <Chart
                                     title="Memory"
@@ -71,11 +70,10 @@ const Overview = (data) => {
                                         },
                                         {
                                             name: "Usage",
-                                            value: usage.memoryUsage,
+                                            value: usage.memoryUsage? usage.memoryUsage: 0,
                                         },
                                     ]}
                                     fullValue={usage.memoryCapacity}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={2}
                                 />
                                 <Chart
@@ -91,12 +89,11 @@ const Overview = (data) => {
                                         },
                                         {
                                             name: "Usage",
-                                            value: usage.podUsage,
+                                            value: usage.podUsage? usage.podUsage: 0,
                                         },
                                     ]}
                                     fullValue={usage.podCapacity}
-                                    colors={["#019CF6", "#256CD6"]}
-                                    number={3}
+                                    number={0}
                                 />
                             </div>
                         )}

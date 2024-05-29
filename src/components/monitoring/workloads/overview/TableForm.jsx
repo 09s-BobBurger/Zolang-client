@@ -81,7 +81,7 @@ function TableForm({ data, title }) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.slice(0, 3).map((row, index) => (
+                            {data?.length > 0 && data.slice(0, 3).map((row, index) => (
                                 <TableRow
                                     key={index}
                                     sx={{

@@ -19,37 +19,19 @@ function Pods(props) {
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
     const navigate = useNavigate();
-    const loadData = () => {
-        if (namespace === "All") {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
+    const loadData = async () => {
+        try {
+            let res;
+            if (namespace === "All") {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/pods`);
+            } else {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`);
+            }
+            setPodsData(res.data.data);
+        } catch (err) {
+            console.log(err);
         }
-    }
+    };
 
     useEffect(() => {
         loadData();
@@ -125,7 +107,7 @@ function Pods(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {podsData.pods.slice(0, 3).map((pod) => (
+                        {podsData.pods?.length > 0 && podsData.pods.slice(0, 3).map((pod) => (
                                     <TableRow
                                         key={pod.name}
                                         onClick={() => {
@@ -165,10 +147,16 @@ function Pods(props) {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.cpuUsage)} color1="#f8fc00" color2="#b0b300"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                                                            color1="#f8fc00" color2="#b0b300"
+                                                            min={0}
+                                            />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i.memoryUsage)} color1="#00bbff" color2="#00729c"/>
+                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.memoryUsage : 0)}
+                                                            color1="#00bbff" color2="#00729c"
+                                                            min={0}
+                                            />
                                         </TableCell>
                                         <TableCell
                                             align="center"

@@ -3,7 +3,12 @@ import ApexChart from "react-apexcharts";
 import { RadialBar } from "apexcharts";
 
 const Chart = ({ title, values, fullValue, number }) => {
+    const newFullValue = fullValue? fullValue :0;
+
     const convertToBytes = (value) => {
+        if (!value || value === null || value === undefined) {
+            return 0;
+        }
         if (value < 1024) {
             return value;
         } else if (value < 1024 * 1024) {
@@ -23,13 +28,13 @@ const Chart = ({ title, values, fullValue, number }) => {
     });
 
     // 시리즈(series) 설정
-    const series = values.map((item) => (item.value / fullValue) * 100);
+    const series = values.map((item) => (item.value / newFullValue) * 100);
 
     const color = [
-        ["#bc75f9", "#a992fa"],
-        ["#ff9500", "#ff9472"],
-        ["#ff61be", "#ff9de6"],
-        ["#00c2ba", "#09fbd3"],
+        ["#bc75f9", "#a992fa", "#ffffff"],
+        ["#ff9500", "#ff9472", "#ffffff"],
+        ["#ff61be", "#ff9de6", "#ffffff"],
+        ["#00c2ba", "#09fbd3", "#ffffff"],
     ];
 
     const options = {

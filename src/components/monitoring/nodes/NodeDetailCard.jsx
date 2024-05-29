@@ -161,7 +161,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                         <div
                             style={{
                                 display: "flex",
-                                gap: "40px",
+                                gap: "60px",
                                 // justifyContent: "space-between",
                                 color: "#ffffff",
                             }}
@@ -180,7 +180,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                                     variant="h6"
                                     style={{ color: "#b8ff6a" }}
                                 >
-                                    {node.kubeletVersion}
+                                    {node.kubectlVersion}
                                 </Typography>
                             </div>
                             <div>
@@ -241,11 +241,10 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                         {
                                             name: "Usage",
-                                            value: usage.usage.nodeCpuUsage,
+                                            value: usage.usage.nodeCpuUsage? usage.usage.nodeCpuUsage: 0,
                                         },
                                     ]}
                                     fullValue={usage.capacityCpu}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={1}
                                 />
                                 <Chart
@@ -261,11 +260,10 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                         {
                                             name: "Usage",
-                                            value: usage.usage.nodeMemoryUsage,
+                                            value: usage.usage.nodeMemoryUsage? usage.usage.nodeMemoryUsage: 0,
                                         },
                                     ]}
                                     fullValue={usage.capacityMemory}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={2}
                                 />
                                 <Chart
@@ -281,7 +279,6 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                     ]}
                                     fullValue={usage.capacityPod}
-                                    colors={["#019CF6", "#256CD6"]}
                                     number={3}
                                 />
                             </div>
@@ -505,12 +502,12 @@ function NodeDetailCard({ nodeName, initNode }) {
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         {getTimeDiff(
-                                                            node.lastHeartbeatTime
+                                                            condition.lastHeartbeatTime
                                                         )}
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         {getTimeDiff(
-                                                            node.lastTransitionTime
+                                                            condition.lastTransitionTime
                                                         )}
                                                     </TableCell>
                                                     <TableCell

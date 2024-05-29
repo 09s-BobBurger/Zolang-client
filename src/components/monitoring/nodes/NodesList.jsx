@@ -17,12 +17,13 @@ function Nodes({ nodeData, setNode }) {
         setNode(node);
     };
 
-    const getTimeDiff = (timeString) => {
+    function calculateTime(timestamp) {
+        const providedDate = new Date(timestamp);
         const currentTime = new Date();
-        const targetTime = new Date(timeString);
-        const diff = Math.floor((currentTime - targetTime) / (1000 * 60));
-        return `${diff}분 전`;
-    };
+        const timeDifferenceInMilliseconds = currentTime - providedDate;
+        const timeDifferenceInMinutes = Math.floor(timeDifferenceInMilliseconds / (1000 * 60));
+        return timeDifferenceInMinutes+ "분 전";
+    }
 
     const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
@@ -130,7 +131,7 @@ function Nodes({ nodeData, setNode }) {
                                     </Typography>
                                     <BorderLinearProgress
                                         variant="determinate"
-                                        value={convertToPercentage(node.nodeUsage.usage.nodeCpuUsage, node.nodeUsage.allocatableCpu)}
+                                        value={convertToPercentage(node.nodeUsage.usage.nodeCpuUsage? node.nodeUsage.usage.nodeCpuUsage:0, node.nodeUsage.allocatableCpu)}
                                     />
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -139,7 +140,7 @@ function Nodes({ nodeData, setNode }) {
                                     </Typography>
                                     <BorderLinearProgress
                                         variant="determinate"
-                                        value={convertToPercentage(node.nodeUsage.usage.nodeMemoryUsage, node.nodeUsage.allocatableMemory)}
+                                        value={convertToPercentage(node.nodeUsage.usage.nodeMemoryUsage? node.nodeUsage.usage.nodeMemoryUsage : 0, node.nodeUsage.allocatableMemory)}
                                     />
                                 </div>
                             </div>
@@ -204,13 +205,13 @@ function Nodes({ nodeData, setNode }) {
                                                 />
                                             </TableCell>
                                             <TableCell align="center">
-                                                {getTimeDiff(
-                                                    node.lastHeartbeatTime
+                                                {calculateTime(
+                                                    condition.lastHeartbeatTime
                                                 )}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {getTimeDiff(
-                                                    node.lastTransitionTime
+                                                {calculateTime(
+                                                    condition.lastTransitionTime
                                                 )}
                                             </TableCell>
                                             <TableCell scope="row" component="th">
