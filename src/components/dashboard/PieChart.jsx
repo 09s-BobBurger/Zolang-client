@@ -17,23 +17,24 @@ function PieChart(props) {
             let animationInterval;
             let tempValue = 0;
 
+            const increment = props.max / 100; // 증가량을 1%로 설정
+
             animationInterval = setInterval(() => {
                 if (tempValue < props.value) {
-                    tempValue += 50; // 숫자 채워지는 것 조절
+                    tempValue = Math.min(tempValue + increment, props.value);
                     setSettings((prevSettings) => ({
                         ...prevSettings,
                         value: tempValue,
-                        valueMax: parseInt(props.max),
+                        valueMax: parseFloat(props.max),
                         color: props.color,
                     }));
                 } else {
                     clearInterval(animationInterval);
                 }
-            }, 30); // 숫자가 클수록 천천히 채워짐
+            }, 30);
         }
     }, [props.value, props.max, props.color]);
 
-    
     return (
         <div style={{ position: "relative" }}>
             <Gauge theme={theme(settings.color)}

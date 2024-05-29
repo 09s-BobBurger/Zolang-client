@@ -5,10 +5,13 @@ import '../../styles/MONITORING.css';
 import DeleteButton from "../../components/formtoyaml/DeleteButton.jsx";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import { setCluster } from "../../redux/modules/cluster.js";
+import ClusterDeleteModal from '../../components/monitoring/ClusterDeleteModal.jsx';
 
 const ClusterList = () => {
     const navigate = useNavigate();
+    const [isClusterDeleteModalOpen, setIsClusterDeleteModalOpen] = useState(false);
     const [clusters, setClusters] = useState([]);
+    const [selectedClusterId, setSelectedClusterId] = useState(null);
     const dispatch = useDispatch();
 
     const onClickNew = () => {
@@ -32,13 +35,9 @@ const ClusterList = () => {
         loadData();
     }, []);
 
-    const handleDelete = (cluster_id)=> {
-        axios.delete(`/api/v1/cluster/${cluster_id}`)
-        .then((res) => {
-            loadData();
-        }).catch((err) => {
-            console.log(err)
-        })
+    const handleDelete = (clusterId) => {
+        setSelectedClusterId(clusterId);
+        setIsClusterDeleteModalOpen(true);
     }
 
     return (
@@ -69,6 +68,14 @@ const ClusterList = () => {
                         </li>
                     ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
                 </ul>
+                {selectedClusterId && 
+                <ClusterDeleteModal 
+                    isOpen={isClusterDeleteModalOpen} 
+                    setIsOpen={setIsClusterDeleteModalOpen} 
+                    cluster_id={selectedClusterId} 
+                    loadData={loadData} 
+                />
+            }
             </div>
         </div>
     );

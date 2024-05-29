@@ -12,7 +12,7 @@ function total(props) {
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [period]);
 
     const loadData = () => {
         const url =
@@ -34,6 +34,9 @@ function total(props) {
         setPeriod(event.target.value);
         loadData();
     };
+
+    const convertToPercentage = (value, max) => (value / max) * 100;
+
     return (
         <div
             style={{
@@ -127,13 +130,9 @@ function total(props) {
                             <PieChart
                                 color="#FFD600"
                                 value={
-                                    value.memoryUsage ? value.memoryUsage : 0
+                                    convertToPercentage(value.memoryUsage ? value.memoryUsage : 0, value.memoryAllocatable? value.memoryAllocatable :1)
                                 }
-                                max={
-                                    value.memoryAllocatable
-                                        ? value.memoryAllocatable
-                                        : 0
-                                }
+                                max={100}
                             />
                             <span
                                 style={{
