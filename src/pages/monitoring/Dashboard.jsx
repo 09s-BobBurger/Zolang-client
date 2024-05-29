@@ -28,7 +28,7 @@ const Dashboard = () => {
         { name: "Cluster Overview" },
         { name: "Nodes" },
         { name : 'Workloads', subCategory: ['Overview', 'Pods', 'Deployments', 'DaemonSets', 'StatefulSets', 'ReplicaSets', 'Jobs', 'CronJobs']},
-        { name: "Network", subCategory: ["Services", "Ingresses"] },
+        { name: "Network", subCategory: ["Services"] },
     ];
 
     useEffect(() => {
