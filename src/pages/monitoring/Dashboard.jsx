@@ -20,7 +20,7 @@ const Dashboard = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const clusterId = useSelector((state) => state.cluster.clusterId);
-    const [subCategories, setSubCategories] = useState(["All"]);
+    const [namespaces, setNamespaces] = useState(["All"]);
     const [currentMenu, setCurrentMenu] = useState("");
     const pathName = location.pathname.replace("%20", " ");
     const category = [
@@ -39,7 +39,7 @@ const Dashboard = () => {
         axios
             .get(`/api/v1/namespace/${clusterId}`)
             .then((response) => {
-                setSubCategories(["All", ...Object.values(response.data.data)]);
+                setNamespaces(["All", ...Object.values(response.data.data)]);
             })
             .catch((error) => {
                 console.error("Error fetching sub categories:", error);
@@ -62,7 +62,7 @@ const Dashboard = () => {
                 overflow: "auto",
             }}
         >
-            <MonitoringNav items={category} currentMenu={currentMenu} namespace={subCategories} />
+            <MonitoringNav items={category} currentMenu={currentMenu} namespace={namespace} />
             <div className="monitoring-content">
                 <p className="title">
                     {currentMenu.charAt(0).toUpperCase() + currentMenu.slice(1)}
