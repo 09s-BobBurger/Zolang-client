@@ -1,6 +1,5 @@
 import React from 'react';
 import Label from "../nodes/Label.jsx";
-import Status from "../../icon/Status.jsx";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableBody from "@mui/material/TableBody";
@@ -86,7 +85,7 @@ const ControllerTable = ({data, onClickRow, toPrevPage, toNextPage, prevToken, n
                                 <TableRow
                                     key={item.name}
                                     onClick={() => {
-                                        if (onClickRow) onClickRow(item.name)
+                                        if (onClickRow) onClickRow([item.name, item.namespace])
                                     }}
                                     sx={{
                                         "&:last-child td, &:last-child th":
@@ -106,18 +105,18 @@ const ControllerTable = ({data, onClickRow, toPrevPage, toNextPage, prevToken, n
                                     </TableCell>
                                     <TableCell align="center">
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                            {item.images.slice(0, 3).map(image => {
+                                            {item.images && item.images.slice(0, 3).map(image => {
                                                 return <Label name={image}/>
                                             })}
-                                            {item.images.length > 3 && <Label name="..." />}
+                                            {item.images && item.images.length > 3 && <Label name="..." />}
                                         </div>
                                     </TableCell>
                                     <TableCell align="center">
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                            {Object.keys(item.labels).slice(0, 3).map((key) => {
+                                            {item.labels && Object.keys(item.labels).slice(0, 3).map((key) => {
                                                 return <Label name={key + ":" + item.labels[key]}/>
                                             })}
-                                            {Object.keys(item.labels).length > 3 && <Label name="..." />}
+                                            {item.labels && Object.keys(item.labels).length > 3 && <Label name="..." />}
                                         </div>
                                     </TableCell>
                                     <TableCell align="center">

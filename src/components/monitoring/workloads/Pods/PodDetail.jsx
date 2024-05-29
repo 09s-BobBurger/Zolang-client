@@ -11,7 +11,6 @@ import KeyboardArrowLeft from "../../../icon/KeyboardArrowLeft.jsx";
 import MuiButton from '@mui/material/Button';
 import UsageLineChart from "../../UsageLineChart.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
-import loginUtil from "../../../../util/login.js";
 import {useSelector} from "react-redux";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
 
@@ -52,7 +51,7 @@ const titleStyle = {
     fontSize: "1.6rem"
 }
 
-const PodDetail = ({ podName, initPod}) => {
+const PodDetail = ({ selectedPod, initPod}) => {
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
     const [pod, setPod] = useState();
@@ -60,7 +59,7 @@ const PodDetail = ({ podName, initPod}) => {
     const loadData = () => {
         axios
             .get(
-                `/api/v1/cluster/${clusterId}/workload/pods/${podName}`)
+                `/api/v1/cluster/${clusterId}/workload/pods/${selectedPod[0]}?namespace=${selectedPod[1]}`)
             .then((res) => {
                 setPod(res.data.data);
             })
@@ -119,15 +118,15 @@ const PodDetail = ({ podName, initPod}) => {
                 >
                     <UsageLineChart
                         title="CPU Usage"
-                        data={pod.metrics.map(i => i.cpuUsage)}
-                        time={pod.metrics.map(i => i.time)}
+                        data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                        time={pod.metrics.map(i => i ? i.time : '-')}
                         color="#f8fc00"
                         yAxis="CPU(cores)"
                     />
                     <UsageLineChart
                         title="Memory Usage"
-                        data={pod.metrics.map(i => i.memoryUsage / (10 ** 6))}
-                        time={pod.metrics.map(i => i.time)}
+                        data={pod.metrics.map(i => i ? i.memoryUsage / (10 ** 6) : 0)}
+                        time={pod.metrics.map(i => i ? i.time : '-')}
                         color="#00bbff"
                         yAxis="Memory(bytes)"
                         yFormat={(value) => value.toFixed(1).toString() + "Mi"}
@@ -620,7 +619,7 @@ const PodDetail = ({ podName, initPod}) => {
                             </div>
                         </div>
                     </div>
-                    <div>
+                    {pod.container.env && <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Environment Variable
                         </Typography>
@@ -649,7 +648,7 @@ const PodDetail = ({ podName, initPod}) => {
                                 </Typography>
                             </div>
                         </div>
-                    </div>
+                    </div>}
                     <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Factor
@@ -699,7 +698,7 @@ const PodDetail = ({ podName, initPod}) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {pod.container.mount.map((item, index) => (
+                                    {pod.container.mount && pod.container.mount.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{item.name}</TableCell>
                                             <TableCell align="center">

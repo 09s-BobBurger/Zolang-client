@@ -13,12 +13,12 @@ import Status from "../../../icon/Status.jsx";
 function TableForm({ data, title }) {
     const navigate = useNavigate();
 
-    const onClick= (name) => {
-        if (title== "DaemonSets"){
-            navigate('workloads/daemonsets', { state: { name : name } })
+    const onClick= (name, namespace) => {
+        if (title=== "DaemonSets"){
+            navigate('workloads/daemonsets', { state: { name : name, namespace: namespace } })
             
-        } else if (title== "Deployments") {
-            navigate('workloads/deployments', { state: { name : name } })
+        } else if (title=== "Deployments") {
+            navigate('workloads/deployments', { state: { name : name, namespace: namespace } })
         }
     };
 
@@ -89,7 +89,7 @@ function TableForm({ data, title }) {
                                             border: 0,
                                         },
                                     }}
-                                    onClick={() => onClick(row.name)}
+                                    onClick={() => onClick(row.name, row.namespace)}
                                 >
                                     <TableCell>{row.name}</TableCell>
                                     <TableCell>{row.namespace}</TableCell>

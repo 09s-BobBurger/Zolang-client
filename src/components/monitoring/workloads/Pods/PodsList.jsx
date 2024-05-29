@@ -33,7 +33,7 @@ const PodsList = ({ setPod }) => {
 
         axios.get(url)
             .then((res) => {
-                setPodsData(res.data.data);
+                setPodsData(res.data.data ? res.data.data : {});
             })
             .catch((err) => {
                 console.log(err);
@@ -190,7 +190,7 @@ const PodsList = ({ setPod }) => {
                                     <TableRow
                                         key={pod.name}
                                         onClick={() =>
-                                            setPod(pod.name)
+                                            setPod([pod.name, pod.namespace])
                                         }
                                         sx={{
                                             "&:last-child td, &:last-child th":

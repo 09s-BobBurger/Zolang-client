@@ -111,7 +111,7 @@ function Pods(props) {
                                     <TableRow
                                         key={pod.name}
                                         onClick={() => {
-                                            navigate('workloads/pods', { state: { name : pod.name } })
+                                            navigate('workloads/pods', { state: { name : pod.name, namespace: pod.namespace } })
                                         }}
                                         sx={{
                                             "&:last-child td, &:last-child th":
@@ -131,10 +131,10 @@ function Pods(props) {
                                         </TableCell>
                                         <TableCell align="center">
                                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                                {Object.keys(pod.labels).slice(0, 3).map((key) => {
+                                                {pod.labels && Object.keys(pod.labels) > 0 && Object.keys(pod.labels).slice(0, 3).map((key) => {
                                                     return <Label name={key + ":" + pod.labels[key]}/>
                                                 })}
-                                                {Object.keys(pod.labels).length > 3 && <Label name="..." />}
+                                                {pod.labels && Object.keys(pod.labels).length > 3 && <Label name="..." />}
                                             </div>
                                         </TableCell>
                                         <TableCell align="center">

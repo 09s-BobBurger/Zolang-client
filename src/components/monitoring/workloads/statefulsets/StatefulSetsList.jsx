@@ -3,7 +3,7 @@ import ControllerTable from "../ControllerTable.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 
-const StatefulSetsList = ({ setStatefulSetName }) => {
+const StatefulSetsList = ({ setSelectedStateful }) => {
     const [statefulSets, setStatefulSets] = useState({});
     const [prevToken, setPrevToken] = useState();
     const [currToken, setCurrToken] = useState(" ");
@@ -21,7 +21,7 @@ const StatefulSetsList = ({ setStatefulSetName }) => {
 
         axios.get(url)
             .then((res) => {
-                setStatefulSets(res.data.data);
+                setStatefulSets(res.data.data ? res.data.data : {});
             })
             .catch((err) => {
                 console.log(err);
@@ -59,8 +59,8 @@ const StatefulSetsList = ({ setStatefulSetName }) => {
         }
     }, [statefulSets]);
 
-    const onClickRow = (name) => {
-        setStatefulSetName(name);
+    const onClickRow = (data) => {
+        setSelectedStateful(data);
     }
 
     return (

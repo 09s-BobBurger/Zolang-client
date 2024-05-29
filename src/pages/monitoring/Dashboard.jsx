@@ -9,8 +9,6 @@ import Pods from '../../components/monitoring/workloads/Pods/Pods.jsx'
 import Nodes from '../../components/monitoring/nodes/Nodes.jsx'
 import Services from "../../components/monitoring/network/services/Services.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {initCluster} from "../../redux/modules/cluster.js";
-import {initNamespace} from "../../redux/modules/namespace.js";
 import DaemonSets from "../../components/monitoring/workloads/daemonsets/DaemonSets.jsx";
 import Deployments from "../../components/monitoring/workloads/deployment/Deployments.jsx";
 import ReplicaSets from "../../components/monitoring/workloads/replicasets/ReplicaSets.jsx";
@@ -22,15 +20,14 @@ const Dashboard = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const clusterId = useSelector((state) => state.cluster.clusterId);
-    const dispatch = useDispatch();
-    const [subCategories, setSubCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState(["All"]);
     const [currentMenu, setCurrentMenu] = useState("");
     const pathName = location.pathname.replace("%20", " ");
     const category = [
         { name: "Cluster Overview" },
         { name: "Nodes" },
         { name : 'Workloads', subCategory: ['Overview', 'Pods', 'Deployments', 'DaemonSets', 'StatefulSets', 'ReplicaSets', 'Jobs', 'CronJobs']},
-        { name: "Network", subCategory: ["Services", "Ingresses"] },
+        { name: "Network", subCategory: ["Services"] },
     ];
 
     useEffect(() => {
@@ -38,17 +35,15 @@ const Dashboard = () => {
         if (clusterId === -1) {
             navigate("/monitoring/clusterList")
         }
-        setSubCategories(["All", "Docker", "test-k8s", "nginx"])
         // axios로 namespace들을 불러와 앞에 All을 삽입할 것
-        // axios
-        //     .get("your-api-endpoint-for-sub-categories")
-        //     .then((response) => {
-        //         // setSubCategories(response.data);
-        //         setSubCategories(["All", "Docker", "test-k8s", "nginx"])
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error fetching sub categories:", error);
-        //     });
+        axios
+            .get(`/api/v1/namespace/${clusterId}`)
+            .then((response) => {
+                setSubCategories(["All", ...Object.values(response.data.data)]);
+            })
+            .catch((error) => {
+                console.error("Error fetching sub categories:", error);
+            });
     }, []);
 
     useEffect(() => {

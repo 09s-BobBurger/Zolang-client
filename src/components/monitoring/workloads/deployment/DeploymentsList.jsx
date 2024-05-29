@@ -3,7 +3,7 @@ import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
 
-const DeploymentsList = ({ setDeploymentName }) => {
+const DeploymentsList = ({ setSelectedDeployment }) => {
     const [deployments, setDeployments] = useState({});
     const [prevToken, setPrevToken] = useState();
     const [currToken, setCurrToken] = useState(" ");
@@ -23,7 +23,7 @@ const DeploymentsList = ({ setDeploymentName }) => {
 
         axios.get(url)
             .then((res) => {
-                setDeployments(res.data.data);
+                setDeployments(res.data.data ? res.data.data : {});
             })
             .catch((err) => {
                 console.log(err);
@@ -61,8 +61,8 @@ const DeploymentsList = ({ setDeploymentName }) => {
         }
     }, [deployments]);
 
-    const onClickRow = (deploymentName) => {
-        setDeploymentName(deploymentName);
+    const onClickRow = (data) => {
+        setSelectedDeployment(data);
     }
     return (
         <div>

@@ -3,7 +3,7 @@ import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
 
-const DaemonSetsList = ({ setDaemonSetName }) => {
+const DaemonSetsList = ({ setSelectedDaemon }) => {
     const [daemonSets, setDaemonSets] = useState({});
     const [prevToken, setPrevToken] = useState();
     const [currToken, setCurrToken] = useState(" ");
@@ -21,7 +21,7 @@ const DaemonSetsList = ({ setDaemonSetName }) => {
 
         axios.get(url)
             .then((res) => {
-                setDaemonSets(res.data.data);
+                setDaemonSets(res.data.data ? res.data.data : {});
             })
             .catch((err) => {
                 console.log(err);
@@ -59,8 +59,8 @@ const DaemonSetsList = ({ setDaemonSetName }) => {
         }
     }, [daemonSets]);
 
-    const onClickRow = (name) => {
-        setDaemonSetName(name);
+    const onClickRow = (data) => {
+        setSelectedDaemon(data);
     }
 
     return (

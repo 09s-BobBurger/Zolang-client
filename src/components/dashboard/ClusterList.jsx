@@ -48,13 +48,13 @@ const ClusterList = () => {
                 marginBottom: '10px', marginTop: "17px"
             }}>
                 <ul>
-                    <li>
+                    <li style={{gridTemplateColumns: "3fr 5fr 2fr 1fr"}}>
                         <span>Name</span>
                         <span>IP</span>
                         <span>Version</span>
                     </li>
-                    {clusters.map((item, index) => (
-                        <li key={index} onClick={() => onClickCluster(item)}>
+                    {clusters?.length > 0? (clusters.slice(0, 3).map((item, index) => (
+                        <li key={index} onClick={() => onClickCluster(item)} style={{gridTemplateColumns: "3fr 5fr 2fr 1fr"}}>
                             <span>{item.clusterName}</span>
                             <span>{item.domainUrl}</span>
                             <span>{item.version}</span>
@@ -62,7 +62,7 @@ const ClusterList = () => {
                                 <img src="../clusterStateTrue.svg" alt="good" /> : <img src="../clusterStateFalse.svg" alt="bad" />}
                             </span>
                         </li>
-                    ))}
+                    ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src="텅.svg" width="80px" alt="이미지"/></div>}
                 </ul>
             </div>
             <div className="cluster-list-footer" style={{ display: 'flex', justifyContent: 'flex-end' }}>

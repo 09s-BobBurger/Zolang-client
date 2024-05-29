@@ -677,6 +677,36 @@ export const handlers = [
         })
     }),
 
+    http.get(`${baseURL}/api/v1/namespace/:clusterId/namespace`, async ({params}) => {
+        const {clusterId} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "namespace": "cert-manager"
+                    },
+                    {
+                        "namespace": "default"
+                    },
+                    {
+                        "namespace": "kube-node-lease"
+                    },
+                    {
+                        "namespace": "kube-public"
+                    },
+                    {
+                        "namespace": "kube-system"
+                    },
+                    {
+                        "namespace": "kubernetes-dashboard"
+                    }
+                ],
+                "error": null
+            }
+        )
+    }),
+
     // get pods page of cluster
     http.get(`${baseURL}/api/v1/cluster/:clusterId/workload/pods`, async ({params, request}) => {
         const { clusterId } = params;
