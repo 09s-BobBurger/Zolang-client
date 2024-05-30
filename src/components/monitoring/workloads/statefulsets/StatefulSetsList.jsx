@@ -64,7 +64,7 @@ const StatefulSetsList = ({ setSelectedStateful }) => {
     }
 
     return (
-        <div>
+        <div className="dashboard-content">
             <ControllerTable
                 data={statefulSets}
                 onClickRow={onClickRow}
