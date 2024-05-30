@@ -19,35 +19,22 @@ const theme = createTheme({
     },
 });
 
-export default function RepositoryCard({ name }) {
-    const [data, setData] = useState({});
-
-    useEffect(() => {
-        axios
-            .get("#")
-            .then((response) => {
-                // setData(response.data);
-                setData({
-                    name: {name},
-                    time: "9.3s",
-                    age: "2 months",
-                    status: "good",
-                });
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
-    }, []);
+export default function RepositoryCard({ repository }) {
 
     const renderStatusIcon = () => {
-        if (data.status === "good") {
+        if (repository.lastBuildStatus === "success") {
             return <TagFaces />;
-        } else if (data.status === "bad") {
-            return <MoodBad />;
-        } else if (data.status === "well") {
+        } else if (repository.lastBuildStatus === "building") {
             return <SentimentNeutral />;
-        }
+        } else {
+            return <MoodBad />;
+        } 
     };
+
+    const changeTime = (time) => {
+        const [year, month, day, hour, minute, second] = time;
+        return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second)));
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -67,7 +54,7 @@ export default function RepositoryCard({ name }) {
             >
                 <CardContent>
                     <Typography sx={{ mb: 1.5 }} component="div">
-                        {name}
+                        {repository.repositoryName}
                     </Typography>
                     <div
                         style={{
@@ -86,25 +73,14 @@ export default function RepositoryCard({ name }) {
                                         Time
                                     </Typography>
                                     <Typography variant="body2">
-                                        {data.time}
-                                    </Typography>
-                                </div>
-                                <div>
-                                    <Typography
-                                        variant="caption"
-                                        color="#ABAFBD"
-                                    >
-                                        Age
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        {data.age}
+                                    {changeTime(repository.createdAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
                                     </Typography>
                                 </div>
                             </div>
                         </div>
                         <div
                             style={{
-                                flex: 4,
+                                flex: 2,
                                 textAlign: "center",
                                 display: "flex",
                                 justifyContent: "right",

@@ -2,16 +2,21 @@ import React from 'react';
 
 const Status = ({ status }) => {
     const color = {
-        'Running' : 'rgba(96, 173, 32, 0.5)',
-        'Ready' : 'rgba(202, 234, 75, 0.5)',
-        'Error' : 'rgba(255, 201, 120, 0.5)',
-        'Fail' : 'rgba(255, 98, 98, 0.5)',
-        'Success' : 'rgba(96, 173, 32, 0.5)',
-        'True' : 'rgba(96, 173, 32, 0.5)',
-        'False' : 'rgba(255, 98, 98, 0.5)'
-    }
+        'running' : 'rgba(96, 173, 32, 0.5)',
+        'ready' : 'rgba(202, 234, 75, 0.5)',
+        'error' : 'rgba(255, 201, 120, 0.5)',
+        'fail' : 'rgba(255, 98, 98, 0.5)',
+        'success' : 'rgba(96, 173, 32, 0.5)',
+        'true' : 'rgba(96, 173, 32, 0.5)',
+        'false' : 'rgba(255, 98, 98, 0.5)',
+        'failed' : 'rgba(255, 98, 98, 0.5)',
+        'building' : 'rgba(202, 234, 75, 0.5)',
+        ' - ' : 'rgba(201,201,201, 0.2)'
+    };
+
+    const lowercaseStatus = status? status.toLowerCase() : " - ";
     const style = {
-        background: color[status],
+        background: color[lowercaseStatus],
         color: 'white',
         width: '64px',
         height: '22px',
@@ -20,10 +25,11 @@ const Status = ({ status }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    };
+
     return (
         <div style={style}>
-            {status}
+            {lowercaseStatus}
         </div>
     );
 };

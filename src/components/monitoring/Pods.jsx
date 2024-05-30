@@ -107,7 +107,7 @@ function Pods(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {podsData.pods?.length > 0 && podsData.pods.slice(0, 3).map((pod) => (
+                        {podsData?.pods? podsData.pods.slice(0, 3).map((pod) => (
                                     <TableRow
                                         key={pod.name}
                                         onClick={() => {
@@ -164,7 +164,7 @@ function Pods(props) {
                                             {pod.age}
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                )): null}
                         </TableBody>
                     </Table>
                 </TableContainer>

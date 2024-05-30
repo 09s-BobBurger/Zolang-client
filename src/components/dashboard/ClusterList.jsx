@@ -5,6 +5,12 @@ import ClusterState from "./ClusterState.jsx";
 import { setCluster } from "../../redux/modules/cluster.js";
 import loginUtil from "../../util/login.js";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Table from "@mui/material/Table";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -47,23 +53,33 @@ const ClusterList = () => {
             <div className="cluster-list" style={{
                 marginBottom: '10px', marginTop: "17px"
             }}>
-                <ul>
-                    <li style={{gridTemplateColumns: "3fr 5fr 2fr 1fr"}}>
-                        <span>Name</span>
-                        <span>IP</span>
-                        <span>Version</span>
-                    </li>
-                    {clusters?.length > 0? (clusters.slice(0, 3).map((item, index) => (
-                        <li key={index} onClick={() => onClickCluster(item)} style={{gridTemplateColumns: "3fr 5fr 2fr 1fr"}}>
-                            <span>{item.clusterName}</span>
-                            <span>{item.domainUrl}</span>
-                            <span>{item.version}</span>
-                            <span>{item.status === "ready" ? 
-                                <img src="../clusterStateTrue.svg" alt="good" /> : <img src="../clusterStateFalse.svg" alt="bad" />}
-                            </span>
-                        </li>
-                    ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src="텅.svg" width="80px" alt="이미지"/></div>}
-                </ul>
+                <TableContainer>
+                    <Table
+                        sx={{ minWidth: 650, color: "#ffffff" }}
+                        aria-label="simple table"
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: "15vw" }}>Name</TableCell>
+                                <TableCell style={{ width: "40vw" }}>URL</TableCell>
+                                <TableCell align="center" style={{ width: "10vw" }}>Version</TableCell>
+                                <TableCell> </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {clusters?.length > 0? (clusters.map((item, index) => (
+                                <TableRow  key={index}>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.version}</TableCell>
+                                    <TableCell align="center" onClick={() => onClickCluster(item)}>{item.status === "ready" ? 
+                                    <img src="../clusterStateTrue.svg" alt="good" /> : 
+                                    <img src="../clusterStateFalse.svg" alt="bad" />}</TableCell>
+                                </TableRow>
+                            ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
             <div className="cluster-list-footer" style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <button className="cluster-list-more-button"

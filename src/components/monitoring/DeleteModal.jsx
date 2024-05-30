@@ -24,7 +24,7 @@ const Box = styled(MuiBox) ({
     }
 });
 
-const ClusterDeleteModal = ({isOpen, setIsOpen, cluster_id, loadData}) => {
+const DeleteModal = ({type, isOpen, setIsOpen, id, loadData}) => {
 
     const messageStyle = {
         display: 'flex',
@@ -35,7 +35,13 @@ const ClusterDeleteModal = ({isOpen, setIsOpen, cluster_id, loadData}) => {
     }
 
     const handleDelete = (id)=> {
-        axios.delete(`/api/v1/cluster/${id}`)
+        const url = type === 'cluster' 
+            ? `/api/v1/cluster/${id}`
+            : type === 'repo'
+            ? `/api/v1/cicd/${id}`
+            : '';
+            
+        axios.delete(url)
         .then((res) => {
             setIsOpen(false)
             loadData();
@@ -56,7 +62,7 @@ const ClusterDeleteModal = ({isOpen, setIsOpen, cluster_id, loadData}) => {
                 <Button
                         variant="contained"
                         style={{ width: '130px' }}
-                        onClick={() => handleDelete(cluster_id)}
+                        onClick={() => handleDelete(id)}
                     >Delete</Button>
                     <Button
                         variant="outlined"
@@ -69,4 +75,4 @@ const ClusterDeleteModal = ({isOpen, setIsOpen, cluster_id, loadData}) => {
     );
 };
 
-export default ClusterDeleteModal;
+export default DeleteModal;

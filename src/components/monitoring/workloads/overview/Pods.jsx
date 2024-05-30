@@ -20,37 +20,20 @@ function Pods(props) {
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
     const navigate = useNavigate();
-    const loadData = () => {
-        if (namespace === "All") {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`,
-                    {
-                        headers: {
-                            "Authorization": "Bearer " + loginUtil.getAccessToken(),
-                        }
-                    }
-                )
-                .then((res) => {
-                    setPodsData(res.data.data);
-                }).catch((err) => {
-                console.log(err)
-            })
+
+    const loadData = async () => {
+        try {
+            let res;
+            if (namespace === "All") {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/pods`);
+            } else {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/pods/namespace?namespace=${namespace}`);
+            }
+            setPodsData(res.data.data);
+        } catch (err) {
+            console.log(err);
         }
-    }
+    };
 
     useEffect(() => {
         loadData();
@@ -127,7 +110,7 @@ function Pods(props) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {podsData.pods?.length > 0 && podsData.pods.slice(0, 3).map((pod) => (
+                        {podsData?.pods? podsData.pods.slice(0, 3).map((pod) => (
                                     <TableRow
                                         key={pod.name}
                                         onClick={() => {
@@ -187,7 +170,7 @@ function Pods(props) {
                                             {pod.age}
                                         </TableCell>
                                     </TableRow>
-                                ))}
+                                )) : null}
                         </TableBody>
                     </Table>
                 </TableContainer>
