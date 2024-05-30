@@ -205,45 +205,29 @@
     margin: 24px 0;
 }
 
-.cluster-list ul {
-    padding: 0;
-    margin: 0;
+.cluster-list > div > table > thead > tr > th:first-child {
+    border-radius: 5px 0 0 5px;
 }
 
-.cluster-list li {
-    box-sizing: border-box;
-    list-style: none;
-    display: grid;
-    grid-template-columns: 3fr 5fr 2fr 1fr 1fr;
-    padding: 16px;
-    height: 60px;
-    color: white;
-    align-items: center;
-    align-items: left;
-    font-size: 16px;
-    font-weight: lighter;
+.cluster-list > div > table > thead > tr > th:last-child {
+    border-radius: 0 5px 5px 0;
 }
 
-.cluster-list li:first-child {
-    background-color: #222634;
-    border-radius: 4px;
+.cluster-list > div > table > thead > tr > th {
+    color: #ffffff;
+    border-bottom: 0;
+    background: #222634;
+    font-size: 15px;
 }
 
-.cluster-list li:not(:first-child) {
-    border-bottom: 1px solid #606472;
+.cluster-list > div > table > tbody > tr > th {
+    color: #dde1ef !important;
+    border-bottom-color: #606472 !important;
 }
 
-.cluster-list li:not(:first-child):hover {
-    background-color: #222634;
-}
-
-.cluster-list li span {
-    font-weight: bolder;
-    /* text-align: center; */
-}
-
-.cluster-list li span:first-child {
-    text-align: left;
+.cluster-list > div > table > tbody > tr > td {
+    color: #dde1ef !important;
+    border-bottom-color: #606472 !important;
 }
 
 .view-icon.MuiSvgIcon-root {

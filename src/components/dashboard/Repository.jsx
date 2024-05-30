@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import RepositoryCard from "./RepositoryCard";
 import ArrowForwardIos from "../icon/ArrowForwardIos";
 import { Link } from "react-router-dom";
@@ -15,6 +15,7 @@ function Repository() {
         console.log(err)
         })
     }
+
     useEffect(() => {
         loadData();
     }, []);

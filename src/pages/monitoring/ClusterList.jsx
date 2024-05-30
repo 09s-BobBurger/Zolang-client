@@ -6,6 +6,12 @@ import DeleteButton from "../../components/formtoyaml/DeleteButton.jsx";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import { setCluster } from "../../redux/modules/cluster.js";
 import DeleteModal from '../../components/monitoring/DeleteModal.jsx';
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Table from "@mui/material/Table";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -47,27 +53,35 @@ const ClusterList = () => {
                 <button className="new-cluster-button" onClick={onClickNew}>+ new</button>
             </div>
             <div className="cluster-list" style={{ width: "80vw" }}>
-                <ul>
-                    <li>
-                        <span style={{ width: "10vw" }}>Name</span>
-                        <span style={{ width: "50vw" }}>IP</span>
-                        <span style={{ width: "5vw" }}>Version</span>
-                    </li>
-                    {clusters?.length > 0? (clusters.map((item, index) => (
-                        <li key={index}>
-                            <span style={{ width: "10vw" }} onClick={() => onClickCluster(item)}>{item.clusterName}</span>
-                            <span style={{ width: "50vw" }} onClick={() => onClickCluster(item)}>{item.domainUrl}</span>
-                            <span style={{ width: "5vw" }} onClick={() => onClickCluster(item)}>{item.version}</span>
-                            <span onClick={() => onClickCluster(item)}>
-                                {item.status === "ready" ? 
+            <TableContainer>
+                    <Table
+                        sx={{ minWidth: 650, color: "#ffffff" }}
+                        aria-label="simple table"
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: "15vw" }}>Name</TableCell>
+                                <TableCell style={{ width: "40vw" }}>URL</TableCell>
+                                <TableCell align="center" style={{ width: "10vw" }}>Version</TableCell>
+                                <TableCell> </TableCell>
+                                <TableCell align="right"> </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {clusters?.length > 0? (clusters.map((item, index) => (
+                                <TableRow  key={index}>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.version}</TableCell>
+                                    <TableCell align="center" onClick={() => onClickCluster(item)}>{item.status === "ready" ? 
                                     <img src="../clusterStateTrue.svg" alt="good" /> : 
-                                    <img src="../clusterStateFalse.svg" alt="bad" />}
-                                
-                            </span>
-                            <span><DeleteButton onClick={() => handleDelete(item.clusterId)}></DeleteButton></span>
-                        </li>
-                    ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
-                </ul>
+                                    <img src="../clusterStateFalse.svg" alt="bad" />}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-right"}}><DeleteButton onClick={() => handleDelete(item.clusterId)}></DeleteButton></TableCell>
+                                </TableRow>
+                            ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
                 {selectedClusterId && 
                 <DeleteModal 
                     type="cluster"

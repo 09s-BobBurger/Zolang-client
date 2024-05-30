@@ -19,7 +19,7 @@ const theme = createTheme({
     },
 });
 
-export default function RepositoryCard({ key, repository }) {
+export default function RepositoryCard({ repository }) {
 
     const renderStatusIcon = () => {
         if (repository.lastBuildStatus === "success") {
@@ -31,17 +31,10 @@ export default function RepositoryCard({ key, repository }) {
         } 
     };
 
-    function calculateElapsedTime(timestamp) {
-        const currentTime = Date.now();
-        const elapsedMilliseconds = currentTime - timestamp * 1000;
-        const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
-        const days = Math.floor(elapsedSeconds / (24 * 60 * 60));
-        const hours = Math.floor((elapsedSeconds % (24 * 60 * 60)) / 3600);
-        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
-        const seconds = elapsedSeconds % 60;
-        return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+    const changeTime = (time) => {
+        const [year, month, day, hour, minute, second] = time;
+        return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second)));
     }
-    
 
     return (
         <ThemeProvider theme={theme}>
@@ -80,25 +73,14 @@ export default function RepositoryCard({ key, repository }) {
                                         Time
                                     </Typography>
                                     <Typography variant="body2">
-                                    {repository.createdAt}
-                                    </Typography>
-                                </div>
-                                <div>
-                                    <Typography
-                                        variant="caption"
-                                        color="#ABAFBD"
-                                    >
-                                        Age
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        calculateElapsedTime({repository.createdAt})
+                                    {changeTime(repository.createdAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}
                                     </Typography>
                                 </div>
                             </div>
                         </div>
                         <div
                             style={{
-                                flex: 4,
+                                flex: 2,
                                 textAlign: "center",
                                 display: "flex",
                                 justifyContent: "right",

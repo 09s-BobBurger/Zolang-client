@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/MONITORING.css';
+import '../../styles/CD.css';
 import DeleteButton from "../../components/formtoyaml/DeleteButton.jsx";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import DeleteModal from '../../components/monitoring/DeleteModal.jsx';
 import Status from "../../components/icon/Status.jsx";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Table from "@mui/material/Table";
 
 const RepoList = () => {
     const navigate = useNavigate();
@@ -37,30 +43,45 @@ const RepoList = () => {
         setIsRepoDeleteModalOpen(true);
     }
 
+    const changeTime = (time) => {
+        const [year, month, day, hour, minute, second] = time;
+        return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second)));
+    }
+
     return (
-        <div className="cluster-list-page">
-            <div className="cluster-list-header">
-                <h3 className="cluster-list-title">Repository</h3>
-                <button className="new-cluster-button" onClick={onClickNew}>+ new</button>
+        <div className="repo-list-page">
+            <div className="repo-list-header">
+                <h3 className="repo-list-title">Repository</h3>
+                <button className="new-repo-button" onClick={onClickNew}>+ new</button>
             </div>
-            <div className="cluster-list" style={{ width: "80vw" }}>
-                <ul>
-                    <li>
-                        <span style={{ width: "10vw" }}>Name</span>
-                        <span style={{ width: "10vw" }}>Created</span>
-                        <span style={{ width: "10vw" }}>LastCommit</span>
-                        <span style={{ width: "10vw" }}>LastBuildStatus</span>
-                    </li>
-                    {repolist? (repolist.map((item, index) => (
-                        <li key={index}>
-                            <span style={{ width: "10vw" }} onClick={() => onClickCluster(item)}>{item.repositoryName}</span>
-                            <span style={{ width: "50vw" }} onClick={() => onClickCluster(item)}>{item.createdAt}</span>
-                            <span style={{ width: "5vw" }} onClick={() => onClickCluster(item)}>{item.lastCommit}</span>
-                            <span onClick={() => onClickCluster(item)}><Status status={item.lastBuildStatus} /></span>
-                            <span><DeleteButton onClick={() => handleDelete(item.repositoryId)}></DeleteButton></span>
-                        </li>
-                    ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
-                </ul>
+            <div className="repo-list" style={{ width: "80vw" }}>
+                <TableContainer>
+                    <Table
+                        sx={{ minWidth: 650, color: "#ffffff" }}
+                        aria-label="simple table"
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: "10vw" }}>Name</TableCell>
+                                <TableCell style={{ width: "25vw" }}>LastCommit</TableCell>
+                                <TableCell align="center" style={{ width: "10vw" }}>LastBuildStatus</TableCell>
+                                <TableCell align="center" style={{ width: "15vw" }}>Created</TableCell>
+                                <TableCell> </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        {repolist? (repolist.map((item, index) => (
+                                <TableRow  key={index}>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.repositoryName}</TableCell>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.lastCommit}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}><Status status={item.lastBuildStatus} /></TableCell>
+                                    <TableCell align="center" onClick={() => onClickCluster(item)}>{changeTime(item.createdAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-right"}}><DeleteButton onClick={() => handleDelete(item.repositoryId)}></DeleteButton></TableCell>
+                                </TableRow>
+                            ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
                 {selectedRepoId && 
                 <DeleteModal 
                     type="repo"    
