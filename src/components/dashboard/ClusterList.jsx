@@ -67,7 +67,7 @@ const ClusterList = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {clusters?.length > 0? (clusters.map((item, index) => (
+                        {clusters?.length > 0? (clusters.slice(0,3).map((item, index) => (
                                 <TableRow  key={index}>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>

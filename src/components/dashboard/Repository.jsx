@@ -49,7 +49,7 @@ function Repository() {
                     Repository
                 </span>
                 <div style={{marginTop: "7px"}}>
-                    <Link to="/cd/repoList" style={{ textDecoration: "none" }}>
+                    <Link to="/cd/build" style={{ textDecoration: "none" }}>
                         <button className="new-cluster-button">+ new</button>
                     </Link>
                 </div>

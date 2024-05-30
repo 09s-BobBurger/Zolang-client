@@ -34,7 +34,7 @@ const CreateClusterModal = ({isOpen, setIsOpen, setCreate}) => {
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: '20px',
-        marginBottom: '10px'
+        marginBottom: '5px'
     }
 
     const handleCreate = () => {
@@ -67,8 +67,9 @@ const CreateClusterModal = ({isOpen, setIsOpen, setCreate}) => {
             <img src="/k8s.png" alt="k8s-logo" width={100}/>
                 <span style={messageStyle}>
                     클러스터를 생성하시겠습니까?</span>
+                    <span style={{fontSize: "10px", color: "#c3c3c3"}}>대소문자, 숫자, 그리고 언더스코어(_)만 입력할 수 있습니다.</span>
                     <TextField
-                        label="cluster name"
+                        label="Cluster name"
                         variant="standard"
                         value={value}
                         onChange={handleInputChange}/>
