@@ -52,7 +52,7 @@ const ClusterList = () => {
                 <h3 className="cluster-list-title">Cluster Monitoring</h3>
                 <button className="new-cluster-button" onClick={onClickNew}>+ new</button>
             </div>
-            <div className="cluster-list" style={{ width: "80vw" }}>
+            <div className="cluster-list">
             <TableContainer>
                     <Table
                         sx={{ minWidth: 650, color: "#ffffff" }}

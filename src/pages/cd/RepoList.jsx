@@ -54,7 +54,7 @@ const RepoList = () => {
                 <h3 className="repo-list-title">Repository</h3>
                 <button className="new-repo-button" onClick={onClickNew}>+ new</button>
             </div>
-            <div className="repo-list" style={{ width: "80vw" }}>
+            <div className="repo-list">
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 650, color: "#ffffff" }}
@@ -62,8 +62,8 @@ const RepoList = () => {
                     >
                         <TableHead>
                             <TableRow>
-                                <TableCell style={{ width: "10vw" }}>Name</TableCell>
-                                <TableCell style={{ width: "25vw" }}>LastCommit</TableCell>
+                                <TableCell style={{ width: "15vw" }}>Name</TableCell>
+                                <TableCell style={{ width: "40vw" }}>LastCommit</TableCell>
                                 <TableCell align="center" style={{ width: "10vw" }}>LastBuildStatus</TableCell>
                                 <TableCell align="center" style={{ width: "15vw" }}>Created</TableCell>
                                 <TableCell> </TableCell>
