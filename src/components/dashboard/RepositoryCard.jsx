@@ -24,12 +24,24 @@ export default function RepositoryCard({ key, repository }) {
     const renderStatusIcon = () => {
         if (repository.lastBuildStatus === "success") {
             return <TagFaces />;
-        } else if (repository.lastBuildStatus === "failed") {
-            return <MoodBad />;
         } else if (repository.lastBuildStatus === "building") {
             return <SentimentNeutral />;
-        }
+        } else {
+            return <MoodBad />;
+        } 
     };
+
+    function calculateElapsedTime(timestamp) {
+        const currentTime = Date.now();
+        const elapsedMilliseconds = currentTime - timestamp * 1000;
+        const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+        const days = Math.floor(elapsedSeconds / (24 * 60 * 60));
+        const hours = Math.floor((elapsedSeconds % (24 * 60 * 60)) / 3600);
+        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+        const seconds = elapsedSeconds % 60;
+        return `${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+    }
+    
 
     return (
         <ThemeProvider theme={theme}>
@@ -68,7 +80,7 @@ export default function RepositoryCard({ key, repository }) {
                                         Time
                                     </Typography>
                                     <Typography variant="body2">
-                                        {repository.createdAt}
+                                    {repository.createdAt}
                                     </Typography>
                                 </div>
                                 <div>
@@ -79,7 +91,7 @@ export default function RepositoryCard({ key, repository }) {
                                         Age
                                     </Typography>
                                     <Typography variant="body2">
-                                        
+                                        calculateElapsedTime({repository.createdAt})
                                     </Typography>
                                 </div>
                             </div>

@@ -57,7 +57,7 @@ const RepoList = () => {
                             <span style={{ width: "50vw" }} onClick={() => onClickCluster(item)}>{item.createdAt}</span>
                             <span style={{ width: "5vw" }} onClick={() => onClickCluster(item)}>{item.lastCommit}</span>
                             <span onClick={() => onClickCluster(item)}><Status status={item.lastBuildStatus} /></span>
-                            <span><DeleteButton onClick={() => handleDelete(item.repoitoryId)}></DeleteButton></span>
+                            <span><DeleteButton onClick={() => handleDelete(item.repositoryId)}></DeleteButton></span>
                         </li>
                     ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
                 </ul>
