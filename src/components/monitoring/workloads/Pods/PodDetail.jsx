@@ -642,24 +642,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         </Typography>
                                     </div>)
                                 })
-
                             }
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Pod Name
-                                </Typography>
-                                <Typography variant="body1">
-                                    {pod.container.env[0].value ? pod.containers.env[0].value : '-'}
-                                </Typography>
-                            </div>
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Pod Namespace
-                                </Typography>
-                                <Typography variant="body1">
-                                    {pod.container.env[1].value ? pod.containers.env[1].value : '-'}
-                                </Typography>
-                            </div>
                         </div>
                     </div>}
                     <div>
