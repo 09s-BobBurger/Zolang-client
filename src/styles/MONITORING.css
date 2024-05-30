@@ -399,3 +399,11 @@
 .apexcharts-graphical {
     display: block;
 }
+
+.dashboard-content {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+}

@@ -72,14 +72,7 @@ const PodsList = ({ setPod }) => {
     }, [podsData]);
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '40px',
-                width: '79vw'
-            }}
-        >
+        <div className="dashboard-content">
             {/* Usage Charts */}
             {podsData && podsData.totalUsage && <div
                 style={{

@@ -65,7 +65,7 @@ const ReplicaSetsList = ({ setSelectedReplica }) => {
     }
 
     return (
-        <div>
+        <div className="dashboard-content">
             <ControllerTable
                 data={replicaSets}
                 onClickRow={onClickRow}
