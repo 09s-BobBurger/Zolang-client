@@ -87,8 +87,8 @@ const UsageLineChart = ({title, data, time, color, yAxis, yFormat}) => {
                 options={options}
                 series={series}
                 type="area"
-                width="580"
-                height="300"
+                width="100%"
+                height="100%"
             />
         </div>
     );
