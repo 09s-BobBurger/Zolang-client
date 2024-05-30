@@ -728,8 +728,8 @@ const PodDetail = ({ selectedPod, initPod}) => {
                         >
                             {
                                 Object.keys(pod.container.securityContext).map(key => {
-                                    if (pod.container.securityContext[key] === null) {
-                                        const value = pod.container.securityContext[key];
+                                    const value = pod.container.securityContext[key];
+                                    if (value !== null) {
                                         if (Array.isArray(value)) {
                                             return (
                                                 <div>
