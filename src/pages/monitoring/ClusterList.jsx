@@ -5,7 +5,7 @@ import '../../styles/MONITORING.css';
 import DeleteButton from "../../components/formtoyaml/DeleteButton.jsx";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import { setCluster } from "../../redux/modules/cluster.js";
-import ClusterDeleteModal from '../../components/monitoring/ClusterDeleteModal.jsx';
+import DeleteModal from '../../components/monitoring/DeleteModal.jsx';
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -69,10 +69,11 @@ const ClusterList = () => {
                     ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
                 </ul>
                 {selectedClusterId && 
-                <ClusterDeleteModal 
+                <DeleteModal 
+                    type="cluster"
                     isOpen={isClusterDeleteModalOpen} 
                     setIsOpen={setIsClusterDeleteModalOpen} 
-                    cluster_id={selectedClusterId} 
+                    id={selectedClusterId} 
                     loadData={loadData} 
                 />
             }

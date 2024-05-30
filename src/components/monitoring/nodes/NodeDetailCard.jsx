@@ -153,8 +153,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                                     Created
                                 </Typography>
                                 <Typography variant="h6">
-                                    {node.created.split("T")[0]}{" "}
-                                    {node.created.split("T")[1]}
+                                    {node.created}
                                 </Typography>
                             </div>
                         </div>
