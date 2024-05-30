@@ -4,6 +4,7 @@ import '../../styles/MONITORING.css';
 import DeleteButton from "../../components/formtoyaml/DeleteButton.jsx";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import DeleteModal from '../../components/monitoring/DeleteModal.jsx';
+import Status from "../../components/icon/Status.jsx";
 
 const RepoList = () => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const RepoList = () => {
     };
 
     const loadData = () => {
-        axios.get(`/api/v1/cicd/` )
+        axios.get(`/api/v1/cicd` )
         .then((res) => {
             setRepolist(res.data.data);
         }).catch((err) => {
@@ -46,21 +47,17 @@ const RepoList = () => {
                 <ul>
                     <li>
                         <span style={{ width: "10vw" }}>Name</span>
-                        <span style={{ width: "50vw" }}>IP</span>
-                        <span style={{ width: "5vw" }}>Version</span>
+                        <span style={{ width: "10vw" }}>Created</span>
+                        <span style={{ width: "10vw" }}>LastCommit</span>
+                        <span style={{ width: "10vw" }}>LastBuildStatus</span>
                     </li>
-                    {repolist?.length > 0? (repolist.map((item, index) => (
+                    {repolist? (repolist.map((item, index) => (
                         <li key={index}>
-                            <span style={{ width: "10vw" }} onClick={() => onClickCluster(item)}>{item.clusterName}</span>
-                            <span style={{ width: "50vw" }} onClick={() => onClickCluster(item)}>{item.domainUrl}</span>
-                            <span style={{ width: "5vw" }} onClick={() => onClickCluster(item)}>{item.version}</span>
-                            <span onClick={() => onClickCluster(item)}>
-                                {item.status === "ready" ? 
-                                    <img src="../clusterStateTrue.svg" alt="good" /> : 
-                                    <img src="../clusterStateFalse.svg" alt="bad" />}
-                                
-                            </span>
-                            <span><DeleteButton onClick={() => handleDelete(item.repoitory_id)}></DeleteButton></span>
+                            <span style={{ width: "10vw" }} onClick={() => onClickCluster(item)}>{item.repositoryName}</span>
+                            <span style={{ width: "50vw" }} onClick={() => onClickCluster(item)}>{item.createdAt}</span>
+                            <span style={{ width: "5vw" }} onClick={() => onClickCluster(item)}>{item.lastCommit}</span>
+                            <span onClick={() => onClickCluster(item)}><Status status={item.lastBuildStatus} /></span>
+                            <span><DeleteButton onClick={() => handleDelete(item.repoitoryId)}></DeleteButton></span>
                         </li>
                     ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
                 </ul>

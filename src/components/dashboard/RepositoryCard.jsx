@@ -19,32 +19,14 @@ const theme = createTheme({
     },
 });
 
-export default function RepositoryCard({ name }) {
-    const [data, setData] = useState({});
-
-    useEffect(() => {
-        axios
-            .get("#")
-            .then((response) => {
-                // setData(response.data);
-                setData({
-                    name: {name},
-                    time: "9.3s",
-                    age: "2 months",
-                    status: "good",
-                });
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
-    }, []);
+export default function RepositoryCard({ key, repository }) {
 
     const renderStatusIcon = () => {
-        if (data.status === "good") {
+        if (repository.lastBuildStatus === "success") {
             return <TagFaces />;
-        } else if (data.status === "bad") {
+        } else if (repository.lastBuildStatus === "failed") {
             return <MoodBad />;
-        } else if (data.status === "well") {
+        } else if (repository.lastBuildStatus === "building") {
             return <SentimentNeutral />;
         }
     };
@@ -67,7 +49,7 @@ export default function RepositoryCard({ name }) {
             >
                 <CardContent>
                     <Typography sx={{ mb: 1.5 }} component="div">
-                        {name}
+                        {repository.repositoryName}
                     </Typography>
                     <div
                         style={{
@@ -86,7 +68,7 @@ export default function RepositoryCard({ name }) {
                                         Time
                                     </Typography>
                                     <Typography variant="body2">
-                                        {data.time}
+                                        {repository.createdAt}
                                     </Typography>
                                 </div>
                                 <div>
@@ -97,7 +79,7 @@ export default function RepositoryCard({ name }) {
                                         Age
                                     </Typography>
                                     <Typography variant="body2">
-                                        {data.age}
+                                        
                                     </Typography>
                                 </div>
                             </div>

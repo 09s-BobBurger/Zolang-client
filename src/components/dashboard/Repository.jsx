@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import RepositoryCard from "./RepositoryCard";
-import NewButton from "./NewButton";
 import ArrowForwardIos from "../icon/ArrowForwardIos";
 import { Link } from "react-router-dom";
 
 function Repository() {
-    const [repositories, setRepositories] = useState([
-        "Zolang-Client",
-        "Zolang-Server",
-        "My Repository",
-        "Test Repository",
-    ]);
+    const [repositories, setRepositories] = useState([]);
 
+    const loadData = () => {
+        axios.get(`/api/v1/cicd` )
+        .then((res) => {
+            setRepositories(res.data.data);
+        }).catch((err) => {
+        console.log(err)
+        })
+    }
     useEffect(() => {
-        axios
-            .get("#")
-            .then((response) => {
-                // setRepositories(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error);
-            });
+        loadData();
     }, []);
 
     return (
@@ -67,9 +62,9 @@ function Repository() {
                     paddingTop: "11px"
                 }}
             >
-                {repositories.map((repository, index) => (
-                    <RepositoryCard key={index} name={repository} />
-                ))}
+                {repositories? repositories.map((repository, index) => (
+                    <RepositoryCard key={index} repository={repository} />
+                )):null}
                 <div style={{ padding: "15px" }}>
                     <Link to="/cd/dashboard" style={{ textDecoration: "none" }}>
                         <span
