@@ -15,10 +15,10 @@ function TableForm({ data, title }) {
 
     const onClick= (name, namespace) => {
         if (title=== "DaemonSets"){
-            navigate('workloads/daemonsets', { state: { name : name, namespace: namespace } })
+            navigate('/monitoring/dashboard/workloads/daemonsets', { state: { name : name, namespace: namespace } })
             
         } else if (title=== "Deployments") {
-            navigate('workloads/deployments', { state: { name : name, namespace: namespace } })
+            navigate('/monitoring/dashboard/workloads/deployments', { state: { name : name, namespace: namespace } })
         }
     };
 
