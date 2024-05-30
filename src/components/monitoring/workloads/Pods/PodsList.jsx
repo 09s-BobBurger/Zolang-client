@@ -72,16 +72,9 @@ const PodsList = ({ setPod }) => {
     }, [podsData]);
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '40px',
-                width: '79vw'
-            }}
-        >
+        <div className="dashboard-content">
             {/* Usage Charts */}
-            <div
+            {podsData && podsData.totalUsage && <div
                 style={{
                     display: "flex",
                     gap: "20px",
@@ -97,13 +90,13 @@ const PodsList = ({ setPod }) => {
                 />
                 <UsageLineChart
                     title="Memory Usage"
-                    data={podsData.totalUsage.map(i => i ? i.memoryUsage/(10 ** 6): 0)}
+                    data={podsData.totalUsage.map(i => i ? i.memoryUsage / (10 ** 6) : 0)}
                     time={podsData.totalUsage.map(i => i ? i.time : '-')}
                     color="#00bbff"
                     yAxis="Memory(bytes)"
                     yFormat={(value) => value.toFixed(1).toString() + "Mi"}
                 />
-            </div>
+            </div>}
             <div
                 style={{
                     padding: "15px",
@@ -186,7 +179,7 @@ const PodsList = ({ setPod }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {podsData.pods.map((pod) => (
+                                {podsData && podsData.pods && podsData.pods.map((pod) => (
                                     <TableRow
                                         key={pod.name}
                                         onClick={() =>
@@ -229,16 +222,19 @@ const PodsList = ({ setPod }) => {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
-                                                            color1="#f8fc00" color2="#b0b300"
-                                                            min={0} usage={(pod.usage.cpuUsage * 10 ** 3).toFixed(2) + "m"}
-                                            />
+                                            {pod.metrics && <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                                                             color1="#f8fc00" color2="#b0b300"
+                                                             min={0}
+                                                             usage={pod.usage ? (pod.usage.cpuUsage * 10 ** 3).toFixed(2) + "m" : null}
+                                            />}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
-                                                            color1="#00bbff" color2="#00729c"
-                                                            min={0} usage={(pod.usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi"}
-                                            />
+                                            {pod.metrics && <MiniUsageChart
+                                                data={pod.metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
+                                                color1="#00bbff" color2="#00729c"
+                                                min={0}
+                                                usage={pod.usage ? (pod.usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi" : null}
+                                            />}
                                         </TableCell>
                                         <TableCell
                                             align="center"

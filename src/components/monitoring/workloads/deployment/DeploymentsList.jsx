@@ -65,7 +65,7 @@ const DeploymentsList = ({ setSelectedDeployment }) => {
         setSelectedDeployment(data);
     }
     return (
-        <div>
+        <div className="dashboard-content">
             <ControllerTable
                 data={deployments}
                 onClickRow={onClickRow}

@@ -8,8 +8,6 @@ const Deployments = () => {
     const initDeploymentNamespace = useLocation().state ? useLocation().state.namespace: null;
     const [selectedDeployment, setSelectedDeployment] = useState(initDeploymentName && initDeploymentNamespace ? [initDeploymentName, initDeploymentNamespace] : null);
 
-    console.log(initDeploymentName, initDeploymentNamespace);
-
     const initDeployment = () => {
         setSelectedDeployment(null);
     }

@@ -64,14 +64,7 @@ const DaemonSetsList = ({ setSelectedDaemon }) => {
     }
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '40px',
-                width: '79vw'
-            }}
-        >
+        <div className="dashboard-content">
             <ControllerTable
                 data={daemonSets}
                 onClickRow={onClickRow}
