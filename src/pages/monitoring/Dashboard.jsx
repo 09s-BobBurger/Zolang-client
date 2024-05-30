@@ -39,7 +39,7 @@ const Dashboard = () => {
         axios
             .get(`/api/v1/namespace/${clusterId}`)
             .then((response) => {
-                setNamespaces(["All", ...Object.values(response.data.data)]);
+                setNamespaces(["All", ...response.data.data.map(i => i.namespace)]);
             })
             .catch((error) => {
                 console.error("Error fetching sub categories:", error);
