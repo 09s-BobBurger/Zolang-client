@@ -310,7 +310,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                 </div>
 
                 {/* Pods Table */}
-                {detail.pods.length > 0 && <div
+                {detail.pods && detail.pods.length > 0 && <div
                     className="node-detail-card"
                     style={{
                         padding: "30px",
