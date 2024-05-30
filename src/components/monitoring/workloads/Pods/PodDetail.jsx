@@ -713,43 +713,10 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             </Table>
                         </TableContainer>
                     </div>
-                    <div>
+                    { Object.values(pod.container.securityContext).filter(i => i !== null) && <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Security Context
                         </Typography>
-                        <div
-                            style={{
-                                display: "flex",
-                                gap: '40px',
-                                color: "#ffffff",
-                                marginTop: '10px',
-                            }}
-                        >
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Run As User
-                                </Typography>
-                                <Typography variant="body1">
-                                    {pod.container.securityContext.runAsUser ? pod.container.securityContext.runAsUser : '-'}
-                                </Typography>
-                            </div>
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Added Capabilities
-                                </Typography>
-                                <Typography variant="body1">
-                                    {pod.container.securityContext.addedCapabilities.join(", ")}
-                                </Typography>
-                            </div>
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Drop Capabilities
-                                </Typography>
-                                <Typography variant="body1">
-                                    {pod.container.securityContext.dropCapabilities.join(", ")}
-                                </Typography>
-                            </div>
-                        </div>
                         <div
                             style={{
                                 display: "flex",
@@ -760,24 +727,64 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             }}
                         >
                             {
-                                Object.keys(pod.container.securityContext).slice(3).map(key => {
-                                    if (pod.container.securityContext[key]) {
-                                        return (
-                                            <div>
-                                                <Typography variant="body2" color="#ABAFBD">
-                                                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                                                </Typography>
-                                                <Typography variant="body1">
-                                                    {pod.container.securityContext[key]}
-                                                </Typography>
-                                            </div>
-                                        )
+                                Object.keys(pod.container.securityContext).map(key => {
+                                    const value = pod.container.securityContext[key];
+                                    if (value !== null) {
+                                        if (Array.isArray(value)) {
+                                            return (
+                                                <div>
+                                                    <Typography variant="body2" color="#ABAFBD">
+                                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                    </Typography>
+                                                    <Typography variant="body1">
+                                                        {value.join(', ')}
+                                                    </Typography>
+                                                </div>
+                                            )
+                                        } else if (typeof value === 'object') {
+                                            return (
+                                                <div>
+                                                    <Typography variant="body2" color="#ABAFBD">
+                                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                    </Typography>
+                                                    <Typography variant="body1">
+                                                        {Object.keys(value)
+                                                            .map((nestedKey) => {
+                                                                return <Label
+                                                                    name={nestedKey + ":" + value[nestedKey]}/>
+                                                            })}
+                                                    </Typography>
+                                                </div>
+                                            )
+                                        } else  if (typeof value === 'boolean') {
+                                            return (
+                                                <div>
+                                                    <Typography variant="body2" color="#ABAFBD">
+                                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                    </Typography>
+                                                    <Typography variant="body1">
+                                                        {value.toString()}
+                                                    </Typography>
+                                                </div>
+                                            )
+                                        } else {
+                                            return (
+                                                <div>
+                                                    <Typography variant="body2" color="#ABAFBD">
+                                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                                    </Typography>
+                                                    <Typography variant="body1">
+                                                        {value}
+                                                    </Typography>
+                                                </div>
+                                            )
+                                        }
                                     }
                                     return null;
                                 })
                             }
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>}
         </div>
