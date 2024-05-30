@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import "../../styles/MONITORING.css";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -41,7 +41,7 @@ const Accordion = styled(MuiAccordion)({
     },
 });
 
-const MonitoringNav = ({ items, currentMenu, namespace }) => {
+const MonitoringNav = ({ items, currentMenu, namespaces }) => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -97,7 +97,7 @@ const MonitoringNav = ({ items, currentMenu, namespace }) => {
                     }}
                     sx={{ padding: 0 }}
                 >
-                    {namespace.map((option) => (
+                    {namespaces.map((option) => (
                         <MenuItem
                             key={option}
                             selected={option === currentNamespace}

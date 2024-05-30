@@ -631,6 +631,19 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 marginTop: '10px',
                             }}
                         >
+                            {
+                                pod.container.env.map((item, idx) => {
+                                    return (<div key={idx}>
+                                        <Typography variant="body2" color="#ABAFBD">
+                                            {item.name}
+                                        </Typography>
+                                        <Typography variant="body1">
+                                            {item.value ? item.value : '-'}
+                                        </Typography>
+                                    </div>)
+                                })
+
+                            }
                             <div>
                                 <Typography variant="body2" color="#ABAFBD">
                                     Pod Name

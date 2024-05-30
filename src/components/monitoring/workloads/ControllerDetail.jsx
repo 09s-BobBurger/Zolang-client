@@ -416,14 +416,14 @@ const ControllerDetail = ({ detail, goToList }) => {
                                             {usages && usages[pod.name] && <MiniUsageChart
                                                 data={usages[pod.name].metrics.map(i => i ? i.cpuUsage : 0)}
                                                 color1="#f8fc00" color2="#b0b300"
-                                                min={0} usage={(usages[pod.name].usage.cpuUsage * 10 ** 3).toFixed(2) + "m"}
+                                                min={0} usage={usages[pod.name].usage ? (usages[pod.name].usage.cpuUsage * 10 ** 3).toFixed(2) + "m" : null}
                                             />}
                                         </TableCell>
                                         <TableCell align="center">
                                             {usages && usages[pod.name] && <MiniUsageChart
                                                 data={usages[pod.name].metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
                                                 color1="#00bbff" color2="#00729c"
-                                                min={0} usage={(usages[pod.name].usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi"}
+                                                min={0} usage={usages[pod.name].usage ? (usages[pod.name].usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi" : null}
                                             />}
                                         </TableCell>
                                         <TableCell
@@ -441,7 +441,7 @@ const ControllerDetail = ({ detail, goToList }) => {
 
                 {/* Services */}
                 {
-                    detail.services.length > 0 &&
+                    detail.services && detail.services.length > 0 &&
                     <div
                         className="node-detail-card"
                         style={{
