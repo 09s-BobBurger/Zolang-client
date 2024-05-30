@@ -10,19 +10,19 @@ function DaemonSets(props) {
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
 
-    const loadData = () => {
-        const url = namespace === 'All' 
-            ? `/api/v1/cluster/${clusterId}/workload/daemons` 
-            : `/api/v1/cluster/${clusterId}/workload/daemons/namespace?namespace=${namespace}`;
-        
-        axios.get(url)
-            .then((res) => {
-                setDaemonSets(res.data.data.controllers || []);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }
+    const loadData = async () => {
+        try {
+            let res;
+            if (namespace === "All") {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/daemons`);
+            } else {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/daemons/namespace?namespace=${namespace}`);
+            }
+            setDaemonSets(res.data.data.controllers);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     useEffect(() => {
         loadData();
@@ -33,7 +33,7 @@ function DaemonSets(props) {
     }, [namespace]);
 
     return (
-        daemonSet?.length > 0 ?
+        daemonSet? 
         <TableForm data={daemonSet} title="DaemonSets" /> : null
     );
 }

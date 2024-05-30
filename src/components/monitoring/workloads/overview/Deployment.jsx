@@ -9,19 +9,19 @@ function Deployment(props) {
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
 
-    const loadData = () => {
-        const url = namespace === 'All' 
-            ? `/api/v1/cluster/${clusterId}/workload/deployments` 
-            : `/api/v1/cluster/${clusterId}/workload/deployments/namespace?namespace=${namespace}`;
-        
-        axios.get(url)
-            .then((res) => {
-                setDeployments(res.data.data.controllers || []);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }
+    const loadData = async () => {
+        try {
+            let res;
+            if (namespace === "All") {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/deployments` );
+            } else {
+                res = await axios.get(`/api/v1/cluster/${clusterId}/workload/deployments/namespace?namespace=${namespace}`);
+            }
+            setDeployments(res.data.data.controllers);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     useEffect(() => {
         loadData();
@@ -30,8 +30,9 @@ function Deployment(props) {
     useEffect(() => {
         loadData();
     }, [namespace]);
+    
     return (
-        deployment?.length > 0 ?
+        deployment? 
         <TableForm data={deployment} title="Deployments" /> : null
     );
 
