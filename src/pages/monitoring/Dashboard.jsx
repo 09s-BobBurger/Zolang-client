@@ -8,7 +8,7 @@ import WorkloadsOverview from '../../components/monitoring/workloads/overview/Ov
 import Pods from '../../components/monitoring/workloads/Pods/Pods.jsx'
 import Nodes from '../../components/monitoring/nodes/Nodes.jsx'
 import Services from "../../components/monitoring/network/services/Services.jsx";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import DaemonSets from "../../components/monitoring/workloads/daemonsets/DaemonSets.jsx";
 import Deployments from "../../components/monitoring/workloads/deployment/Deployments.jsx";
 import ReplicaSets from "../../components/monitoring/workloads/replicasets/ReplicaSets.jsx";

@@ -8,7 +8,6 @@ import InnerAccordion from "./InnerAccordion.jsx";
 import TextField from './TextField.jsx';
 import Radio from './Radio.jsx';
 import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import DeleteButton from "./DeleteButton.jsx";
 import InputBox from "./InputBox.jsx";

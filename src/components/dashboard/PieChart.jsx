@@ -1,6 +1,5 @@
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import React, { useEffect, useState } from "react";
-import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 
 function PieChart(props) {

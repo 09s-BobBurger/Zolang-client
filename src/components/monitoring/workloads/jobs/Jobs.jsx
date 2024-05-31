@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
-import ControllerTable from "../ControllerTable.jsx";
 import JobsList from "./JobsList.jsx";
 
 const Jobs = () => {

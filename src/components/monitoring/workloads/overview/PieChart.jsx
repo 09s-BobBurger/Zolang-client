@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Typography from "@mui/material/Typography";
 import "../../../../styles/MONITORING.css";
