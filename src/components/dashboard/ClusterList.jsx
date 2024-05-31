@@ -34,8 +34,10 @@ const ClusterList = () => {
     };
 
     const onClickCluster = (item) => {
-        dispatch(setCluster(item.clusterId));
-        navigate("/monitoring/dashboard");
+        if (item.status === "ready") {
+            dispatch(setCluster(item.clusterId));
+            navigate("/monitoring/dashboard");
+        }
     };
 
     return (
