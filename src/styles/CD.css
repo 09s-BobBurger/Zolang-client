@@ -7,7 +7,7 @@
     height: 100%;
     padding: 40px 100px;
     margin: 0;
-    background: #2E3240;
+    background: #2e3240;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,7 +21,7 @@
     align-items: center;
     height: 28px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #474B59;
+    border-bottom: 1px solid #474b59;
 }
 
 .repo-list-title {
@@ -31,8 +31,8 @@
 
 .new-repo-button {
     color: white;
-    background-color: #474B59;
-    border: 1px solid #797D8B;
+    background-color: #474b59;
+    border: 1px solid #797d8b;
     padding: 6px 12px;
     font-size: 14px;
     width: 74px;
