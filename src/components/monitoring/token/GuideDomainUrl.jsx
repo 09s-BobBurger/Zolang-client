@@ -1,10 +1,9 @@
 import React from 'react';
 import {anOldHope, CopyBlock} from "react-code-blocks";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 const GuideDomainUrl = () => {
     const clusterName = useSelector(state => state.token.clusterName);
-    const dispatch = useDispatch();
 
     const code = `# .KUBECONFIG에 여러 콘텍스트가 있을 수 있으므로, 가능한 모든 클러스터를 확인한다.
 kubectl config view -o jsonpath='{"Cluster name\\tServer\\n"}{range .clusters[*]}{.name}{"\\t"}{.cluster.server}{"\\n"}{end}'

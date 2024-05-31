@@ -4,7 +4,7 @@ import Deployment from './Deployment';
 import Pods from './Pods';
 import ChartList from './ChartList';
 
-function Overview(props) {
+function Overview() {
     return (
         <div className="overview-content">
             <ChartList />

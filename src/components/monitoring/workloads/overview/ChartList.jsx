@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PieChart from "./PieChart";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { customizedAxios as axios } from "../../../../util/customizedAxios.js";
 import { useSelector } from "react-redux";
 
-function ChartList(props) {
+function ChartList() {
     const [runState, setRunState] = useState({});
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);

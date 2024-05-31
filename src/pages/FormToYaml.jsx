@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import YamlResult from "../components/formtoyaml/yamlResult";
 import FormToYamlFooter from "../components/formtoyaml/FormToYamlFooter";
 import loginUtil from '../util/login.js'
-import PushModal from "../components/formtoyaml/PushModal.jsx";
 import LoginModal from "../components/formtoyaml/LoginModal.jsx";
 import AlertModal from "../components/formtoyaml/AlertModal.jsx";
 
