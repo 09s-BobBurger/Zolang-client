@@ -67,10 +67,8 @@ function TokenFooter(props) {
             axios
                 .post("/api/v1/cluster/version",
                     {
-                        data: {
-                            "token": token,
-                            "domainUrl": domainUrl,
-                        },
+                        "secret_token": token,
+                        "domain_url": domainUrl,
                     }
                 )
                 .then(r => {
@@ -98,13 +96,11 @@ function TokenFooter(props) {
             axios
                 .post("/api/v1/cluster",
                     {
-                        data: {
-                            "cluster_name": clusterName,
-                            "token": token,
-                            "domainUrl": domainUrl,
-                            "version": version,
-                        },
-                    }
+                        "cluster_name": clusterName,
+                        "secret_token": token,
+                        "domain_url": domainUrl,
+                        "version": version,
+                    },
                 )
                 .then(r => {
                     if (!r.data.success) {
