@@ -1,7 +1,7 @@
 import React from "react";
 import { CopyBlock,anOldHope} from "react-code-blocks";
 
-function token(props) {
+function token() {
     const secret = `apiVersion: v1
 kind: Secret
 type: kubernetes.io/service-account-token
@@ -17,7 +17,6 @@ metadata:
                 outline: "1px solid #ABAFBD",
                 borderRadius: "10px",
                 margin: "15px",
-                marginBottom: "50px"
             }}
         >
             <span
