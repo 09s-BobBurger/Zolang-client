@@ -2,17 +2,18 @@ import React from 'react';
 import ApexChart from "react-apexcharts";
 
 const BillChart = () => {
+    const date = ["5.27", "5.28", "5.29", "5.30", "5.31"]
     const series = [{
-            name: 'PRODUCT A',
+            name: 'Base',
             data: [44, 55, 41, 67, 22]
         }, {
-            name: 'PRODUCT B',
+            name: 'Pod',
             data: [13, 23, 20, 8, 13]
         }, {
-            name: 'PRODUCT C',
+            name: 'Memory',
             data: [11, 17, 15, 15, 21]
         }, {
-            name: 'PRODUCT D',
+            name: 'CPU',
             data: [21, 7, 25, 13, 22]
         }]
     const options = {
@@ -27,6 +28,9 @@ const BillChart = () => {
                 enabled: false
             }
         },
+        dataLabels: {
+            formatter: (value) => `$${value}`
+        },
         responsive: [{
             breakpoint: 480,
             options: {
@@ -37,26 +41,55 @@ const BillChart = () => {
                 }
             }
         }],
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                borderRadius: 10,
-                borderRadiusApplication: 'end', // 'around', 'end'
-                borderRadiusWhenStacked: 'last', // 'all', 'last'
-                dataLabels: {
-                    total: {
-                        enabled: true,
-                        style: {
-                            fontSize: '13px',
-                            fontWeight: 900
-                        }
-                    }
+        grid: {
+            // row: {
+            //     colors: ['#000'], // takes an array which will be repeated on columns
+            //     opacity: 0.3
+            // },
+            xaxis: {
+                lines: {
+                    show: false
+                },
+            },
+            yaxis: {
+                lines: {
+                    show: false
                 }
             },
         },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                borderRadius: 8,
+                columnWidth: '60%',
+                borderRadiusApplication: 'end', // 'around', 'end'
+                borderRadiusWhenStacked: 'last', // 'all', 'last'
+                dataLabels: {
+                    position: 'top',
+                    total: {
+                        offsetX: -21,
+                        offsetY: -5,
+                        enabled: true,
+                        formatter: (value) => `$${value}`,
+                        style: {
+                            fontSize: '13px',
+                            fontWeight: 900,
+                            color: "#ffffff"
+                        }
+                    }
+                },
+
+            },
+        },
+        colors: ['#1f233a', '#4c4888', '#af496d', '#e19f26'],
         xaxis: {
             type: 'Month',
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            categories: date,
+            labels : {
+                style: {
+                    colors: Array(date.length).fill("#ffffff")
+                }
+            }
         },
         yaxis: {
             labels : {
@@ -83,7 +116,6 @@ const BillChart = () => {
         <div
              style={{
                  height: '300px',
-                 padding: '20px',
                  overflowX: 'auto',
                  overflowY: 'hidden',
              }}

@@ -20,3 +20,9 @@
 ::-webkit-scrollbar-corner {
   background-color: transparent; /* 스크롤바 코너의 색상 */
 }
+
+/* font */
+@font-face {
+  font-family: "ubuntu-regular";
+  src: url("./fonts/Ubuntu-Regular.ttf");
+}
