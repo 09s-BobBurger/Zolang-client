@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import ClusterState from "./ClusterState.jsx";
 import { setCluster } from "../../redux/modules/cluster.js";
-import loginUtil from "../../util/login.js";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
+import BuildingIcon from "../icon/BuildingIcon.jsx";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -72,9 +71,13 @@ const ClusterList = () => {
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
                                     <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.version}</TableCell>
-                                    <TableCell align="center" onClick={() => onClickCluster(item)}>{item.status === "ready" ? 
-                                    <img src="../clusterStateTrue.svg" alt="good" /> : 
-                                    <img src="../clusterStateFalse.svg" alt="bad" />}</TableCell>
+                                    <TableCell align="center" onClick={() => onClickCluster(item)}>
+                                        {item.status === "ready" ?
+                                            <img src="../clusterStateTrue.svg" alt="good" /> :
+                                            item.status === "creating" ?
+                                                <BuildingIcon /> :
+                                                <img src="../clusterStateFalse.svg" alt="bad" />}
+                                    </TableCell>
                                 </TableRow>
                             ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
                         </TableBody>

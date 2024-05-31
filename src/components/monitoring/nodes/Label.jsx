@@ -9,7 +9,7 @@ function Label(props) {
                 backgroundColor: "#474B59",
                 padding: "6px 12px",
                 fontSize: "14px",
-                width: "max-content",
+                width: "fit-content",
                 height: "fit-content",
                 borderRadius: "8px",
                 textAlign: "left",
