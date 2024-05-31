@@ -129,7 +129,7 @@ const RepoList = () => {
                                         <TableCell onClick={() => onClickRepository(item)}>{item.repositoryName}</TableCell>
                                         <TableCell onClick={() => onClickRepository(item)}>{item.lastCommit}</TableCell>
                                         <TableCell align="center" style={{ textAlign: "-webkit-center" }} onClick={() => onClickRepository(item)}>
-                                            <Status status={item.lastBuildStatus} />
+                                            <Status status={item.lastBuildStatus+".."} />
                                         </TableCell>
                                         <TableCell align="center" onClick={() => onClickRepository(item)}>
                                             {changeTime(item.createdAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}

@@ -10,7 +10,7 @@ const Status = ({ status }) => {
         'true' : 'rgba(96, 173, 32, 0.5)',
         'false' : 'rgba(255, 98, 98, 0.5)',
         'failed' : 'rgba(255, 98, 98, 0.5)',
-        'building' : 'rgba(202, 234, 75, 0.5)',
+        'building..' : 'rgba(202, 234, 75, 0.5)',
         ' - ' : 'rgba(201,201,201, 0.2)'
     };
 
