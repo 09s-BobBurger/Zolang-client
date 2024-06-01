@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import BuildingIcon from "../icon/BuildingIcon.jsx";
+import HoverEventIcon from "../icon/HoverEventIcon.jsx";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -63,22 +64,31 @@ const ClusterList = () => {
                             <TableRow>
                                 <TableCell style={{ width: "15vw" }}>Name</TableCell>
                                 <TableCell style={{ width: "40vw" }}>URL</TableCell>
-                                <TableCell align="center" style={{ width: "10vw" }}>Version</TableCell>
+                                <TableCell align="center" style={{ width: "10vw" }}>Provider</TableCell>
                                 <TableCell> </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                         {clusters?.length > 0? (clusters.slice(0,3).map((item, index) => (
-                                <TableRow  key={index}>
-                                    <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
-                                    <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
-                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.version}</TableCell>
-                                    <TableCell align="center" onClick={() => onClickCluster(item)}>
-                                        {item.status === "ready" ?
-                                            <img src="../clusterStateTrue.svg" alt="good" /> :
-                                            item.status === "creating" ?
-                                                <BuildingIcon /> :
-                                                <img src="../clusterStateFalse.svg" alt="bad" />}
+                                <TableRow key={index} onClick={() => onClickCluster(item)}>
+                                    <TableCell>{item.clusterName}</TableCell>
+                                    <TableCell>{item.domainUrl}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-center"}}>
+                                        {
+                                            item.provider === "zolang" ?
+                                            <HoverEventIcon src="../../../zolang_img.png" alt={item.provider}/>
+                                                :
+                                                <HoverEventIcon src="../../../external.svg" alt={item.provider} />
+                                        }
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                            {item.status === "ready" ?
+                                                <img src="../clusterStateTrue.svg" alt="good" /> :
+                                                item.status === "creating" ?
+                                                    <BuildingIcon /> :
+                                                    <img src="../clusterStateFalse.svg" alt="bad" />}
+                                        </div>
                                     </TableCell>
                                 </TableRow>
                             ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }

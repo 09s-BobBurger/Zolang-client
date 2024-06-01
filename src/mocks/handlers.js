@@ -424,14 +424,16 @@ export const handlers = [
                     "clusterName": "test1",
                     "domainUrl": "4D7C9D3720F10894E47E736F3C5C07F6.sk1.ap-northeast-2.eks.amazonaws.com",
                     "version": "1.29.1",
-                    "status": "ready"
+                    "status": "ready",
+                    "provider": "external"
                 },
                 {
                     "clusterId": 25,
-                    "clusterName": "TestAsyncCreate",
-                    "domainUrl": "",
-                    "version": "",
-                    "status": "creating"
+                    "clusterName": "TestAsyncCreat",
+                    "domainUrl": "87AB32865FFC51D6F9F914B9B40F690D.yl4.ap-northeast-2.eks.amazonaws.com",
+                    "version": "1.29",
+                    "status": "ready",
+                    "provider": "zolang"
                 }
             ],
             "error": null
@@ -656,15 +658,15 @@ export const handlers = [
     }),
 
     // enroll cluster
-    // http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
-    //     const data = await request.json();
-    //     console.log(data);
-    //     return HttpResponse.json({
-    //         success: true,
-    //         data: 1,
-    //         error: null,
-    //     });
-    // }),
+    http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
+        const data = await request.json();
+        console.log(data);
+        return HttpResponse.json({
+            success: true,
+            data: 1,
+            error: null,
+        });
+    }),
 
     // get api to enroll cluster
     http.post(`${baseURL}/api/v1/cluster/version`, async({request}) => {

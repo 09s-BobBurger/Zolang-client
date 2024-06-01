@@ -13,6 +13,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import BuildingIcon from "../../components/icon/BuildingIcon.jsx";
+import HoverEventIcon from "../../components/icon/HoverEventIcon.jsx";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -66,6 +67,7 @@ const ClusterList = () => {
                                 <TableCell style={{ width: "15vw" }}>Name</TableCell>
                                 <TableCell style={{ width: "40vw" }}>URL</TableCell>
                                 <TableCell align="center" style={{ width: "10vw" }}>Version</TableCell>
+                                <TableCell align="center" style={{ width: "10vw" }}>Provider</TableCell>
                                 <TableCell> </TableCell>
                                 <TableCell align="right"> </TableCell>
                             </TableRow>
@@ -76,12 +78,22 @@ const ClusterList = () => {
                                     <TableCell>{item.clusterName}</TableCell>
                                     <TableCell>{item.domainUrl}</TableCell>
                                     <TableCell align="center" style={{textAlign: "-webkit-center"}}>{item.version}</TableCell>
-                                    <TableCell align="center">
-                                        {item.status === "ready" ?
-                                        <img src="../clusterStateTrue.svg" alt="good" /> :
-                                            item.status === "creating" ?
-                                                <BuildingIcon /> :
-                                                <img src="../clusterStateFalse.svg" alt="bad" />}
+                                    <TableCell align="center" width="5%" style={{textAlign: "-webkit-center"}}>
+                                        {
+                                            item.provider === "zolang" ?
+                                                <HoverEventIcon src="../../../zolang_img.png" alt={item.provider}/>
+                                                :
+                                                <HoverEventIcon src="../../../external.svg" alt={item.provider} />
+                                        }
+                                    </TableCell>
+                                    <TableCell align="center" width="5%">
+                                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                            {item.status === "ready" ?
+                                            <img src="../clusterStateTrue.svg" alt="good" /> :
+                                                item.status === "creating" ?
+                                                    <BuildingIcon /> :
+                                                    <img src="../clusterStateFalse.svg" alt="bad" />}
+                                        </div>
                                     </TableCell>
                                     <TableCell align="center" style={{textAlign: "-webkit-right"}}><DeleteButton onClick={() => handleDelete(item.clusterId)}></DeleteButton></TableCell>
                                 </TableRow>
