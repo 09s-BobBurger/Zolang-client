@@ -79,6 +79,7 @@ function TokenFooter(props) {
                     if (r.data.success) {
                         setVersion(r.data.data);
                     } else {
+                        props.setIsVersionModalOpen(true);
                     }
                 })
         }
