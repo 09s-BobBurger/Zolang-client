@@ -81,7 +81,12 @@ const ClusterList = () => {
                                                 <img src="../clusterStateFalse.svg" alt="bad" />}
                                     </TableCell>
                                 </TableRow>
-                            ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
+                            ))) : 
+                            <TableRow>
+                                <TableCell colSpan={4} align="center" style={{ padding: "10px" }}>
+                                    <img src=".././텅.svg" width="100px" alt="No Clusters" />
+                                </TableCell>
+                            </TableRow> }
                         </TableBody>
                     </Table>
                 </TableContainer>

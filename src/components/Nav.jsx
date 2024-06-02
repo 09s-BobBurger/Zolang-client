@@ -19,9 +19,11 @@ const Drawer = styled(MuiDrawer)({
 
 const AccountContainer = styled(`div`) ({
     display: 'flex',
+    flexDirection:"column",
     color: 'white',
     padding: '8px 4px 16px 4px',
     borderBottom: "1.5px solid #606472",
+    alignItems: "center",
     '& img': {
         width: '64px',
         height: '64px',
@@ -35,8 +37,12 @@ const AccountContainer = styled(`div`) ({
     '& .name-label': {
         fontWeight: '600'
     },
-    '& .name-content': {
-
+    '& .info-box': {
+        display: 'flex',
+        color: 'white',
+        padding: '8px 4px 16px 4px',
+        alignItems: "center",
+        width:"100%"
     }
 })
 
@@ -136,13 +142,22 @@ const Nav = ({open, toggleDrawer}) => {
         }
     }
 
+    const addGitInstall = () => {
+        window.location.href = 'https://github.com/apps/zolang-app/installations/new';
+    }
+
     return (
         <Drawer open={open} onClick={toggleDrawer(false)}>
             <AccountContainer>
-                <img src={userImage? userImage: "https://ko.vitejs.dev/logo.svg"} alt="이미지"/>
-                <div style={nameContainerStyle}>
-                    <span className="name-label">{userName}</span>
-                    <span className="name-content">{userEmail}</span>
+                <div className='info-box'>
+                    <img src={userImage? userImage: "https://ko.vitejs.dev/logo.svg"} alt="이미지"/>
+                    <div style={nameContainerStyle}>
+                        <span className="name-label">{userName}</span>
+                        <span className="name-content">{userEmail}</span>
+                    </div>
+                </div>
+                <div style={{marginLeft: "auto"}}>
+                    <Button className='git-button' style={{color: "pink"}} onClick={addGitInstall}>Add Git install</Button>
                 </div>
             </AccountContainer>
             <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
