@@ -46,6 +46,7 @@ function total(props) {
                 background: "#2E3240",
                 height: "100%",
                 overflow: "auto",
+                overflowY: "hidden"
             }}
         >
             <div
@@ -105,6 +106,8 @@ function total(props) {
                             textAlign: "center",
                             alignItems: "center",
                             justifyContent: "space-between",
+                            width: "90%",
+                            margin: "0 auto"
                         }}
                     >
                         <div>
