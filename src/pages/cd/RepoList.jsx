@@ -56,7 +56,6 @@ const RepoList = () => {
                     setCluster(null);
                     setIsZolangClusterReady(false);
                 }
-                navigate("/dashboard")
             }).catch((err) => {
                 console.log(err);
             });

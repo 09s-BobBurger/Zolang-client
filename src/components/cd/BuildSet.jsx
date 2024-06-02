@@ -8,22 +8,17 @@ import {
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-function BuildSet({
-    language,
-    setLanguage,
-    version,
-    setVersion,
-    buildTool,
-    setBuildTool,
-}) {
-    const handleLanguageChange = (event) => {
+function BuildSet({language,setLanguage,version,setVersion,buildTool,setBuildTool,error,}) {
+ const handleLanguageChange = (event) => {
         setLanguage(event.target.value);
         setVersion("");
         setBuildTool("");
     };
+    
 
     const handleVersionChange = (event) => {
         setVersion(event.target.value);
+        setBuildTool("AUTO");
     };
 
     const handleBuildToolChange = (event) => {
@@ -73,8 +68,8 @@ function BuildSet({
     ];
 
     const buildTools = {
-        Java: ["AUTO", "gradle", "maven"],
-        JS: ["AUTO", "npm", "yarn"],
+        Java: ["gradle", "maven"],
+        JS: ["npm", "yarn"],
     };
 
     return (
@@ -83,7 +78,7 @@ function BuildSet({
                 Project Info
             </Typography>
             <div>
-                <FormControl required sx={{ m: 1, minWidth: 200, width: "25vw" }}>
+                <FormControl required error={error.language} sx={{ m: 1, minWidth: 200, width: "25vw" }}>
                     <InputLabel id="language-label" sx={{ color: "#ffffff" }}>
                         Language
                     </InputLabel>
@@ -102,10 +97,10 @@ function BuildSet({
                         ))}
                     </Select>
                     <FormHelperText sx={{ color: "#ffffff" }}>
-                        Required
+                        {(!language && error.language) ? "Required" : ""}
                     </FormHelperText>
                 </FormControl>
-                <FormControl
+                <FormControl required error={error.version}
                     sx={{ m: 1, minWidth: 200, width: "25vw" }}
                     disabled={!language || language === "Python"}
                 >
@@ -137,11 +132,10 @@ function BuildSet({
                             ))}
                     </Select>
                     <FormHelperText sx={{ color: "#ffffff" }}>
-                        {language === "Python" ? "Disabled" : "Required"}
+                        {(!version && language !== "Python" && error.version) ? "Required" : (language === "Python" ? "Disabled" : "")}
                     </FormHelperText>
                 </FormControl>
                 <FormControl
-                    required
                     sx={{ m: 1, minWidth: 200, width: "25vw" }}
                     disabled={!language || language === "Python"}
                 >
@@ -151,11 +145,12 @@ function BuildSet({
                     <Select
                         labelId="build-tool-label"
                         id="build-tool"
-                        value={buildTool || "AUTO"}
+                        value={buildTool}
                         label="Build Tool"
                         sx={{ color: "#ffffff", borderColor: "#ffffff" }}
                         onChange={handleBuildToolChange}
                     >
+                        <MenuItem value="AUTO">AUTO</MenuItem>
                         {language &&
                             buildTools[language]?.map((tool, index) => (
                                 <MenuItem key={index} value={tool}>
@@ -163,9 +158,6 @@ function BuildSet({
                                 </MenuItem>
                             ))}
                     </Select>
-                    <FormHelperText sx={{ color: "#ffffff" }}>
-                        {language === "Python" ? "Disabled" : "Required"}
-                    </FormHelperText>
                 </FormControl>
             </div>
         </div>

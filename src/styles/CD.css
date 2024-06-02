@@ -1,8 +1,53 @@
 /* Build Setting Page */
+fieldset { 
+    border-color: #ffffff70 !important;
+}
+.Mui-error{
+    color: #f5ff76 !important;
+}
+.Mui-disabled {
+    color: rgba(128, 128, 128, 0.676) !important;
+}
+.MuiOutlinedInput-notchedOutline {
+    border-color: #d5eaff70 !important;
+}
+.MuiInput-input ::selection {
+    background-color: #ffffff70 !important;
+}
 .build-setting {
     width: 100%;
     padding: 20px 100px;
 }
+.setting-components-container {
+    color: white;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.repository-description {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.git-setting {
+    display: flex;
+    flex-direction: column;
+}
+
+.git-setting-content {
+    border-left: solid;
+    border-left-width: thin;
+    padding-left: 20px;
+    margin-left: 9px;
+}
+
+.git-repo, .git-branch {
+    margin-bottom: 20px;
+}
+
 /* Repo List page */
 .repo-list-page {
     box-sizing: border-box;

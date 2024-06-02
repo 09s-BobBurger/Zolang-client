@@ -3,6 +3,56 @@ import { http, HttpResponse } from "msw";
 const baseURL = "https://kcs.zolang.store";
 
 export const handlers = [
+    http.get(`${baseURL}/api/v1/users`, () => {
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "id": 2,
+                "nickname": "dongkyeomjang",
+                "profileImage": "https://avatars.githubusercontent.com/u/86873281?v=4",
+                "email": "jangelliot0404@dgu.ac.kr"
+            },
+            "error": null
+        });
+    }),
+    http.get(`${baseURL}/api/v1/cicd`, () => {
+        return HttpResponse.json({
+            "success": true,
+            "data": [
+                {
+                    "repositoryId": 1,
+                    "repositoryName": "Zolang-server",
+                    "lastCommit": "init",
+                    "lastBuildStatus": "success",
+                    "createdAt": [
+                        2024,
+                        5,
+                        28,
+                        14,
+                        37,
+                        37,
+                        817315000
+                    ]
+                },
+                {
+                    "repositoryId": 1,
+                    "repositoryName": "Zolang-server",
+                    "lastCommit": "init",
+                    "lastBuildStatus": "success",
+                    "createdAt": [
+                        2024,
+                        5,
+                        28,
+                        14,
+                        37,
+                        37,
+                        817315000
+                    ]
+                }
+            ],
+            "error": null
+        });
+    }),
     http.get(
         `${baseURL}/api/v1/cluster/:clusterId/workload/cron-jobs/namespace`,
         ({ params }) => {
@@ -424,14 +474,16 @@ export const handlers = [
                     "clusterName": "test1",
                     "domainUrl": "4D7C9D3720F10894E47E736F3C5C07F6.sk1.ap-northeast-2.eks.amazonaws.com",
                     "version": "1.29.1",
-                    "status": "ready"
+                    "status": "ready",
+                    "provider": "external"
                 },
                 {
                     "clusterId": 25,
-                    "clusterName": "TestAsyncCreate",
-                    "domainUrl": "",
-                    "version": "",
-                    "status": "creating"
+                    "clusterName": "TestAsyncCreat",
+                    "domainUrl": "87AB32865FFC51D6F9F914B9B40F690D.yl4.ap-northeast-2.eks.amazonaws.com",
+                    "version": "1.29",
+                    "status": "ready",
+                    "provider": "zolang"
                 }
             ],
             "error": null
@@ -448,7 +500,7 @@ export const handlers = [
     // }),
 
     // load repositories
-    http.get("/api/v1/users/github", () => {
+    http.get(`${baseURL}/api/v1/github`, () => {
         return HttpResponse.json({
             success: true,
             data: [
@@ -605,7 +657,7 @@ export const handlers = [
     }),
 
     // load branches
-    http.get("/api/v1/users/github/branches", ({ request }) => {
+    http.get(`${baseURL}/api/v1/users/github/branches`, ({ request }) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get("repoName");
         return HttpResponse.json({
@@ -638,7 +690,7 @@ export const handlers = [
     }),
 
     // push
-    http.put("/api/v1/users/github/commits", async ({ request }) => {
+    http.put(`${baseURL}/api/v1/users/github/commits`, async ({ request }) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get("repoName");
         const branchName = url.searchParams.get("branchName");

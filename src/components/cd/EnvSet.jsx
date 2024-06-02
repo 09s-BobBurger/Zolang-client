@@ -70,7 +70,7 @@ function EnvSet({ labels, setLabels }) {
                             Add Env
                         </AddButton>
                     </div>
-                    {labels.map((label, index) => (
+                    {labels? labels.map((label, index) => (
                         <div
                             key={index}
                             style={{
@@ -116,7 +116,7 @@ function EnvSet({ labels, setLabels }) {
                                 onClick={() => handleDeleteLabel(index)}
                             />
                         </div>
-                    ))}
+                    )) : null}
                 </div>
             )}
         </>
