@@ -63,7 +63,7 @@ const ClusterList = () => {
                             <TableRow>
                                 <TableCell style={{ width: "15vw" }}>Name</TableCell>
                                 <TableCell style={{ width: "40vw" }}>URL</TableCell>
-                                <TableCell align="center" style={{ width: "10vw" }}>Version</TableCell>
+                                <TableCell align="center" style={{ width: "10vw" }}>Provider</TableCell>
                                 <TableCell> </TableCell>
                             </TableRow>
                         </TableHead>
@@ -72,7 +72,7 @@ const ClusterList = () => {
                                 <TableRow  key={index}>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
-                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.version}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.provider}</TableCell>
                                     <TableCell align="center" onClick={() => onClickCluster(item)}>
                                         {item.status === "ready" ?
                                             <img src="../clusterStateTrue.svg" alt="good" /> :

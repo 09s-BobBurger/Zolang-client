@@ -5,6 +5,7 @@ import MuiBox from '@mui/material/Box';
 import TextField from '../formtoyaml/TextField.jsx';
 import { styled } from "@mui/material/styles";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
+import { useNavigate } from 'react-router-dom';
 
 const Box = styled(MuiBox)({
     boxSizing: 'border-box',
@@ -28,17 +29,17 @@ const Box = styled(MuiBox)({
 
 const CreateClusterModal = ({ isOpen, setIsOpen, onClusterCreated }) => {
     const [clusterName, setClusterName] = useState('');
-
+    const navigate = useNavigate();
+    
     const handleCreateCluster = () => {
         axios.post(`/api/v1/cluster/${clusterName}`)
-            .then((res) => {
-                onClusterCreated();
-                setIsOpen(false);
-            })
             .catch((err) => {
                 console.log(err);
-            });
+            })
+        setIsOpen(false);
+        navigate("/dashboard");
     };
+    
 
     const messageStyle = {
         display: 'flex',
