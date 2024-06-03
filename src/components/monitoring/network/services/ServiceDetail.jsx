@@ -40,7 +40,7 @@ const ServiceDetail = ({ serviceName, initService }) => {
 
     return (
         <div
-            style={{ width: '79vw' }}
+            style={{ width: '79vw', minWidth: "1200px" }}
         >
             {/* list로 가기 버튼 */}
             <MuiButton

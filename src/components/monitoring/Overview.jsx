@@ -27,17 +27,18 @@ const Overview = (data) => {
             <div
                         style={{
                             padding: "15px",
-                        outline: "1px solid #ABAFBD",
-                        borderRadius: "10px",
-                        background: "#2E3240",
-                        justifyContent: "center",
-                        height: "auto",
-                        overflow: "auto",
-                        width: "77vw",
+                            outline: "1px solid #ABAFBD",
+                            borderRadius: "10px",
+                            background: "#2E3240",
+                            justifyContent: "center",
+                            height: "auto",
+                            overflow: "auto",
+                            width: "77vw",
+                            minWidth: "1200px"
                         }}
                     >
                         {usage != null && (
-                            <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap"}}>
+                            <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap",}}>
                                 <Chart
                                     title="CPU"
                                     values={[

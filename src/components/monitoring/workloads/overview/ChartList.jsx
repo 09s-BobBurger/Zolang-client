@@ -59,7 +59,6 @@ function ChartList() {
                 background: "#2E3240",
                 justifyContent: "center",
                 height: "auto",
-                overflow: "auto",
             }}
         >
             <div
@@ -92,7 +91,7 @@ function ChartList() {
                     marginBottom: "15px",
                 }}
             />
-            <div className="moni-workloads-table" style={{ overflow: "auto" }}>
+            <div className="moni-workloads-table">
                 <Stack
                     direction="row"
                     textAlign="center"

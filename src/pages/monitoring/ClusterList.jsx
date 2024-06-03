@@ -66,9 +66,9 @@ const ClusterList = () => {
                             <TableRow>
                                 <TableCell style={{ width: "15vw" }}>Name</TableCell>
                                 <TableCell style={{ width: "40vw" }}>URL</TableCell>
-                                <TableCell align="center" style={{ width: "10vw" }}>Provider</TableCell>
-                                <TableCell> </TableCell>
-                                <TableCell align="right"> </TableCell>
+                                <TableCell width="7%" align="center">Provider</TableCell>
+                                <TableCell width="7%"></TableCell>
+                                <TableCell width="5%" align="right"> </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

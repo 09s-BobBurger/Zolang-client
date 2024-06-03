@@ -82,7 +82,7 @@ function InnerNodes(props) {
                 background: "#2E3240",
                 justifyContent: "center",
                 height: "auto",
-                overflow: "auto",
+                minWidth: "1200px"
             }}
         >
             <div
@@ -115,7 +115,11 @@ function InnerNodes(props) {
                     marginBottom: "15px",
                 }}
             />
-            <div className="moni-dashboard-nodes">
+            <div className="moni-dashboard-nodes"
+                style={{
+                    width: "100%"
+                }}
+            >
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 650, color: "#ffffff" }}

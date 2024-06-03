@@ -40,7 +40,7 @@ const AccountContainer = styled(`div`) ({
     '& .info-box': {
         display: 'flex',
         color: 'white',
-        padding: '8px 4px 16px 4px',
+        padding: '4px 2px 8px 2px',
         alignItems: "center",
         width:"100%"
     }

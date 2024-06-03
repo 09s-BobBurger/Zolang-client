@@ -44,9 +44,9 @@ const ClusterList = () => {
             outline: "1px solid #ABAFBD",
             borderRadius: "10px",
             background: "#2E3240",
-            height: "100%",
             position: "relative",
-            margin: 0
+            margin: 0,
+            height: "-webkit-fill-available"
         }}>
             <div className="cluster-list-header">
                 <h3 className="cluster-list-title">Cluster Monitoring</h3>
@@ -97,7 +97,7 @@ const ClusterList = () => {
                     </Table>
                 </TableContainer>
             </div>
-            <div style={{ padding: "15px" }}>
+            <div>
                 <Link to="/monitoring/clusterList" style={{ textDecoration: "none" }}>
                         <span
                             style={{

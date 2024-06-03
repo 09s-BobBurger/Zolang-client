@@ -17,6 +17,7 @@ import {
 import BuildSet from "./BuildSet.jsx";
 import EnvSet from "./EnvSet.jsx";
 import TriggerSet from "./TriggerSet.jsx";
+import { useNavigate } from 'react-router-dom';
 import "../../styles/CD.css";
 
 const SettingComponents = (props) => {
@@ -28,6 +29,7 @@ const SettingComponents = (props) => {
     const [language, setLanguage] = useState("");
     const [version, setVersion] = useState("");
     const [buildTool, setBuildTool] = useState("AUTO");
+    const navigate = useNavigate();
     const [selectTrigger, setSelectTrigger] = useState([]);
     const [errors, setErrors] = useState({
         repository: false,
@@ -93,6 +95,7 @@ const SettingComponents = (props) => {
                 .catch((err) => {
                     console.log(err);
                 });
+            navigate('/cd/repoList');
         }
     };
 

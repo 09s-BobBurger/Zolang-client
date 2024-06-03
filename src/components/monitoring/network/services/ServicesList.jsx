@@ -50,7 +50,7 @@ const ServicesList = ({ setService}) => {
                 borderRadius: "10px",
                 background: "#2E3240",
                 justifyContent: "center",
-                overflow: "auto",
+                minWidth: "1200px"
             }}
         >
             <div
@@ -84,7 +84,7 @@ const ServicesList = ({ setService}) => {
                 }}
             />
 
-            <div className="moni-dashboard-nodes" style={{width: '78vw'}}>
+            <div className="moni-dashboard-nodes" style={{width: '100%'}}>
                 <TableContainer>
                     <Table
                         sx={{minWidth: 650, color: "#ffffff"}}

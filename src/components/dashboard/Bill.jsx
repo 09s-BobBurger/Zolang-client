@@ -29,14 +29,14 @@ const Bill = () => {
     return (
         <div
             style={{
-                width: "300px",
+                minWidth: "280px",
                 padding: "20px 25px 10px",
                 outline: "1px solid #ABAFBD",
                 borderRadius: "10px",
                 background: "#2E3240",
                 justifyContent: "center",
-                height: "100%",
-                overflow: "auto",
+                height: "-webkit-fill-available",
+                minHeight : "635px",
             }}
         >
             <div
