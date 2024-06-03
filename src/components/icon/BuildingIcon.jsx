@@ -12,8 +12,7 @@ const BuildingIcon = () => {
 
     return (
         <div style={{
-            flex: 1,
-            gap: 20,
+            display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',

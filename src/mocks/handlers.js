@@ -708,15 +708,15 @@ export const handlers = [
     }),
 
     // enroll cluster
-    // http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
-    //     const data = await request.json();
-    //     console.log(data);
-    //     return HttpResponse.json({
-    //         success: true,
-    //         data: 1,
-    //         error: null,
-    //     });
-    // }),
+    http.post(`${baseURL}/api/v1/cluster`, async ({request}) => {
+        const data = await request.json();
+        console.log(data);
+        return HttpResponse.json({
+            success: true,
+            data: 1,
+            error: null,
+        });
+    }),
 
     // get api to enroll cluster
     http.post(`${baseURL}/api/v1/cluster/version`, async({request}) => {
@@ -3256,4 +3256,58 @@ export const handlers = [
             });
         }
     ),
+
+    http.get(`${baseURL}/api/v1/cicd/:repository_id`, ({params}) => {
+        const {repository_id} = params;
+        return HttpResponse.json(
+            {
+                "success": true,
+                "data": [
+                    {
+                        "buildNumber": 1,
+                        "lastCommitMessage": "init",
+                        "buildStatus": "success", // "building", "failed"
+                        "createdAt": [
+                            2024,
+                            5,
+                            28,
+                            14,
+                            37,
+                            37,
+                            871071000
+                        ]
+                    },
+                    {
+                        "buildNumber": 2,
+                        "lastCommitMessage": "test2",
+                        "buildStatus": "building", // "building", "failed"
+                        "createdAt": [
+                            2024,
+                            5,
+                            28,
+                            14,
+                            37,
+                            37,
+                            871071000
+                        ]
+                    },
+                    {
+                        "buildNumber": 3,
+                        "lastCommitMessage": "test3",
+                        "buildStatus": "failed", // "building", "failed"
+                        "createdAt": [
+                            2024,
+                            5,
+                            28,
+                            14,
+                            37,
+                            37,
+                            871071000
+                        ]
+                    }
+                ],
+                "error": null
+            }
+        )
+    })
 ];

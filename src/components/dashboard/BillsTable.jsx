@@ -5,7 +5,13 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
-const BillsTable = () => {
+const BillsTable = ({ current }) => {
+
+    const formatter = (value) => {
+        // 내림 처리
+        return `₩${value.toLocaleString().split(".")[0]}`;
+    }
+
     return (
         <div className="bills-table">
             <TableContainer>
@@ -24,7 +30,7 @@ const BillsTable = () => {
                                 CPU
                             </TableCell>
                             <TableCell align="center">
-                                $22
+                                {current ? formatter(current.totalCpuCost) : '-'}
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -36,7 +42,7 @@ const BillsTable = () => {
                                 Memory
                             </TableCell>
                             <TableCell align="center">
-                                $21
+                                {current ? formatter(current.totalMemoryCost) : "-"}
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -48,7 +54,7 @@ const BillsTable = () => {
                                 Pod
                             </TableCell>
                             <TableCell align="center">
-                                $13
+                                {current ? formatter(current.totalPodCost) : '-'}
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -60,10 +66,9 @@ const BillsTable = () => {
                                 Base
                             </TableCell>
                             <TableCell align="center">
-                                $22
+                                {current ? formatter(current.totalCost - current.totalCpuCost - current.totalPodCost - current.totalMemoryCost) : '-'}
                             </TableCell>
                         </TableRow>
-
                     </TableBody>
                 </Table>
             </TableContainer>

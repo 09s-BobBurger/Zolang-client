@@ -3,8 +3,10 @@ import Button from '@mui/material/Button';
 import MuiTextField from '@mui/material/TextField';
 import {styled} from "@mui/material/styles";
 import {customizedAxios as axios} from "../../../util/customizedAxios.js";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Typography from "@mui/material/Typography";
+import {useNavigate} from "react-router-dom";
+import {setCluster} from "../../../redux/modules/cluster.js";
 
 const TextField = styled(MuiTextField) ({
     width: '50vw',
@@ -36,6 +38,8 @@ const TextField = styled(MuiTextField) ({
 })
 
 function TokenFooter(props) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const clusterNameState = useSelector(state => state.token.clusterName);
     const clusterName = clusterNameState === "클러스터 이름을 입력해주세요." ? "" : clusterNameState;
     const [showInput, setShowInput] = useState(false);
@@ -75,6 +79,7 @@ function TokenFooter(props) {
                     if (r.data.success) {
                         setVersion(r.data.data);
                     } else {
+                        props.setIsVersionModalOpen(true);
                     }
                 })
         }
@@ -106,8 +111,8 @@ function TokenFooter(props) {
                     if (!r.data.success) {
                         props.setIsFailModalOpen(true);
                     } else {
-                        setShowInput(false);
-                        props.setIsSuccessModalOpen(true);
+                        dispatch(setCluster(r.data.data));
+                        navigate('/monitoring/dashboard');
                     }
                 })
         }

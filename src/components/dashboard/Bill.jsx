@@ -1,23 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BillChart from "./BillChart.jsx";
 import "../../styles/DASHBOARD.css";
 import BillsTable from "./BillsTable.jsx";
-// import {customizedAxios as axios} from "../../util/customizedAxios.js";
+import {customizedAxios as axios} from "../../util/customizedAxios.js";
 
 const Bill = () => {
-    const [fee, setFee] = useState(78);
-    const [usageTime, setUsageTime] = useState("20h 30m")
+    const [data, setData] = useState(null);
 
-    // const loadBills = () => {
-    //     axios
-    //         .get(`#`)
-    //         .then(res => {
-    //             setFee(res.data.data)
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         })
-    // }
+    const loadBills = () => {
+        axios
+            .get(`/api/v1/user/dashboard/usage/bill`)
+            .then(res => {
+                setData(res.data.data)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    const toTime = (value) => {
+        return `${parseInt(value / 60)}h ${value % 60}m`
+    }
+
+    useEffect(() => {
+        loadBills();
+    }, [])
 
     return (
         <div
@@ -28,7 +35,6 @@ const Bill = () => {
                 borderRadius: "10px",
                 background: "#2E3240",
                 justifyContent: "center",
-                // position: "relative",
                 height: "100%",
                 overflow: "auto",
             }}
@@ -69,12 +75,12 @@ const Bill = () => {
                     <span
                         className="fee"
                         style={{
-                            fontSize: '3.5rem',
+                            fontSize: '3rem',
                             color: "white",
                             fontFamily: "ubuntu-regular",
                             lineHeight: "120%",
                         }}
-                    >${fee}</span>
+                    >{data ? `₩${data[0].totalCost.toLocaleString().split(".")[0]}` : '-'}</span>
                     <span
                         className="fee"
                         style={{
@@ -83,7 +89,13 @@ const Bill = () => {
                             fontFamily: "ubuntu-regular",
                             paddingLeft: "3px",
                         }}
-                    >usage time : {usageTime}</span>
+                    >
+                        {data ?
+                            `runtime: ${toTime(data[0].totalClusterRuntime)}`
+                            :
+                            "There's no usage..."
+                        }
+                    </span>
                 </div>
                 <div
                     style={{
@@ -92,8 +104,8 @@ const Bill = () => {
                         gap: "10px",
                     }}
                 >
-                    <BillChart />
-                    <BillsTable />
+                    <BillChart data={data}/>
+                    <BillsTable current={data ? data[0] : null}/>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCluster } from "../../redux/modules/cluster.js";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
@@ -10,6 +10,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import BuildingIcon from "../icon/BuildingIcon.jsx";
+import HoverEventIcon from "../icon/HoverEventIcon.jsx";
+import ArrowForwardIos from "../icon/ArrowForwardIos.jsx";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -29,10 +31,6 @@ const ClusterList = () => {
         navigate("/monitoring/token");
     };
 
-    const onClickMore = () => {
-        navigate("/monitoring/clusterList");
-    };
-
     const onClickCluster = (item) => {
         if (item.status === "ready") {
             dispatch(setCluster(item.clusterId));
@@ -46,6 +44,9 @@ const ClusterList = () => {
             outline: "1px solid #ABAFBD",
             borderRadius: "10px",
             background: "#2E3240",
+            height: "100%",
+            position: "relative",
+            margin: 0
         }}>
             <div className="cluster-list-header">
                 <h3 className="cluster-list-title">Cluster Monitoring</h3>
@@ -72,7 +73,12 @@ const ClusterList = () => {
                                 <TableRow  key={index}>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
-                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.provider}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{
+                                            item.provider === "zolang" ?
+                                            <HoverEventIcon src="../../../zolang_img.png" alt={item.provider}/>
+                                                :
+                                                <HoverEventIcon src="../../../external.svg" alt={item.provider} />
+                                        }</TableCell>
                                     <TableCell align="center" onClick={() => onClickCluster(item)}>
                                         {item.status === "ready" ?
                                             <img src="../clusterStateTrue.svg" alt="good" /> :
@@ -91,22 +97,21 @@ const ClusterList = () => {
                     </Table>
                 </TableContainer>
             </div>
-            <div className="cluster-list-footer" style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button className="cluster-list-more-button"
-                        onClick={onClickMore}
-                        style={{ padding: '0', background: "transparent", margin: "5px", border: 'none' }}>
-                    <span style={{ color: '#ABAFBD', marginRight: '4px', fontSize: '14px' }}>더보기</span>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clipPath="url(#clip0_334_3349)">
-                            <path d="M6.8 6L4.5 3.7L5.2 3L8.2 6L5.2 9L4.5 8.3L6.8 6Z" fill="#ABAFBD" />
-                        </g>
-                        <defs>
-                            <clipPath id="clip0_334_3349">
-                                <rect width="12" height="12" fill="white" />
-                            </clipPath>
-                        </defs>
-                    </svg>
-                </button>
+            <div style={{ padding: "15px" }}>
+                <Link to="/monitoring/clusterList" style={{ textDecoration: "none" }}>
+                        <span
+                            style={{
+                                color: "#ABAFBD",
+                                fontSize: "14px",
+                                position: "absolute",
+                                right: "15px",
+                                bottom: "10px",
+                                margin: "5px",
+                            }}
+                        >
+                            더보기 <ArrowForwardIos />
+                        </span>
+                </Link>
             </div>
         </div>
     );

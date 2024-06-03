@@ -13,6 +13,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import BuildingIcon from "../../components/icon/BuildingIcon.jsx";
+import HoverEventIcon from "../../components/icon/HoverEventIcon.jsx";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -65,7 +66,7 @@ const ClusterList = () => {
                             <TableRow>
                                 <TableCell style={{ width: "15vw" }}>Name</TableCell>
                                 <TableCell style={{ width: "40vw" }}>URL</TableCell>
-                                <TableCell align="center" style={{ width: "10vw" }}>Version</TableCell>
+                                <TableCell align="center" style={{ width: "10vw" }}>Provider</TableCell>
                                 <TableCell> </TableCell>
                                 <TableCell align="right"> </TableCell>
                             </TableRow>
@@ -75,7 +76,12 @@ const ClusterList = () => {
                                 <TableRow key={index}>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
-                                    <TableCell onClick={() => onClickCluster(item)} align="center" style={{textAlign: "-webkit-center"}}>{item.version}</TableCell>
+                                    <TableCell onClick={() => onClickCluster(item)} align="center" style={{textAlign: "-webkit-center"}}>{
+                                            item.provider === "zolang" ?
+                                                <HoverEventIcon src="../../../zolang_img.png" alt={item.provider}/>
+                                                :
+                                                <HoverEventIcon src="../../../external.svg" alt={item.provider} />
+                                        }</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)} align="center">
                                         {item.status === "ready" ?
                                         <img src="../clusterStateTrue.svg" alt="good" /> :
