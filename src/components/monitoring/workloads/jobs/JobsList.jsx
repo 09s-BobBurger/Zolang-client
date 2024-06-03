@@ -17,7 +17,7 @@ const JobsList = ({ jobs }) => {
                     borderRadius: "10px",
                     background: "#2E3240",
                     justifyContent: "center",
-                    minWidth: "1200px"
+                    minWidth: "1100px"
                 }}
             >
                 <div

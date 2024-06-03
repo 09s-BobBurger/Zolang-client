@@ -51,7 +51,7 @@ const ControllerDetail = ({ detail, goToList }) => {
 
     return (
         <div
-            style={{width: '79vw', minWidth: "1200px"}}
+            style={{width: '79vw', minWidth: "1100px"}}
         >
             <MuiButton
                 style={{

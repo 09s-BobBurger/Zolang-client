@@ -34,7 +34,7 @@ const Overview = (data) => {
                             height: "auto",
                             overflow: "auto",
                             width: "77vw",
-                            minWidth: "1200px"
+                            minWidth: "1100px"
                         }}
                     >
                         {usage != null && (
