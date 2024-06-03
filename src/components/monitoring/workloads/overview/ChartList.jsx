@@ -99,7 +99,7 @@ function ChartList() {
                     spacing={2}
                     margin="10px"
                 >
-                    {Object.entries(runState).map(([key, value], index) =>
+                    {runState? Object.entries(runState).map(([key, value], index) =>
                         value.counts > 0 && (
                             <Box key={index} flexGrow={1}>
                                 <PieChart
@@ -110,7 +110,7 @@ function ChartList() {
                                 />
                             </Box>
                         )
-                    )}
+                    ):null}
                 </Stack>
             </div>
         </div>
