@@ -79,6 +79,7 @@ const CronJobs = () => {
                 borderRadius: "10px",
                 background: "#2E3240",
                 justifyContent: "center",
+                minWidth: "1100px"
             }}
         >
             <div

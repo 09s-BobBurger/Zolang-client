@@ -15,13 +15,13 @@ import '../../styles/FORMTOYAML.css';
 import RadioLabel from "./RadioLabel.jsx";
 
 const YamlService = ({ onDataChange }) => {
-    const [metadataName, setMetadataName] = useState("");
-    const [labels, setLabels] = useState([]);
-    const [matchLabels, setMatchLabels] = useState([]);
+    const [metadataName, setMetadataName] = useState("zolang");
+    const [labels, setLabels] = useState([{name: "app", value: "web"}]);
+    const [matchLabels, setMatchLabels] = useState([{name: "app", value: "web"}]);
     const [type, setType] = useState("ClusterIP");
-    const [portName, setPortName] = useState("");
-    const [port, setPort] = useState("");
-    const [targetPort, setTargetPort] = useState("");
+    const [portName, setPortName] = useState("9376");
+    const [port, setPort] = useState("80");
+    const [targetPort, setTargetPort] = useState("9376");
     const [nodePort, setNodePort] = useState(null);
     const [protocol, setProtocol] = useState("TCP");
 
@@ -70,7 +70,7 @@ spec:
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
-                        <InputBox name="name" setter={setMetadataName}/>
+                        <InputBox name="name" setter={setMetadataName} value={metadataName}/>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <div style={{ flex: 6 }}>
                                 <Typography variant="subtitle1">Labels</Typography>
@@ -83,6 +83,9 @@ spec:
                                 </AddButton>
                             </div>
                         </div>
+                        <Typography color="gray" sx={{marginBottom: "10px"}}>
+                            A set of key-value pairs that are used to identify and categorize the Service. Labels are optional but can be used by other resources to locate and interact with this Service.
+                        </Typography>
                         <div className="labels">
                             {labels.map((label, index) => {
                                 return (
@@ -93,7 +96,7 @@ spec:
                                                     idx === index ? {...item, 'name': e.target.value} : item
                                                 ));
                                             }
-                                        } id="standard-basic" variant="standard" label="name" placeholder="name"/>
+                                        } id="standard-basic" variant="standard" label="name" placeholder="name" value={label.name}/>
                                         <TextField onChange={
                                             (e) => {
                                                 setLabels(labels.map((item, idx) =>
@@ -101,7 +104,7 @@ spec:
                                                 ));
                                             }
                                         }
-                                            id="standard-basic" variant="standard" label="value" placeholder="value"/>
+                                            id="standard-basic" variant="standard" label="value" placeholder="value" value={label.value}/>
                                         <DeleteButton onClick={() => onClickDeleteLabel(index)}/>
                                     </div>
                                 )
@@ -120,6 +123,9 @@ spec:
                         <Typography variant="subtitle1">Type</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
+                            <Typography color="gray" sx={{marginBottom: "10px"}}>
+                                This field specifies the type of Service. ClusterIP exposes the Service on an internal IP in the cluster. NodePort exposes the Service on each Node's IP at a static port.
+                            </Typography>
                             <div className="detail-container">
                                 <FormControl onChange={(e) => setType(e.target.value)}>
                                     <RadioGroup
@@ -147,6 +153,9 @@ spec:
                                 </AddButton>
                             </div>
                         </div>
+                        <Typography color="gray" sx={{marginBottom: "10px"}}>
+                            Selector specifies a set of labels that the Service uses to select the Pods to route traffic to.
+                        </Typography>
                         <div className="labels">
                             {matchLabels.map((label, index) => {
                                 return (
@@ -159,7 +168,7 @@ spec:
                                                     ));
                                                 }
                                             }
-                                            id="standard-basic" variant="standard" label="name" placeholder="name"/>
+                                            id="standard-basic" variant="standard" label="name" placeholder="name" value={label.name}/>
                                         <TextField
                                             onChange={
                                                 (e) => {
@@ -168,7 +177,7 @@ spec:
                                                     ));
                                                 }
                                             }
-                                            id="standard-basic" variant="standard" label="value" placeholder="value"/>
+                                            id="standard-basic" variant="standard" label="value" placeholder="value" value={label.value}/>
                                         <DeleteButton onClick={() => onClickDeleteMatchLabel(index)}/>
                                     </div>
                                 )
@@ -180,11 +189,35 @@ spec:
                         <Typography variant="subtitle1">Ports</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
+                            <Typography color="gray" sx={{marginBottom: "20px"}}>
+                                Ports defines the ports that the Service will expose and the corresponding ports on the selected Pods.
+                            </Typography>
                             <div className="detail-container">
                                 <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-                                    <TextField onChange={(e) => {setPortName(e.target.value);}} id="standard-basic" variant="standard" placeholder="name"/>
-                                    <TextField onChange={(e) => {setPort(e.target.value);}} id="standard-basic" variant="standard" placeholder="port"/>
-                                    <TextField onChange={(e) => {setTargetPort(e.target.value);}} id="standard-basic" variant="standard" placeholder="targetPort"/>
+                                    <TextField
+                                        onChange={(e) => {setPortName(e.target.value);}}
+                                        id="standard-basic"
+                                        variant="standard"
+                                        placeholder="name"
+                                        value={portName}
+                                        label="Port Name"
+                                    />
+                                    <TextField
+                                        onChange={(e) => {setPort(e.target.value);}}
+                                        id="standard-basic"
+                                        variant="standard"
+                                        placeholder="port"
+                                        value={port}
+                                        label="Port"
+                                    />
+                                    <TextField
+                                        onChange={(e) => {setTargetPort(e.target.value);}}
+                                        id="standard-basic"
+                                        variant="standard"
+                                        placeholder="targetPort"
+                                        value={targetPort}
+                                        label="Target Port"
+                                    />
                                 </div>
                                 {type === "NodePort" && <InputBox name="nodePort" setter={setNodePort}/>}
                                 <p>protocol</p>

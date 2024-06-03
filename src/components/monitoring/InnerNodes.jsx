@@ -82,7 +82,8 @@ function InnerNodes(props) {
                 background: "#2E3240",
                 justifyContent: "center",
                 height: "auto",
-                minWidth: "1200px"
+                width: "77vw",
+                minWidth: "1100px"
             }}
         >
             <div

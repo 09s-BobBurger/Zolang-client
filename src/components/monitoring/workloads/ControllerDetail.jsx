@@ -51,7 +51,7 @@ const ControllerDetail = ({ detail, goToList }) => {
 
     return (
         <div
-            style={{width: '79vw', minWidth: "1200px"}}
+            style={{width: '79vw', minWidth: "1100px"}}
         >
             <MuiButton
                 style={{
@@ -412,14 +412,14 @@ const ControllerDetail = ({ detail, goToList }) => {
                                         <TableCell align="center">
                                             {usages && usages[pod.name] && <MiniUsageChart
                                                 data={usages[pod.name].metrics.map(i => i ? i.cpuUsage : 0)}
-                                                color1="#f8fc00" color2="#b0b300"
+                                                color1="#F5347F" color2="#bf2662"
                                                 min={0} usage={usages[pod.name].usage ? (usages[pod.name].usage.cpuUsage * 10 ** 3).toFixed(2) + "m" : null}
                                             />}
                                         </TableCell>
                                         <TableCell align="center">
                                             {usages && usages[pod.name] && <MiniUsageChart
                                                 data={usages[pod.name].metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
-                                                color1="#00bbff" color2="#00729c"
+                                                color1="#ffb808" color2="#bf8a06"
                                                 min={0} usage={usages[pod.name].usage ? (usages[pod.name].usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi" : null}
                                             />}
                                         </TableCell>

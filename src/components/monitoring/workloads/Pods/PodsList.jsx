@@ -78,21 +78,21 @@ const PodsList = ({ setPod }) => {
                 style={{
                     display: "flex",
                     gap: "20px",
-                    minWidth: "1200px"
+                    minWidth: "1100px"
                 }}
             >
                 <UsageLineChart
                     title="CPU Usage"
                     data={podsData.totalUsage.map(i => i ? i.cpuUsage : 0)}
                     time={podsData.totalUsage.map(i => i ? i.time : '-')}
-                    color="#f8fc00"
+                    color="#F5347F"
                     yAxis="CPU(cores)"
                 />
                 <UsageLineChart
                     title="Memory Usage"
                     data={podsData.totalUsage.map(i => i ? i.memoryUsage / (10 ** 6) : 0)}
                     time={podsData.totalUsage.map(i => i ? i.time : '-')}
-                    color="#00bbff"
+                    color="#ffd05c"
                     yAxis="Memory(bytes)"
                     yFormat={(value) => value.toFixed(1).toString() + "Mi"}
                 />
@@ -105,7 +105,7 @@ const PodsList = ({ setPod }) => {
                     borderRadius: "10px",
                     background: "#2E3240",
                     justifyContent: "center",
-                    minWidth: "1200px"
+                    minWidth: "1100px"
                 }}
             >
                 <div
@@ -224,7 +224,7 @@ const PodsList = ({ setPod }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             {pod.metrics && <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
-                                                             color1="#f8fc00" color2="#b0b300"
+                                                             color1="#F5347F" color2="#bf2662"
                                                              min={0}
                                                              usage={pod.usage ? (pod.usage.cpuUsage * 10 ** 3).toFixed(2) + "m" : null}
                                             />}
@@ -232,7 +232,7 @@ const PodsList = ({ setPod }) => {
                                         <TableCell align="center">
                                             {pod.metrics && <MiniUsageChart
                                                 data={pod.metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
-                                                color1="#00bbff" color2="#00729c"
+                                                color1="#ffb808" color2="#bf8a06"
                                                 min={0}
                                                 usage={pod.usage ? (pod.usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi" : null}
                                             />}
