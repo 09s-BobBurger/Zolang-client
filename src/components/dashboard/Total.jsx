@@ -46,7 +46,8 @@ function total(props) {
                 background: "#2E3240",
                 height: "100%",
                 overflow: "auto",
-                overflowY: "hidden"
+                overflowY: "hidden",
+                margin: 0
             }}
         >
             <div

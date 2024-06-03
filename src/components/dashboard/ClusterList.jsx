@@ -46,6 +46,7 @@ const ClusterList = () => {
             background: "#2E3240",
             height: "100%",
             position: "relative",
+            margin: 0
         }}>
             <div className="cluster-list-header">
                 <h3 className="cluster-list-title">Cluster Monitoring</h3>

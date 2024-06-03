@@ -20,14 +20,14 @@ function dashboardResult(props) {
                         gap: "30px"
                     }}
                 >
-                    <div style={{ margin: "15px", height: "35%"}}>
+                    <div style={{ margin: "15px", height: "38%"}}>
                         <Total />
                     </div>
-                    <div style={{ margin: "15px", height: "46.6%"}}>
+                    <div style={{ margin: "15px", height: "43%"}}>
                         <ClusterList />
                     </div>
                 </div>
-                <div style={{  width: "360px", margin: "15px", height: "90%"}}>
+                <div style={{  width: "350px", margin: "15px", height: "90%"}}>
                     <Bill />
                 </div>
             </div>
