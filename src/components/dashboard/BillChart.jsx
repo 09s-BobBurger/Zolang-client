@@ -1,20 +1,32 @@
 import React from 'react';
 import ApexChart from "react-apexcharts";
 
-const BillChart = () => {
-    const date = ["5.27", "5.28", "5.29", "5.30", "5.31"]
+const BillChart = ({ data }) => {
+    const sortedData = data ? [...data].sort((a, b) => Number(a.date.replaceAll("-", "")) - Number(b.date.replaceAll("-", ""))
+    ) : null;
+    const date = sortedData ? sortedData.map(i => i.date) : Array(5).fill('-');
+    const total = sortedData ? sortedData.map(i => i.totalCost) : Array(5).fill('0');
+    const base = sortedData ? sortedData.map(i => i.totalCost - i.totalCpuCost - i.totalMemoryCost - i.totalPodCost)
+        : Array(5).fill(0);
+    const pod = sortedData ? sortedData.map(i => i.totalPodCost) : Array(5).fill(0);
+    const memory = sortedData ? sortedData.map(i => i.totalMemoryCost) : Array(5).fill(0);
+    const cpu = sortedData ? sortedData.map(i => i.totalCpuCost) : Array(5).fill(0);
+
+    const wonFormatter = (value) => {
+        return `₩${value.toLocaleString().split('.')[0]}`
+    }
     const series = [{
             name: 'Base',
-            data: [44, 55, 41, 67, 22]
+            data:  base.map(i => i ? i : 0)
         }, {
             name: 'Pod',
-            data: [13, 23, 20, 8, 13]
+            data: pod.map(i => i ? i : 0)
         }, {
             name: 'Memory',
-            data: [11, 17, 15, 15, 21]
+            data: memory.map(i => i ? i : 0)
         }, {
             name: 'CPU',
-            data: [21, 7, 25, 13, 22]
+            data: cpu.map(i => i ? i : 0)
         }]
     const options = {
         chart: {
@@ -26,10 +38,18 @@ const BillChart = () => {
             },
             zoom: {
                 enabled: false
-            }
+            },
+        },
+        tooltip: {
+            y: {
+                formatter: value => wonFormatter(value),
+                title: {
+                    formatter: (seriesName) => seriesName,
+                },
+            },
         },
         dataLabels: {
-            formatter: (value) => `$${value}`
+            formatter: (value, { dataPointIndex }) => `${(value / total[dataPointIndex] * 100).toFixed(2)}%`
         },
         responsive: [{
             breakpoint: 480,
@@ -42,10 +62,6 @@ const BillChart = () => {
             }
         }],
         grid: {
-            // row: {
-            //     colors: ['#000'], // takes an array which will be repeated on columns
-            //     opacity: 0.3
-            // },
             xaxis: {
                 lines: {
                     show: false
@@ -67,12 +83,12 @@ const BillChart = () => {
                 dataLabels: {
                     position: 'top',
                     total: {
-                        offsetX: -21,
+                        offsetX: -23,
                         offsetY: -5,
                         enabled: true,
-                        formatter: (value) => `$${value}`,
+                        formatter: value => wonFormatter(value),
                         style: {
-                            fontSize: '13px',
+                            fontSize: '10px',
                             fontWeight: 900,
                             color: "#ffffff"
                         }
@@ -81,13 +97,13 @@ const BillChart = () => {
 
             },
         },
-        colors: ['#1f233a', '#4c4888', '#af496d', '#e19f26'],
+        colors: ['#0b1860', '#4423be', '#ce356c', '#ffca00'],
         xaxis: {
             type: 'Month',
             categories: date,
             labels : {
                 style: {
-                    colors: Array(date.length).fill("#ffffff")
+                    colors: Array(5).fill("#ffffff")
                 }
             }
         },
