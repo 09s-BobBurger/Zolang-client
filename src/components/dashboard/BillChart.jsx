@@ -97,7 +97,7 @@ const BillChart = ({ data }) => {
 
             },
         },
-        colors: ['#0b1860', '#4423be', '#ce356c', '#ffca00'],
+        colors: ['#364db7', '#52c4e1', '#ffd05c', '#F5347F'],
         xaxis: {
             type: 'Month',
             categories: date,
