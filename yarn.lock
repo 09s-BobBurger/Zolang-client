@@ -566,6 +566,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lordicon/helpers@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "@lordicon/helpers@npm:1.6.0"
+  checksum: 10c0/06745b39e3502078986528d8a0c107bee0c249a5ae19e96df1f4fe710bf9108a191e07edbc5483b5a5d3aa893717528bd841c6bc32c74b4ad5bf091d12d0406c
+  languageName: node
+  linkType: hard
+
+"@lordicon/react@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "@lordicon/react@npm:1.6.0"
+  dependencies:
+    "@lordicon/helpers": "npm:^1.6.0"
+  peerDependencies:
+    lottie-react-native: "*"
+    lottie-web: "*"
+    react: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    lottie-react-native:
+      optional: true
+    lottie-web:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 10c0/1cf074e0b41f9fb82298b2bdec7fb1ab48fe0cd86ccfa7a58d47d56d0d7ef0e690146fa3a8e3b096a9ffdb0a73b8bd2d6c975cc69bf1597a910c49c8713550a4
+  languageName: node
+  linkType: hard
+
 "@mswjs/cookies@npm:^1.1.0":
   version: 1.1.0
   resolution: "@mswjs/cookies@npm:1.1.0"
@@ -1515,6 +1543,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.4"
     "@emotion/styled": "npm:^11.11.5"
     "@fontsource/roboto": "npm:^5.0.12"
+    "@lordicon/react": "npm:^1.6.0"
     "@mui/icons-material": "npm:^5.15.15"
     "@mui/material": "npm:^5.15.15"
     "@mui/styled-engine-sc": "npm:6.0.0-alpha.18"
@@ -1529,6 +1558,7 @@ __metadata:
     eslint-plugin-react: "npm:^7.34.1"
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.6"
+    lottie-web: "npm:^5.12.2"
     msw: "npm:^2.3.0"
     react: "npm:^18.2.0"
     react-apexcharts: "npm:^1.4.1"
@@ -3742,6 +3772,13 @@ __metadata:
   bin:
     loose-envify: cli.js
   checksum: 10c0/655d110220983c1a4b9c0c679a2e8016d4b67f6e9c7b5435ff5979ecdb20d0813f4dec0a08674fcbdd4846a3f07edbb50a36811fd37930b94aaa0d9daceb017e
+  languageName: node
+  linkType: hard
+
+"lottie-web@npm:^5.12.2":
+  version: 5.12.2
+  resolution: "lottie-web@npm:5.12.2"
+  checksum: 10c0/0aeaf631b10a76afd025df70c2a1486543530708e07a316946c08e55891dac483ffbaf2bf3648ae0b9c54c733118a0a086fd150aa76f7848606214c67ad72c30
   languageName: node
   linkType: hard
 

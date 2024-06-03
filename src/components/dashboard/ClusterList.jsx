@@ -70,28 +70,29 @@ const ClusterList = () => {
                         </TableHead>
                         <TableBody>
                         {clusters?.length > 0? (clusters.slice(0,3).map((item, index) => (
-                                <TableRow key={index} onClick={() => onClickCluster(item)}>
-                                    <TableCell>{item.clusterName}</TableCell>
-                                    <TableCell>{item.domainUrl}</TableCell>
-                                    <TableCell align="center" style={{textAlign: "-webkit-center"}}>
-                                        {
+                                <TableRow  key={index}>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
+                                    <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{
                                             item.provider === "zolang" ?
                                             <HoverEventIcon src="../../../zolang_img.png" alt={item.provider}/>
                                                 :
                                                 <HoverEventIcon src="../../../external.svg" alt={item.provider} />
-                                        }
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                            {item.status === "ready" ?
-                                                <img src="../clusterStateTrue.svg" alt="good" /> :
-                                                item.status === "creating" ?
-                                                    <BuildingIcon /> :
-                                                    <img src="../clusterStateFalse.svg" alt="bad" />}
-                                        </div>
+                                        }</TableCell>
+                                    <TableCell align="center" onClick={() => onClickCluster(item)}>
+                                        {item.status === "ready" ?
+                                            <img src="../clusterStateTrue.svg" alt="good" /> :
+                                            item.status === "creating" ?
+                                                <BuildingIcon /> :
+                                                <img src="../clusterStateFalse.svg" alt="bad" />}
                                     </TableCell>
                                 </TableRow>
-                            ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
+                            ))) : 
+                            <TableRow>
+                                <TableCell colSpan={4} align="center" style={{ padding: "10px" }}>
+                                    <img src=".././텅.svg" width="100px" alt="No Clusters" />
+                                </TableCell>
+                            </TableRow> }
                         </TableBody>
                     </Table>
                 </TableContainer>

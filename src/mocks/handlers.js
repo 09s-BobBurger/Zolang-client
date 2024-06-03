@@ -3,6 +3,56 @@ import { http, HttpResponse } from "msw";
 const baseURL = "https://kcs.zolang.store";
 
 export const handlers = [
+    http.get(`${baseURL}/api/v1/users`, () => {
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "id": 2,
+                "nickname": "dongkyeomjang",
+                "profileImage": "https://avatars.githubusercontent.com/u/86873281?v=4",
+                "email": "jangelliot0404@dgu.ac.kr"
+            },
+            "error": null
+        });
+    }),
+    http.get(`${baseURL}/api/v1/cicd`, () => {
+        return HttpResponse.json({
+            "success": true,
+            "data": [
+                {
+                    "repositoryId": 1,
+                    "repositoryName": "Zolang-server",
+                    "lastCommit": "init",
+                    "lastBuildStatus": "success",
+                    "createdAt": [
+                        2024,
+                        5,
+                        28,
+                        14,
+                        37,
+                        37,
+                        817315000
+                    ]
+                },
+                {
+                    "repositoryId": 1,
+                    "repositoryName": "Zolang-server",
+                    "lastCommit": "init",
+                    "lastBuildStatus": "success",
+                    "createdAt": [
+                        2024,
+                        5,
+                        28,
+                        14,
+                        37,
+                        37,
+                        817315000
+                    ]
+                }
+            ],
+            "error": null
+        });
+    }),
     http.get(
         `${baseURL}/api/v1/cluster/:clusterId/workload/cron-jobs/namespace`,
         ({ params }) => {
@@ -450,7 +500,7 @@ export const handlers = [
     // }),
 
     // load repositories
-    http.get("/api/v1/users/github", () => {
+    http.get(`${baseURL}/api/v1/github`, () => {
         return HttpResponse.json({
             success: true,
             data: [
@@ -607,7 +657,7 @@ export const handlers = [
     }),
 
     // load branches
-    http.get("/api/v1/users/github/branches", ({ request }) => {
+    http.get(`${baseURL}/api/v1/users/github/branches`, ({ request }) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get("repoName");
         return HttpResponse.json({
@@ -640,7 +690,7 @@ export const handlers = [
     }),
 
     // push
-    http.put("/api/v1/users/github/commits", async ({ request }) => {
+    http.put(`${baseURL}/api/v1/users/github/commits`, async ({ request }) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get("repoName");
         const branchName = url.searchParams.get("branchName");

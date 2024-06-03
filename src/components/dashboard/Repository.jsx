@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 function Repository() {
     const [repositories, setRepositories] = useState([]);
+    const [cluster, setCluster] = useState(null);
 
     const loadData = () => {
         axios.get(`/api/v1/cicd` )
@@ -14,7 +15,19 @@ function Repository() {
         }).catch((err) => {
         console.log(err)
         })
-    }
+        axios.get(`/api/v1/cluster`)
+            .then((res) => {
+                const findZolangCluster = res.data.data;
+                const zolangCluster = findZolangCluster.filter(cluster => cluster.provider === 'zolang');
+                if (zolangCluster.length > 0 && zolangCluster[0].status === 'ready') {
+                    setCluster(zolangCluster[0]);
+                } else {
+                    setCluster(null);
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+    };
 
     useEffect(() => {
         loadData();
@@ -50,9 +63,15 @@ function Repository() {
                     Repository
                 </span>
                 <div style={{marginTop: "7px"}}>
+                {cluster ? (
                     <Link to="/cd/build" style={{ textDecoration: "none" }}>
                         <button className="new-cluster-button">+ new</button>
                     </Link>
+                ) : (
+                    <Link to="/cd/repoList" style={{ textDecoration: "none" }}>
+                        <button className="new-cluster-button">+ new</button>
+                    </Link>
+                )}
                 </div>
             </div>
             <div
@@ -68,7 +87,7 @@ function Repository() {
                     <RepositoryCard key={index} repository={repository} />
                 )):null}
                 <div style={{ padding: "15px" }}>
-                    <Link to="/cd/dashboard" style={{ textDecoration: "none" }}>
+                    <Link to="/cd/repoList" style={{ textDecoration: "none" }}>
                         <span
                             style={{
                                 color: "#ABAFBD",
