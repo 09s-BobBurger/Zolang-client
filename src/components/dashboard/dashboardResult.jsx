@@ -2,6 +2,7 @@ import React from "react";
 import Total from "./Total";
 import Repository from "./Repository";
 import ClusterList from "./ClusterList.jsx";
+import Bill from "./Bill.jsx";
 
 function dashboardResult(props) {
     return (
@@ -17,6 +18,9 @@ function dashboardResult(props) {
                     <div style={{ margin: "15px", height: "40%"}}>
                         <ClusterList />
                     </div>
+                </div>
+                <div style={{  width: "360px", margin: "15px", height: "90%"}}>
+                    <Bill />
                 </div>
             </div>
         </>

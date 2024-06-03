@@ -4,7 +4,7 @@ import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import TableForm from "./TableForm";
 import {useSelector} from "react-redux";
 
-function Deployment(props) {
+function Deployment() {
     const [deployment, setDeployments] = useState([]);
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);

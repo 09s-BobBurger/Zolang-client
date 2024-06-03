@@ -1,12 +1,11 @@
 import React from "react";
 import ApexChart from "react-apexcharts";
-import { RadialBar } from "apexcharts";
 
 const Chart = ({ title, values, fullValue, number }) => {
     const newFullValue = fullValue? fullValue :0;
 
     const convertToBytes = (value) => {
-        if (!value || value === null || value === undefined) {
+        if (!value) {
             return 0;
         }
         if (value < 1024) {

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate} from "react-router-do
 import Main from "./pages/Main.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import FormToYaml from "./pages/FormToYaml.jsx";
-import Configure from "./pages/cd/Configure.jsx";
+import BuildSetting from "./pages/cd/BuildSetting.jsx";
 import CDDashboard from "./pages/cd/Dashboard.jsx";
 import RepoList from "./pages/cd/RepoList.jsx";
 import ClusterList from "./pages/monitoring/ClusterList.jsx";
@@ -42,7 +42,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/dashboard" element={isLogin ? <Dashboard /> : <Navigate to={"/"} /> } />
           <Route path="/formToYaml" element={<FormToYaml />} />
-          <Route path="/cd/configure" element={isLogin ? <Configure /> : <Navigate to={"/"} />} />
+          <Route path="/cd/build" element={isLogin ? <BuildSetting /> : <Navigate to={"/"} />} />
           <Route path="/cd/dashboard" element={isLogin ? <CDDashboard /> : <Navigate to={"/"} />} />
           <Route path="/cd/repoList" element={isLogin ? <RepoList /> : <Navigate to={"/"} />} />
           <Route path="/monitoring/clusterList" element={isLogin ? <ClusterList /> : <Navigate to={"/"} />} />

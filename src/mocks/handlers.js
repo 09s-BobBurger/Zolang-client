@@ -3,6 +3,56 @@ import { http, HttpResponse } from "msw";
 const baseURL = "https://kcs.zolang.store";
 
 export const handlers = [
+    http.get(`${baseURL}/api/v1/users`, () => {
+        return HttpResponse.json({
+            "success": true,
+            "data": {
+                "id": 2,
+                "nickname": "dongkyeomjang",
+                "profileImage": "https://avatars.githubusercontent.com/u/86873281?v=4",
+                "email": "jangelliot0404@dgu.ac.kr"
+            },
+            "error": null
+        });
+    }),
+    http.get(`${baseURL}/api/v1/cicd`, () => {
+        return HttpResponse.json({
+            "success": true,
+            "data": [
+                {
+                    "repositoryId": 1,
+                    "repositoryName": "Zolang-server",
+                    "lastCommit": "init",
+                    "lastBuildStatus": "success",
+                    "createdAt": [
+                        2024,
+                        5,
+                        28,
+                        14,
+                        37,
+                        37,
+                        817315000
+                    ]
+                },
+                {
+                    "repositoryId": 1,
+                    "repositoryName": "Zolang-server",
+                    "lastCommit": "init",
+                    "lastBuildStatus": "success",
+                    "createdAt": [
+                        2024,
+                        5,
+                        28,
+                        14,
+                        37,
+                        37,
+                        817315000
+                    ]
+                }
+            ],
+            "error": null
+        });
+    }),
     http.get(
         `${baseURL}/api/v1/cluster/:clusterId/workload/cron-jobs/namespace`,
         ({ params }) => {
@@ -424,14 +474,16 @@ export const handlers = [
                     "clusterName": "test1",
                     "domainUrl": "4D7C9D3720F10894E47E736F3C5C07F6.sk1.ap-northeast-2.eks.amazonaws.com",
                     "version": "1.29.1",
-                    "status": "ready"
+                    "status": "ready",
+                    "provider": "external"
                 },
                 {
                     "clusterId": 25,
-                    "clusterName": "TestAsyncCreate",
-                    "domainUrl": "",
-                    "version": "",
-                    "status": "creating"
+                    "clusterName": "TestAsyncCreat",
+                    "domainUrl": "87AB32865FFC51D6F9F914B9B40F690D.yl4.ap-northeast-2.eks.amazonaws.com",
+                    "version": "1.29",
+                    "status": "ready",
+                    "provider": "zolang"
                 }
             ],
             "error": null
@@ -448,7 +500,7 @@ export const handlers = [
     // }),
 
     // load repositories
-    http.get("/api/v1/users/github", () => {
+    http.get(`${baseURL}/api/v1/github`, () => {
         return HttpResponse.json({
             success: true,
             data: [
@@ -605,7 +657,7 @@ export const handlers = [
     }),
 
     // load branches
-    http.get("/api/v1/users/github/branches", ({ request }) => {
+    http.get(`${baseURL}/api/v1/users/github/branches`, ({ request }) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get("repoName");
         return HttpResponse.json({
@@ -638,7 +690,7 @@ export const handlers = [
     }),
 
     // push
-    http.put("/api/v1/users/github/commits", async ({ request }) => {
+    http.put(`${baseURL}/api/v1/users/github/commits`, async ({ request }) => {
         const url = new URL(request.url);
         const repoName = url.searchParams.get("repoName");
         const branchName = url.searchParams.get("branchName");
@@ -1905,107 +1957,113 @@ export const handlers = [
         return HttpResponse.json(
             {
                 "success": true,
-                "data": [
-                    {
-                        "name": "jenkins",
-                        "namespace": "jenkins",
-                        "images": [
-                            "ghcr.io/konempty/jenkins-docker-image:latest"
-                        ],
-                        "labels": {},
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2024. 01. 28. 오후 12:57:35",
-                        "age": "3 month"
-                    },
-                    {
-                        "name": "calico-kube-controllers",
-                        "namespace": "kube-system",
-                        "images": [
-                            "docker.io/calico/kube-controllers:v3.23.5"
-                        ],
-                        "labels": {
-                            "k8s-app": "calico-kube-controllers"
+                "data": {
+                    "controllers": [
+                        {
+                            "name": "jenkins",
+                            "namespace": "jenkins",
+                            "images": [
+                                "ghcr.io/konempty/jenkins-docker-image:latest"
+                            ],
+                            "labels": {},
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2024. 01. 28. 오후 12:57:35",
+                            "age": "3 month"
                         },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2023. 05. 01. 오후 14:09:50",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "coredns",
-                        "namespace": "kube-system",
-                        "images": [
-                            "coredns/coredns:1.9.3"
-                        ],
-                        "labels": {
-                            "addonmanager.kubernetes.io/mode": "Reconcile",
-                            "k8s-app": "kube-dns",
-                            "kubernetes.io/cluster-service": "true",
-                            "kubernetes.io/name": "CoreDNS"
+                        {
+                            "name": "calico-kube-controllers",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/kube-controllers:v3.23.5"
+                            ],
+                            "labels": {
+                                "k8s-app": "calico-kube-controllers"
+                            },
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2023. 05. 01. 오후 14:09:50",
+                            "age": "1 year"
                         },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2023. 05. 02. 오전 11:27:43",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "dashboard-metrics-scraper",
-                        "namespace": "kube-system",
-                        "images": [
-                            "kubernetesui/metrics-scraper:v1.0.8"
-                        ],
-                        "labels": {
-                            "k8s-app": "dashboard-metrics-scraper"
+                        {
+                            "name": "coredns",
+                            "namespace": "kube-system",
+                            "images": [
+                                "coredns/coredns:1.9.3"
+                            ],
+                            "labels": {
+                                "addonmanager.kubernetes.io/mode": "Reconcile",
+                                "k8s-app": "kube-dns",
+                                "kubernetes.io/cluster-service": "true",
+                                "kubernetes.io/name": "CoreDNS"
+                            },
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2023. 05. 02. 오전 11:27:43",
+                            "age": "1 year"
                         },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "kubernetes-dashboard",
-                        "namespace": "kube-system",
-                        "images": [
-                            "kubernetesui/dashboard:v2.7.0"
-                        ],
-                        "labels": {
-                            "k8s-app": "kubernetes-dashboard"
+                        {
+                            "name": "dashboard-metrics-scraper",
+                            "namespace": "kube-system",
+                            "images": [
+                                "kubernetesui/metrics-scraper:v1.0.8"
+                            ],
+                            "labels": {
+                                "k8s-app": "dashboard-metrics-scraper"
+                            },
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2023. 05. 06. 오전 06:04:58",
+                            "age": "1 year"
                         },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "metrics-server",
-                        "namespace": "kube-system",
-                        "images": [
-                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
-                        ],
-                        "labels": {
-                            "k8s-app": "metrics-server"
+                        {
+                            "name": "kubernetes-dashboard",
+                            "namespace": "kube-system",
+                            "images": [
+                                "kubernetesui/dashboard:v2.7.0"
+                            ],
+                            "labels": {
+                                "k8s-app": "kubernetes-dashboard"
+                            },
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2023. 05. 06. 오전 06:04:58",
+                            "age": "1 year"
                         },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2023. 05. 03. 오전 07:21:30",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "grafana",
-                        "namespace": "monitoring",
-                        "images": [
-                            "grafana/grafana:latest"
-                        ],
-                        "labels": {
-                            "app": "grafana"
+                        {
+                            "name": "metrics-server",
+                            "namespace": "kube-system",
+                            "images": [
+                                "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
+                            ],
+                            "labels": {
+                                "k8s-app": "metrics-server"
+                            },
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2023. 05. 03. 오전 07:21:30",
+                            "age": "1 year"
                         },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2024. 02. 25. 오후 13:45:53",
-                        "age": "2 month"
-                    }
-                ],
+                        {
+                            "name": "grafana",
+                            "namespace": "monitoring",
+                            "images": [
+                                "grafana/grafana:latest"
+                            ],
+                            "labels": {
+                                "app": "grafana"
+                            },
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2024. 02. 25. 오후 13:45:53",
+                            "age": "3 month"
+                        }
+                    ],
+                    "total": 7,
+                    "start": 1,
+                    "end": 7,
+                    "continueToken": null
+                },
                 "error": null
             }
         )
@@ -2215,36 +2273,42 @@ export const handlers = [
         return HttpResponse.json(
             {
                 "success": true,
-                "data": [
-                    {
-                        "name": "nginx-ingress-microk8s-controller",
-                        "namespace": "ingress",
-                        "images": [
-                            "registry.k8s.io/ingress-nginx/controller:v1.5.1"
-                        ],
-                        "labels": {
-                            "microk8s-application": "nginx-ingress-microk8s"
+                "data": {
+                    "controllers": [
+                        {
+                            "name": "nginx-ingress-microk8s-controller",
+                            "namespace": "ingress",
+                            "images": [
+                                "registry.k8s.io/ingress-nginx/controller:v1.5.1"
+                            ],
+                            "labels": {
+                                "microk8s-application": "nginx-ingress-microk8s"
+                            },
+                            "replicas": 2,
+                            "readyReplicas": 2,
+                            "creationDateTime": "2023. 05. 03. 오전 08:35:01",
+                            "age": "1 year"
                         },
-                        "replicas": 2,
-                        "readyReplicas": 2,
-                        "creationDateTime": "2023. 05. 03. 오전 08:35:01",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "calico-node",
-                        "namespace": "kube-system",
-                        "images": [
-                            "docker.io/calico/node:v3.23.5"
-                        ],
-                        "labels": {
-                            "k8s-app": "calico-node"
-                        },
-                        "replicas": 4,
-                        "readyReplicas": 4,
-                        "creationDateTime": "2023. 05. 01. 오후 14:09:48",
-                        "age": "1 year"
-                    }
-                ],
+                        {
+                            "name": "calico-node",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/node:v3.23.5"
+                            ],
+                            "labels": {
+                                "k8s-app": "calico-node"
+                            },
+                            "replicas": 4,
+                            "readyReplicas": 4,
+                            "creationDateTime": "2023. 05. 01. 오후 14:09:48",
+                            "age": "1 year"
+                        }
+                    ],
+                    "total": 2,
+                    "start": 1,
+                    "end": 2,
+                    "continueToken": null
+                },
                 "error": null
             }
         )
@@ -2643,158 +2707,89 @@ export const handlers = [
         return HttpResponse.json(
             {
                 "success": true,
-                "data": [
-                    {
-                        "name": "kubernetes-dashboard-7f479859cc",
-                        "namespace": "kube-system",
-                        "images": [
-                            "kubernetesui/dashboard:v2.7.0"
-                        ],
-                        "labels": {
-                            "k8s-app": "kubernetes-dashboard",
-                            "pod-template-hash": "7f479859cc"
+                "data": {
+                    "controllers": [
+                        {
+                            "name": "jenkins-d5d664d69",
+                            "namespace": "jenkins",
+                            "images": [
+                                "ghcr.io/konempty/jenkins-docker-image:latest"
+                            ],
+                            "labels": {
+                                "app": "jenkins",
+                                "pod-template-hash": "d5d664d69"
+                            },
+                            "replicas": 0,
+                            "readyReplicas": 0,
+                            "creationDateTime": "2024. 03. 06. 오후 13:43:18",
+                            "age": "2 month"
                         },
-                        "replicas": 0,
-                        "readyReplicas": 0,
-                        "creationDateTime": "2023. 05. 06. 오전 06:12:23",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "kubernetes-dashboard-bc88b5c98",
-                        "namespace": "kube-system",
-                        "images": [
-                            "kubernetesui/dashboard:v2.7.0"
-                        ],
-                        "labels": {
-                            "k8s-app": "kubernetes-dashboard",
-                            "pod-template-hash": "bc88b5c98"
+                        {
+                            "name": "calico-kube-controllers-5494cdf894",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/kube-controllers:v3.23.5"
+                            ],
+                            "labels": {
+                                "k8s-app": "calico-kube-controllers",
+                                "pod-template-hash": "5494cdf894"
+                            },
+                            "replicas": 0,
+                            "readyReplicas": 0,
+                            "creationDateTime": "2023. 10. 06. 오전 03:25:17",
+                            "age": "7 month"
                         },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2023. 05. 06. 오전 08:12:46",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "kubernetes-dashboard-dc96f9fc",
-                        "namespace": "kube-system",
-                        "images": [
-                            "kubernetesui/dashboard:v2.7.0"
-                        ],
-                        "labels": {
-                            "k8s-app": "kubernetes-dashboard",
-                            "pod-template-hash": "dc96f9fc"
+                        {
+                            "name": "calico-kube-controllers-56fd769446",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/kube-controllers:v3.23.5"
+                            ],
+                            "labels": {
+                                "k8s-app": "calico-kube-controllers",
+                                "pod-template-hash": "56fd769446"
+                            },
+                            "replicas": 1,
+                            "readyReplicas": 1,
+                            "creationDateTime": "2024. 04. 15. 오후 14:15:05",
+                            "age": "1 month"
                         },
-                        "replicas": 0,
-                        "readyReplicas": 0,
-                        "creationDateTime": "2023. 05. 06. 오전 06:04:58",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "metrics-server-68885988d",
-                        "namespace": "kube-system",
-                        "images": [
-                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
-                        ],
-                        "labels": {
-                            "k8s-app": "metrics-server",
-                            "pod-template-hash": "68885988d"
+                        {
+                            "name": "calico-kube-controllers-5d79db54fc",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/kube-controllers:v3.23.5"
+                            ],
+                            "labels": {
+                                "k8s-app": "calico-kube-controllers",
+                                "pod-template-hash": "5d79db54fc"
+                            },
+                            "replicas": 0,
+                            "readyReplicas": 0,
+                            "creationDateTime": "2024. 02. 22. 오후 16:17:06",
+                            "age": "3 month"
                         },
-                        "replicas": 0,
-                        "readyReplicas": 0,
-                        "creationDateTime": "2023. 05. 03. 오전 09:09:22",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "metrics-server-6cd6d6ffb8",
-                        "namespace": "kube-system",
-                        "images": [
-                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
-                        ],
-                        "labels": {
-                            "k8s-app": "metrics-server",
-                            "pod-template-hash": "6cd6d6ffb8"
-                        },
-                        "replicas": 0,
-                        "readyReplicas": 0,
-                        "creationDateTime": "2023. 05. 03. 오전 07:21:30",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "metrics-server-6d8dc95f86",
-                        "namespace": "kube-system",
-                        "images": [
-                            "registry.k8s.io/metrics-server/metrics-server:v0.5.2"
-                        ],
-                        "labels": {
-                            "k8s-app": "metrics-server",
-                            "pod-template-hash": "6d8dc95f86"
-                        },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2023. 05. 05. 오전 05:37:43",
-                        "age": "1 year"
-                    },
-                    {
-                        "name": "grafana-54df5dbbc7",
-                        "namespace": "monitoring",
-                        "images": [
-                            "grafana/grafana:latest"
-                        ],
-                        "labels": {
-                            "app": "grafana",
-                            "pod-template-hash": "54df5dbbc7"
-                        },
-                        "replicas": 0,
-                        "readyReplicas": 0,
-                        "creationDateTime": "2024. 04. 18. 오후 16:03:55",
-                        "age": "1 month"
-                    },
-                    {
-                        "name": "grafana-657c7689bd",
-                        "namespace": "monitoring",
-                        "images": [
-                            "grafana/grafana:latest"
-                        ],
-                        "labels": {
-                            "app": "grafana",
-                            "pod-template-hash": "657c7689bd"
-                        },
-                        "replicas": 0,
-                        "readyReplicas": 0,
-                        "creationDateTime": "2024. 04. 26. 오후 14:11:40",
-                        "age": "26 day"
-                    },
-                    {
-                        "name": "grafana-668b9b7d5d",
-                        "namespace": "monitoring",
-                        "images": [
-                            "grafana/grafana:latest"
-                        ],
-                        "labels": {
-                            "app": "grafana",
-                            "pod-template-hash": "668b9b7d5d"
-                        },
-                        "replicas": 1,
-                        "readyReplicas": 1,
-                        "creationDateTime": "2024. 05. 19. 오후 13:06:37",
-                        "age": "4 day"
-                    },
-                    {
-                        "name": "grafana-6bc4b5b4b7",
-                        "namespace": "monitoring",
-                        "images": [
-                            "grafana/grafana:latest"
-                        ],
-                        "labels": {
-                            "app": "grafana",
-                            "pod-template-hash": "6bc4b5b4b7"
-                        },
-                        "replicas": 0,
-                        "readyReplicas": 0,
-                        "creationDateTime": "2024. 04. 18. 오후 16:09:22",
-                        "age": "1 month"
-                    }
-                ],
+                        {
+                            "name": "calico-kube-controllers-7754b4589c",
+                            "namespace": "kube-system",
+                            "images": [
+                                "docker.io/calico/kube-controllers:v3.23.5"
+                            ],
+                            "labels": {
+                                "k8s-app": "calico-kube-controllers",
+                                "pod-template-hash": "7754b4589c"
+                            },
+                            "replicas": 0,
+                            "readyReplicas": 0,
+                            "creationDateTime": "2024. 02. 22. 오후 23:33:44",
+                            "age": "3 month"
+                        }
+                    ],
+                    "total": 36,
+                    "start": 11,
+                    "end": 20,
+                    "continueToken": "eyJ2IjoibWV0YS5rOHMuaW8vdjEiLCJydiI6NjU1NzkxNzAsInN0YXJ0Ijoia3ViZS1zeXN0ZW0vY2FsaWNvLWt1YmUtY29udHJvbGxlcnMtNzc1NGI0NTg5Y1x1MDAwMCJ9"
+                },
                 "error": null
             }
         )

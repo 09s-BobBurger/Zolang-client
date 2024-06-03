@@ -149,8 +149,7 @@ function FormToYamlFooter(props) {
                     fileName
                 ) {
                     axios
-                        .put(
-                            `/api/v1/github/commits?repoName=${repository}&branchName=${branch}`,
+                        .put(`/api/v1/github/commits?repoName=${repository}&branchName=${branch}`,
                             {
                                 committer_name: userName,
                                 committer_email: userEmail,
@@ -158,34 +157,21 @@ function FormToYamlFooter(props) {
                                     ? fileName
                                     : fileName + ".yaml",
                                 content: yaml,
-                            },
-                            {
-                                headers: {
-                                    Authorization:
-                                        "Bearer " + loginUtil.getAccessToken(),
-                                    "Content-Type": "application/json",
-                                    accept: "*/*",
-                                },
                             }
                         )
                         .then((res) => {
-                            if (res.data.data !== "true" && res.data.success != "true"){
-                                props.setIsPushFailModalOpen(true);
-                            } else {
-                                setIsExpanded(false);
+                            if (res.data.success === true && res.data.data === true){
                                 props.setIsPushSuccessModalOpen(true);
+                                setIsExpanded(false);
+                            } else {
+                                props.setIsPushFailModalOpen(true);
                             }
                         });
                 }
             } else {
                 console.log(loginUtil.getAccessToken());
                 axios
-                    .get(`/api/v1/github`, {
-                        headers: {
-                            Authorization:
-                                "Bearer " + loginUtil.getAccessToken(),
-                        },
-                    })
+                    .get(`/api/v1/github`,)
                     .then((res) => {
                         setRepositories(res.data.data);
                     })

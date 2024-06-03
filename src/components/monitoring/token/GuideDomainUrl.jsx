@@ -1,42 +1,9 @@
 import React from 'react';
 import {anOldHope, CopyBlock} from "react-code-blocks";
-import MuiTextField from "@mui/material/TextField";
-import { styled} from "@mui/material/styles";
-import {useDispatch, useSelector} from "react-redux";
-import {setClusterNameInToken} from "../../../redux/modules/token.js";
-
-const TextField = styled(MuiTextField) ({
-    width: '50vw',
-    minWidth: '400px',
-    // margin: '8px',
-    '& .MuiFormLabel-root, & .MuiFormLabel-shrink': {
-        color: 'white !important',
-    },
-    '& .MuiInput-underline:before, .MuiInput-underline:after, .MuiInput-underline:hover::before': {
-        borderColor: 'white !important',
-    },
-    '& .MuiInputBase-input' : {
-        color: 'white'
-    },
-    '& input:-internal-autofill-selected': {
-        appearance: 'none !important'
-    },
-    '& .Mui-error': {
-        color: 'red !important'
-    },
-    '& .Mui-error.MuiInput-underline:before, & .Mui-error.MuiInput-underline:after, & .Mui-error.MuiInput-underline:hover::before': {
-        borderColor: 'red !important',
-    },
-    '& .MuiFormHelperText-root': {
-        position: 'absolute',
-        bottom: '-18px'
-    }
-
-})
+import {useSelector} from "react-redux";
 
 const GuideDomainUrl = () => {
     const clusterName = useSelector(state => state.token.clusterName);
-    const dispatch = useDispatch();
 
     const code = `# .KUBECONFIG에 여러 콘텍스트가 있을 수 있으므로, 가능한 모든 클러스터를 확인한다.
 kubectl config view -o jsonpath='{"Cluster name\\tServer\\n"}{range .clusters[*]}{.name}{"\\t"}{.cluster.server}{"\\n"}{end}'
@@ -143,23 +110,9 @@ echo $APISERVER`;
                     lineHeight: '2'
                 }}
             >
-                클러스터 이름을 작성하여 아래의 코드를 터미널에 입력합니다.<br />
+                위에 클러스터 이름을 작성하여 아래의 코드를 터미널에 입력합니다.<br />
                 출력된 토큰과 APISERVER 도메인으로 클러스터를 추가해주세요.
             </span>
-            <div className="cluster-name-form"
-                style={{
-                    padding: "5px",
-                    margin: "5px",
-                    height: 'fit-content'
-                }}
-            >
-                <TextField
-                    id="standard-basic"
-                    label="Cluster Name"
-                    variant="standard"
-                    onChange={(e) => {dispatch(setClusterNameInToken(e.target.value))}}
-                />
-            </div>
             <div style={{ width: "60vw", padding: "5px", margin: "5px" }}>
                 <CopyBlock
                     language="yaml"

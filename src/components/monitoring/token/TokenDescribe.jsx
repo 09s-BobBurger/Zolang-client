@@ -1,7 +1,7 @@
 import React from "react";
 import { CopyBlock,anOldHope	 } from "react-code-blocks";
 
-function tokenDescribe(props) {
+function tokenDescribe() {
     const describe = `Name:           mysecretname
 Namespace:      examplens
 Labels:         <none>

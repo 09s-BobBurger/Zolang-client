@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PieChart from "./PieChart";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { customizedAxios as axios } from "../../../../util/customizedAxios.js";
 import { useSelector } from "react-redux";
 
-function ChartList(props) {
+function ChartList() {
     const [runState, setRunState] = useState({});
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
@@ -100,7 +99,7 @@ function ChartList(props) {
                     spacing={2}
                     margin="10px"
                 >
-                    {Object.entries(runState).map(([key, value], index) =>
+                    {runState? Object.entries(runState).map(([key, value], index) =>
                         value.counts > 0 && (
                             <Box key={index} flexGrow={1}>
                                 <PieChart
@@ -111,7 +110,7 @@ function ChartList(props) {
                                 />
                             </Box>
                         )
-                    )}
+                    ):null}
                 </Stack>
             </div>
         </div>

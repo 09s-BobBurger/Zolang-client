@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import ApexChart from "react-apexcharts";
 
 const MiniUsageChart = ({ data, color1, color2, min, max, usage }) => {

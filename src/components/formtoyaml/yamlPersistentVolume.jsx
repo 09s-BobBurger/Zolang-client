@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Accordion from "./Accordion.jsx";
 import AccordionDetails from "./AccordionDetails.jsx";
 import AccordionSummary from "./AccordionSummary.jsx";

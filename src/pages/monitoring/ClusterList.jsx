@@ -12,6 +12,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
+import BuildingIcon from "../../components/icon/BuildingIcon.jsx";
 
 const ClusterList = () => {
     const navigate = useNavigate();
@@ -25,8 +26,10 @@ const ClusterList = () => {
     };
 
     const onClickCluster = (item) => {
-        dispatch(setCluster(item.clusterId)); // item의 cluster_id 전달
-        navigate("/monitoring/dashboard");
+        if (item.status === "ready") {
+            dispatch(setCluster(item.clusterId));
+            navigate("/monitoring/dashboard");
+        }
     };
 
     const loadData = () => {
@@ -69,14 +72,18 @@ const ClusterList = () => {
                         </TableHead>
                         <TableBody>
                         {clusters?.length > 0? (clusters.map((item, index) => (
-                                <TableRow  key={index}>
+                                <TableRow key={index}>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
-                                    <TableCell align="center" style={{textAlign: "-webkit-center"}} onClick={() => onClickCluster(item)}>{item.version}</TableCell>
-                                    <TableCell align="center" onClick={() => onClickCluster(item)}>{item.status === "ready" ? 
-                                    <img src="../clusterStateTrue.svg" alt="good" /> : 
-                                    <img src="../clusterStateFalse.svg" alt="bad" />}</TableCell>
-                                    <TableCell align="center" style={{textAlign: "-webkit-right"}}><DeleteButton onClick={() => handleDelete(item.clusterId)}></DeleteButton></TableCell>
+                                    <TableCell onClick={() => onClickCluster(item)} align="center" style={{textAlign: "-webkit-center"}}>{item.version}</TableCell>
+                                    <TableCell onClick={() => onClickCluster(item)} align="center">
+                                        {item.status === "ready" ?
+                                        <img src="../clusterStateTrue.svg" alt="good" /> :
+                                            item.status === "creating" ?
+                                                <BuildingIcon /> :
+                                                <img src="../clusterStateFalse.svg" alt="bad" />}
+                                    </TableCell>
+                                    <TableCell align="center" style={{textAlign: "-webkit-right"}} onClick={() => handleDelete(item.clusterId)}><DeleteButton></DeleteButton></TableCell>
                                 </TableRow>
                             ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
                         </TableBody>

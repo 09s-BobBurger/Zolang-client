@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import "../../../../styles/MONITORING.css";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import TableForm from "./TableForm";
-import {useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-function DaemonSets(props) {
+function DaemonSets() {
     const [daemonSet, setDaemonSets] = useState({});
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
