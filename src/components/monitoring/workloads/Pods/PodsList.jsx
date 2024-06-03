@@ -78,7 +78,7 @@ const PodsList = ({ setPod }) => {
                 style={{
                     display: "flex",
                     gap: "20px",
-                    width: '100%'
+                    minWidth: "1200px"
                 }}
             >
                 <UsageLineChart
@@ -99,12 +99,13 @@ const PodsList = ({ setPod }) => {
             </div>}
             <div
                 style={{
+                    boxSizing: "border-box",
                     padding: "15px",
                     outline: "1px solid #ABAFBD",
                     borderRadius: "10px",
                     background: "#2E3240",
                     justifyContent: "center",
-                    overflow: "auto",
+                    minWidth: "1200px"
                 }}
             >
                 <div

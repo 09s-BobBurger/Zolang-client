@@ -71,6 +71,7 @@ const CronJobs = () => {
     }
     
     return (
+        <div className="dashboard-content">
         <div
             style={{
                 padding: "15px",
@@ -199,6 +200,7 @@ const CronJobs = () => {
                     </Table>
                 </TableContainer>
             </div>
+        </div>
         </div>
     );
 };
