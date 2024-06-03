@@ -82,7 +82,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
 
     return (
         <div
-            style={{ width: '79vw' }}
+            style={{ width: '79vw', minWidth: "1200px" }}
         >
             <MuiButton
                 style={{

@@ -59,7 +59,7 @@ function ChartList() {
                 background: "#2E3240",
                 justifyContent: "center",
                 height: "auto",
-                overflow: "auto",
+                minWidth: "1200px"
             }}
         >
             <div

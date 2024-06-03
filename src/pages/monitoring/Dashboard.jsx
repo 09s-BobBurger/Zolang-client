@@ -64,7 +64,7 @@ const Dashboard = () => {
         >
             <MonitoringNav items={category} currentMenu={currentMenu} namespaces={namespaces} />
             <div className="monitoring-content">
-                <p className="title">
+                <p className="title" style={{ width: "max-content"}}>
                     {currentMenu.charAt(0).toUpperCase() + currentMenu.slice(1)}
                 </p>
                 <Routes>

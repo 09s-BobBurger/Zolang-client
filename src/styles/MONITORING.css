@@ -42,6 +42,7 @@
 
 .moni-workloads-table{
     width: calc(100vw / 100 * 77);
+    min-width: 100%;
 }
 
 .moni-workloads-table > div > table > thead > tr > th:first-child {
