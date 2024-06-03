@@ -19,7 +19,7 @@ const titleStyle = {
     alignItems: 'center',
     width: '100%',
     color: "#ffffff",
-    fontSize: "1.6rem"
+    fontSize: "1.6rem",
 }
 const ControllerDetail = ({ detail, goToList }) => {
     const clusterId = useSelector(state => state.cluster.clusterId);
@@ -195,7 +195,6 @@ const ControllerDetail = ({ detail, goToList }) => {
                     </div>
                 </div>
 
-                {/* Resource */}
                 <div
                     style={{
                         boxSizing: 'border-box',
@@ -209,101 +208,99 @@ const ControllerDetail = ({ detail, goToList }) => {
                         overflowX: 'auto',
                     }}
                 >
-                    <span style={titleStyle}>
-                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg"
-                             alt="resource"/>
-                        Resource
-                    </span>
+                    {/* Resource */}
                     <div
                         style={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "20px",
-                            height: 'auto'
+                            width: '50%'
                         }}
                     >
+                        <span style={titleStyle}>
+                            <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../resource.svg"
+                                 alt="resource"/>
+                            Resource
+                        </span>
                         <div
                             style={{
+                                width: "100%",
                                 display: "flex",
-                                justifyContent: "space-between",
-                                color: "#ffffff",
+                                flexDirection: "column",
+                                gap: "20px",
+                                height: 'auto',
+                                marginTop: "20px"
                             }}
                         >
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Image
-                                </Typography>
-                                <Typography sx={{mb: 1.5}}>
-                                    <Label name={detail.resource.image}/>
-                                </Typography>
-                            </div>
-                            <div style={{marginRight: "5px"}}>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Selector
-                                </Typography>
-                                <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                    {Object.keys(detail.resource.selector).map((key) => {
-                                        return <Label name={key + ":" + detail.resource.selector[key]}/>
-                                    })}
-                                </Typography>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "space-between",
+                                    color: "#ffffff",
+                                }}
+                            >
+                                <div>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Image
+                                    </Typography>
+                                    <Typography sx={{mb: 1.5}}>
+                                        <Label name={detail.resource.image}/>
+                                    </Typography>
+                                </div>
+                                <div style={{marginRight: "5px"}}>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Selector
+                                    </Typography>
+                                    <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                                        {Object.keys(detail.resource.selector).map((key) => {
+                                            return <Label name={key + ":" + detail.resource.selector[key]}/>
+                                        })}
+                                    </Typography>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
 
-                {/* podConditions */}
-                <div
-                    style={{
-                        boxSizing: 'border-box',
-                        display: 'flex',
-                        flexWrap: "wrap",
-                        gap: '10px',
-                        border: '1px solid rgb(171, 175, 189)',
-                        borderRadius: '10px',
-                        padding: '30px',
-                        background: 'rgb(56, 60, 74)',
-                        overflowX: 'auto',
-                    }}
-                >
-                    <span style={titleStyle}>
-                        <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg"
-                             alt="resource"/>
-                        Pod Conditions
-                    </span>
-                    <div
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "20px",
-                            height: 'auto'
-                        }}
-                    >
+                    {/* Pod Conditions */}
+                    <div>
+                        <span style={titleStyle}>
+                            <img width="30px" style={{marginRight: '10px', marginBottom: '5px'}} src="../../../status.svg"
+                                 alt="resource"/>
+                            Pod Conditions
+                        </span>
                         <div
                             style={{
+                                width: "100%",
                                 display: "flex",
-                                gap: '40px',
-                                // justifyContent: "space-between",
-                                color: "#ffffff",
+                                flexDirection: "column",
+                                gap: "20px",
+                                height: 'auto',
+                                marginTop: "20px"
                             }}
                         >
-                            <div style={{marginRight: "5px"}}>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Running Pods
-                                </Typography>
-                                <Typography variant="h6">
-                                    {detail.podConditions.runningPods}
-                                </Typography>
-                            </div>
-                            <div>
-                                <Typography variant="body2" color="#ABAFBD">
-                                    Desired Pods
-                                </Typography>
-                                <Typography variant="h6">
-                                    {detail.podConditions.desiredPods}
-                                </Typography>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    gap: '40px',
+                                    // justifyContent: "space-between",
+                                    color: "#ffffff",
+                                }}
+                            >
+                                <div style={{marginRight: "5px"}}>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Running Pods
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {detail.podConditions.runningPods}
+                                    </Typography>
+                                </div>
+                                <div>
+                                    <Typography variant="body2" color="#ABAFBD">
+                                        Desired Pods
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {detail.podConditions.desiredPods}
+                                    </Typography>
+                                </div>
                             </div>
                         </div>
                     </div>
