@@ -44,9 +44,7 @@ function total(props) {
                 outline: "1px solid #ABAFBD",
                 borderRadius: "10px",
                 background: "#2E3240",
-                height: "100%",
-                overflow: "auto",
-                overflowY: "hidden",
+                height: "-webkit-fill-available",
                 margin: 0
             }}
         >
@@ -107,7 +105,7 @@ function total(props) {
                             textAlign: "center",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            width: "90%",
+                            width: "100%",
                             margin: "0 auto"
                         }}
                     >

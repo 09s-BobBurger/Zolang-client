@@ -74,7 +74,6 @@ function Nodes({ nodeData, setNode }) {
                         background: "#2E3240",
                         justifyContent: "center",
                         height: "auto",
-                        overflow: "auto",
                     }}
                 >
                     <div className="node-list-metadata">

@@ -7,7 +7,7 @@ export const customizedAxios = axios.create({
     baseURL: 'https://kcs.zolang.store',
     // baseURL: 'https://kcs.zolang.site',
     headers: {
-        "Authorization": "Bearer " + loginUtil.getAccessToken(),
+        Authorization : "Bearer " + loginUtil.getAccessToken(),
         "withCredentials": true,
     },
 });
