@@ -5,7 +5,7 @@ import TextField from "./TextField.jsx";
 Storage 크기를 입력받는 박스
 max는 Gi 기준
 */
-const StorageInputBox = ({ name, setter, max }) => {
+const StorageInputBox = ({ name, setter, max, value }) => {
     const [error, setError] = useState(false);
     const [helperText, setHelperText] = useState(null);
     const onChangeInput = (e) => {
@@ -31,7 +31,7 @@ const StorageInputBox = ({ name, setter, max }) => {
             <div style={{ position: "absolute", right: "0", bottom: "-10px" }}> {/* 고정된 위치에 텍스트 표시 */}
                 {helperText && <span style={{ color: error ? "red" : "inherit", fontSize: '10px' }}>{helperText}</span>}
             </div>
-            <TextField error={error} onChange={onChangeInput} id="standard-basic" variant="standard" placeholder={name}/>
+            <TextField error={error} onChange={onChangeInput} id="standard-basic" variant="standard" placeholder={name} value={value}/>
         </div>
     );
 };
