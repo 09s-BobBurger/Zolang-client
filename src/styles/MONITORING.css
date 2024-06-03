@@ -259,7 +259,12 @@
     color: white;
     font-size: 16px;
     width: 200px;
-    overflow: hidden;
+    overflow: auto;
+    scrollbar-width: none;
+}
+
+.monitoring-nav::-webkit-scrollbar {
+    display: none; /* 스크롤바 숨기기 */
 }
 
 .monitoring-nav .menu-bar .MuiListItemText-root {
