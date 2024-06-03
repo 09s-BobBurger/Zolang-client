@@ -79,7 +79,7 @@ function NodeDetailCard({ nodeName, initNode }) {
     };
 
     return (
-        <div style={{ width: "79vw" }}>
+        <div className="dashboard-content">
             <MuiButton
                 style={{
                     width: "fit-content",
@@ -100,7 +100,7 @@ function NodeDetailCard({ nodeName, initNode }) {
             {node && (
                 <div
                     style={{
-                        width: "100%",
+                        minWidth: "1100px",
                         display: "flex",
                         flexDirection: "column",
                         gap: "40px",

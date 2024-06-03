@@ -73,7 +73,7 @@ function Nodes({ nodeData, setNode }) {
     const boxValueVariant = "body2";
 
     return (
-        <div className="overview-content">
+        <div className="dashboard-content">
             {nodeData.map((node, index) => (
                 <div
                     key={node.name}
@@ -87,6 +87,7 @@ function Nodes({ nodeData, setNode }) {
                         background: "#2E3240",
                         justifyContent: "center",
                         height: "auto",
+                        minWidth: "1100px"
                     }}
                 >
                     <div className="node-list-metadata">

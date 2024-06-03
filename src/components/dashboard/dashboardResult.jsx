@@ -7,8 +7,8 @@ import Bill from "./Bill.jsx";
 function dashboardResult(props) {
     return (
         <>
-            <div style={{ display: "flex", height: "100%", justifyContent: "space-between", gap: "30px", maxWidth: "1300px", maxHeight: "-webkit-fill-available"}}>
-                <div style={{  minWidth: "280px", height: "100%"}}>
+            <div style={{ display: "flex", height: "100%", justifyContent: "space-between", gap: "30px", maxWidth: "1320px", width: "fit-content", maxHeight: "694px"}}>
+                <div style={{  minWidth: "280px", height: "-webkit-fill-available"}}>
                     <Repository />
                 </div>
                 <div
@@ -27,18 +27,20 @@ function dashboardResult(props) {
                             maxHeight: "330px",
                             minWidth: "540px",
                             maxWidth: "700px",
-                            height: "40%"}}>
+                            height: "40%"
+                        }}>
                         <Total />
                     </div>
                     <div style={{
                             minHeight: "300px",
                             minWidth: "540px",
                             maxWidth: "700px",
-                            height: "60%"}}>
+                            height: "60%"
+                            }}>
                         <ClusterList />
                     </div>
                 </div>
-                <div style={{  minWidth: "280px", height: "100%"}}>
+                <div style={{  minWidth: "280px", height: "-webkit-fill-available"}}>
                     <Bill />
                 </div>
             </div>
