@@ -25,7 +25,7 @@ function Nodes({ nodeData, setNode }) {
         return timeDifferenceInMinutes+ "분 전";
     }
 
-    const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+    const CpuProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
         width: 70,
         borderRadius: 5,
@@ -35,8 +35,21 @@ function Nodes({ nodeData, setNode }) {
         },
         [`& .${linearProgressClasses.bar}`]: {
             borderRadius: 5,
+            backgroundColor: theme.palette.mode === "light" ? "#F5347F" : "#308fe8",
+        },
+    }));
+
+    const MemoryProgress = styled(LinearProgress)(({ theme }) => ({
+        height: 10,
+        width: 70,
+        borderRadius: 5,
+        [`&.${linearProgressClasses.colorPrimary}`]: {
             backgroundColor:
-                theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+                theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+        },
+        [`& .${linearProgressClasses.bar}`]: {
+            borderRadius: 5,
+            backgroundColor: theme.palette.mode === "light" ? "#ffd05c" : "#308fe8",
         },
     }));
 
@@ -128,7 +141,7 @@ function Nodes({ nodeData, setNode }) {
                                     <Typography variant={boxTitleVariant}>
                                         CPU
                                     </Typography>
-                                    <BorderLinearProgress
+                                    <CpuProgress
                                         variant="determinate"
                                         value={convertToPercentage(node.nodeUsage.usage.nodeCpuUsage? node.nodeUsage.usage.nodeCpuUsage:0, node.nodeUsage.allocatableCpu)}
                                     />
@@ -137,7 +150,7 @@ function Nodes({ nodeData, setNode }) {
                                     <Typography variant={boxTitleVariant}>
                                         Memory
                                     </Typography>
-                                    <BorderLinearProgress
+                                    <MemoryProgress
                                         variant="determinate"
                                         value={convertToPercentage(node.nodeUsage.usage.nodeMemoryUsage? node.nodeUsage.usage.nodeMemoryUsage : 0, node.nodeUsage.allocatableMemory)}
                                     />

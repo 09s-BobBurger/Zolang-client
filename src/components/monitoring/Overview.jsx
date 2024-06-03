@@ -56,7 +56,7 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.cpuCapacity}
-                                    number={4}
+                                    number={0}
                                 />
                                 <Chart
                                     title="Memory"
@@ -75,7 +75,7 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.memoryCapacity}
-                                    number={2}
+                                    number={1}
                                 />
                                 <Chart
                                     title="Pod"
@@ -94,7 +94,7 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.podCapacity}
-                                    number={0}
+                                    number={2}
                                 />
                             </div>
                         )}

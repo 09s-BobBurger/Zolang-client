@@ -146,16 +146,17 @@ function Pods(props) {
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
-                                                            color1="#f8fc00" color2="#b0b300"
-                                                            min={0}
-                                            />
+                                            {pod.metrics && <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                                            color1="#F5347F" color2="#bf2662" min={0} usage={pod.usage ? (pod.usage.cpuUsage * 10 ** 3).toFixed(2) + "m" : null}
+                                            />}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <MiniUsageChart data={pod.metrics.map(i => i ? i.memoryUsage : 0)}
-                                                            color1="#00bbff" color2="#00729c"
-                                                            min={0}
-                                            />
+                                            {pod.metrics && <MiniUsageChart
+                                                data={pod.metrics.map(i => i ? i.memoryUsage / 10 ** 6 : 0)}
+                                                color1="#ffb808" color2="#bf8a06"
+                                                min={0}
+                                                usage={pod.usage ? (pod.usage.memoryUsage / 10 ** 6).toFixed(2) + "Mi" : null}
+                                            />}
                                         </TableCell>
                                         <TableCell
                                             align="center"

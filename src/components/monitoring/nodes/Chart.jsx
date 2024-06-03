@@ -30,10 +30,9 @@ const Chart = ({ title, values, fullValue, number }) => {
     const series = values.map((item) => (item.value / newFullValue) * 100);
 
     const color = [
-        ["#bc75f9", "#a992fa", "#ffffff"],
-        ["#ff9500", "#ff9472", "#ffffff"],
-        ["#ff61be", "#ff9de6", "#ffffff"],
-        ["#00c2ba", "#09fbd3", "#ffffff"],
+        ["#F5347F", "#FA99BF", "#ffffff"],
+        ["#ffd05c", "#FFE7AD", "#ffffff"],
+        ["#52c4e1", "#A8E1F0", "#ffffff"],
     ];
 
     const options = {

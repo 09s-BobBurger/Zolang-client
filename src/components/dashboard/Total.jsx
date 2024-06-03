@@ -111,7 +111,7 @@ function total(props) {
                     >
                         <div>
                             <PieChart
-                                color="#019CF6"
+                                color="#F5347F"
                                 value={value.cpuUsage ? value.cpuUsage : 0}
                                 max={
                                     value.cpuAllocatable
@@ -130,7 +130,7 @@ function total(props) {
                         </div>
                         <div>
                             <PieChart
-                                color="#FFD600"
+                                color="#ffd05c"
                                 value={
                                     convertToPercentage(value.memoryUsage ? value.memoryUsage : 0, value.memoryAllocatable? value.memoryAllocatable :1)
                                 }
@@ -147,7 +147,7 @@ function total(props) {
                         </div>
                         <div>
                             <PieChart
-                                color="#FF824D"
+                                color="#52c4e1"
                                 value={value.podUsage ? value.podUsage : 0}
                                 max={
                                     value.podAllocatable
