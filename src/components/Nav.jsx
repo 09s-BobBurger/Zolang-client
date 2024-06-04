@@ -13,7 +13,7 @@ const Drawer = styled(MuiDrawer)({
         boxSizing: 'border-box',
         width: '300px',
         backgroundColor: '#222634',
-        padding: '112px 16px 20px 16px',
+        padding: '92px 16px 20px 16px',
     },
 })
 
@@ -149,6 +149,7 @@ const Nav = ({open, toggleDrawer}) => {
     return (
         <Drawer open={open} onClick={toggleDrawer(false)}>
             <AccountContainer>
+                <img style={{ background: "transparent", marginBottom: '10px', width: "30px", height: "30px"}} src='../githubIconWhite.svg' alt="github image"/>
                 <div className='info-box'>
                     <img src={userImage? userImage: "https://ko.vitejs.dev/logo.svg"} alt="이미지"/>
                     <div style={nameContainerStyle}>
