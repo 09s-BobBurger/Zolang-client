@@ -217,7 +217,7 @@ function FormToYamlFooter(props) {
                     width: "100%",
                 }}
             >
-                <img src="../githubIconWhite.svg" alt="github icon" />
+                <img width="220" height="223" src="../githubIconWhite.svg" alt="github icon" />
                 <div className="push-form-content">
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <div style={{ display: "flex", gap: "40px" }}>

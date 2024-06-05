@@ -19,6 +19,7 @@ import EnvSet from "./EnvSet.jsx";
 import TriggerSet from "./TriggerSet.jsx";
 import { useNavigate } from 'react-router-dom';
 import "../../styles/CD.css";
+import DockerFile from "./DockerFile.jsx";
 
 const SettingComponents = (props) => {
     const [selectedRepository, setSelectedRepository] = useState("");
@@ -200,6 +201,7 @@ const SettingComponents = (props) => {
             />
             <TriggerSet selectTrigger={selectTrigger} setSelectTrigger={setSelectTrigger} />
             <EnvSet labels={labels} setLabels={setLabels} />
+            <DockerFile />
             <div style={{width: "fit-content", marginLeft: "auto"}}>
                 <Button 
                     variant="contained" 

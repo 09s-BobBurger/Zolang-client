@@ -8,15 +8,17 @@ import WorkloadsOverview from '../../components/monitoring/workloads/overview/Ov
 import Pods from '../../components/monitoring/workloads/Pods/Pods.jsx'
 import Nodes from '../../components/monitoring/nodes/Nodes.jsx'
 import Services from "../../components/monitoring/network/services/Services.jsx";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import DaemonSets from "../../components/monitoring/workloads/daemonsets/DaemonSets.jsx";
 import Deployments from "../../components/monitoring/workloads/deployment/Deployments.jsx";
 import ReplicaSets from "../../components/monitoring/workloads/replicasets/ReplicaSets.jsx";
 import StatefulSets from "../../components/monitoring/workloads/statefulsets/StatefulSets.jsx";
 import Jobs from "../../components/monitoring/workloads/jobs/Jobs.jsx";
 import CronJobs from "../../components/monitoring/workloads/cronjobs/CronJobs.jsx";
+import {initNamespace} from "../../redux/modules/namespace.js";
 
 const Dashboard = () => {
+    const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const clusterId = useSelector((state) => state.cluster.clusterId);
@@ -31,6 +33,8 @@ const Dashboard = () => {
     ];
 
     useEffect(() => {
+        // dashboard에 들어올 때 Namespace 초기화
+        dispatch(initNamespace());
         // 클러스터 아이디 없이 접근한 경우 clusterList로 보냄
         if (clusterId === -1) {
             navigate("/monitoring/clusterList")

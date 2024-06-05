@@ -35,8 +35,8 @@ kind: ClusterRole
 metadata:
   name: node-viewer
 rules:
-- apiGroups: [""]
-  resources: ["nodes", "deployments", "replicasets", "pods", "services", "ingresses"]
+- apiGroups: ["", "apps", "extensions", "metrics.k8s.io", "batch", "networking.k8s.io", "rbac.authorization.k8s.io", "storage.k8s.io", "apiextensions.k8s.io", "scheduling.k8s.io", "admissionregistration.k8s.io", "events.k8s.io", "coordination.k8s.io"]
+  resources: ["*"]
   verbs: ["get", "list", "watch"]
 EOF
 
