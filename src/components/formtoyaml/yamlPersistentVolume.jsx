@@ -7,6 +7,7 @@ import AccordionDetails from "./AccordionDetails.jsx";
 import AccordionSummary from "./AccordionSummary.jsx";
 import TextField from "./TextField.jsx";
 import "../../styles/FORMTOYAML.css";
+import StorageInputBox from "./StorageInputBox.jsx";
 
 function YamlPersistentVolume({ onDataChange }) {
     const initialYaml = `apiVersion: v1
@@ -84,12 +85,13 @@ spec:
                     <Typography variant="subtitle">Spec</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <TextField
-                        label="Capacity"
-                        variant="standard"
-                        value={storage}
-                        onChange={(e) => setStorage(e.target.value)}
-                    />
+                    <Typography>capacity</Typography>
+                    <Typography color="gray" sx={{marginBottom: "10px", marginTop: "10px"}}>
+                        The storage capacity of the PV.
+                    </Typography>
+                    <div className="detail-container">
+                        <StorageInputBox name="storage" setter={setStorage} max={1} value={storage}/>
+                    </div>
                     <div style={{ height: "10px" }}></div>
                     <Typography variant="subtitle1">Access Modes</Typography>
                     <Select
