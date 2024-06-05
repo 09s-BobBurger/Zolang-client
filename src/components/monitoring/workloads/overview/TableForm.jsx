@@ -30,7 +30,7 @@ function TableForm({ data, title }) {
                 background: "#2E3240",
                 justifyContent: "center",
                 height: "auto",
-                overflow: "auto",
+                minWidth: "1100px"
             }}
         >
             <div

@@ -27,17 +27,18 @@ const Overview = (data) => {
             <div
                         style={{
                             padding: "15px",
-                        outline: "1px solid #ABAFBD",
-                        borderRadius: "10px",
-                        background: "#2E3240",
-                        justifyContent: "center",
-                        height: "auto",
-                        overflow: "auto",
-                        width: "77vw",
+                            outline: "1px solid #ABAFBD",
+                            borderRadius: "10px",
+                            background: "#2E3240",
+                            justifyContent: "center",
+                            height: "auto",
+                            overflow: "auto",
+                            width: "77vw",
+                            minWidth: "1100px"
                         }}
                     >
                         {usage != null && (
-                            <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap"}}>
+                            <div style= {{display: "flex", paddingBottom: "5px",justifyContent: "space-between", flexWrap: "wrap",}}>
                                 <Chart
                                     title="CPU"
                                     values={[
@@ -55,7 +56,7 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.cpuCapacity}
-                                    number={4}
+                                    number={0}
                                 />
                                 <Chart
                                     title="Memory"
@@ -74,7 +75,7 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.memoryCapacity}
-                                    number={2}
+                                    number={1}
                                 />
                                 <Chart
                                     title="Pod"
@@ -93,7 +94,7 @@ const Overview = (data) => {
                                         },
                                     ]}
                                     fullValue={usage.podCapacity}
-                                    number={0}
+                                    number={2}
                                 />
                             </div>
                         )}

@@ -82,7 +82,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
 
     return (
         <div
-            style={{ width: '79vw' }}
+            style={{ width: '79vw', minWidth: "1100px" }}
         >
             <MuiButton
                 style={{
@@ -120,14 +120,14 @@ const PodDetail = ({ selectedPod, initPod}) => {
                         title="CPU Usage"
                         data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
                         time={pod.metrics.map(i => i ? i.time : '-')}
-                        color="#f8fc00"
+                        color="#F5347F"
                         yAxis="CPU(cores)"
                     />
                     <UsageLineChart
                         title="Memory Usage"
                         data={pod.metrics.map(i => i ? i.memoryUsage / (10 ** 6) : 0)}
                         time={pod.metrics.map(i => i ? i.time : '-')}
-                        color="#00bbff"
+                        color="#ffd05c"
                         yAxis="Memory(bytes)"
                         yFormat={(value) => value.toFixed(1).toString() + "Mi"}
                     />

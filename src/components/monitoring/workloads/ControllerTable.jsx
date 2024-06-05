@@ -8,7 +8,7 @@ import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import Button from "@mui/material/Button";
 
-// demonSet, deployment, statefulSet, ReplicasSet, Job 모두 list table 형식이 같음(cronjob만 형식 다름)
+// demonSet, deployment, statefulSet, ReplicasSet 모두 list table 형식이 같음( Job, cronjob만 형식 다름)
 const ControllerTable = ({data, onClickRow, toPrevPage, toNextPage, prevToken, nextToken}) => {
     return (
         <div
@@ -18,7 +18,7 @@ const ControllerTable = ({data, onClickRow, toPrevPage, toNextPage, prevToken, n
                 borderRadius: "10px",
                 background: "#2E3240",
                 justifyContent: "center",
-                overflow: "auto",
+                minWidth: "1100px"
             }}
         >
             <div

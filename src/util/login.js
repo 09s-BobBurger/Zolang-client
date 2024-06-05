@@ -10,14 +10,20 @@ const checkLogin = () => {
 // access_token 추출
 const getAccessToken = () => {
     const cookies = new Cookies().cookies;
-    return cookies.access_token ? cookies.access_token : "There's no Token";
+    return cookies.access_token ? cookies.access_token : null;
+}
+
+// refresh_token 추출
+const getRefreshToken = () => {
+    const cookies = new Cookies().cookies;
+    return cookies.refresh_token ? cookies.refresh_token : null;
 }
 
 // logout 시 cookies에서 token 삭제
 const logout = () => {
     const cookies = new Cookies();
-    cookies.remove('access_token', { path: '/' });
-    cookies.remove('refresh_token', { path: '/' });
+    cookies.remove('access_token', { path: '/', domain: ".zolang.store" });
+    cookies.remove('refresh_token', { path: '/', domain: ".zolang.store" });
     const path = window.location.pathname;
 
     if (path !== "/FormToYaml" || path !== "/formToYaml" || path !== "/") {
@@ -25,4 +31,4 @@ const logout = () => {
     }
 }
 
-export default {checkLogin, getAccessToken, logout};
+export default {checkLogin, getAccessToken, getRefreshToken, logout};

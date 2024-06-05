@@ -79,7 +79,7 @@ function NodeDetailCard({ nodeName, initNode }) {
     };
 
     return (
-        <div style={{ width: "79vw" }}>
+        <div className="dashboard-content">
             <MuiButton
                 style={{
                     width: "fit-content",
@@ -100,7 +100,7 @@ function NodeDetailCard({ nodeName, initNode }) {
             {node && (
                 <div
                     style={{
-                        width: "100%",
+                        minWidth: "1100px",
                         display: "flex",
                         flexDirection: "column",
                         gap: "40px",
@@ -231,10 +231,6 @@ function NodeDetailCard({ nodeName, initNode }) {
                                     title="CPU"
                                     values={[
                                         {
-                                            name: "Capacity",
-                                            value: usage.capacityCpu,
-                                        },
-                                        {
                                             name: "Allocatable",
                                             value: usage.allocatableCpu,
                                         },
@@ -244,15 +240,11 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                     ]}
                                     fullValue={usage.capacityCpu}
-                                    number={1}
+                                    number={0}
                                 />
                                 <Chart
                                     title="Memory"
                                     values={[
-                                        {
-                                            name: "Capacity",
-                                            value: usage.capacityMemory,
-                                        },
                                         {
                                             name: "Allocatable",
                                             value: usage.allocatableMemory,
@@ -263,7 +255,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                     ]}
                                     fullValue={usage.capacityMemory}
-                                    number={2}
+                                    number={1}
                                 />
                                 <Chart
                                     title="Pod"
@@ -278,7 +270,7 @@ function NodeDetailCard({ nodeName, initNode }) {
                                         },
                                     ]}
                                     fullValue={usage.capacityPod}
-                                    number={3}
+                                    number={2}
                                 />
                             </div>
                         )}

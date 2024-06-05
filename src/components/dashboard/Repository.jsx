@@ -42,7 +42,8 @@ function Repository() {
                 background: "#2E3240",
                 justifyContent: "center",
                 position: "relative",
-                height: "100%"
+                height: "-webkit-fill-available",
+                minHeight : "635px"
             }}
         >
             <div

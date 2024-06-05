@@ -15,9 +15,9 @@ import "../../styles/FORMTOYAML.css";
 import StorageInputBox from "./StorageInputBox.jsx";
 
 const YamlPvc = ({ onDataChange }) => {
-    const [metadataName, setMetadataName] = useState("");
-    const [labels, setLabels] = useState([]);
-    const [storage, setStorage] = useState("");
+    const [metadataName, setMetadataName] = useState("zolang");
+    const [labels, setLabels] = useState([{name: "app", value: "web"}]);
+    const [storage, setStorage] = useState("0.5Gi");
     const [accessModes, setAccessModes] = useState("ReadWriteOnce");
 
     const yaml = `apiVersion: v1
@@ -56,7 +56,7 @@ spec:
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
-                        <InputBox name="name" setter={setMetadataName} />
+                        <InputBox name="name" setter={setMetadataName} value={metadataName}/>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <div style={{ flex: 6 }}>
                                 <Typography variant="subtitle1">Labels</Typography>
@@ -69,6 +69,9 @@ spec:
                                 </AddButton>
                             </div>
                         </div>
+                        <Typography color="gray" sx={{marginBottom: "10px"}}>
+                            Key-value pairs used for identification, organization, and selection.
+                        </Typography>
                         <div className="labels">
                             {labels.map((label, index) => {
                                 return (
@@ -98,6 +101,7 @@ spec:
                                             variant="standard"
                                             label="name"
                                             placeholder="name"
+                                            value={label.name}
                                         />
                                         <TextField
                                             onChange={(e) => {
@@ -118,7 +122,9 @@ spec:
                                             variant="standard"
                                             label="value"
                                             placeholder="value"
+                                            value={label.value}
                                         />
+                                        <DeleteButton onClick={() => onClickDeleteLabel(index)}/>
                                     </div>
                                 );
                             })}
@@ -136,9 +142,16 @@ spec:
                             name="storage"
                             setter={setStorage}
                             max={0.5}
+                            value={storage}
                         />
+                        <Typography color="gray" sx={{marginBottom: "10px"}}>
+                            The minimum amount of storage the PVC requires.
+                        </Typography>
                         <Typography variant="subtitle1">
                             Access Modes
+                        </Typography>
+                        <Typography color="gray" sx={{marginBottom: "10px", marginTop: "10px"}}>
+                            Defines how the volume can be accessed by nodes.
                         </Typography>
                         <FormControl
                             onChange={(e) => setAccessModes(e.target.value)}

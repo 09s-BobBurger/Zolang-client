@@ -15,12 +15,12 @@ import StorageInputBox from "./StorageInputBox.jsx";
 import '../../styles/FORMTOYAML.css';
 
 const YamlPv = ({ onDataChange }) => {
-    const [metadataName, setMetadataName] = useState("");
-    const [labels, setLabels] = useState([]);
-    const [storageClassName, setStorageClassName] = useState("");
-    const [storage, setStorage] = useState("");
+    const [metadataName, setMetadataName] = useState("zolang");
+    const [labels, setLabels] = useState([{name: "app", value: "web"}]);
+    const [storageClassName, setStorageClassName] = useState("zolang-storage");
+    const [storage, setStorage] = useState("1Gi");
     const [accessModes, setAccessModes] = useState("ReadWriteOnce");
-    const [path, setPath] = useState("");
+    const [path, setPath] = useState("/path/on/host");
 
     const yaml = `apiVersion: v1
 kind: PersistentVolume
@@ -38,7 +38,6 @@ spec:
 `
 
     useEffect(() => {
-        console.log(yaml);
         onDataChange(yaml);
     }, [yaml])
 
@@ -57,7 +56,7 @@ spec:
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
-                        <InputBox name="name" setter={setMetadataName}/>
+                        <InputBox name="name" setter={setMetadataName} value={metadataName}/>
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <div style={{ flex: 6 }}>
                                 <Typography variant="subtitle1">Labels</Typography>
@@ -70,6 +69,9 @@ spec:
                                 </AddButton>
                             </div>
                         </div>
+                        <Typography color="gray" sx={{marginBottom: "10px"}}>
+                            Key-value pairs that are attached to the PV object to categorize and organize them.
+                        </Typography>
                         <div className="labels">
                             {labels.map((label, index) => {
                                 return (
@@ -80,7 +82,7 @@ spec:
                                                     idx === index ? {...item, 'name': e.target.value} : item
                                                 ));
                                             }
-                                        } id="standard-basic" variant="standard" label="name" placeholder="name"/>
+                                        } id="standard-basic" variant="standard" label="name" placeholder="name" value={label.name}/>
                                         <TextField onChange={
                                             (e) => {
                                                 setLabels(labels.map((item, idx) =>
@@ -88,7 +90,7 @@ spec:
                                                 ));
                                             }
                                         }
-                                                   id="standard-basic" variant="standard" label="value" placeholder="value"/>
+                                                   id="standard-basic" variant="standard" label="value" placeholder="value" value={label.value}/>
                                         <DeleteButton onClick={() => onClickDeleteLabel(index)}/>
                                     </div>
                                 )
@@ -103,12 +105,18 @@ spec:
                 </AccordionSummary>
                 <AccordionDetails>
                     <div className="detail-container">
-                        <InputBox name="storageClassName" setter={setStorageClassName}/>
+                        <InputBox name="storageClassName" setter={setStorageClassName} value={storageClassName}/>
                         <Typography>capacity</Typography>
+                        <Typography color="gray" sx={{marginBottom: "10px", marginTop: "10px"}}>
+                            The storage capacity of the PV.
+                        </Typography>
                         <div className="detail-container">
-                            <StorageInputBox name="storage" setter={setStorage} max={1}/>
+                            <StorageInputBox name="storage" setter={setStorage} max={1} value={storage}/>
                         </div>
                         <Typography>accessModes</Typography>
+                        <Typography color="gray" sx={{marginBottom: "10px", marginTop: "10px"}}>
+                            The mode in which the volume can be accessed.
+                        </Typography>
                         <FormControl onChange={(e) => setAccessModes(e.target.value)}>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
@@ -121,8 +129,11 @@ spec:
                             </RadioGroup>
                         </FormControl>
                         <Typography>hostPath</Typography>
+                        <Typography color="gray" sx={{marginBottom: "10px", marginTop: "10px"}}>
+                            A directory on the host node's filesystem to use as the storage for the PV.
+                        </Typography>
                         <div className="detail-container">
-                            <InputBox name="path" setter={setPath}/>
+                            <InputBox name="path" setter={setPath} value={path}/>
                         </div>
                     </div>
                 </AccordionDetails>

@@ -15,8 +15,9 @@ import {useNavigate} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+const CpuProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
+    width: 70,
     borderRadius: 5,
     [`&.${linearProgressClasses.colorPrimary}`]: {
         backgroundColor:
@@ -24,7 +25,21 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     },
     [`& .${linearProgressClasses.bar}`]: {
         borderRadius: 5,
-        backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+        backgroundColor: theme.palette.mode === "light" ? "#F5347F" : "#308fe8",
+    },
+}));
+
+const MemoryProgress = styled(LinearProgress)(({ theme }) => ({
+    height: 10,
+    width: 70,
+    borderRadius: 5,
+    [`&.${linearProgressClasses.colorPrimary}`]: {
+        backgroundColor:
+            theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
+    },
+    [`& .${linearProgressClasses.bar}`]: {
+        borderRadius: 5,
+        backgroundColor: theme.palette.mode === "light" ? "#ffd05c" : "#308fe8",
     },
 }));
 const convertToPercentage = (value, max) => (value / max) * 100;
@@ -82,7 +97,8 @@ function InnerNodes(props) {
                 background: "#2E3240",
                 justifyContent: "center",
                 height: "auto",
-                overflow: "auto",
+                width: "77vw",
+                minWidth: "1100px"
             }}
         >
             <div
@@ -115,7 +131,11 @@ function InnerNodes(props) {
                     marginBottom: "15px",
                 }}
             />
-            <div className="moni-dashboard-nodes">
+            <div className="moni-dashboard-nodes"
+                style={{
+                    width: "100%"
+                }}
+            >
                 <TableContainer>
                     <Table
                         sx={{ minWidth: 650, color: "#ffffff" }}
@@ -151,13 +171,13 @@ function InnerNodes(props) {
                                         <TableCell align="center"><Status status={readyCondition ? readyCondition.status : null}/></TableCell>
                                         <TableCell align="center">{calculateTime(row.timeStamp)}</TableCell>
                                         <TableCell align="center" style={{width: "10%"}}>
-                                        <BorderLinearProgress
+                                        <CpuProgress
                                             variant="determinate"
                                             value={convertToPercentage(row.nodeUsage.usage.nodeCpuUsage? row.nodeUsage.usage.nodeCpuUsage: 0, row.nodeUsage.allocatableCpu)}
                                         />
                                         </TableCell>
                                         <TableCell align="center" style={{width: "10%"}}>
-                                        <BorderLinearProgress
+                                        <MemoryProgress
                                             variant="determinate"
                                             value={convertToPercentage(row.nodeUsage.usage.nodeMemoryUsage? row.nodeUsage.usage.nodeMemoryUsage:0, row.nodeUsage.allocatableMemory)}
                                         />

@@ -44,9 +44,7 @@ function total(props) {
                 outline: "1px solid #ABAFBD",
                 borderRadius: "10px",
                 background: "#2E3240",
-                height: "100%",
-                overflow: "auto",
-                overflowY: "hidden",
+                height: "-webkit-fill-available",
                 margin: 0
             }}
         >
@@ -107,13 +105,13 @@ function total(props) {
                             textAlign: "center",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            width: "90%",
+                            width: "100%",
                             margin: "0 auto"
                         }}
                     >
                         <div>
                             <PieChart
-                                color="#019CF6"
+                                color="#F5347F"
                                 value={value.cpuUsage ? value.cpuUsage : 0}
                                 max={
                                     value.cpuAllocatable
@@ -132,7 +130,7 @@ function total(props) {
                         </div>
                         <div>
                             <PieChart
-                                color="#FFD600"
+                                color="#ffd05c"
                                 value={
                                     convertToPercentage(value.memoryUsage ? value.memoryUsage : 0, value.memoryAllocatable? value.memoryAllocatable :1)
                                 }
@@ -149,7 +147,7 @@ function total(props) {
                         </div>
                         <div>
                             <PieChart
-                                color="#FF824D"
+                                color="#52c4e1"
                                 value={value.podUsage ? value.podUsage : 0}
                                 max={
                                     value.podAllocatable

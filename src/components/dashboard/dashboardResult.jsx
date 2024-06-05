@@ -7,8 +7,8 @@ import Bill from "./Bill.jsx";
 function dashboardResult(props) {
     return (
         <>
-            <div style={{ display: "flex", height: "100%", justifyContent: "space-between"}}>
-                <div style={{  width: "360px", margin: "15px", height: "90%"}}>
+            <div style={{ display: "flex", height: "100%", justifyContent: "space-between", gap: "30px", maxWidth: "1320px", width: "fit-content", maxHeight: "694px"}}>
+                <div style={{  minWidth: "280px", height: "-webkit-fill-available"}}>
                     <Repository />
                 </div>
                 <div
@@ -16,18 +16,31 @@ function dashboardResult(props) {
                         display: "flex",
                         width: "60vw",
                         height: "100%",
+                        minHeight: "690px",
+                        minWidth: "540px",
                         flexDirection: "column",
                         gap: "30px"
                     }}
                 >
-                    <div style={{ margin: "15px", height: "38%"}}>
+                    <div style={{
+                            minHeight: "260px",
+                            maxHeight: "330px",
+                            minWidth: "540px",
+                            maxWidth: "700px",
+                            height: "40%"
+                        }}>
                         <Total />
                     </div>
-                    <div style={{ margin: "15px", height: "43%"}}>
+                    <div style={{
+                            minHeight: "300px",
+                            minWidth: "540px",
+                            maxWidth: "700px",
+                            height: "60%"
+                            }}>
                         <ClusterList />
                     </div>
                 </div>
-                <div style={{  width: "350px", margin: "15px", height: "90%"}}>
+                <div style={{  minWidth: "280px", height: "-webkit-fill-available"}}>
                     <Bill />
                 </div>
             </div>

@@ -20,8 +20,8 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [open, setOpen] = React.useState(false);
 
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+  const toggleDrawer = () => () => {
+    setOpen(!open);
   };
 
   useEffect(() => {
@@ -37,7 +37,6 @@ function App() {
     <Provider store={store}>
       <Router>
         {isLogin && <Header toggleDrawer={toggleDrawer} currentPage={window.location.pathname}/>}
-        
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/dashboard" element={isLogin ? <Dashboard /> : <Navigate to={"/"} /> } />

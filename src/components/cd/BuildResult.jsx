@@ -10,8 +10,7 @@ import '../../styles/MONITORING.css';
 import {customizedAxios as axios} from "../../util/customizedAxios.js";
 import BuildingIcon from "../icon/BuildingIcon.jsx";
 
-const BuildResult = () => {
-    const repositoryId = 1;
+const BuildResult = ({repositoryId}) => {
     const [results, setResults] = useState([]);
 
     const loadData = () => {
@@ -91,7 +90,7 @@ const BuildResult = () => {
                         <TableBody>
                             {
                                 results.length > 0 &&
-                                    results.map((item, index) => {
+                                    results.sort((a, b) => b.buildNumber - a.buildNumber).map((item, index) => {
                                         const createdAt = item.createdAt;
 
                                         return (
