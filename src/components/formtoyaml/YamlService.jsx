@@ -13,17 +13,18 @@ import DeleteButton from "./DeleteButton.jsx";
 import InputBox from "./InputBox.jsx";
 import '../../styles/FORMTOYAML.css';
 import RadioLabel from "./RadioLabel.jsx";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import InputLabel from "@mui/material/InputLabel";
 
 const YamlService = ({ onDataChange }) => {
     const [metadataName, setMetadataName] = useState("zolang");
     const [labels, setLabels] = useState([{name: "app", value: "web"}]);
     const [matchLabels, setMatchLabels] = useState([{name: "app", value: "web"}]);
     const [type, setType] = useState("ClusterIP");
-    const [portName, setPortName] = useState("9376");
-    const [port, setPort] = useState("80");
-    const [targetPort, setTargetPort] = useState("9376");
+    const [ports, setPorts] = useState([{'portName': 'http', 'port': '80', 'targetPort': '9376', 'protocol' : 'TCP'}])
     const [nodePort, setNodePort] = useState(null);
-    const [protocol, setProtocol] = useState("TCP");
+    const protocolOptions = ["SCTP", "TCP", "UDP"]
 
     const yaml = `apiVersion: v1
 kind: service
@@ -33,11 +34,16 @@ metadata:
 spec:
   type: ${type}
   selector:${matchLabels.filter(i => i.name !== "" && i.value !== "").map(i => "\n    " + i.name + ": " + i.value).join("")}
-  ports:
-    - name: ${portName}
-      port: ${port}
-      targetPort: ${targetPort} ${nodePort !== null ? "\n      nodePort: " + nodePort : ""}
-      protocol: ${protocol}
+  ports:${ports
+        .filter(i => i.port !== "" && i.targetPort !== "")
+        .map(i => 
+            `\n    - name: ${i.portName}
+       protocol: ${i.protocol}
+       port: ${i.port}
+       targetPort: ${i.targetPort} ${nodePort !== null ? "\n      nodePort: " + nodePort : ""}
+            `
+        )}
+    
     `
     useEffect(() => {
         onDataChange(yaml);
@@ -58,8 +64,14 @@ spec:
     const onClickAddMatchLabel = () => {
         setMatchLabels([...matchLabels, {"name": "", "value": ""}]);
     }
+    const onClickAddPort = () => {
+        setPorts([...ports, {"portName": "", "port": "", "targetPort": "", "protocol": "TCP"}])
+    }
     const onClickDeleteMatchLabel = (index) => {
         setMatchLabels(matchLabels.filter((_, idx) => idx !== index));
+    }
+    const onClickDeletePort = (index) => {
+        setPorts(ports.filter((_, idx) => idx !== index));
     }
 
     return (
@@ -184,57 +196,109 @@ spec:
                             })}
                         </div>
                     </div>
-                    <InnerAccordion>
-                        <AccordionSummary>
-                        <Typography variant="subtitle1">Ports</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography color="gray" sx={{marginBottom: "20px"}}>
-                                Ports defines the ports that the Service will expose and the corresponding ports on the selected Pods.
-                            </Typography>
-                            <div className="detail-container">
-                                <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-                                    <TextField
-                                        onChange={(e) => {setPortName(e.target.value);}}
-                                        id="standard-basic"
-                                        variant="standard"
-                                        placeholder="name"
-                                        value={portName}
-                                        label="Port Name"
-                                    />
-                                    <TextField
-                                        onChange={(e) => {setPort(e.target.value);}}
-                                        id="standard-basic"
-                                        variant="standard"
-                                        placeholder="port"
-                                        value={port}
-                                        label="Port"
-                                    />
-                                    <TextField
-                                        onChange={(e) => {setTargetPort(e.target.value);}}
-                                        id="standard-basic"
-                                        variant="standard"
-                                        placeholder="targetPort"
-                                        value={targetPort}
-                                        label="Target Port"
-                                    />
-                                </div>
-                                {type === "NodePort" && <InputBox name="nodePort" setter={setNodePort}/>}
-                                <p>protocol</p>
-                                <FormControl onChange={(e) => setProtocol(e.target.value)}>
-                                    <RadioGroup
-                                        aria-labelledby="demo-radio-buttons-group-label"
-                                        defaultValue={protocol}
-                                        name="radio-buttons-group"
-                                    >
-                                        <RadioLabel value="SCTP" control={<Radio />} label="SCTP" />
-                                        <RadioLabel value="TCP" control={<Radio />} label="TCP" />
-                                        <RadioLabel value="UDP" control={<Radio />} label="UDP" />
-                                    </RadioGroup>
-                                </FormControl>
+                    <div className='detail-container'>
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <div style={{ flex: 6 }}>
+                                <Typography variant="subtitle1">Ports</Typography>
                             </div>
-                        </AccordionDetails>
-                    </InnerAccordion>
+                            <div style={{ flex: 6, textAlign: "right" }}>
+                                <AddButton
+                                    onClick={onClickAddPort}
+                                >
+                                    Add Port
+                                </AddButton>
+                            </div>
+                        </div>
+                        <Typography color="gray" sx={{marginBottom: "10px"}}>
+                            Ports defines the ports that the Service will expose and the corresponding ports on the selected Pods.
+                        </Typography>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+                            {ports.map((portItem, index) => {
+                                return (
+                                    <div key={index}
+                                         style={{
+                                             display: 'flex',
+                                             justifyContent: "space-between",
+                                             paddingBottom: "20px",
+                                             borderBottom: '1px solid #535769',
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', flexDirection: "column", gap:"15px"}}>
+                                            <TextField
+                                                onChange={
+                                                    (e) => {
+                                                        setPorts(ports.map((item, idx) =>
+                                                            idx === index ? {...item, 'portName': e.target.value} : item
+                                                        ));
+                                                    }
+                                                }
+                                                id="standard-basic" variant="standard" label="Port Name" value={portItem.portName}/>
+                                            <TextField
+                                                onChange={
+                                                    (e) => {
+                                                        setPorts(ports.map((item, idx) =>
+                                                            idx === index ? {...item, 'port': e.target.value} : item
+                                                        ));
+                                                    }
+                                                }
+                                                id="standard-basic" variant="standard" label="Port" value={portItem.port}/>
+                                        </div>
+                                        <div style={{ display: 'flex', flexDirection: "column", gap:"15px"}}>
+                                            <div
+                                                style={{ height: '48px'}}
+                                            >
+                                                <InputLabel
+                                                    id="demo-simple-select-standard-label"
+                                                    sx={{
+                                                        fontSize: "0.8rem",
+                                                        color: "white"
+                                                    }}
+                                                >Protocol</InputLabel>
+                                                <Select
+                                                    label="Protocol"
+                                                    variant="standard"
+                                                    value={portItem.protocol}
+                                                    sx={{
+                                                        color: "#ffffff",
+                                                        fontSize: "16px",
+                                                        width: "166px",
+                                                        ':before, :after': { borderBottomColor: 'white' },
+                                                        ':hover:not(.Mui-disabled):before': { borderBottomColor: 'white' },
+                                                        '& .MuiSvgIcon-root': {
+                                                            color: 'white',
+                                                        },
+                                                    }}
+                                                    onChange={
+                                                        (e) => {
+                                                            setPorts(ports.map((item, idx) =>
+                                                                idx === index ? {...item, 'protocol': e.target.value} : item
+                                                            ));
+                                                        }
+                                                    }
+                                                >
+                                                    {protocolOptions.map((option, index) => (
+                                                        <MenuItem key={index} value={option}>
+                                                            {option}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </div>
+                                            <TextField
+                                                onChange={
+                                                    (e) => {
+                                                        setPorts(ports.map((item, idx) =>
+                                                            idx === index ? {...item, 'targetPort': e.target.value} : item
+                                                        ));
+                                                    }
+                                                }
+                                                id="standard-basic" variant="standard" label="Target Port" value={portItem.targetPort}/>
+                                        </div>
+                                        <DeleteButton onClick={() => onClickDeletePort(index)}/>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
                 </AccordionDetails>
             </Accordion>
         </div>
