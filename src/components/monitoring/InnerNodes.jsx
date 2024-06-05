@@ -14,6 +14,7 @@ import Status from "../icon/Status";
 import {useNavigate} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
+import timeFormatter from "./timeFormatter.js";
 
 const CpuProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -44,13 +45,6 @@ const MemoryProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 const convertToPercentage = (value, max) => (value / max) * 100;
 
-function calculateTime(timestamp) {
-    const providedDate = new Date(timestamp);
-    const currentTime = new Date();
-    const timeDifferenceInMilliseconds = currentTime - providedDate;
-    const timeDifferenceInMinutes = Math.floor(timeDifferenceInMilliseconds / (1000 * 60));
-    return timeDifferenceInMinutes+ "분 전";
-}
 function InnerNodes(props) {
     const navigate = useNavigate();
     const clusterId = useSelector((state) => state.cluster.clusterId);
@@ -169,7 +163,7 @@ function InnerNodes(props) {
                                         <TableCell component="th" scope="row" style={{width: "fit-content"}}>{row.name}</TableCell>
                                         <TableCell align="center">{row.kubectlVersion}</TableCell>
                                         <TableCell align="center"><Status status={readyCondition ? readyCondition.status : null}/></TableCell>
-                                        <TableCell align="center">{calculateTime(row.timeStamp)}</TableCell>
+                                        <TableCell align="center">{timeFormatter(row.timeStamp)}</TableCell>
                                         <TableCell align="center" style={{width: "10%"}}>
                                         <CpuProgress
                                             variant="determinate"

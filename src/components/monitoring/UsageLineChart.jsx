@@ -81,8 +81,50 @@ const UsageLineChart = ({title, data, time, color, yAxis, yFormat}) => {
                  padding: '20px',
                  overflowX: 'auto',
                  overflowY: 'hidden',
+                 position: 'relative'
             }}
         >
+            {
+                data.every(element => element === 0) &&
+                <div
+                    style={{
+                        background: "rgba(0, 0, 0, 0.3)",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        zIndex: 1,
+                        display: 'flex',
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
+                >
+                    <div
+                        style={{
+                            background: '#ffffff',
+                            color: "rgb(56, 60, 74)",
+                            textAlign: "center",
+                            padding: "20px 30px",
+                            borderRadius: "10px",
+                            display: "flex",
+                            flexDirection: 'column',
+                            gap: "10px",
+                            alignItems: "center"
+                        }}
+                    >
+                        <img src="../../../no_metrics.svg" alt="there's no usage"
+                             style={{
+                                 width: "50px"
+                             }}
+                        />
+                        <span>
+                            Install Metrics to view usages.
+                            <br/>If you've already installed it, please wait...
+                        </span>
+                    </div>
+                </div>
+            }
             <ApexChart
                 options={options}
                 series={series}

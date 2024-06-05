@@ -15,15 +15,15 @@ function dashboardResult(props) {
                     style={{
                         display: "flex",
                         width: "60vw",
-                        height: "100%",
+                        height: "-webkit-fill-available",
                         minHeight: "690px",
                         minWidth: "540px",
                         flexDirection: "column",
-                        gap: "30px"
+                        gap: "5%"
                     }}
                 >
                     <div style={{
-                            minHeight: "260px",
+                            minHeight: "280px",
                             maxHeight: "330px",
                             minWidth: "540px",
                             maxWidth: "700px",
@@ -35,7 +35,7 @@ function dashboardResult(props) {
                             minHeight: "300px",
                             minWidth: "540px",
                             maxWidth: "700px",
-                            height: "60%"
+                            height: "51%"
                             }}>
                         <ClusterList />
                     </div>

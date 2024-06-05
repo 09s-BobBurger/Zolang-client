@@ -43,6 +43,7 @@ const ServicesList = ({ setService}) => {
     }, [namespace]);
 
     return (
+        <div className="dashboard-content">
         <div
             style={{
                 padding: "15px",
@@ -164,6 +165,7 @@ const ServicesList = ({ setService}) => {
                     </Table>
                 </TableContainer>
             </div>
+        </div>
         </div>
     );
 };

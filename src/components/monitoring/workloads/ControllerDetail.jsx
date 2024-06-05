@@ -21,6 +21,11 @@ const titleStyle = {
     color: "#ffffff",
     fontSize: "1.6rem",
 }
+
+const textFormatter = (str) => {
+    const space = str.replace(/([A-Z])/g, ' $1');
+    return space.charAt(0).toUpperCase() + space.slice(1);
+}
 const ControllerDetail = ({ detail, goToList }) => {
     const clusterId = useSelector(state => state.cluster.clusterId);
     const [usages, setUsages] = useState(null);
@@ -285,22 +290,20 @@ const ControllerDetail = ({ detail, goToList }) => {
                                     color: "#ffffff",
                                 }}
                             >
-                                <div style={{marginRight: "5px"}}>
-                                    <Typography variant="body2" color="#ABAFBD">
-                                        Running Pods
-                                    </Typography>
-                                    <Typography variant="h6">
-                                        {detail.podConditions.runningPods}
-                                    </Typography>
-                                </div>
-                                <div>
-                                    <Typography variant="body2" color="#ABAFBD">
-                                        Desired Pods
-                                    </Typography>
-                                    <Typography variant="h6">
-                                        {detail.podConditions.desiredPods}
-                                    </Typography>
-                                </div>
+                                {
+                                    Object.keys(detail.podConditions).map((key, idx) => {
+                                        return (
+                                            <div style={{marginRight: "5px"}}>
+                                                <Typography variant="body2" color="#ABAFBD">
+                                                    {textFormatter(key)}
+                                                </Typography>
+                                                <Typography variant="h6">
+                                                    {detail.podConditions[key]}
+                                                </Typography>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                     </div>

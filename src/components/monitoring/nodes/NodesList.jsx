@@ -11,19 +11,12 @@ import LinearProgress, {
 } from "@mui/material/LinearProgress";
 import { styled } from "@mui/material/styles";
 import { Typography } from "@mui/material";
+import timeFormatter from "../timeFormatter.js";
 
 function Nodes({ nodeData, setNode }) {
     const handleRowClick = (node) => {
         setNode(node);
     };
-
-    function calculateTime(timestamp) {
-        const providedDate = new Date(timestamp);
-        const currentTime = new Date();
-        const timeDifferenceInMilliseconds = currentTime - providedDate;
-        const timeDifferenceInMinutes = Math.floor(timeDifferenceInMilliseconds / (1000 * 60));
-        return timeDifferenceInMinutes+ "분 전";
-    }
 
     const CpuProgress = styled(LinearProgress)(({ theme }) => ({
         height: 10,
@@ -218,12 +211,12 @@ function Nodes({ nodeData, setNode }) {
                                                 />
                                             </TableCell>
                                             <TableCell align="center">
-                                                {calculateTime(
+                                                {timeFormatter(
                                                     condition.lastHeartbeatTime
                                                 )}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {calculateTime(
+                                                {timeFormatter(
                                                     condition.lastTransitionTime
                                                 )}
                                             </TableCell>
