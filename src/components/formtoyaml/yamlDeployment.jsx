@@ -191,7 +191,7 @@ spec:
                         label="Replicas"
                         variant="standard"
                         value={replicas}
-                        onChange={(e) => setReplicas(parseInt(e.target.value))}
+                        onChange={(e) => {setReplicas(e.target.value)}}
                     />
                     <br />
                     <br />
