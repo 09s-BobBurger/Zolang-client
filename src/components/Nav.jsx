@@ -6,6 +6,11 @@ import Logout from "./icon/Logout.jsx";
 import { useLocation, useNavigate } from 'react-router-dom';
 import loginUtil from '../util/login.js';
 import { customizedAxios as axios } from "../util/customizedAxios.js";
+import CreateIcon from '@mui/icons-material/Create';
+import MuiIconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
+import TextField from "./formtoyaml/TextField.jsx";
 
 const Drawer = styled(MuiDrawer)({
     zIndex: '15',
@@ -98,6 +103,20 @@ const nameContainerStyle = {
 const menus = [
     "Dashboard", "Form To Yaml", "CI/CD", "Monitoring"
 ]
+
+const IconButton = styled(MuiIconButton) ({
+    width: "35px",
+    height: "35px",
+    backgroundColor: 'white',
+    border: 0,
+    color: '#960000',
+    borderRadius: "10px",
+    "&:hover": {
+        backgroundColor: '#dfdfdf',
+        border: 0,
+        color: '#960000',
+    }
+})
 const Nav = ({open, toggleDrawer}) => {
     const [menuIdx, setMenuIdx] = useState();
     const [userEmail, setUserEmail] = useState("Email");
@@ -106,6 +125,8 @@ const Nav = ({open, toggleDrawer}) => {
     const location = useLocation().pathname === "/" ?
         useLocation().pathname : useLocation().pathname.toString().split("/")[1];
     const navigate = useNavigate();
+    const [isEmailInputOpen, setIsEmailInputOpen] = useState(false);
+    const [emailInput, setEmailInput] = useState("");
 
     useEffect(() => {
         if (location === "dashboard") setMenuIdx(0);
@@ -114,20 +135,33 @@ const Nav = ({open, toggleDrawer}) => {
         else if (location === "monitoring") setMenuIdx(3);
     }, [location])
 
+    const loadUserData = () => {
+        axios.get('/api/v1/users')
+            .then((res) => {
+                setUserEmail(res.data.data.email);
+                setUserName(res.data.data.nickname);
+                setUserImage(res.data.data.profileImage);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    const onClickEmailSave = () => {
+        axios.patch(`/api/v1/users/email?email=${emailInput}`)
+            .then(() => {
+                loadUserData();
+            })
+    }
+
+    useEffect(() => {
+        if (isEmailInputOpen === false) {
+            setEmailInput("");
+        }
+    }, [isEmailInputOpen])
+
     useEffect(()=>{
-        axios.get('/api/v1/users',{
-            headers: {
-                Authorization: "Bearer " + loginUtil.getAccessToken(),
-            },
-        })
-        .then((res) => {
-            setUserEmail(res.data.data.email);
-            setUserName(res.data.data.nickname);
-            setUserImage(res.data.data.profileImage);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+        loadUserData();
     }, []);
 
     const onClickMenu = (idx) => {
@@ -140,6 +174,7 @@ const Nav = ({open, toggleDrawer}) => {
         } else if (idx === 3) {
             navigate("/monitoring/clusterList");
         }
+        toggleDrawer()();
     }
 
     const addGitInstall = () => {
@@ -147,7 +182,7 @@ const Nav = ({open, toggleDrawer}) => {
     }
 
     return (
-        <Drawer open={open} onClick={toggleDrawer(false)}>
+        <Drawer open={open} onClose={toggleDrawer()}>
             <AccountContainer>
                 <img style={{ background: "transparent", marginBottom: '10px', width: "30px", height: "30px"}} src='../githubIconWhite.svg' alt="github image"/>
                 <div className='info-box'>
@@ -160,8 +195,107 @@ const Nav = ({open, toggleDrawer}) => {
                 <div style={{marginLeft: "auto"}}>
                     <Button className='git-button' style={{color: "pink"}} onClick={addGitInstall}>Add Git install</Button>
                 </div>
+                {
+                    !userEmail &&
+                    <div
+                        style={{
+                            background: 'rgba(255, 0, 0, 0.3)',
+                            borderRadius: "10px",
+                            padding: "15px",
+                            width: "100%",
+                            boxSizing: "border-box",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "5px"
+                                }}
+                            >
+                                <img
+                                    src="../alarm-svgrepo-com.svg" alt="email warning image"
+                                    style={{
+                                        background: "transparent",
+                                        width: "25px",
+                                        height: "25px"
+                                    }}
+                                />
+                                <span
+                                    style={{
+                                        fontSize: "0.9rem",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >Please set your Email.</span>
+                            </div>
+                            {
+                                !isEmailInputOpen &&
+                                <IconButton
+                                    onClick={() => {setIsEmailInputOpen(true)}}
+                                >
+                                    <CreateIcon />
+                                </IconButton>
+                            }
+                        </div>
+                        {
+                            isEmailInputOpen &&
+                            <div>
+                                <TextField
+                                    id="standard-basic"
+                                    label="Email"
+                                    variant="outlined"
+                                    value={emailInput}
+                                    size="small"
+                                    sx={{
+                                        width: "100%",
+                                        height: "30px",
+                                        marginBottom: "20px"
+                                    }}
+                                    onChange={(e) => {setEmailInput(e.target.value)}}
+                                />
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "end",
+                                        gap: "5px"
+                                    }}
+                                >
+                                    <IconButton
+                                        onClick={onClickEmailSave}
+                                    >
+                                        <CheckIcon />
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={() => {setIsEmailInputOpen(false)}}
+                                    >
+                                        <CloseIcon />
+                                    </IconButton>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
             </AccountContainer>
-            <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+            <div
+                style={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                }}
+            >
                 <MenuContainer>
                     <ul>
                         {menus.map((menu, idx) =>
