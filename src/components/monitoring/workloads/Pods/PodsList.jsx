@@ -90,11 +90,11 @@ const PodsList = ({ setPod }) => {
                 />
                 <UsageLineChart
                     title="Memory Usage"
-                    data={podsData.totalUsage.map(i => i ? i.memoryUsage / (10 ** 6) : 0)}
+                    data={podsData.totalUsage.map(i => i ? i.memoryUsage / (10 ** 9) : 0)}
                     time={podsData.totalUsage.map(i => i ? i.time : '-')}
                     color="#ffd05c"
                     yAxis="Memory(bytes)"
-                    yFormat={(value) => value.toFixed(1).toString() + "Mi"}
+                    yFormat={(value) => value.toFixed(2).toString() + "Gi"}
                 />
             </div>}
             <div
