@@ -174,9 +174,12 @@ const ControllerDetail = ({ detail, goToList }) => {
                                 Labels
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(detail.metadata.labels).map((key) => {
+                                {
+                                    Object.keys(detail.metadata?.labels || {}).length > 0 ?
+                                    Object.keys(detail.metadata.labels).map((key) => {
                                     return <Label name={key + ":" + detail.metadata.labels[key]}/>
-                                })}
+                                    }) : '-'
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -192,11 +195,13 @@ const ControllerDetail = ({ detail, goToList }) => {
                                 Annotations
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(detail.metadata.annotations).map((key) => {
+                                {
+                                    Object.keys(detail.metadata?.annotations || {}).length > 0 ?
+                                    Object.keys(detail.metadata.annotations).map((key) => {
                                     if (detail.metadata.annotations[key].length < 1000) {
                                         return <Label name={key + ":" + detail.metadata.annotations[key]}/>
-                                    }
-                                })}
+                                    }}) : '-'
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -249,7 +254,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                                         Image
                                     </Typography>
                                     <Typography sx={{mb: 1.5}}>
-                                        <Label name={detail.resource.image}/>
+                                        {detail.resource.image ? <Label name={detail.resource.image}/> : '-'}
                                     </Typography>
                                 </div>
                                 <div style={{marginRight: "5px"}}>
@@ -257,9 +262,12 @@ const ControllerDetail = ({ detail, goToList }) => {
                                         Selector
                                     </Typography>
                                     <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                        {Object.keys(detail.resource.selector).map((key) => {
+                                        {
+                                            Object.keys(detail.resource?.selector || {}).length > 0 ?
+                                            Object.keys(detail.resource.selector).map((key) => {
                                             return <Label name={key + ":" + detail.resource.selector[key]}/>
-                                        })}
+                                            }) : '-'
+                                        }
                                     </Typography>
                                 </div>
                             </div>

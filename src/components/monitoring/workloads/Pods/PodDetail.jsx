@@ -219,9 +219,12 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Labels
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(pod.metadata.labels).map((key) => {
-                                    return <Label name={key + ":" + pod.metadata.labels[key]}/>
-                                })}
+                                {Object.keys(pod.metadata?.labels || {}).length > 0 ?
+                                    (
+                                    Object.keys(pod.metadata.labels).map((key) => {
+                                        return <Label name={key + ":" + pod.metadata.labels[key]}/>})
+                                    ) : '-'
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -237,9 +240,12 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Annotations
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(pod.metadata.annotations).map((key) => {
-                                    return <Label name={key + ":" + pod.metadata.annotations[key]}/>
-                                })}
+                                {
+                                    Object.keys(pod.metadata?.annotations || {}).length > 0 ?
+                                    (Object.keys(pod.metadata.annotations).map((key) => {
+                                    return <Label name={key + ":" + pod.metadata.annotations[key]}/>}))
+                                        : "-"
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -451,9 +457,12 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         Labels
                                     </Typography>
                                     <Typography sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                        {Object.keys(pod.controlled.labels).map((key) => {
+                                        {
+                                            Object.keys(pod.controlled?.labels || {}).length > 0 ?
+                                            (Object.keys(pod.controlled.labels).map((key) => {
                                             return <Label name={key + ":" + pod.controlled.labels[key]}/>
-                                        })}
+                                            })) : '-'
+                                        }
                                     </Typography>
                                 </div>
                                 <div style={{marginRight: "5px"}}>
@@ -461,9 +470,11 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         Images
                                     </Typography>
                                     <Typography sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                        {pod.controlled.images.map((item, key) => {
-                                            return <Label name={item} key={key}/>
-                                        })}
+                                        {
+                                            ((pod.controlled.images || []).length > 0) ?
+                                            (pod.controlled.images.map((item, key) => {
+                                            return <Label name={item} key={key}/>})) : "-"
+                                        }
                                     </Typography>
                                 </div>
                             </div>
@@ -619,7 +630,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             </div>
                         </div>
                     </div>
-                    {pod.container.env && <div>
+                    <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Environment Variable
                         </Typography>
@@ -632,7 +643,8 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             }}
                         >
                             {
-                                pod.container.env.map((item, idx) => {
+                                (pod.container?.env || []).length > 0 ?
+                                (pod.container.env.map((item, idx) => {
                                     return (<div key={idx}>
                                         <Typography variant="body2" color="#ABAFBD">
                                             {item.name}
@@ -641,10 +653,10 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                             {item.value ? item.value : '-'}
                                         </Typography>
                                     </div>)
-                                })
+                                })) : '-'
                             }
                         </div>
-                    </div>}
+                    </div>
                     <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Factor
