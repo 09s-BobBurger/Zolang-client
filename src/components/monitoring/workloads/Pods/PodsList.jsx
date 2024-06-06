@@ -64,11 +64,7 @@ const PodsList = ({ setPod }) => {
         if (podsData.start === 1) {
             setPrevToken(null);
         }
-        if (podsData.end === podsData.total) {
-            setNextToken(null);
-        } else {
-            setNextToken(podsData.continueToken);
-        }
+        setNextToken(podsData.continueToken);
     }, [podsData]);
 
     return (
@@ -247,7 +243,7 @@ const PodsList = ({ setPod }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {prevToken && nextToken && <div className="page-buttons"
+                    {(prevToken || nextToken) && <div className="page-buttons"
                           style={{
                               display: "flex",
                               justifyContent: "center",

@@ -52,11 +52,7 @@ const DaemonSetsList = ({ setSelectedDaemon }) => {
         if (daemonSets.start === 1) {
             setPrevToken(null);
         }
-        if (daemonSets.end === daemonSets.total) {
-            setNextToken(null);
-        } else {
-            setNextToken(daemonSets.continueToken);
-        }
+        setNextToken(daemonSets.continueToken);
     }, [daemonSets]);
 
     const onClickRow = (data) => {

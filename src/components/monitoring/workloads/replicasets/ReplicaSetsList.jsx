@@ -53,11 +53,7 @@ const ReplicaSetsList = ({ setSelectedReplica }) => {
         if (replicaSets.start === 1) {
             setPrevToken(null);
         }
-        if (replicaSets.end === replicaSets.total) {
-            setNextToken(null);
-        } else {
-            setNextToken(replicaSets.continueToken);
-        }
+        setNextToken(replicaSets.continueToken);
     }, [replicaSets]);
 
     const onClickRow = (data) => {

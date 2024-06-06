@@ -54,11 +54,7 @@ const DeploymentsList = ({ setSelectedDeployment }) => {
         if (deployments.start === 1) {
             setPrevToken(null);
         }
-        if (deployments.end === deployments.total) {
-            setNextToken(null);
-        } else {
-            setNextToken(deployments.continueToken);
-        }
+        setNextToken(deployments.continueToken);
     }, [deployments]);
 
     const onClickRow = (data) => {

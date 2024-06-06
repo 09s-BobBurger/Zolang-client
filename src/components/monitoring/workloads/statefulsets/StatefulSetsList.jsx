@@ -52,11 +52,7 @@ const StatefulSetsList = ({ setSelectedStateful }) => {
         if (statefulSets.start === 1) {
             setPrevToken(null);
         }
-        if (statefulSets.end === statefulSets.total) {
-            setNextToken(null);
-        } else {
-            setNextToken(statefulSets.continueToken);
-        }
+        setNextToken(statefulSets.continueToken);
     }, [statefulSets]);
 
     const onClickRow = (data) => {
