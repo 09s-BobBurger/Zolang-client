@@ -8,40 +8,54 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import Button from "@mui/material/Button";
+import timeFormatter from "../../timeFormatter.js";
 
 const CronJobs = () => {
-    const [cronJobs, setCronJobs] = useState();
+    const [cronJobs, setCronJobs] = useState({});
+    const [prevToken, setPrevToken] = useState();
+    const [currToken, setCurrToken] = useState(" ");
+    const [nextToken, setNextToken] = useState();
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
+
     const loadData = () => {
-        if (namespace === 'All') {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/cron-jobs`)
-                .then((res) => {
-                    setCronJobs(res.data.data.cronJobs);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        } else {
-            axios
-                .get(`/api/v1/cluster/${clusterId}/workload/cron-jobs/namespace?namespace=${namespace}`)
-                .then(res => {
-                    setCronJobs(res.data.data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
+        const isNamespaceAll = namespace === "All";
+        const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
+        const baseUrl = `/api/v1/cluster/${clusterId}/workload/cron-jobs`;
+
+        const url = isNamespaceAll
+            ? `${baseUrl}${tokenParam ? `?${tokenParam}` : ""}`
+            : `${baseUrl}/namespace?namespace=${namespace}${tokenParam ? `&${tokenParam}` : ""}`;
+
+        axios.get(url)
+            .then((res) => {
+                setCronJobs(res.data.data ? res.data.data : {});
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const toPrevPage = () => {
+        setCurrToken(prevToken);
+    }
+
+    const toNextPage = () => {
+        setPrevToken(currToken);
+        setCurrToken(nextToken);
     }
 
     useEffect(() => {
         loadData();
-    }, []);
+    }, [namespace, currToken]);
 
     useEffect(() => {
-        loadData();
-    }, [namespace]);
+        if (cronJobs.start === 1) {
+            setPrevToken(null);
+        }
+        setNextToken(cronJobs.continueToken);
+    }, [cronJobs]);
 
     function calculateTime(timestamp) {
         const parts = timestamp.match(/(\d+)\. (\d+)\. (\d+)\. (오전|오후) (\d+):(\d+):(\d+)/);
@@ -151,7 +165,7 @@ const CronJobs = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {cronJobs && cronJobs.map((cronJob) => (
+                            {cronJobs?.cronJobs && cronJobs.cronJobs.map((cronJob) => (
                                 <TableRow
                                     key={cronJob.name}
                                     sx={{
@@ -168,26 +182,29 @@ const CronJobs = () => {
                                         {cronJob.name}
                                     </TableCell>
                                     <TableCell align="center">
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                            {Object.keys(cronJob.labels).map((key) => {
-                                                return <Label name={key + ":" + cronJob.labels[key]}/>
-                                            })}
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
+                                            {
+                                                Object.keys(cronJob.labels || {}).length > 0 ?
+                                                    Object.keys(cronJob.labels).map((key) => {
+                                                        return <Label name={key + ":" + cronJob.labels[key]}/>})
+                                                    : '-'
+                                            }
                                         </div>
                                     </TableCell>
                                     <TableCell align="center">
                                         {cronJob.schedule}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {cronJob.suspend}
+                                        {(cronJob.suspend).toString()}
                                     </TableCell>
                                     <TableCell align="center">
                                         {cronJob.active}
                                     </TableCell>
                                     <TableCell align="center">
-                                    {cronJob.lastScheduling}
+                                        {cronJob.lastScheduling ? cronJob.lastScheduling : '-'}
                                     </TableCell>
                                     <TableCell align="center">
-                                        {calculateTime(cronJob.lastScheduleDateTime)}
+                                        {cronJob.lastScheduleDateTime ? cronJob.lastScheduleDateTime : '-'}
                                     </TableCell>
                                     <TableCell align="center">
                                         {cronJob.age}
@@ -200,6 +217,28 @@ const CronJobs = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                {(prevToken || nextToken) && <div className="page-buttons"
+                                                  style={{
+                                                      display: "flex",
+                                                      justifyContent: "center",
+                                                      marginTop: "10px"
+                                                  }}
+                >
+                    <Button
+                        onClick={toPrevPage}
+                        disabled={!prevToken}
+                    >
+                        <img style={{width: "30px", opacity: prevToken ? "100" : '0'}}
+                             src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
+                    </Button>
+                    <Button
+                        onClick={toNextPage}
+                        disabled={!nextToken}
+                    >
+                        <img style={{width: "30px", opacity: nextToken ? "100" : '0'}}
+                             src="../../../round-double-arrow-right.svg" alt="to next page button"/>
+                    </Button>
+                </div>}
             </div>
         </div>
         </div>

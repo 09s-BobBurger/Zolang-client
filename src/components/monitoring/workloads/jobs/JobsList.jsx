@@ -6,8 +6,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
+import Button from "@mui/material/Button";
 
-const JobsList = ({ jobs }) => {
+const JobsList = ({ jobs, prevToken, nextToken, toPrevPage, toNextPage }) => {
     return (
         <div className="dashboard-content">
             <div
@@ -113,10 +114,12 @@ const JobsList = ({ jobs }) => {
                                         </TableCell>
                                         <TableCell align="center">
                                             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                                {Object.keys(item.labels).slice(0, 3).map((key) => {
-                                                    return <Label name={key + ":" + item.labels[key]}/>
-                                                })}
-                                                {Object.keys(item.labels).length > 3 && <Label name="..." />}
+                                                {
+                                                    Object.keys(item.labels || {}).length > 0 ?
+                                                    Object.keys(item.labels).map((key) => {
+                                                    return <Label name={key + ":" + item.labels[key]}/>})
+                                                        : '-'
+                                                }
                                             </div>
                                         </TableCell>
                                         <TableCell align="center">
@@ -128,6 +131,28 @@ const JobsList = ({ jobs }) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    {(prevToken || nextToken) && <div className="page-buttons"
+                                                      style={{
+                                                          display: "flex",
+                                                          justifyContent: "center",
+                                                          marginTop: "10px"
+                                                      }}
+                    >
+                        <Button
+                            onClick={toPrevPage}
+                            disabled={!prevToken}
+                        >
+                            <img style={{width: "30px", opacity: prevToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
+                        </Button>
+                        <Button
+                            onClick={toNextPage}
+                            disabled={!nextToken}
+                        >
+                            <img style={{width: "30px", opacity: nextToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-right.svg" alt="to next page button"/>
+                        </Button>
+                    </div>}
                 </div>
             </div>
         </div>
