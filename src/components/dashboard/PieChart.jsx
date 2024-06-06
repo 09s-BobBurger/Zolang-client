@@ -7,7 +7,7 @@ function PieChart(props) {
         width: 165,
         height: 165,
         value: 0,
-        valueMax: 100,
+        valueMax: props.max,
         color: "#000000",
     });
 
@@ -16,7 +16,7 @@ function PieChart(props) {
             let animationInterval;
             let tempValue = 0;
 
-            const increment = props.max / 100; // 증가량을 1%로 설정
+            const increment = parseFloat((props.max / 100).toFixed(props.decimalPlaces));
 
             animationInterval = setInterval(() => {
                 if (tempValue < props.value) {
@@ -24,19 +24,30 @@ function PieChart(props) {
                     setSettings((prevSettings) => ({
                         ...prevSettings,
                         value: tempValue,
-                        valueMax: parseFloat(props.max),
+                        valueMax: props.max,
                         color: props.color,
                     }));
                 } else {
                     clearInterval(animationInterval);
                 }
             }, 30);
+        } else {
+            setSettings(
+                {
+                    ...settings,
+                    value: 0,
+                    valueMax: 1
+                }
+            )
         }
     }, [props.value, props.max, props.color]);
 
     return (
         <div style={{ position: "relative" }}>
             <Gauge theme={theme(settings.color)}
+                   text={
+                       ({ value }) => value.toFixed(props.decimalPlaces) + props.unit
+                   }
                 {...settings}
                 sx={(theme) => ({
                     [`& .${gaugeClasses.valueText}`]: {
@@ -50,8 +61,8 @@ function PieChart(props) {
                     },
                 })}
             />
-            <span style={{ position: "absolute", top: "100px", left: "85px", color: "#ABAFBD" }}>
-                /{settings.valueMax}
+            <span style={{ position: "absolute", top: "100px", left: "125px", color: "#ABAFBD", fontSize: 16, transform: 'translate(-100%, 0)' }}>
+                /{ (props.max? settings.valueMax : 0).toFixed(props.decimalPlaces) + props.unit}
             </span>
         </div>
     );
