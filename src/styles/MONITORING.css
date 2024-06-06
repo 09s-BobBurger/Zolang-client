@@ -3,6 +3,11 @@
     color: black;
 }
 
+.apexcharts-menu {
+    background: #ffffff;
+    color: black;
+}
+
 /* node chart */
 .chart-container-node {
     /* background-color: rgb(77, 80, 94); */

@@ -13,6 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import {customizedAxios as axios} from "../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
 
 const titleStyle = {
     display: 'flex',
@@ -27,6 +28,7 @@ const textFormatter = (str) => {
     return space.charAt(0).toUpperCase() + space.slice(1);
 }
 const ControllerDetail = ({ detail, goToList }) => {
+    const navigate = useNavigate();
     const clusterId = useSelector(state => state.cluster.clusterId);
     const [usages, setUsages] = useState(null);
     const loadUsages = async () => {
@@ -378,6 +380,9 @@ const ControllerDetail = ({ detail, goToList }) => {
                                                 {
                                                     border: 0,
                                                 },
+                                        }}
+                                        onClick={() => {
+                                            navigate('/monitoring/dashboard/workloads/pods', { state: { name : pod.name, namespace: pod.namespace } })
                                         }}
                                     >
                                         <TableCell
