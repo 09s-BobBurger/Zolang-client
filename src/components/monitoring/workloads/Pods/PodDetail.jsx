@@ -726,7 +726,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             </Table>
                         </TableContainer>
                     </div>
-                    { Object.values(pod.container.securityContext).filter(i => i !== null) && <div>
+                    <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Security Context
                         </Typography>
@@ -740,7 +740,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             }}
                         >
                             {
-                                Object.keys(pod.container.securityContext).map(key => {
+                                pod.container.securityContext ? Object.keys(pod.container.securityContext).map(key => {
                                     const value = pod.container.securityContext[key];
                                     if (value !== null) {
                                         if (Array.isArray(value)) {
@@ -794,10 +794,10 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         }
                                     }
                                     return null;
-                                })
+                                }) : '-'
                             }
                         </div>
-                    </div>}
+                    </div>
                 </div>
             </div>}
         </div>
