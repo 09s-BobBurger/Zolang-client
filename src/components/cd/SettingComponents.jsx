@@ -22,6 +22,7 @@ import "../../styles/CD.css";
 import DockerFile from "./DockerFile.jsx";
 
 const SettingComponents = (props) => {
+    const navigate = useNavigate();
     const [selectedRepository, setSelectedRepository] = useState("");
     const [selectedBranch, setSelectedBranch] = useState("");
     const [repositories, setRepositories] = useState([]);
@@ -30,8 +31,9 @@ const SettingComponents = (props) => {
     const [language, setLanguage] = useState("");
     const [version, setVersion] = useState("");
     const [buildTool, setBuildTool] = useState("AUTO");
-    const navigate = useNavigate();
     const [selectTrigger, setSelectTrigger] = useState([]);
+    const [port, setPort] = useState("");
+    const [serviceDomain, setServiceDomain] = useState("");
     const [errors, setErrors] = useState({
         repository: false,
         branch: false,
@@ -39,18 +41,34 @@ const SettingComponents = (props) => {
         version: false,
         buildTool: false,
         trigger: false,
+        port: false
     });
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     const handleRepositoryChange = (event) => {
         setSelectedRepository(event.target.value);
-        setErrors((prevErrors) => ({ ...prevErrors, repository: false }));
+        if (event.target.value) {
+            setErrors({ ...errors, repository: false});
+        }
     };
 
     const handleBranchChange = (event) => {
         setSelectedBranch(event.target.value);
-        setErrors((prevErrors) => ({ ...prevErrors, branch: false }));
+        if (event.target.value) {
+            setErrors({ ...errors, branch: false });
+        }
     };
+
+    const handlePortChange = (e) => {
+        setPort(e.target.value);
+        if (e.target.value) {
+            setErrors({...errors, 'port': false});
+        }
+    }
+
+    const handleServiceDomainChange = (e) => {
+        setServiceDomain(e.target.value);
+    }
 
     const validateFields = () => {
         const newErrors = {
@@ -59,7 +77,8 @@ const SettingComponents = (props) => {
             branch: !selectedBranch,
             language: !language,
             version: language !== "Python" && !version,
-            trigger: selectTrigger.length <= 0
+            trigger: selectTrigger.length <= 0,
+            port: !port
         };
         setErrors(newErrors);
         return !Object.values(newErrors).some((error) => error);
@@ -79,7 +98,8 @@ const SettingComponents = (props) => {
             const data = {
                 repo_name: selectedRepository,
                 branch: selectedBranch,
-                language: language
+                language: language,
+                port: port,
             };
 
             if (version) {
@@ -93,6 +113,9 @@ const SettingComponents = (props) => {
             }
             if (selectTrigger.length > 0) {
                 data.trigger = selectTrigger;
+            }
+            if (serviceDomain) {
+                data.service_domain = serviceDomain;
             }
 
             await axios.post("/api/v1/cicd", data)
@@ -125,7 +148,7 @@ const SettingComponents = (props) => {
     useEffect(() => {
         const areFieldsValid = validateFields();
         setIsButtonDisabled(!areFieldsValid);
-    }, [selectedRepository, selectedBranch, language, version, buildTool, selectTrigger]);
+    }, [selectedRepository, selectedBranch, language, version, buildTool, selectTrigger, port]);
 
     return (
         <div className="setting-components-container">
@@ -210,6 +233,34 @@ const SettingComponents = (props) => {
                 setSelectTrigger={setSelectTrigger}
                 error={errors.trigger}
             />
+            <div style={{ display: "flex", gap: "20px", flexDirection: "column" }}>
+                <Typography variant="subtitle1" style={{ marginRight: "20px" }}>
+                    Port
+                </Typography>
+                <TextField
+                    id="Port"
+                    label="port"
+                    required
+                    value={port}
+                    error={errors.port}
+                    InputLabelProps={{ style: { color: "#ffffff" } }}
+                    InputProps={{ style: { color: "#ffffff" } }}
+                    sx={{ width: "300px", borderColor: '#ffffff', marginLeft: '10px'  }}
+                />
+            </div>
+            <div style={{ display: "flex", gap: "20px", flexDirection: "column" }}>
+                <Typography variant="subtitle1" style={{ marginRight: "20px" }}>
+                    Service Domain
+                </Typography>
+                <TextField
+                    id="Service Domain"
+                    label="Service Domain"
+                    value={serviceDomain}
+                    InputLabelProps={{ style: { color: "#ffffff" } }}
+                    InputProps={{ style: { color: "#ffffff" } }}
+                    sx={{ width: "300px", borderColor: '#ffffff', marginLeft: '10px' }}
+                />
+            </div>
             <EnvSet labels={labels} setLabels={setLabels} />
             <DockerFile />
             <div style={{width: "fit-content", marginLeft: "auto"}}>
