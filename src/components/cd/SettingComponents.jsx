@@ -38,6 +38,7 @@ const SettingComponents = (props) => {
         language: false,
         version: false,
         buildTool: false,
+        trigger: false,
     });
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -53,10 +54,12 @@ const SettingComponents = (props) => {
 
     const validateFields = () => {
         const newErrors = {
+            // 모든 항목이 채워졌을 때 true 반환
             repository: !selectedRepository,
             branch: !selectedBranch,
             language: !language,
             version: language !== "Python" && !version,
+            trigger: selectTrigger.length <= 0
         };
         setErrors(newErrors);
         return !Object.values(newErrors).some((error) => error);
@@ -71,7 +74,7 @@ const SettingComponents = (props) => {
         }
     };
 
-    const createRepoBuild = () => {
+    const createRepoBuild = async () => {
         if (validateFields()) {
             const data = {
                 repo_name: selectedRepository,
@@ -92,11 +95,14 @@ const SettingComponents = (props) => {
                 data.trigger = selectTrigger;
             }
 
-            axios.post("/api/v1/cicd", data)
+            await axios.post("/api/v1/cicd", data)
                 .catch((err) => {
                     console.log(err);
                 });
-            navigate('/cd/repoList');
+
+            setTimeout(() => {
+                navigate('/cd/repoList');
+            }, "1000");
         }
     };
 
@@ -119,7 +125,7 @@ const SettingComponents = (props) => {
     useEffect(() => {
         const areFieldsValid = validateFields();
         setIsButtonDisabled(!areFieldsValid);
-    }, [selectedRepository, selectedBranch, language, version, buildTool]);
+    }, [selectedRepository, selectedBranch, language, version, buildTool, selectTrigger]);
 
     return (
         <div className="setting-components-container">
@@ -199,7 +205,11 @@ const SettingComponents = (props) => {
                 setBuildTool={setBuildTool}
                 error={errors}
             />
-            <TriggerSet selectTrigger={selectTrigger} setSelectTrigger={setSelectTrigger} />
+            <TriggerSet
+                selectTrigger={selectTrigger}
+                setSelectTrigger={setSelectTrigger}
+                error={errors.trigger}
+            />
             <EnvSet labels={labels} setLabels={setLabels} />
             <DockerFile />
             <div style={{width: "fit-content", marginLeft: "auto"}}>
