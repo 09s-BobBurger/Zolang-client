@@ -658,7 +658,8 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 color: 'white',
                             }}
                         >
-                            {pod.container.factor.map(i => <p style={{margin: '0'}}>{i + '\n'}</p>)}
+                            {pod?.container?.factor?.length > 0 ?
+                                pod.container.factor.map(i => <p style={{margin: '0'}}>{i + '\n'}</p>) : '-'}
                         </div>
                     </div>
                     <div>

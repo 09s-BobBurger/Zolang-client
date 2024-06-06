@@ -78,11 +78,7 @@ function FormToYamlFooter(props) {
     const [userName, setUserName] = useState();
 
     const setting = () =>{
-        axios.get('/api/v1/users',{
-            headers: {
-                Authorization: "Bearer " + loginUtil.getAccessToken(),
-            },
-        })
+        axios.get('/api/v1/users')
         .then((res) => {
             setUserEmail(res.data.data.email);
             setUserName(res.data.data.nickname);
@@ -94,14 +90,7 @@ function FormToYamlFooter(props) {
 
     useEffect(() => {
         axios
-            .get(
-                `/api/v1/github/branches?repoName=${repository}`,
-                {
-                    headers: {
-                        Authorization: "Bearer " + loginUtil.getAccessToken(),
-                    },
-                }
-            )
+            .get(`/api/v1/github/branches?repoName=${repository}`)
             .then((res) => {
                 setBranches(res.data.data);
             })
@@ -169,7 +158,6 @@ function FormToYamlFooter(props) {
                         });
                 }
             } else {
-                console.log(loginUtil.getAccessToken());
                 axios
                     .get(`/api/v1/github`,)
                     .then((res) => {

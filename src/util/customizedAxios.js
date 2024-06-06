@@ -1,10 +1,11 @@
 import axios from 'axios';
 import loginUtil from '../util/login.js';
+import {Cookies} from "react-cookie";
 
+const cookies = new Cookies();
 export const customizedAxios = axios.create({
     baseURL: 'https://kcs.zolang.store',
     headers: {
-        Authorization : "Bearer " + loginUtil.getAccessToken(),
         "withCredentials": true,
     },
 });
@@ -12,7 +13,7 @@ export const customizedAxios = axios.create({
 const getAccessTokenPromise = () => {
     return new Promise((resolve, reject) => {
         try {
-            const accessToken = loginUtil.getRefreshToken();
+            const accessToken = cookies.get('refresh_token')
             resolve(accessToken);
         } catch (err) {
             reject(err);
@@ -20,12 +21,23 @@ const getAccessTokenPromise = () => {
     });
 };
 
-const calculateDelay = (retryCount) => {
-    // Adjust base and exponent as needed
-    const baseDelay = 1000; // 1 second
-    const exponent = 2;
-    return baseDelay * Math.pow(exponent, retryCount);
-};
+// 요청 인터셉터
+customizedAxios.interceptors.request.use(
+    config => {
+        // 쿠키에서 access_token 가져오기
+        const accessToken = cookies.get('access_token');
+
+        // access_token이 있으면 헤더에 추가
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    },
+    error => {
+        // 요청 오류가 있는 경우 처리
+        return Promise.reject(error);
+    }
+);
 
 // 응답 인터셉터
 customizedAxios.interceptors.response.use(async function (response) {
@@ -33,14 +45,13 @@ customizedAxios.interceptors.response.use(async function (response) {
     return response;
 }, async error => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
             const newAccessToken = await getAccessTokenPromise();
             if (newAccessToken) {
                 originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-                const delay = calculateDelay(0);
-                await new Promise((resolve) => setTimeout(resolve, delay));
+                await new Promise((resolve) => setTimeout(resolve, 1000));
                 return customizedAxios(originalRequest);
             } else {
                 // Access token retrieval failed (e.g., expired or invalid refresh token)

@@ -25,7 +25,6 @@ function App() {
   };
 
   useEffect(() => {
-    // cookie 유효성 검사 -> 후에 수정
     if (loginUtil.checkLogin()) {
       setIsLogin(true);
     } else {
@@ -48,7 +47,7 @@ function App() {
           <Route path="/monitoring/dashboard/*" element={isLogin ? <MonitoringDashboard /> : <Navigate to={"/"} />} />
           <Route path="/monitoring/token" element={isLogin ? <Token /> : <Navigate to={"/"} />} />
         </Routes>
-        <Nav open={open} toggleDrawer={toggleDrawer}/>
+        {isLogin && <Nav open={open} toggleDrawer={toggleDrawer}/>}
       </Router>
     </Provider>
   )
