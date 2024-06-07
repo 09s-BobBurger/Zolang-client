@@ -243,6 +243,7 @@ const SettingComponents = (props) => {
                     required
                     value={port}
                     error={errors.port}
+                    onChange={handlePortChange}
                     InputLabelProps={{ style: { color: "#ffffff" } }}
                     InputProps={{ style: { color: "#ffffff" } }}
                     sx={{ width: "300px", borderColor: '#ffffff', marginLeft: '10px'  }}
@@ -256,6 +257,7 @@ const SettingComponents = (props) => {
                     id="Service Domain"
                     label="Service Domain"
                     value={serviceDomain}
+                    onChange={(e) => {setServiceDomain(e.target.value)}}
                     InputLabelProps={{ style: { color: "#ffffff" } }}
                     InputProps={{ style: { color: "#ffffff" } }}
                     sx={{ width: "300px", borderColor: '#ffffff', marginLeft: '10px' }}

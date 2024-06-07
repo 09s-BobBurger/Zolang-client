@@ -169,6 +169,7 @@ const DockerFile = () => {
                     boxSizing: 'border-box',
                     padding: '5px',
                     borderRadius: "0 0 5px 5px",
+                    fontSize:'1rem'
                 }}
             >
                 <CodeBlock
