@@ -9,8 +9,11 @@ import TableBody from "@mui/material/TableBody";
 import '../../styles/MONITORING.css';
 import {customizedAxios as axios} from "../../util/customizedAxios.js";
 import BuildingIcon from "../icon/BuildingIcon.jsx";
+import KeyboardArrowLeft from "../icon/KeyboardArrowLeft.jsx";
+import {useNavigate} from "react-router-dom";
 
 const BuildResult = ({repositoryId}) => {
+    const navigate = useNavigate();
     const [results, setResults] = useState([]);
 
     const loadData = () => {
@@ -22,6 +25,10 @@ const BuildResult = ({repositoryId}) => {
             .catch(err => {
                 console.log(err);
             })
+    }
+
+    const toList = () => {
+        navigate('/cd/repoList')
     }
 
     useEffect(() => {
@@ -57,6 +64,22 @@ const BuildResult = ({repositoryId}) => {
                 >
                     Repository Name
                 </span>
+                <Button
+                    style={{
+                        width: "fit-content",
+                        height: "fit-content",
+                        margin: 0,
+                        background: "transparent",
+                        outline: "none",
+                        color: 'white',
+                        border: 'none',
+                        padding: '10px 0',
+                    }}
+                    onClick={toList}
+                >
+                    <KeyboardArrowLeft/>
+                    To List
+                </Button>
             </div>
             <div className="moni-dashboard-nodes"
                 style={{
@@ -105,7 +128,7 @@ const BuildResult = ({repositoryId}) => {
                         </TableBody>
                     </Table>
                     {
-                        results.length === 0 &&
+                        !results &&
                         <div style={{textAlign: "-webkit-center", paddingTop: "50px"}}>
                             <img src=".././텅.svg" width="150px" alt="이미지"/>
                         </div>
