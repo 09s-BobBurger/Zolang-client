@@ -57,17 +57,6 @@ const BuildResult = ({repositoryId}) => {
                 >
                     Repository Name
                 </span>
-                <Button
-                    style={{
-                        width: "fit-content",
-                        height: "fit-content",
-                        margin: 0,
-                        background: "transparent",
-                        outline: "none",
-                    }}
-                >
-                    <img width="40px" src="../../../setting.svg" alt="edit build setting"/>
-                </Button>
             </div>
             <div className="moni-dashboard-nodes"
                 style={{
