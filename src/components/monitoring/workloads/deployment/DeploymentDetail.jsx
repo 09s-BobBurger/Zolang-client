@@ -277,17 +277,19 @@ const DeploymentDetail = ({ selectedDeployment, initDeployment}) => {
                                     color: "#ffffff",
                                 }}
                             >
-                                <div>
-                                    <Typography variant="body2" color="#ABAFBD">
-                                        Strategy
-                                    </Typography>
-                                    <Typography sx={{mb: 1.5}}>
-                                        {deployment.resource.strategy ? deployment.resource.strategy : '-'}
-                                    </Typography>
-                                </div>
-                                {
-                                    deployment?.rollingUpdateStrategy &&
-                                    <div style={{display: "flex", gap: "10px"}}>
+
+                                <div style={{display: "flex", gap: "50px"}}>
+                                    <div>
+                                        <Typography variant="body2" color="#ABAFBD">
+                                            Strategy
+                                        </Typography>
+                                        <Typography sx={{mb: 1.5}}>
+                                            {deployment.resource.strategy ? deployment.resource.strategy : '-'}
+                                        </Typography>
+                                    </div>
+                                    {
+                                        deployment?.rollingUpdateStrategy &&
+                                        <>
                                         <div>
                                             <Typography variant="body2" color="#ABAFBD">
                                                 Max Surge
@@ -304,8 +306,9 @@ const DeploymentDetail = ({ selectedDeployment, initDeployment}) => {
                                                 {deployment.rollingUpdateStrategy.maxUnavailable ? deployment.rollingUpdateStrategy.maxUnavailable : '-'}
                                             </Typography>
                                         </div>
-                                    </div>
-                                }
+                                        </>
+                                    }
+                                </div>
                                 <div
                                     style={{display: "flex", gap: "20px"}}
                                 >
