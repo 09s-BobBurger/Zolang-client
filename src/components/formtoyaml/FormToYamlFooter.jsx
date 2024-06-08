@@ -78,7 +78,7 @@ function FormToYamlFooter(props) {
     const [userEmail, setUserEmail] = useState();
     const [userName, setUserName] = useState();
 
-    const [loading, setLoading] = useState();
+    const [loading, setLoading] = useState(false);
 
     const setting = () =>{
         axios.get('/api/v1/users')
