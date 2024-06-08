@@ -10,6 +10,7 @@ import MuiTextField from "@mui/material/TextField";
 import loginUtil from "../../util/login.js";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import { useSelector } from "react-redux";
+import Loading from "../Loading.jsx";
 
 const FormControl = styled(MuiFormControl)({
     ".MuiInput-underline:before, .MuiInput-underline:after, .MuiInput-underline:hover::before":
@@ -77,6 +78,8 @@ function FormToYamlFooter(props) {
     const [userEmail, setUserEmail] = useState();
     const [userName, setUserName] = useState();
 
+    const [loading, setLoading] = useState();
+
     const setting = () =>{
         axios.get('/api/v1/users')
         .then((res) => {
@@ -89,13 +92,16 @@ function FormToYamlFooter(props) {
     }
 
     useEffect(() => {
+        setLoading(true);
         axios
             .get(`/api/v1/github/branches?repoName=${repository}`)
             .then((res) => {
                 setBranches(res.data.data);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
             });
     }, [repository]);
 
@@ -178,6 +184,8 @@ function FormToYamlFooter(props) {
     };
 
     return (
+        <>
+            <Loading isOpen={loading}/>
         <div
             className="FormToYamlFooter"
             style={{
@@ -327,6 +335,7 @@ function FormToYamlFooter(props) {
                 PUSH
             </Button>
         </div>
+        </>
     );
 }
 
