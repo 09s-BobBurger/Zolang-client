@@ -95,7 +95,7 @@ const SettingComponents = (props) => {
         }
     };
 
-    const createRepoBuild = async () => {
+    const createRepoBuild = () => {
         setLoading(true);
         if (validateFields()) {
             const data = {
@@ -121,18 +121,15 @@ const SettingComponents = (props) => {
                 data.service_domain = serviceDomain;
             }
 
-            try {
-                await axios.post("/api/v1/cicd", data)
-            } catch (err) {
-                console.log(err);
-            } finally {
-                setTimeout(() => {
-                    setLoading(false);
-                    navigate('/cd/repoList');
-                }, "1000");
-            }
+            axios.post("/api/v1/cicd", data)
+                .catch(err => {
+                    console.log(err);
+                })
 
-
+            setTimeout(() => {
+                setLoading(false);
+                navigate('/cd/repoList');
+            }, "1000");
         }
     };
 
