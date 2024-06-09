@@ -61,6 +61,7 @@ const Main = () => {
                 <div style={{
                         position: "absolute",
                         top: "10%",
+                        color: "#213547"
                     }}>
                     <p style={{ margin: 0, fontSize: "36px", padding: "20px" }}>
                         Sign in to Zolang
