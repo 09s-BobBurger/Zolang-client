@@ -16,7 +16,7 @@ function PieChart(props) {
             let animationInterval;
             let tempValue = 0;
 
-            const increment = parseFloat((props.max / 100).toFixed(props.decimalPlaces));
+            const increment = props.max / 100 < 1 && props.decimalPlaces === 0 ? 1 : parseFloat((props.max / 100).toFixed(props.decimalPlaces));
 
             animationInterval = setInterval(() => {
                 if (tempValue < props.value) {

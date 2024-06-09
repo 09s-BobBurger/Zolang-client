@@ -34,8 +34,6 @@ function total(props) {
         setPeriod(event.target.value);
     };
 
-    const convertToPercentage = (value, max) => (value / max) * 100;
-
     return (
         <div
             style={{
