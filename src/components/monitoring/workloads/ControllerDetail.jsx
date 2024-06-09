@@ -14,6 +14,7 @@ import TableBody from "@mui/material/TableBody";
 import {customizedAxios as axios} from "../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import ErrorMessage from "./ErrorMessage.jsx";
 
 const titleStyle = {
     display: 'flex',
@@ -31,6 +32,7 @@ const ControllerDetail = ({ detail, goToList }) => {
     const navigate = useNavigate();
     const clusterId = useSelector(state => state.cluster.clusterId);
     const [usages, setUsages] = useState(null);
+    const [error, setError] = useState(false);
     const loadUsages = async () => {
         if (detail) {
             let usage = {};
@@ -38,7 +40,12 @@ const ControllerDetail = ({ detail, goToList }) => {
                 await axios
                     .get(`/api/v1/cluster/${clusterId}/workload/controller/${pod.name}`)
                     .then(res => {
-                        usage = {...usage, [pod.name] : res.data.data};
+                        if (res.data.success) {
+                            usage = {...usage, [pod.name] : res.data.data};
+                        }
+                        else {
+                            setError(true);
+                        }
                     })
                     .catch(err => {
                         console.log(err);
@@ -77,7 +84,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                 <KeyboardArrowLeft/>
                 Return to List
             </MuiButton>
-
+            {error && <ErrorMessage/>}
             {detail && <div
                 style={{
                     width: "100%",

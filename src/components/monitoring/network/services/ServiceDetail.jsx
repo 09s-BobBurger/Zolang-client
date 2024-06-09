@@ -6,6 +6,7 @@ import {Typography} from "@mui/material";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
+import ErrorMessage from "../../workloads/ErrorMessage.jsx";
 
 const titleStyle = {
     display: 'flex',
@@ -18,12 +19,18 @@ const ServiceDetail = ({ serviceName, initService }) => {
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
     const [service, setService] = useState();
+    const [error, setError] = useState(false);
 
     const loadData = () => {
         axios
             .get(`/api/v1/cluster/${clusterId}/network/service/${serviceName}`)
             .then((res) => {
-                setService(res.data.data[0]);
+                if (res.data.success) {
+                    setService(res.data.data[0]);
+                } else {
+                    setError(true);
+                }
+
             })
             .catch((err) => {
                 console.log(err);
@@ -58,7 +65,7 @@ const ServiceDetail = ({ serviceName, initService }) => {
                 <KeyboardArrowLeft />
                 Return to List
             </MuiButton>
-
+            {error && <ErrorMessage/>}
             {service && <div
                 style={{
                     width: "100%",

@@ -48,6 +48,7 @@ const UsageLineChart = ({title, data, time, color, yAxis, yFormat}) => {
             },
             yaxis: {
                 show: 'true',
+                min: 0,
                 title: {
                     text: yAxis,
                     style : {
