@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
+import ErrorMessage from "../ErrorMessage.jsx";
 
 const DaemonSetsList = ({ setSelectedDaemon }) => {
     const [daemonSets, setDaemonSets] = useState({});
@@ -10,6 +11,8 @@ const DaemonSetsList = ({ setSelectedDaemon }) => {
     const [nextToken, setNextToken] = useState();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
+    const [error, setError] = useState(false);
+
     const loadData = () => {
         const isNamespaceAll = namespace === "All";
         const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
@@ -61,14 +64,15 @@ const DaemonSetsList = ({ setSelectedDaemon }) => {
 
     return (
         <div className="dashboard-content">
-            <ControllerTable
+            {error && <ErrorMessage />}
+            {daemonSets && <ControllerTable
                 data={daemonSets}
                 onClickRow={onClickRow}
                 toPrevPage={toPrevPage}
                 toNextPage={toNextPage}
                 prevToken={prevToken}
                 nextToken={nextToken}
-            />
+            />}
         </div>
     );
 };

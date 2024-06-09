@@ -12,12 +12,14 @@ import MiniUsageChart from "../../MiniUsageChart.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import Button from "@mui/material/Button";
+import ErrorMessage from "../ErrorMessage.jsx";
 
 const PodsList = ({ setPod }) => {
     const [podsData, setPodsData] = useState({totalUsage: [], pods: []});
     const [prevToken, setPrevToken] = useState();
     const [currToken, setCurrToken] = useState(" ");
     const [nextToken, setNextToken] = useState();
+    const [error, setError] = useState(false);
 
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
@@ -33,7 +35,12 @@ const PodsList = ({ setPod }) => {
 
         axios.get(url)
             .then((res) => {
-                setPodsData(res.data.data ? res.data.data : {});
+                if (res.data.success) {
+                    setPodsData(res.data.data ? res.data.data : {});
+                } else {
+                    setError(true);
+                }
+
             })
             .catch((err) => {
                 console.log(err);
@@ -69,6 +76,7 @@ const PodsList = ({ setPod }) => {
 
     return (
         <div className="dashboard-content">
+            {error && <ErrorMessage />}
             {/* Usage Charts */}
             {podsData && podsData.totalUsage && <div
                 style={{
@@ -93,7 +101,7 @@ const PodsList = ({ setPod }) => {
                     yFormat={(value) => value.toFixed(2).toString() + "Gi"}
                 />
             </div>}
-            <div
+            {podsData && <div
                 style={{
                     boxSizing: "border-box",
                     padding: "15px",
@@ -202,28 +210,29 @@ const PodsList = ({ setPod }) => {
                                             {pod.image}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
+                                            <div style={{display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
                                                 {Object.keys(pod.labels).slice(0, 3).map((key) => {
                                                     return <Label name={key + ":" + pod.labels[key]}/>
                                                 })}
-                                                {Object.keys(pod.labels).length > 3 && <Label name="..." />}
+                                                {Object.keys(pod.labels).length > 3 && <Label name="..."/>}
                                             </div>
                                         </TableCell>
                                         <TableCell align="center">
                                             {pod.node}
                                         </TableCell>
                                         <TableCell align="center">
-                                            <Status status={pod.status} />
+                                            <Status status={pod.status}/>
                                         </TableCell>
                                         <TableCell align="center">
                                             {pod.restartCount}
                                         </TableCell>
                                         <TableCell align="center">
-                                            {pod.metrics && <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
-                                                             color1="#F5347F" color2="#bf2662"
-                                                             min={0}
-                                                             usage={pod.usage ? (pod.usage.cpuUsage * 10 ** 3).toFixed(2) + "m" : null}
-                                            />}
+                                            {pod.metrics &&
+                                                <MiniUsageChart data={pod.metrics.map(i => i ? i.cpuUsage : 0)}
+                                                                color1="#F5347F" color2="#bf2662"
+                                                                min={0}
+                                                                usage={pod.usage ? (pod.usage.cpuUsage * 10 ** 3).toFixed(2) + "m" : null}
+                                                />}
                                         </TableCell>
                                         <TableCell align="center">
                                             {pod.metrics && <MiniUsageChart
@@ -244,11 +253,11 @@ const PodsList = ({ setPod }) => {
                         </Table>
                     </TableContainer>
                     {(prevToken || nextToken) && <div className="page-buttons"
-                          style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              marginTop: "10px"
-                          }}
+                                                      style={{
+                                                          display: "flex",
+                                                          justifyContent: "center",
+                                                          marginTop: "10px"
+                                                      }}
                     >
                         <Button
                             onClick={toPrevPage}
@@ -266,7 +275,7 @@ const PodsList = ({ setPod }) => {
                         </Button>
                     </div>}
                 </div>
-            </div>
+            </div>}
         </div>
 
     );

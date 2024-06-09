@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import ControllerTable from "../ControllerTable.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
+import ErrorMessage from "../ErrorMessage.jsx";
 
 const StatefulSetsList = ({ setSelectedStateful }) => {
     const [statefulSets, setStatefulSets] = useState({});
@@ -10,6 +11,7 @@ const StatefulSetsList = ({ setSelectedStateful }) => {
     const [nextToken, setNextToken] = useState();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
+    const [error, setError] = useState(false);
     const loadData = () => {
         const isNamespaceAll = namespace === "All";
         const tokenParam = currToken.length > 1 ? `continue_token=${currToken}` : "";
@@ -61,6 +63,7 @@ const StatefulSetsList = ({ setSelectedStateful }) => {
 
     return (
         <div className="dashboard-content">
+            {error && <ErrorMessage />}
             <ControllerTable
                 data={statefulSets}
                 onClickRow={onClickRow}

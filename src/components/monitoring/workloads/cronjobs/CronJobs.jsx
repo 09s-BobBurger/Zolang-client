@@ -10,6 +10,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Button from "@mui/material/Button";
 import timeFormatter from "../../timeFormatter.js";
+import ErrorMessage from "../ErrorMessage.jsx";
 
 const CronJobs = () => {
     const [cronJobs, setCronJobs] = useState({});
@@ -18,6 +19,7 @@ const CronJobs = () => {
     const [nextToken, setNextToken] = useState();
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
+    const [error, setError] = useState(false);
 
     const loadData = () => {
         const isNamespaceAll = namespace === "All";
@@ -86,161 +88,163 @@ const CronJobs = () => {
     
     return (
         <div className="dashboard-content">
-        <div
-            style={{
-                padding: "15px",
-                outline: "1px solid #ABAFBD",
-                borderRadius: "10px",
-                background: "#2E3240",
-                justifyContent: "center",
-                minWidth: "1100px"
-            }}
-        >
-            <div
+            {error && <ErrorMessage />}
+            {cronJobs && <div
                 style={{
-                    color: "#ffffff",
-                    padding: "10px",
-                    paddingTop: "0px",
-                    paddingBottom: "0px",
-                    paddingLeft: "15px",
-                    justifyContent: "space-between",
-                    display: "flex",
+                    padding: "15px",
+                    outline: "1px solid #ABAFBD",
+                    borderRadius: "10px",
+                    background: "#2E3240",
+                    justifyContent: "center",
+                    minWidth: "1100px"
                 }}
             >
-                        <span
-                            style={{
-                                paddingTop: "10px",
-                                fontSize: "24px",
-                                fontWeight: "bold",
-                            }}
-                        >
-                            List
-                        </span>
-            </div>
-            <hr
-                style={{
-                    width: "98%",
-                    border: 0,
-                    height: "1px",
-                    backgroundColor: "#474B59",
-                    marginBottom: "15px",
-                }}
-            />
+                <div
+                    style={{
+                        color: "#ffffff",
+                        padding: "10px",
+                        paddingTop: "0px",
+                        paddingBottom: "0px",
+                        paddingLeft: "15px",
+                        justifyContent: "space-between",
+                        display: "flex",
+                    }}
+                >
+                            <span
+                                style={{
+                                    paddingTop: "10px",
+                                    fontSize: "24px",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                List
+                            </span>
+                </div>
+                <hr
+                    style={{
+                        width: "98%",
+                        border: 0,
+                        height: "1px",
+                        backgroundColor: "#474B59",
+                        marginBottom: "15px",
+                    }}
+                />
 
-            <div className="moni-dashboard-nodes" style={{width: '100%'}}>
-                <TableContainer>
-                    <Table
-                        sx={{minWidth: 650, color: "#ffffff"}}
-                        aria-label="simple table"
-                    >
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    Name
-                                </TableCell>
-                                <TableCell>
-                                    Labels
-                                </TableCell>
-                                <TableCell align="center">
-                                    Schedule
-                                </TableCell>
-                                <TableCell align="center">
-                                    suspend
-                                </TableCell>
-                                <TableCell align="center">
-                                    active
-                                </TableCell>
-                                <TableCell align="center">
-                                    lastScheduling
-                                </TableCell>
-                                <TableCell align="center">
-                                    lastSchedule
-                                </TableCell>
-                                <TableCell align="center">
-                                    age
-                                </TableCell>
-                                <TableCell align="center">
-                                    created
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {cronJobs?.cronJobs && cronJobs.cronJobs.map((cronJob) => (
-                                <TableRow
-                                    key={cronJob.name}
-                                    sx={{
-                                        "&:last-child td, &:last-child th":
-                                            {
-                                                border: 0,
-                                            },
-                                    }}
-                                >
-                                    <TableCell
-                                        component="th"
-                                        scope="row"
-                                    >
-                                        {cronJob.name}
+                <div className="moni-dashboard-nodes" style={{width: '100%'}}>
+                    <TableContainer>
+                        <Table
+                            sx={{minWidth: 650, color: "#ffffff"}}
+                            aria-label="simple table"
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>
+                                        Name
+                                    </TableCell>
+                                    <TableCell>
+                                        Labels
                                     </TableCell>
                                     <TableCell align="center">
-                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
-                                            {
-                                                Object.keys(cronJob.labels || {}).length > 0 ?
-                                                    Object.keys(cronJob.labels).map((key) => {
-                                                        return <Label name={key + ":" + cronJob.labels[key]}/>})
-                                                    : '-'
-                                            }
-                                        </div>
+                                        Schedule
                                     </TableCell>
                                     <TableCell align="center">
-                                        {cronJob.schedule}
+                                        suspend
                                     </TableCell>
                                     <TableCell align="center">
-                                        {(cronJob.suspend).toString()}
+                                        active
                                     </TableCell>
                                     <TableCell align="center">
-                                        {cronJob.active}
+                                        lastScheduling
                                     </TableCell>
                                     <TableCell align="center">
-                                        {cronJob.lastScheduling ? cronJob.lastScheduling : '-'}
+                                        lastSchedule
                                     </TableCell>
                                     <TableCell align="center">
-                                        {cronJob.lastScheduleDateTime ? cronJob.lastScheduleDateTime : '-'}
+                                        age
                                     </TableCell>
                                     <TableCell align="center">
-                                        {cronJob.age}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {cronJob.creationDateTime}
+                                        created
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                {(prevToken || nextToken) && <div className="page-buttons"
-                                                  style={{
-                                                      display: "flex",
-                                                      justifyContent: "center",
-                                                      marginTop: "10px"
-                                                  }}
-                >
-                    <Button
-                        onClick={toPrevPage}
-                        disabled={!prevToken}
+                            </TableHead>
+                            <TableBody>
+                                {cronJobs?.cronJobs && cronJobs.cronJobs.map((cronJob) => (
+                                    <TableRow
+                                        key={cronJob.name}
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
+                                    >
+                                        <TableCell
+                                            component="th"
+                                            scope="row"
+                                        >
+                                            {cronJob.name}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            <div style={{display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
+                                                {
+                                                    Object.keys(cronJob.labels || {}).length > 0 ?
+                                                        Object.keys(cronJob.labels).map((key) => {
+                                                            return <Label name={key + ":" + cronJob.labels[key]}/>
+                                                        })
+                                                        : '-'
+                                                }
+                                            </div>
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {cronJob.schedule}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {(cronJob.suspend).toString()}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {cronJob.active}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {cronJob.lastScheduling ? cronJob.lastScheduling : '-'}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {cronJob.lastScheduleDateTime ? cronJob.lastScheduleDateTime : '-'}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {cronJob.age}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                            {cronJob.creationDateTime}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    {(prevToken || nextToken) && <div className="page-buttons"
+                                                      style={{
+                                                          display: "flex",
+                                                          justifyContent: "center",
+                                                          marginTop: "10px"
+                                                      }}
                     >
-                        <img style={{width: "30px", opacity: prevToken ? "100" : '0'}}
-                             src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
-                    </Button>
-                    <Button
-                        onClick={toNextPage}
-                        disabled={!nextToken}
-                    >
-                        <img style={{width: "30px", opacity: nextToken ? "100" : '0'}}
-                             src="../../../round-double-arrow-right.svg" alt="to next page button"/>
-                    </Button>
-                </div>}
-            </div>
-        </div>
+                        <Button
+                            onClick={toPrevPage}
+                            disabled={!prevToken}
+                        >
+                            <img style={{width: "30px", opacity: prevToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-left.svg" alt="to previous page button"/>
+                        </Button>
+                        <Button
+                            onClick={toNextPage}
+                            disabled={!nextToken}
+                        >
+                            <img style={{width: "30px", opacity: nextToken ? "100" : '0'}}
+                                 src="../../../round-double-arrow-right.svg" alt="to next page button"/>
+                        </Button>
+                    </div>}
+                </div>
+            </div>}
         </div>
     );
 };
