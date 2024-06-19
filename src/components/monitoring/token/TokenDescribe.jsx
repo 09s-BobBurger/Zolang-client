@@ -16,25 +16,14 @@ ca.crt:         1362 bytes
 namespace:      9 bytes
 token:          ...`;
     return (
-        <div
-            style={{
-                backgroundColor: "#2E3240",
-                padding: "10px",
-                outline: "1px solid #ABAFBD",
-                borderRadius: "10px",
-                margin: "15px",
-                marginBottom: "20px"
-            }}
-        >
+        <div className="token-box">
             <span
-                style={{
-                    fontSize: "24px",
-                    color: "#ffffff",
-                    padding: "5px",
-                    margin: "5px",
-                }}
+                className="token-content-title"
             >
                 토큰 상세 정보 확인
+            </span>
+            <span className="token-content-desc">
+                kubectl을 사용하여 secret token의 상세 정보를 확인합니다.
             </span>
             <hr
                 style={{
@@ -44,19 +33,17 @@ token:          ...`;
                     backgroundColor: "#474B59",
                 }}
             />
-            <span
-                style={{
-                    fontSize: "16px",
-                    color: "#ffffff",
-                    padding: "5px",
-                    margin: "5px",
-                }}
-            >
-                kubectl -n examplens describe secret mysecretname
-
-            </span>
-            <br/>
-            <div style={{ width: "60vw", overflowY: "auto", padding: "5px", margin: "5px" }}>
+            <div style={{ width: "calc(100% - 10px)", padding: "5px", margin: "5px", boxSizing: 'border-box' }}>
+                <CopyBlock
+                    language="zsh"
+                    text="kubectl -n examplens describe secret mysecretname"
+                    theme={anOldHope}
+                    wrapLines={true}
+                    showLineNumbers={false}
+                    codeBlock
+                />
+            </div>
+            <div style={{ width: "calc(100% - 10px)", overflowY: "auto", padding: "5px", margin: "5px", boxSizing: 'border-box' }}>
                 <CopyBlock
                     language="yaml"
                     text={describe}

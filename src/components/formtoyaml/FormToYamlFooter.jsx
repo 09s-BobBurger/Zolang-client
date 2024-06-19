@@ -10,6 +10,7 @@ import MuiTextField from "@mui/material/TextField";
 import loginUtil from "../../util/login.js";
 import { customizedAxios as axios } from "../../util/customizedAxios.js";
 import { useSelector } from "react-redux";
+import Loading from "../Loading.jsx";
 
 const FormControl = styled(MuiFormControl)({
     ".MuiInput-underline:before, .MuiInput-underline:after, .MuiInput-underline:hover::before":
@@ -77,12 +78,10 @@ function FormToYamlFooter(props) {
     const [userEmail, setUserEmail] = useState();
     const [userName, setUserName] = useState();
 
+    const [loading, setLoading] = useState(false);
+
     const setting = () =>{
-        axios.get('/api/v1/users',{
-            headers: {
-                Authorization: "Bearer " + loginUtil.getAccessToken(),
-            },
-        })
+        axios.get('/api/v1/users')
         .then((res) => {
             setUserEmail(res.data.data.email);
             setUserName(res.data.data.nickname);
@@ -93,20 +92,16 @@ function FormToYamlFooter(props) {
     }
 
     useEffect(() => {
+        setLoading(true);
         axios
-            .get(
-                `/api/v1/github/branches?repoName=${repository}`,
-                {
-                    headers: {
-                        Authorization: "Bearer " + loginUtil.getAccessToken(),
-                    },
-                }
-            )
+            .get(`/api/v1/github/branches?repoName=${repository}`)
             .then((res) => {
                 setBranches(res.data.data);
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
             });
     }, [repository]);
 
@@ -169,7 +164,6 @@ function FormToYamlFooter(props) {
                         });
                 }
             } else {
-                console.log(loginUtil.getAccessToken());
                 axios
                     .get(`/api/v1/github`,)
                     .then((res) => {
@@ -190,6 +184,8 @@ function FormToYamlFooter(props) {
     };
 
     return (
+        <>
+            <Loading isOpen={loading}/>
         <div
             className="FormToYamlFooter"
             style={{
@@ -339,6 +335,7 @@ function FormToYamlFooter(props) {
                 PUSH
             </Button>
         </div>
+        </>
     );
 }
 

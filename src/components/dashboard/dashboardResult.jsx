@@ -7,40 +7,44 @@ import Bill from "./Bill.jsx";
 function dashboardResult(props) {
     return (
         <>
-            <div style={{ display: "flex", height: "100%", justifyContent: "space-between", gap: "30px", maxWidth: "1320px", width: "fit-content", maxHeight: "694px"}}>
-                <div style={{  minWidth: "280px", height: "-webkit-fill-available"}}>
+            <div style={{ display: "flex", width: "fit-content",  height: "max-content", justifyContent: "space-between", gap: "30px", maxHeight: "700px", margin: "0 auto"}}>
+                <div style={{  minWidth: "280px", display: "flex", flexDirection: "column"}}>
                     <Repository />
                 </div>
                 <div
                     style={{
                         display: "flex",
-                        width: "60vw",
-                        height: "100%",
+                        height: "-webkit-fill-available",
                         minHeight: "690px",
-                        minWidth: "540px",
                         flexDirection: "column",
                         gap: "30px"
                     }}
                 >
-                    <div style={{
-                            minHeight: "260px",
+                    <div
+                        style={{
+                            width: "100%",
+                            minHeight: "280px",
                             maxHeight: "330px",
-                            minWidth: "540px",
                             maxWidth: "700px",
-                            height: "40%"
+                            // height: "40%"
                         }}>
                         <Total />
                     </div>
-                    <div style={{
-                            minHeight: "300px",
-                            minWidth: "540px",
+                    <div
+                        style={{
+                            width: "100%",
+                            height: "-webkit-fill-available",
+                            minHeight: "310px",
                             maxWidth: "700px",
-                            height: "60%"
-                            }}>
+                            flexGrow: '1',
+                            display: "flex",
+                            flexDirection: "column"
+                        }}
+                    >
                         <ClusterList />
                     </div>
                 </div>
-                <div style={{  minWidth: "280px", height: "-webkit-fill-available"}}>
+                <div style={{  width: "360px", display: "flex", flexDirection: "column"}}>
                     <Bill />
                 </div>
             </div>

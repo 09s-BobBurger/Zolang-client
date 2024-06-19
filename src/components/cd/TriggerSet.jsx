@@ -32,7 +32,7 @@ function getStyles(trigger, selectTrigger, theme) {
 
 const triggers = ["push", "pull_request"];
 
-function TriggerSet({ selectTrigger, setSelectTrigger }) {
+function TriggerSet({ selectTrigger, setSelectTrigger, error }) {
     const theme = useTheme();
 
     const handleChange = (event) => {
@@ -48,7 +48,7 @@ function TriggerSet({ selectTrigger, setSelectTrigger }) {
                 Trigger
             </Typography>
             <>
-                <FormControl sx={{ m: 1, minWidth: 200, width: "30vw" }}>
+                <FormControl required error={error} sx={{ m: 1, minWidth: 200, width: "30vw" }}>
                     <InputLabel id="trigger-label" sx={{ color: "white" }}>
                         Trigger
                     </InputLabel>

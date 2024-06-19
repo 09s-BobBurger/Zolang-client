@@ -13,6 +13,8 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import {customizedAxios as axios} from "../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
+import {useNavigate} from "react-router-dom";
+import ErrorMessage from "./ErrorMessage.jsx";
 
 const titleStyle = {
     display: 'flex',
@@ -21,9 +23,16 @@ const titleStyle = {
     color: "#ffffff",
     fontSize: "1.6rem",
 }
+
+const textFormatter = (str) => {
+    const space = str.replace(/([A-Z])/g, ' $1');
+    return space.charAt(0).toUpperCase() + space.slice(1);
+}
 const ControllerDetail = ({ detail, goToList }) => {
+    const navigate = useNavigate();
     const clusterId = useSelector(state => state.cluster.clusterId);
     const [usages, setUsages] = useState(null);
+    const [error, setError] = useState(false);
     const loadUsages = async () => {
         if (detail) {
             let usage = {};
@@ -31,7 +40,12 @@ const ControllerDetail = ({ detail, goToList }) => {
                 await axios
                     .get(`/api/v1/cluster/${clusterId}/workload/controller/${pod.name}`)
                     .then(res => {
-                        usage = {...usage, [pod.name] : res.data.data};
+                        if (res.data.success) {
+                            usage = {...usage, [pod.name] : res.data.data};
+                        }
+                        else {
+                            setError(true);
+                        }
                     })
                     .catch(err => {
                         console.log(err);
@@ -70,7 +84,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                 <KeyboardArrowLeft/>
                 Return to List
             </MuiButton>
-
+            {error && <ErrorMessage/>}
             {detail && <div
                 style={{
                     width: "100%",
@@ -167,9 +181,12 @@ const ControllerDetail = ({ detail, goToList }) => {
                                 Labels
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(detail.metadata.labels).map((key) => {
+                                {
+                                    Object.keys(detail.metadata?.labels || {}).length > 0 ?
+                                    Object.keys(detail.metadata.labels).map((key) => {
                                     return <Label name={key + ":" + detail.metadata.labels[key]}/>
-                                })}
+                                    }) : '-'
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -185,11 +202,13 @@ const ControllerDetail = ({ detail, goToList }) => {
                                 Annotations
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(detail.metadata.annotations).map((key) => {
+                                {
+                                    Object.keys(detail.metadata?.annotations || {}).length > 0 ?
+                                    Object.keys(detail.metadata.annotations).map((key) => {
                                     if (detail.metadata.annotations[key].length < 1000) {
                                         return <Label name={key + ":" + detail.metadata.annotations[key]}/>
-                                    }
-                                })}
+                                    }}) : '-'
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -242,7 +261,7 @@ const ControllerDetail = ({ detail, goToList }) => {
                                         Image
                                     </Typography>
                                     <Typography sx={{mb: 1.5}}>
-                                        <Label name={detail.resource.image}/>
+                                        {detail.resource.image ? <Label name={detail.resource.image}/> : '-'}
                                     </Typography>
                                 </div>
                                 <div style={{marginRight: "5px"}}>
@@ -250,9 +269,12 @@ const ControllerDetail = ({ detail, goToList }) => {
                                         Selector
                                     </Typography>
                                     <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                        {Object.keys(detail.resource.selector).map((key) => {
+                                        {
+                                            Object.keys(detail.resource?.selector || {}).length > 0 ?
+                                            Object.keys(detail.resource.selector).map((key) => {
                                             return <Label name={key + ":" + detail.resource.selector[key]}/>
-                                        })}
+                                            }) : '-'
+                                        }
                                     </Typography>
                                 </div>
                             </div>
@@ -285,22 +307,20 @@ const ControllerDetail = ({ detail, goToList }) => {
                                     color: "#ffffff",
                                 }}
                             >
-                                <div style={{marginRight: "5px"}}>
-                                    <Typography variant="body2" color="#ABAFBD">
-                                        Running Pods
-                                    </Typography>
-                                    <Typography variant="h6">
-                                        {detail.podConditions.runningPods}
-                                    </Typography>
-                                </div>
-                                <div>
-                                    <Typography variant="body2" color="#ABAFBD">
-                                        Desired Pods
-                                    </Typography>
-                                    <Typography variant="h6">
-                                        {detail.podConditions.desiredPods}
-                                    </Typography>
-                                </div>
+                                {
+                                    Object.keys(detail.podConditions).map((key, idx) => {
+                                        return (
+                                            <div style={{marginRight: "5px"}}>
+                                                <Typography variant="body2" color="#ABAFBD">
+                                                    {textFormatter(key)}
+                                                </Typography>
+                                                <Typography variant="h6">
+                                                    {detail.podConditions[key]}
+                                                </Typography>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                     </div>
@@ -375,6 +395,9 @@ const ControllerDetail = ({ detail, goToList }) => {
                                                 {
                                                     border: 0,
                                                 },
+                                        }}
+                                        onClick={() => {
+                                            navigate('/monitoring/dashboard/workloads/pods', { state: { name : pod.name, namespace: pod.namespace } })
                                         }}
                                     >
                                         <TableCell

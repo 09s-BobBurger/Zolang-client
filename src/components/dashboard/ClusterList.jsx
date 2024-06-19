@@ -46,7 +46,7 @@ const ClusterList = () => {
             background: "#2E3240",
             position: "relative",
             margin: 0,
-            height: "-webkit-fill-available"
+            flexGrow: 1,
         }}>
             <div className="cluster-list-header">
                 <h3 className="cluster-list-title">Cluster Monitoring</h3>
@@ -69,7 +69,7 @@ const ClusterList = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {clusters?.length > 0? (clusters.slice(0,3).map((item, index) => (
+                        {clusters?.length > 0 && (clusters.slice(0,3).map((item, index) => (
                                 <TableRow  key={index}>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
@@ -87,12 +87,15 @@ const ClusterList = () => {
                                                 <img src="../clusterStateFalse.svg" alt="bad" />}
                                     </TableCell>
                                 </TableRow>
-                            ))) : 
-                            <TableRow>
-                                <TableCell colSpan={4} align="center" style={{ padding: "10px" }}>
-                                    <img src=".././텅.svg" width="100px" alt="No Clusters" />
-                                </TableCell>
-                            </TableRow> }
+                            )))
+                            }
+                            { !clusters &&
+                                <TableRow>
+                                    <TableCell colSpan={4} align="center" style={{ padding: "10px" }}>
+                                        <img src=".././텅.svg" width="100px" alt="No Clusters" />
+                                    </TableCell>
+                                </TableRow>
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>

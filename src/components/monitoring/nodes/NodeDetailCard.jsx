@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { customizedAxios as axios } from "../../../util/customizedAxios.js";
 import Status from "../../icon/Status";
 import Chart from "./Chart";
+import timeFormatter from "../timeFormatter.js";
 
 function NodeDetailCard({ nodeName, initNode }) {
     const [node, setNode] = useState();
@@ -41,13 +42,6 @@ function NodeDetailCard({ nodeName, initNode }) {
                 console.error(err);
             });
     }, [nodeName]);
-
-    function getTimeDiff(timeString) {
-        const currentTime = new Date();
-        const targetTime = new Date(timeString);
-        const diff = Math.floor((currentTime - targetTime) / (1000 * 60));
-        return `${diff}분 전`;
-    }
 
     function parseValueWithUnit(valueString) {
         const match = valueString.match(/([0-9.]+)\s*(\w+)?/);
@@ -492,12 +486,12 @@ function NodeDetailCard({ nodeName, initNode }) {
                                                         />
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        {getTimeDiff(
+                                                        {timeFormatter(
                                                             condition.lastHeartbeatTime
                                                         )}
                                                     </TableCell>
                                                     <TableCell align="center">
-                                                        {getTimeDiff(
+                                                        {timeFormatter(
                                                             condition.lastTransitionTime
                                                         )}
                                                     </TableCell>

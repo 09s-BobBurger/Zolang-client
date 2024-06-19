@@ -43,6 +43,7 @@ const ServicesList = ({ setService}) => {
     }, [namespace]);
 
     return (
+        <div className="dashboard-content">
         <div
             style={{
                 padding: "15px",
@@ -119,9 +120,6 @@ const ServicesList = ({ setService}) => {
                             {services.map((service) => (
                                 <TableRow
                                     key={service.serviceName}
-                                    onClick={() =>
-                                        onClickRow(service.serviceName)
-                                    }
                                     sx={{
                                         "&:last-child td, &:last-child th":
                                             {
@@ -132,13 +130,26 @@ const ServicesList = ({ setService}) => {
                                     <TableCell
                                         component="th"
                                         scope="row"
+                                        onClick={() =>
+                                            onClickRow(service.serviceName)
+                                        }
                                     >
                                         {service.serviceName}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                        align="center"
+                                        onClick={() =>
+                                            onClickRow(service.serviceName)
+                                        }
+                                    >
                                         {service.serviceNamespace}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                        align="center"
+                                        onClick={() =>
+                                            onClickRow(service.serviceName)
+                                        }
+                                    >
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px'}}>
                                             {Object.keys(service.serviceLabels).slice(0, 3).map((key) => {
                                                 return <Label name={key + ":" + service.serviceLabels[key]}/>
@@ -146,16 +157,31 @@ const ServicesList = ({ setService}) => {
                                             {Object.keys(service.serviceLabels).length > 3 && <Label name="..." />}
                                         </div>
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                        align="center"
+                                        onClick={() =>
+                                            onClickRow(service.serviceName)
+                                        }
+                                    >
                                         {service.serviceClusterIP}
                                     </TableCell>
                                     <TableCell align="center">
                                         {service.serviceExternalIP ? service.serviceExternalIP : '-'}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                        align="center"
+                                        onClick={() =>
+                                            onClickRow(service.serviceName)
+                                        }
+                                    >
                                         {service.servicePort[0]}
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell
+                                        align="center"
+                                        onClick={() =>
+                                            onClickRow(service.serviceName)
+                                        }
+                                    >
                                         {service.serviceAge}
                                     </TableCell>
                                 </TableRow>
@@ -164,6 +190,7 @@ const ServicesList = ({ setService}) => {
                     </Table>
                 </TableContainer>
             </div>
+        </div>
         </div>
     );
 };

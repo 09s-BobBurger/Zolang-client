@@ -32,10 +32,7 @@ function total(props) {
 
     const handleChange = (event) => {
         setPeriod(event.target.value);
-        loadData();
     };
-
-    const convertToPercentage = (value, max) => (value / max) * 100;
 
     return (
         <div
@@ -118,6 +115,8 @@ function total(props) {
                                         ? value.cpuAllocatable
                                         : 0
                                 }
+                                decimalPlaces={2}
+                                unit="m"
                             />
                             <span
                                 style={{
@@ -132,9 +131,11 @@ function total(props) {
                             <PieChart
                                 color="#ffd05c"
                                 value={
-                                    convertToPercentage(value.memoryUsage ? value.memoryUsage : 0, value.memoryAllocatable? value.memoryAllocatable :1)
+                                    value.memoryUsage ? value.memoryUsage / 10 ** 9 : 0
                                 }
-                                max={100}
+                                max={value.memoryAllocatable? value.memoryAllocatable / 10 ** 9 : 0}
+                                decimalPlaces={2}
+                                unit="Gi"
                             />
                             <span
                                 style={{
@@ -154,6 +155,8 @@ function total(props) {
                                         ? value.podAllocatable
                                         : 0
                                 }
+                                decimalPlaces={0}
+                                unit=""
                             />
                             <span
                                 style={{

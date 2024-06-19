@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import ControllerTable from "../ControllerTable.jsx";
 import {useSelector} from "react-redux";
+import ErrorMessage from "../ErrorMessage.jsx";
 
 const ReplicaSetsList = ({ setSelectedReplica }) => {
     const [replicaSets, setReplicaSets] = useState({});
@@ -10,6 +11,7 @@ const ReplicaSetsList = ({ setSelectedReplica }) => {
     const [nextToken, setNextToken] = useState();
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector((state) => state.namespace.namespace);
+    const [error, setError] = useState(false);
 
     const loadData = () => {
         const isNamespaceAll = namespace === "All";
@@ -53,11 +55,7 @@ const ReplicaSetsList = ({ setSelectedReplica }) => {
         if (replicaSets.start === 1) {
             setPrevToken(null);
         }
-        if (replicaSets.end === replicaSets.total) {
-            setNextToken(null);
-        } else {
-            setNextToken(replicaSets.continueToken);
-        }
+        setNextToken(replicaSets.continueToken);
     }, [replicaSets]);
 
     const onClickRow = (data) => {
@@ -66,6 +64,7 @@ const ReplicaSetsList = ({ setSelectedReplica }) => {
 
     return (
         <div className="dashboard-content">
+            {error && <ErrorMessage />}
             <ControllerTable
                 data={replicaSets}
                 onClickRow={onClickRow}

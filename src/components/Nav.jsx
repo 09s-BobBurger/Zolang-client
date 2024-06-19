@@ -184,7 +184,7 @@ const Nav = ({open, toggleDrawer}) => {
     return (
         <Drawer open={open} onClose={toggleDrawer()}>
             <AccountContainer>
-                <img style={{ background: "transparent", marginBottom: '10px', width: "30px", height: "30px"}} src='../githubIconWhite.svg' alt="github image"/>
+                <img style={{ background: "transparent", marginBottom: '10px', width: "30px", height: "30px"}} src='../../../githubIconWhite.svg' alt="github image"/>
                 <div className='info-box'>
                     <img src={userImage? userImage: "https://ko.vitejs.dev/logo.svg"} alt="이미지"/>
                     <div style={nameContainerStyle}>
@@ -224,7 +224,7 @@ const Nav = ({open, toggleDrawer}) => {
                                 }}
                             >
                                 <img
-                                    src="../alarm-svgrepo-com.svg" alt="email warning image"
+                                    src="../../../alarm-svgrepo-com.svg" alt="email warning image"
                                     style={{
                                         background: "transparent",
                                         width: "25px",

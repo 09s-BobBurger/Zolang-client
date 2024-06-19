@@ -4,8 +4,7 @@ import Typography from "@mui/material/Typography";
 import "../../../../styles/MONITORING.css";
 
 function Chart({ title, running, counts, color }) {
-    const pieParams = { height: 110, margin: { right: 5 } };
-
+    const pieParams = { height: 110, margin: { right: 5 }, legend: {hidden: true} };
     return (
         <div className="pie-chart-container">
             <PieChart
@@ -14,11 +13,13 @@ function Chart({ title, running, counts, color }) {
                         data: [
                             {
                                 value: running,
+                                label: "Running",
                                 color: color ? color : "orange",
                             },
                             {
                                 value: counts - running,
-                                color: "rgb(225, 225, 226)",
+                                label: "Not Running",
+                                color: "rgba(255, 255, 255, 0.2)",
                             },
                         ],
                         highlightScope: {

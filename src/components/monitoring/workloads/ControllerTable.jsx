@@ -130,7 +130,7 @@ const ControllerTable = ({data, onClickRow, toPrevPage, toNextPage, prevToken, n
                         </TableBody>
                     </Table>
                 </TableContainer>
-                { prevToken && nextToken && <div className="page-buttons"
+                { (prevToken || nextToken) && <div className="page-buttons"
                       style={{
                           display: "flex",
                           justifyContent: "center",

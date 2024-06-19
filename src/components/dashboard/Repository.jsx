@@ -42,8 +42,8 @@ function Repository() {
                 background: "#2E3240",
                 justifyContent: "center",
                 position: "relative",
-                height: "-webkit-fill-available",
-                minHeight : "635px"
+                // minHeight : "635px",
+                flexGrow: "1"
             }}
         >
             <div

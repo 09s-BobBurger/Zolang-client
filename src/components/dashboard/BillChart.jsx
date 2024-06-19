@@ -4,30 +4,45 @@ import ApexChart from "react-apexcharts";
 const BillChart = ({ data }) => {
     const sortedData = data ? [...data].sort((a, b) => Number(a.date.replaceAll("-", "")) - Number(b.date.replaceAll("-", ""))
     ) : null;
-    const date = sortedData ? sortedData.map(i => i.date) : Array(5).fill('-');
-    const total = sortedData ? sortedData.map(i => i.totalCost) : Array(5).fill('0');
-    const base = sortedData ? sortedData.map(i => i.totalCost - i.totalCpuCost - i.totalMemoryCost - i.totalPodCost)
-        : Array(5).fill(0);
-    const pod = sortedData ? sortedData.map(i => i.totalPodCost) : Array(5).fill(0);
-    const memory = sortedData ? sortedData.map(i => i.totalMemoryCost) : Array(5).fill(0);
-    const cpu = sortedData ? sortedData.map(i => i.totalCpuCost) : Array(5).fill(0);
+    const date = sortedData ? sortedData.map(i => i ? i.date : 0) : Array(5).fill('-');
+    const base = sortedData ? sortedData.map(i => i ? i.totalClusterRuntimeCost : 0) : Array(5).fill(0);
+    const pod = sortedData ? sortedData.map(i => i ? i.totalPodCost : 0) : Array(5).fill(0);
+    const memory = sortedData ? sortedData.map(i => i ? i.totalMemoryCost : 0) : Array(5).fill(0);
+    const cpu = sortedData ? sortedData.map(i => i ? i.totalCpuCost : 0) : Array(5).fill(0);
+
+    const total = sortedData ? sortedData.map((_, idx) => base[idx] + pod[idx] + memory[idx] + cpu[idx]) : Array(5).fill(0);
 
     const wonFormatter = (value) => {
         return `₩${value.toLocaleString().split('.')[0]}`
     }
     const series = [{
             name: 'Base',
-            data:  base.map(i => i ? i : 0)
+            data:  base
         }, {
             name: 'Pod',
-            data: pod.map(i => i ? i : 0)
+            data: pod
         }, {
             name: 'Memory',
-            data: memory.map(i => i ? i : 0)
+            data: memory
         }, {
             name: 'CPU',
-            data: cpu.map(i => i ? i : 0)
+            data: cpu
         }]
+
+    const seriesForChart = [{
+        name: 'Base',
+        data:  base.map( i => i / 10)
+    }, {
+        name: 'Pod',
+        data: pod
+    }, {
+        name: 'Memory',
+        data: memory
+    }, {
+        name: 'CPU',
+        data: cpu
+    }]
+
     const options = {
         chart: {
             type: 'bar',
@@ -42,14 +57,18 @@ const BillChart = ({ data }) => {
         },
         tooltip: {
             y: {
-                formatter: value => wonFormatter(value),
+                formatter: (_, { seriesIndex, dataPointIndex }) => {
+                    return wonFormatter(series[seriesIndex].data[dataPointIndex])
+                },
                 title: {
                     formatter: (seriesName) => seriesName,
                 },
             },
         },
         dataLabels: {
-            formatter: (value, { dataPointIndex }) => `${(value / total[dataPointIndex] * 100).toFixed(2)}%`
+            formatter: (_, { seriesIndex, dataPointIndex }) => {
+                return `${(series[seriesIndex].data[dataPointIndex] / total[dataPointIndex] * 100).toFixed(2)}%`
+            }
         },
         responsive: [{
             breakpoint: 480,
@@ -86,7 +105,7 @@ const BillChart = ({ data }) => {
                         offsetX: -23,
                         offsetY: -5,
                         enabled: true,
-                        formatter: value => wonFormatter(value),
+                        formatter: (_, { dataPointIndex }) => wonFormatter(total[dataPointIndex]),
                         style: {
                             fontSize: '10px',
                             fontWeight: 900,
@@ -138,7 +157,7 @@ const BillChart = ({ data }) => {
         >
             <ApexChart
                 options={options}
-                series={series}
+                series={seriesForChart}
                 type="bar"
                 width="100%"
                 height="100%"

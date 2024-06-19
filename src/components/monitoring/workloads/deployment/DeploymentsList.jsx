@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import ControllerTable from "../ControllerTable.jsx";
+import ErrorMessage from "../ErrorMessage.jsx";
 
 const DeploymentsList = ({ setSelectedDeployment }) => {
     const [deployments, setDeployments] = useState({});
     const [prevToken, setPrevToken] = useState();
     const [currToken, setCurrToken] = useState(" ");
     const [nextToken, setNextToken] = useState();
+    const [error, setError] = useState(false);
 
     const clusterId = useSelector(state => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
@@ -54,11 +56,7 @@ const DeploymentsList = ({ setSelectedDeployment }) => {
         if (deployments.start === 1) {
             setPrevToken(null);
         }
-        if (deployments.end === deployments.total) {
-            setNextToken(null);
-        } else {
-            setNextToken(deployments.continueToken);
-        }
+        setNextToken(deployments.continueToken);
     }, [deployments]);
 
     const onClickRow = (data) => {
@@ -66,14 +64,15 @@ const DeploymentsList = ({ setSelectedDeployment }) => {
     }
     return (
         <div className="dashboard-content">
-            <ControllerTable
+            {error && <ErrorMessage />}
+            {deployments && <ControllerTable
                 data={deployments}
                 onClickRow={onClickRow}
                 toPrevPage={toPrevPage}
                 toNextPage={toNextPage}
                 prevToken={prevToken}
                 nextToken={nextToken}
-            />
+            />}
         </div>
     );
 };

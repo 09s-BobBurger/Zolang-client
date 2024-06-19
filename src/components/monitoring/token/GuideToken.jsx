@@ -10,24 +10,12 @@ metadata:
   annotations:
     kubernetes.io/service-account.name: myserviceaccount`;
     return (
-        <div
-            style={{
-                backgroundColor: "#2E3240",
-                padding: "10px",
-                outline: "1px solid #ABAFBD",
-                borderRadius: "10px",
-                margin: "15px",
-            }}
-        >
-            <span
-                style={{
-                    fontSize: "24px",
-                    color: "#ffffff",
-                    padding: "5px",
-                    margin: "5px",
-                }}
-            >
+        <div className="token-box">
+            <span className="token-content-title">
                 가이드 토큰 발급 방법
+            </span>
+            <span className="token-content-desc">
+                Secret YAML 파일을 작성한 뒤, kubectl을 사용하여 적용합니다.
             </span>
             <hr
                 style={{
@@ -37,7 +25,7 @@ metadata:
                     backgroundColor: "#474B59",
                 }}
             />
-            <div style={{ width: "60vw", padding: "5px", margin: "5px" }}>
+            <div style={{ width: "calc(100% - 10px)", padding: "5px", margin: "5px", boxSizing: 'border-box' }}>
                 <CopyBlock
                     language="yaml"
                     text={secret}
@@ -47,18 +35,18 @@ metadata:
                     codeBlock
                 />
             </div>
-            <br/>
-            <span
-                style={{
-                    fontSize: "16px",
-                    color: "#ffffff",
-                    padding: "5px",
-                    margin: "5px",
-                }}
-            >
-                kubectl -n examplens create -f
-                https://k8s.io/examples/secret/serviceaccount/mysecretname.yaml
-            </span>
+
+            <div style={{ width: "calc(100% - 10px)", padding: "5px", margin: "5px", boxSizing: 'border-box' }}>
+                <CopyBlock
+                    language="zsh"
+                    text="kubectl -n examplens create -f
+                    https://k8s.io/examples/secret/serviceaccount/mysecretname.yaml"
+                    theme={anOldHope}
+                    wrapLines={true}
+                    showLineNumbers={false}
+                    codeBlock
+                />
+            </div>
         </div>
     );
 }

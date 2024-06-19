@@ -72,7 +72,7 @@ const ClusterList = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {clusters?.length > 0? (clusters.map((item, index) => (
+                        {clusters?.length > 0 && (clusters.map((item, index) => (
                                 <TableRow key={index}>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.clusterName}</TableCell>
                                     <TableCell onClick={() => onClickCluster(item)}>{item.domainUrl}</TableCell>
@@ -91,9 +91,16 @@ const ClusterList = () => {
                                     </TableCell>
                                     <TableCell align="center" style={{textAlign: "-webkit-right"}} onClick={() => handleDelete(item.clusterId)}><DeleteButton></DeleteButton></TableCell>
                                 </TableRow>
-                            ))) : <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}><img src=".././텅.svg" width="100px" alt="이미지"/></div> }
+                            )))}
                         </TableBody>
                     </Table>
+                {
+                    !clusters
+                    &&
+                    <div style={{textAlign: "-webkit-center", paddingTop: "10px"}}>
+                        <img src=".././텅.svg" width="100px" alt="이미지"/>
+                    </div>
+                }
                 </TableContainer>
                 {selectedClusterId && 
                 <DeleteModal 

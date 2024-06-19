@@ -9,7 +9,7 @@ const GuideDomainUrl = () => {
 kubectl config view -o jsonpath='{"Cluster name\\tServer\\n"}{range .clusters[*]}{.name}{"\\t"}{.cluster.server}{"\\n"}{end}'
 
 # 위의 출력에서 상호 작용하려는 클러스터의 이름을 선택한다. ex) export CLUSTER_NAME="docker_desktop"
-export CLUSTER_NAME="${clusterName}"
+export CLUSTER_NAME="${clusterName ? clusterName : "클러스터 이름을 입력해주세요."}"
 
 # 클러스터 이름을 참조하는 API 서버를 가리킨다.
 APISERVER=$(kubectl config view -o jsonpath="{.clusters[?(@.name==\\"$CLUSTER_NAME\\")].cluster.server}")
@@ -72,25 +72,15 @@ echo $TOKEN
 echo $APISERVER`;
 
     return (
-        <div
-            style={{
-                backgroundColor: "#2E3240",
-                padding: "10px",
-                outline: "1px solid #ABAFBD",
-                borderRadius: "10px",
-                margin: "15px",
-                marginBottom: "50px"
-            }}
-        >
+        <div className="token-box">
             <span
-                style={{
-                    fontSize: "24px",
-                    color: "#ffffff",
-                    padding: "5px",
-                    margin: "5px",
-                }}
+                className="token-content-title"
             >
                 Token & Domain URL 확인 방법
+            </span>
+            <span className="token-content-desc">
+                위에 클러스터 이름을 작성하여 아래의 코드를 터미널에 입력합니다.<br />
+                출력된 토큰과 APISERVER 도메인으로 클러스터를 추가하려면 <b>ENTER YOUR TOKEN</b>을 눌러주세요.
             </span>
             <hr
                 style={{
@@ -100,20 +90,7 @@ echo $APISERVER`;
                     backgroundColor: "#474B59",
                 }}
             />
-            <span
-                style={{
-                    display: 'block',
-                    fontSize: "16px",
-                    color: "#ffffff",
-                    padding: "5px",
-                    margin: "5px",
-                    lineHeight: '2'
-                }}
-            >
-                위에 클러스터 이름을 작성하여 아래의 코드를 터미널에 입력합니다.<br />
-                출력된 토큰과 APISERVER 도메인으로 클러스터를 추가해주세요.
-            </span>
-            <div style={{ width: "60vw", padding: "5px", margin: "5px" }}>
+            <div style={{ width: "calc(100% - 10px)", padding: "5px", margin: "5px", boxSizing: 'border-box' }}>
                 <CopyBlock
                     language="yaml"
                     text={code}

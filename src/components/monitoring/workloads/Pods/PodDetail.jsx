@@ -13,6 +13,7 @@ import UsageLineChart from "../../UsageLineChart.jsx";
 import {customizedAxios as axios} from "../../../../util/customizedAxios.js";
 import {useSelector} from "react-redux";
 import useDidMountEffect from "../../../../hooks/useDidMountEffect.js";
+import ErrorMessage from "../ErrorMessage.jsx";
 
 const boxStyle = {
     boxSizing: 'border-box',
@@ -55,15 +56,21 @@ const PodDetail = ({ selectedPod, initPod}) => {
     const clusterId = useSelector((state) => state.cluster.clusterId);
     const namespace = useSelector(state => state.namespace.namespace);
     const [pod, setPod] = useState();
+    const [error, setError] = useState(false);
 
     const loadData = () => {
         axios
             .get(
                 `/api/v1/cluster/${clusterId}/workload/pods/${selectedPod[0]}?namespace=${selectedPod[1]}`)
             .then((res) => {
-                setPod(res.data.data);
+                if (res.data.success) {
+                    setPod(res.data.data);
+                } else {
+                    setError(true);
+                }
             })
             .catch((err) => {
+                setError(true);
                 console.log(err);
             })
     }
@@ -99,6 +106,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                 <KeyboardArrowLeft />
                 Return to List
             </MuiButton>
+            {error && <ErrorMessage/>}
             {pod && <div
                 style={{
                     width: "100%",
@@ -162,7 +170,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Name
                             </Typography>
                             <Typography variant="h6" color="#ff9f4a">
-                                {pod.metadata.name}
+                                {pod?.metadata?.name ? pod.metadata.name : '-'}
                             </Typography>
                         </div>
                         <div>
@@ -170,7 +178,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Namespace
                             </Typography>
                             <Typography variant="h6" color="#b8ff6a">
-                                {pod.metadata.namespace}
+                                {pod?.metadata?.namespace ? pod.metadata.namespace : '-'}
                             </Typography>
                         </div>
                     </div>
@@ -187,7 +195,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Created
                             </Typography>
                             <Typography variant="h6">
-                                {pod.metadata.creationTime}
+                                {pod?.metadata?.creationTime ? pod.metadata.creationTime : '-'}
                             </Typography>
                         </div>
                         <div>
@@ -195,7 +203,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Age
                             </Typography>
                             <Typography variant="h6">
-                                {pod.metadata.age}
+                                {pod?.metadata?.age ? pod.metadata.age : '-'}
                             </Typography>
                         </div>
                         <div>
@@ -203,7 +211,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 UId
                             </Typography>
                             <Typography sx={{mb: 1.5}}>
-                                {pod.metadata.uid}
+                                {pod?.metadata?.uid ? pod.metadata.uid : '-'}
                             </Typography>
                         </div>
                     </div>
@@ -219,9 +227,12 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Labels
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(pod.metadata.labels).map((key) => {
-                                    return <Label name={key + ":" + pod.metadata.labels[key]}/>
-                                })}
+                                {Object.keys(pod.metadata?.labels || {}).length > 0 ?
+                                    (
+                                    Object.keys(pod.metadata.labels).map((key) => {
+                                        return <Label name={key + ":" + pod.metadata.labels[key]}/>})
+                                    ) : '-'
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -237,9 +248,12 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Annotations
                             </Typography>
                             <Typography sx={{width: "700px", display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                {Object.keys(pod.metadata.annotations).map((key) => {
-                                    return <Label name={key + ":" + pod.metadata.annotations[key]}/>
-                                })}
+                                {
+                                    Object.keys(pod.metadata?.annotations || {}).length > 0 ?
+                                    (Object.keys(pod.metadata.annotations).map((key) => {
+                                    return <Label name={key + ":" + pod.metadata.annotations[key]}/>}))
+                                        : "-"
+                                }
                             </Typography>
                         </div>
                     </div>
@@ -282,7 +296,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     Node
                                 </Typography>
                                 <Typography variant={boxValueVariant} align="right">
-                                    {pod.resource.node}
+                                    {pod?.resource?.node ? pod.resource.node : "-"}
                                 </Typography>
                             </div>
                             <div style={boxStyle}>
@@ -290,7 +304,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     Status
                                 </Typography>
                                 <Typography variant={boxValueVariant} align="right">
-                                    {pod.resource.status}
+                                    {pod?.resource?.status ? pod.resource.status : '-'}
                                 </Typography>
                             </div>
                             <div style={boxStyle}>
@@ -298,7 +312,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     IP
                                 </Typography>
                                 <Typography variant={boxValueVariant} align="right">
-                                    {pod.resource.ip}
+                                    {pod?.resource?.ip ? pod.resource.ip : '-'}
                                 </Typography>
                             </div>
                         </div>
@@ -313,11 +327,13 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             }}
                         >
                             <KeyValueDesign title="Priority Class"
-                                            value={pod.resource.priorityClass ? pod.resource.priorityClass : '-'}/>
-                            <KeyValueDesign title="Restart Count" value={pod.resource.restartCount}/>
-                            <KeyValueDesign title="Service Account" value={pod.resource.serviceAccount}/>
+                                            value={pod?.resource?.priorityClass ? pod.resource.priorityClass : '-'}/>
+                            <KeyValueDesign title="Restart Count"
+                                            value={pod?.resource?.restartCount ? pod.resource.restartCount : '-'}/>
+                            <KeyValueDesign title="Service Account"
+                                            value={pod?.resource?.serviceAccount ? pod.resource.serviceAccount : "-"}/>
                             <KeyValueDesign title="Image Pull Secret"
-                                            value={pod.resource.imagePullSecret ? pod.resource.imagePullSecret : '-'}/>
+                                            value={pod?.resource?.imagePullSecret ? pod.resource.imagePullSecret : '-'}/>
                         </div>
                     </div>
 
@@ -361,7 +377,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {pod.conditions.map((condition, index) => (
+                                {pod?.conditions && pod.conditions.map((condition, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{condition.type}</TableCell>
                                         <TableCell align="center">{condition.status}</TableCell>
@@ -425,7 +441,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         Name
                                     </Typography>
                                     <Typography variant="h6" color="#ffffff">
-                                        {pod.controlled.name}
+                                        {pod?.controlled?.name ? pod.controlled.name : "-"}
                                     </Typography>
                                 </div>
                                 <div>
@@ -433,12 +449,15 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         Kind
                                     </Typography>
                                     <Typography variant="h6" color="#ffffff">
-                                        {pod.controlled.kind}
+                                        {pod?.controlled?.kind ? pod.controlled.kind : "-"}
                                     </Typography>
                                 </div>
-                                <KeyValueDesign title="Replicas" value={pod.controlled.replicas}/>
-                                <KeyValueDesign title="Ready Replicas" value={pod.controlled.readyReplicas}/>
-                                <KeyValueDesign title="Age" value={pod.controlled.age}/>
+                                <KeyValueDesign title="Replicas"
+                                                value={pod?.controlled?.replicas ? pod.controlled.replicas : "-"}/>
+                                <KeyValueDesign title="Ready Replicas"
+                                                value={pod?.controlled?.readyReplicas ? pod.controlled.readyReplicas : "-"}/>
+                                <KeyValueDesign title="Age"
+                                                value={pod?.controlled?.readyReplicas ? pod.controlled.age : "-"}/>
                             </div>
                             <div
                                 style={{
@@ -451,9 +470,12 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         Labels
                                     </Typography>
                                     <Typography sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                        {Object.keys(pod.controlled.labels).map((key) => {
+                                        {
+                                            Object.keys(pod.controlled?.labels || {}).length > 0 ?
+                                            (Object.keys(pod.controlled.labels).map((key) => {
                                             return <Label name={key + ":" + pod.controlled.labels[key]}/>
-                                        })}
+                                            })) : '-'
+                                        }
                                     </Typography>
                                 </div>
                                 <div style={{marginRight: "5px"}}>
@@ -461,9 +483,11 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         Images
                                     </Typography>
                                     <Typography sx={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-                                        {pod.controlled.images.map((item, key) => {
-                                            return <Label name={item} key={key}/>
-                                        })}
+                                        {
+                                            ((pod.controlled.images || []).length > 0) ?
+                                            (pod.controlled.images.map((item, key) => {
+                                            return <Label name={item} key={key}/>})) : "-"
+                                        }
                                     </Typography>
                                 </div>
                             </div>
@@ -507,7 +531,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {pod.persistentVolumeClaims.map((pvc, index) => (
+                                {pod?.persistentVolumeClaims && pod.persistentVolumeClaims.map((pvc, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{pvc.name}</TableCell>
                                         <TableCell>
@@ -533,7 +557,6 @@ const PodDetail = ({ selectedPod, initPod}) => {
                         display: "flex",
                         flexDirection: "column",
                         gap: "20px",
-                        // width: "800px",
                         border: '1px solid rgb(171, 175, 189)',
                         borderRadius: '10px',
                         padding: '30px',
@@ -558,11 +581,11 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 width: '16px',
                                 height: '16px',
                                 borderRadius: '8px',
-                                background: pod.container.isRunning ? "green" : "red"
+                                background: pod?.container?.isRunning ? "green" : "red"
                             }}
                         ></div>
                         <Typography variant="h6">
-                            {pod.container.name}
+                            {pod?.container?.name ? pod.container.name : "-"}
                         </Typography>
                     </div>
                     <div
@@ -577,7 +600,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 Image
                             </Typography>
                             <Typography variant="body1">
-                                {pod.container.image}
+                                {pod?.container?.image ? pod.container.image : "-"}
                             </Typography>
                         </div>
                     </div>
@@ -598,7 +621,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     Ready
                                 </Typography>
                                 <Typography variant="body1">
-                                    {pod.container.ready.toString()}
+                                    {pod?.container?.ready ? pod.container.ready.toString() : "-"}
                                 </Typography>
                             </div>
                             <div>
@@ -606,7 +629,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     Started
                                 </Typography>
                                 <Typography variant="body1">
-                                    {pod.container.started.toString()}
+                                    {pod?.container?.started ? pod.container.started.toString() : "-"}
                                 </Typography>
                             </div>
                             <div>
@@ -614,12 +637,12 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     Started At
                                 </Typography>
                                 <Typography variant="body1">
-                                    {pod.container.startedAt}
+                                    {pod?.container?.startedAt ? pod.container.startedAt : "-"}
                                 </Typography>
                             </div>
                         </div>
                     </div>
-                    {pod.container.env && <div>
+                    <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Environment Variable
                         </Typography>
@@ -632,7 +655,8 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             }}
                         >
                             {
-                                pod.container.env.map((item, idx) => {
+                                (pod?.container?.env || []).length > 0 ?
+                                (pod.container.env.map((item, idx) => {
                                     return (<div key={idx}>
                                         <Typography variant="body2" color="#ABAFBD">
                                             {item.name}
@@ -641,10 +665,10 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                             {item.value ? item.value : '-'}
                                         </Typography>
                                     </div>)
-                                })
+                                })) : '-'
                             }
                         </div>
-                    </div>}
+                    </div>
                     <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Factor
@@ -658,7 +682,8 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                 color: 'white',
                             }}
                         >
-                            {pod.container.factor.map(i => <p style={{margin: '0'}}>{i + '\n'}</p>)}
+                            {pod?.container?.factor?.length > 0 ?
+                                pod.container.factor.map(i => <p style={{margin: '0'}}>{i + '\n'}</p>) : '-'}
                         </div>
                     </div>
                     <div>
@@ -694,7 +719,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {pod.container.mount && pod.container.mount.map((item, index) => (
+                                    {pod?.container?.mount && pod.container.mount.map((item, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{item.name}</TableCell>
                                             <TableCell align="center">
@@ -713,7 +738,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             </Table>
                         </TableContainer>
                     </div>
-                    { Object.values(pod.container.securityContext).filter(i => i !== null) && <div>
+                    <div>
                         <Typography variant="h6" color="#EFEFEF">
                             Security Context
                         </Typography>
@@ -727,7 +752,7 @@ const PodDetail = ({ selectedPod, initPod}) => {
                             }}
                         >
                             {
-                                Object.keys(pod.container.securityContext).map(key => {
+                                pod?.container?.securityContext ? Object.keys(pod.container.securityContext).map(key => {
                                     const value = pod.container.securityContext[key];
                                     if (value !== null) {
                                         if (Array.isArray(value)) {
@@ -781,10 +806,10 @@ const PodDetail = ({ selectedPod, initPod}) => {
                                         }
                                     }
                                     return null;
-                                })
+                                }) : '-'
                             }
                         </div>
-                    </div>}
+                    </div>
                 </div>
             </div>}
         </div>
